@@ -1,0 +1,22 @@
+{
+  "autoSave": {
+    "enabled": true,
+    "thresholds": [70, 85, 95],
+    "notifyOnSave": true
+  },
+  "archiveThresholds": {
+    "conversations": 10,
+    "bugs": 20,
+    "decisions": 15
+  },
+  "defaultTemplate": "standard",
+  "gitIntegration": {
+    "enabled": true,
+    "tagCommits": true,
+    "addConvIdToMessage": true
+  },
+  "search": {
+    "caseSensitive": false,
+    "maxResults": 50
+  }
+}

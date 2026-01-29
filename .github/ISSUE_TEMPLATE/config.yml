@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Infrastructure Issues
+    url: https://github.com/mgerasolo/nlf-infrastructure/issues
+    about: For deployment, secrets, or infrastructure-related issues

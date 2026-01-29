@@ -1,0 +1,68 @@
+name: Bug Report
+description: Report a problem with knowledge
+title: "[Bug]: Brief description"
+labels: ["type:bug", "status:soon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+        Use this template to report issues with knowledge.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How critical is this issue?
+      options:
+        - Critical - App unusable or data at risk
+        - High - Major feature broken
+        - Medium - Feature impaired but workaround exists
+        - Low - Minor issue or cosmetic
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - UI - User interface
+        - API - Backend services
+        - Database - Data storage
+        - Auth - Authentication
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem Description
+      description: What is happening? What did you expect?
+      placeholder: |
+        What I see:
+
+        What I expected:
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to...
+        2. Click on...
+        3. See error...
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Messages / Logs
+      render: shell
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context

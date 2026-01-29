@@ -1,0 +1,61 @@
+name: Feature Request
+description: Propose a new feature for knowledge
+title: "[Feature]: Brief description"
+labels: ["type:feature", "status:soon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Propose a new feature or capability for knowledge.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature Area
+      options:
+        - UI - User interface
+        - API - Backend services
+        - Database - Data storage
+        - Auth - Authentication
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Need
+      description: What problem does this solve or what need does it address?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should this feature work?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Other approaches you've thought about
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested Priority
+      options:
+        - Critical - Core functionality
+        - High - Important for usability
+        - Medium - Nice to have
+        - Low - Future enhancement
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Screenshots, mockups, examples, etc.
