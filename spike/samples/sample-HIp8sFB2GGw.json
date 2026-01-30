@@ -1,0 +1,711 @@
+{
+  "videoId": "HIp8sFB2GGw",
+  "title": "Cursor 2.0 is here... 5 things you didn't know it can do",
+  "segments": [
+    {
+      "text": "Yesterday, the IDE of choice among Vibe",
+      "offset": 240,
+      "duration": 4800
+    },
+    {
+      "text": "engineers and the king of VS Code forks,",
+      "offset": 2800,
+      "duration": 4800
+    },
+    {
+      "text": "Cursor, released version 2.0, and it",
+      "offset": 5040,
+      "duration": 4400
+    },
+    {
+      "text": "contains new features that will terrify",
+      "offset": 7600,
+      "duration": 4079
+    },
+    {
+      "text": "all of the AI coding doubters, haters,",
+      "offset": 9440,
+      "duration": 3840
+    },
+    {
+      "text": "and non-believers out there.",
+      "offset": 11679,
+      "duration": 3040
+    },
+    {
+      "text": ">> The streets will ruin the plan of the",
+      "offset": 13280,
+      "duration": 2239
+    },
+    {
+      "text": "nonbelievers.",
+      "offset": 14719,
+      "duration": 2721
+    },
+    {
+      "text": ">> This video is not sponsored by Cursor,",
+      "offset": 15519,
+      "duration": 4001
+    },
+    {
+      "text": "but over the past year, their meteoric",
+      "offset": 17440,
+      "duration": 3999
+    },
+    {
+      "text": "rise is impossible not to notice in the",
+      "offset": 19520,
+      "duration": 3679
+    },
+    {
+      "text": "programming space. They went from zero",
+      "offset": 21439,
+      "duration": 4481
+    },
+    {
+      "text": "to a $9.9 billion company in a matter of",
+      "offset": 23199,
+      "duration": 5281
+    },
+    {
+      "text": "months by simply forking Microsoft's VS",
+      "offset": 25920,
+      "duration": 5279
+    },
+    {
+      "text": "Code and duct taping chat GPT to it. But",
+      "offset": 28480,
+      "duration": 4560
+    },
+    {
+      "text": "there's a reason Cursor is so popular.",
+      "offset": 31199,
+      "duration": 3681
+    },
+    {
+      "text": "It targets the happy, productive middle",
+      "offset": 33040,
+      "duration": 3359
+    },
+    {
+      "text": "ground for programmers who know how to",
+      "offset": 34880,
+      "duration": 3920
+    },
+    {
+      "text": "code but who simultaneously hate writing",
+      "offset": 36399,
+      "duration": 4961
+    },
+    {
+      "text": "code. And Cursor 2.0 pushes this idea",
+      "offset": 38800,
+      "duration": 4640
+    },
+    {
+      "text": "even further with five new features you",
+      "offset": 41360,
+      "duration": 4000
+    },
+    {
+      "text": "need to know about. It is October 30th,",
+      "offset": 43440,
+      "duration": 4080
+    },
+    {
+      "text": "2025, and you're watching the code",
+      "offset": 45360,
+      "duration": 4320
+    },
+    {
+      "text": "report. Like most people, I use AI",
+      "offset": 47520,
+      "duration": 4080
+    },
+    {
+      "text": "coding tools like Cursor as a friendly",
+      "offset": 49680,
+      "duration": 3600
+    },
+    {
+      "text": "assistant, asking it to generate some",
+      "offset": 51600,
+      "duration": 3840
+    },
+    {
+      "text": "boilerplate code here and do some tab",
+      "offset": 53280,
+      "duration": 4400
+    },
+    {
+      "text": "completions there. But recently, I met a",
+      "offset": 55440,
+      "duration": 3840
+    },
+    {
+      "text": "12-year-old kid at a birthday party",
+      "offset": 57680,
+      "duration": 4320
+    },
+    {
+      "text": "who's making 50K MRR on his side hustle.",
+      "offset": 59280,
+      "duration": 4560
+    },
+    {
+      "text": "And he told me I was doing it wrong. He",
+      "offset": 62000,
+      "duration": 3439
+    },
+    {
+      "text": "said, \"You need to think like a Roman",
+      "offset": 63840,
+      "duration": 3840
+    },
+    {
+      "text": "slave driver, whip in hand, heart turned",
+      "offset": 65439,
+      "duration": 3841
+    },
+    {
+      "text": "to stone. If you want to get anywhere in",
+      "offset": 67680,
+      "duration": 3119
+    },
+    {
+      "text": "life, you need to be running multiple",
+      "offset": 69280,
+      "duration": 3680
+    },
+    {
+      "text": "coding agents in parallel, all pushing,",
+      "offset": 70799,
+      "duration": 4081
+    },
+    {
+      "text": "reviewing, and fixing code on the master",
+      "offset": 72960,
+      "duration": 4320
+    },
+    {
+      "text": "branch simultaneously, not the woke main",
+      "offset": 74880,
+      "duration": 4320
+    },
+    {
+      "text": "branch. I asked him how he does it, and",
+      "offset": 77280,
+      "duration": 3760
+    },
+    {
+      "text": "he said, quote, \"A cursor is the digital",
+      "offset": 79200,
+      "duration": 4160
+    },
+    {
+      "text": "lash I wield to drive these agents ever",
+      "offset": 81040,
+      "duration": 3840
+    },
+    {
+      "text": "forward.\" I couldn't believe what I was",
+      "offset": 83360,
+      "duration": 2799
+    },
+    {
+      "text": "hearing from this kid, but then I",
+      "offset": 84880,
+      "duration": 2800
+    },
+    {
+      "text": "realized I just made this entire story",
+      "offset": 86159,
+      "duration": 3280
+    },
+    {
+      "text": "up in my head. But Cursor has never",
+      "offset": 87680,
+      "duration": 3680
+    },
+    {
+      "text": "really been a true AI company. It does",
+      "offset": 89439,
+      "duration": 4081
+    },
+    {
+      "text": "have great tab completion AI, but like",
+      "offset": 91360,
+      "duration": 4079
+    },
+    {
+      "text": "most startups, it's mostly just a nice",
+      "offset": 93520,
+      "duration": 4000
+    },
+    {
+      "text": "UI wrapper on top of foundation models",
+      "offset": 95439,
+      "duration": 4720
+    },
+    {
+      "text": "like GPT5 and Claw. Well, not anymore.",
+      "offset": 97520,
+      "duration": 4080
+    },
+    {
+      "text": "They now have a new model called",
+      "offset": 100159,
+      "duration": 3761
+    },
+    {
+      "text": "Composer that allegedly approaches the",
+      "offset": 101600,
+      "duration": 4320
+    },
+    {
+      "text": "intelligence of the best frontier models",
+      "offset": 103920,
+      "duration": 4000
+    },
+    {
+      "text": "while achieving higher speeds, much",
+      "offset": 105920,
+      "duration": 3839
+    },
+    {
+      "text": "higher speeds. And that's huge because",
+      "offset": 107920,
+      "duration": 4000
+    },
+    {
+      "text": "waiting for slowass GPT5 and Claude to",
+      "offset": 109759,
+      "duration": 4161
+    },
+    {
+      "text": "get work done is a huge bottleneck. But",
+      "offset": 111920,
+      "duration": 3600
+    },
+    {
+      "text": "I have my doubts about these Trust Me",
+      "offset": 113920,
+      "duration": 3680
+    },
+    {
+      "text": "Bro benchmarks. that these are internal",
+      "offset": 115520,
+      "duration": 4080
+    },
+    {
+      "text": "closed source benchmarks that don't even",
+      "offset": 117600,
+      "duration": 4240
+    },
+    {
+      "text": "compare Claude, GPT5, or Gemini",
+      "offset": 119600,
+      "duration": 4159
+    },
+    {
+      "text": "directly. And Composer also doesn't show",
+      "offset": 121840,
+      "duration": 4160
+    },
+    {
+      "text": "up on any external benchmarks like LM",
+      "offset": 123759,
+      "duration": 5360
+    },
+    {
+      "text": "Marina or SWE bench yet. That's us AF",
+      "offset": 126000,
+      "duration": 4720
+    },
+    {
+      "text": "and the only thing we can do is try it",
+      "offset": 129119,
+      "duration": 3921
+    },
+    {
+      "text": "out ourselves like I'm doing here in the",
+      "offset": 130720,
+      "duration": 4480
+    },
+    {
+      "text": "new agent view mode and cursor 2, which",
+      "offset": 133040,
+      "duration": 4080
+    },
+    {
+      "text": "is a UI update that cleans things up",
+      "offset": 135200,
+      "duration": 3200
+    },
+    {
+      "text": "when you're doing chat heavy",
+      "offset": 137120,
+      "duration": 2640
+    },
+    {
+      "text": "development. But the craziest feature",
+      "offset": 138400,
+      "duration": 3199
+    },
+    {
+      "text": "you need to know about is its git work",
+      "offset": 139760,
+      "duration": 3920
+    },
+    {
+      "text": "trees integration. A git work tree is",
+      "offset": 141599,
+      "duration": 4081
+    },
+    {
+      "text": "basically just a local copy of your code",
+      "offset": 143680,
+      "duration": 3760
+    },
+    {
+      "text": "that won't conflict with your main Git",
+      "offset": 145680,
+      "duration": 3919
+    },
+    {
+      "text": "workspace. But what that enables is",
+      "offset": 147440,
+      "duration": 3439
+    },
+    {
+      "text": "working with multiple agents",
+      "offset": 149599,
+      "duration": 3521
+    },
+    {
+      "text": "simultaneously on the same task. Like",
+      "offset": 150879,
+      "duration": 4161
+    },
+    {
+      "text": "here, I'm building a design system for a",
+      "offset": 153120,
+      "duration": 3759
+    },
+    {
+      "text": "web app. My client wants a button in",
+      "offset": 155040,
+      "duration": 4320
+    },
+    {
+      "text": "that ugly neo brutalism design. So let's",
+      "offset": 156879,
+      "duration": 4321
+    },
+    {
+      "text": "go ahead and implement it with Claude",
+      "offset": 159360,
+      "duration": 4800
+    },
+    {
+      "text": "GPT5 and cursor's new composer model in",
+      "offset": 161200,
+      "duration": 4880
+    },
+    {
+      "text": "parallel. As you can see here, they all",
+      "offset": 164160,
+      "duration": 4159
+    },
+    {
+      "text": "get to work. And as promised, the cursor",
+      "offset": 166080,
+      "duration": 4480
+    },
+    {
+      "text": "model is by far the fastest with Claude",
+      "offset": 168319,
+      "duration": 5121
+    },
+    {
+      "text": "in second and GPT5 lagging way behind.",
+      "offset": 170560,
+      "duration": 4319
+    },
+    {
+      "text": "But what matters more than speed is",
+      "offset": 173440,
+      "duration": 3040
+    },
+    {
+      "text": "quality. When we compare them side by",
+      "offset": 174879,
+      "duration": 3281
+    },
+    {
+      "text": "side, they all have a reasonable level",
+      "offset": 176480,
+      "duration": 4080
+    },
+    {
+      "text": "of quality. But I think Claude and GPT5",
+      "offset": 178160,
+      "duration": 3840
+    },
+    {
+      "text": "are still a bit better looking than",
+      "offset": 180560,
+      "duration": 3120
+    },
+    {
+      "text": "Composer. But let's go ahead and try",
+      "offset": 182000,
+      "duration": 4000
+    },
+    {
+      "text": "another UI test by having them generate",
+      "offset": 183680,
+      "duration": 4479
+    },
+    {
+      "text": "some buttons in Apple's new liquid ass",
+      "offset": 186000,
+      "duration": 3760
+    },
+    {
+      "text": "design. This time when we compare",
+      "offset": 188159,
+      "duration": 3360
+    },
+    {
+      "text": "quality, there's a big difference. The",
+      "offset": 189760,
+      "duration": 3360
+    },
+    {
+      "text": "claw definitely put forth the most",
+      "offset": 191519,
+      "duration": 3681
+    },
+    {
+      "text": "effort with these nice animations, while",
+      "offset": 193120,
+      "duration": 4560
+    },
+    {
+      "text": "the result from GPT5 was embarrassingly",
+      "offset": 195200,
+      "duration": 4720
+    },
+    {
+      "text": "bad. However, Cursor Composer did a",
+      "offset": 197680,
+      "duration": 3839
+    },
+    {
+      "text": "surprisingly good job. At the very",
+      "offset": 199920,
+      "duration": 3440
+    },
+    {
+      "text": "least, it seems like the composer model",
+      "offset": 201519,
+      "duration": 3601
+    },
+    {
+      "text": "has some potential. But another awesome",
+      "offset": 203360,
+      "duration": 3760
+    },
+    {
+      "text": "feature is the new native browser, and",
+      "offset": 205120,
+      "duration": 3920
+    },
+    {
+      "text": "this is an actual productivity gamecher",
+      "offset": 207120,
+      "duration": 4160
+    },
+    {
+      "text": "for me because I constantly find the AI",
+      "offset": 209040,
+      "duration": 4240
+    },
+    {
+      "text": "doing sloppy work on complex UI",
+      "offset": 211280,
+      "duration": 3440
+    },
+    {
+      "text": "features. Now, with the built-in",
+      "offset": 213280,
+      "duration": 3679
+    },
+    {
+      "text": "browser, I can easily pinpoint the exact",
+      "offset": 214720,
+      "duration": 4560
+    },
+    {
+      "text": "HTML element that sucks and add it",
+      "offset": 216959,
+      "duration": 3920
+    },
+    {
+      "text": "directly to the chat. And we also get",
+      "offset": 219280,
+      "duration": 3360
+    },
+    {
+      "text": "full Chrome DevTool support here to",
+      "offset": 220879,
+      "duration": 3360
+    },
+    {
+      "text": "easily add that stuff to the chat as",
+      "offset": 222640,
+      "duration": 3360
+    },
+    {
+      "text": "well. When it comes to Cursor, the only",
+      "offset": 224239,
+      "duration": 3121
+    },
+    {
+      "text": "limit to your potential is not your",
+      "offset": 226000,
+      "duration": 3120
+    },
+    {
+      "text": "imagination, it's how much money is in",
+      "offset": 227360,
+      "duration": 3120
+    },
+    {
+      "text": "your bank account. But you shouldn't",
+      "offset": 229120,
+      "duration": 2960
+    },
+    {
+      "text": "just slop out every new feature from",
+      "offset": 230480,
+      "duration": 3039
+    },
+    {
+      "text": "scratch. And that's why you need to know",
+      "offset": 232080,
+      "duration": 3519
+    },
+    {
+      "text": "about Post Hog, the sponsor of today's",
+      "offset": 233519,
+      "duration": 3920
+    },
+    {
+      "text": "video. It's an all-in-one suite of dev",
+      "offset": 235599,
+      "duration": 3840
+    },
+    {
+      "text": "tools that's like a Swiss Army knife for",
+      "offset": 237439,
+      "duration": 3681
+    },
+    {
+      "text": "building better products. It gives you",
+      "offset": 239439,
+      "duration": 3841
+    },
+    {
+      "text": "product analytics, session replays,",
+      "offset": 241120,
+      "duration": 4399
+    },
+    {
+      "text": "feature flags, and other tools to help",
+      "offset": 243280,
+      "duration": 4239
+    },
+    {
+      "text": "your team understand how users actually",
+      "offset": 245519,
+      "duration": 3601
+    },
+    {
+      "text": "interact with your app. It also comes",
+      "offset": 247519,
+      "duration": 3601
+    },
+    {
+      "text": "with error tracking that's connected to",
+      "offset": 249120,
+      "duration": 3759
+    },
+    {
+      "text": "all of your Post Hog tools and user",
+      "offset": 251120,
+      "duration": 3199
+    },
+    {
+      "text": "data, which gives you much greater",
+      "offset": 252879,
+      "duration": 3600
+    },
+    {
+      "text": "context to debug issues faster and",
+      "offset": 254319,
+      "duration": 4401
+    },
+    {
+      "text": "safely roll out fixes. The best part is",
+      "offset": 256479,
+      "duration": 4801
+    },
+    {
+      "text": "that Post Hog is super easy to implement",
+      "offset": 258720,
+      "duration": 5039
+    },
+    {
+      "text": "thanks to SDKs for web, mobile, and",
+      "offset": 261280,
+      "duration": 4080
+    },
+    {
+      "text": "serverside apps. And they have a",
+      "offset": 263759,
+      "duration": 3681
+    },
+    {
+      "text": "surprisingly generous no card required",
+      "offset": 265360,
+      "duration": 3839
+    },
+    {
+      "text": "free tier, which you can start mooching",
+      "offset": 267440,
+      "duration": 3840
+    },
+    {
+      "text": "off of today using the link below. This",
+      "offset": 269199,
+      "duration": 3521
+    },
+    {
+      "text": "has been the Code Report. Thanks for",
+      "offset": 271280,
+      "duration": 3120
+    },
+    {
+      "text": "watching, and I will see you in the next",
+      "offset": 272720,
+      "duration": 4240
+    },
+    {
+      "text": "one.",
+      "offset": 274400,
+      "duration": 2560
+    }
+  ]
+}

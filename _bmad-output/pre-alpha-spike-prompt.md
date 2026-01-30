@@ -80,8 +80,9 @@ knowledge/
 - **SSH to Banner using hostname only:** `ssh banner` (never `ssh 10.0.0.33`)
 - **All URLs use IP, not localhost:** `http://10.0.0.33:PORT` (containers aren't on your machine)
 - **Docker/Portainer:** Banner runs Portainer. You can deploy Docker containers via SSH or Portainer API
-- **Shared env files:** `/mnt/foundry_project/AppServices/env/` — check for existing PostgreSQL credentials there
+- **Shared env files:** `/mnt/foundry_project/AppServices/env/` — reference for credential patterns
 - **Port block for knowledge project:** web=3350. Pick nearby ports for services (e.g., Qdrant on 6333/6334)
+- **All infrastructure runs on Banner as Docker containers** — PostgreSQL, Qdrant, everything. Never deploy to localhost or Stark.
 
 ## Architecture (Already Decided)
 
@@ -89,7 +90,7 @@ knowledge/
 |-----------|--------|-------|
 | Runtime | Node.js + TypeScript | Project already has TS configured |
 | Vector DB | **Qdrant** (Docker on Banner) | Self-hosted, Rust-based, handles 10M+ vectors |
-| Relational DB | **PostgreSQL** (on Banner) | Check if shared AppServices PG exists, or spin up a new one |
+| Relational DB | **PostgreSQL** (Docker on Banner) | Deploy a new spike-specific container — do NOT reuse shared AppServices PG |
 | AI Proxy | **LiteLLM** at `http://10.0.0.27:2764` | Already running. Use for embeddings and any AI calls |
 | Embeddings | Via LiteLLM proxy | Route embedding requests through LiteLLM |
 | Automation | n8n available but **don't use it for this spike** — write native code to learn the pain points |
@@ -99,19 +100,22 @@ knowledge/
 ### 1. Infrastructure Setup
 - [ ] Deploy **Qdrant** Docker container on Banner (ports 6333 HTTP / 6334 gRPC)
   - Qdrant includes a built-in web dashboard at `http://10.0.0.33:6333/dashboard` — no extra tool needed to browse collections, vectors, and metadata
-- [ ] Set up **PostgreSQL** database (reuse existing Banner PG if available, otherwise deploy one)
-- [ ] Deploy **CloudBeaver** on Banner for web-based PostgreSQL browsing (no UI is being built, so we need a way to inspect the data):
+- [ ] Deploy **PostgreSQL** Docker container on Banner (spike-specific, not shared):
   ```bash
   ssh banner
   docker run -d \
-    --name knowledge-cloudbeaver \
+    --name knowledge-spike-postgres \
     --restart unless-stopped \
-    -p 8978:8978 \
-    -v /opt/knowledge/cloudbeaver/workspace:/opt/cloudbeaver/workspace \
-    dbeaver/cloudbeaver:latest
+    -p 5432:5432 \
+    -e POSTGRES_USER=knowledge \
+    -e POSTGRES_PASSWORD=<generate-a-password> \
+    -e POSTGRES_DB=knowledge_spike \
+    -v /opt/knowledge/postgres/data:/var/lib/postgresql/data \
+    postgres:16-alpine
   ```
-  Access at: `http://10.0.0.33:8978`
-  Configure a PostgreSQL connection to the spike database after it's running.
+  After it's running, update `spike/.env` with the actual `POSTGRES_URL`.
+  If port 5432 is taken on Banner, pick another (e.g., 5433) and update the connection string.
+- [ ] **CloudBeaver** is already running on Banner at `http://10.0.0.33:8978` — after PostgreSQL is deployed, add the spike database as a new connection in the existing CloudBeaver instance. Do NOT deploy a new CloudBeaver container.
 - [ ] Create basic DB schema:
   - `channels` — Capture ALL available metadata from YouTube Data API:
     - id, youtube_channel_id, name, description, custom_url, country
@@ -139,9 +143,31 @@ knowledge/
   - `segments` (id, video_id, transcript_id, text, start_time, end_time, speaker_label, embedding_id, created_at)
   - **Principle: capture everything YouTube gives us.** Storage is cheap, re-fetching 100 videos to grab a field we missed is not. Store the full raw API response in JSONB alongside the parsed columns so nothing is lost.
 
+### YouTube API Quota & Throttling
+
+**Daily quota: 10,000 units.** Plan your batches accordingly.
+
+| API Call | Cost per call |
+|----------|--------------|
+| `search.list` | **100 units** — AVOID THIS. Use `playlistItems.list` instead (100x cheaper) |
+| `videos.list` | 1 unit |
+| `channels.list` | 1 unit |
+| `playlistItems.list` | 1 unit — use this to get a channel's uploads |
+
+**To list a channel's videos:** Get the channel's "uploads" playlist ID (from `channels.list` → `contentDetails.relatedPlaylists.uploads`), then paginate with `playlistItems.list` at 1 unit/call. Do NOT use `search.list` at 100 units/call — same result, 100x the cost.
+
+**Throttling:** Add a delay between API calls to avoid rate limiting:
+- YouTube Data API: **200ms** between calls
+- LiteLLM embedding requests: **100ms** between calls (adjust if you see errors)
+- Qdrant inserts: no throttle needed (it handles bulk well)
+
+**Transcript fetching** (`youtube-transcript` npm package) is a web scrape, not an API call — it doesn't count against quota but can get rate-limited by YouTube if you hammer it. Use **500ms** between transcript fetches.
+
 ### 2. YouTube Transcript Fetcher
 - [ ] Build a script/service that takes a YouTube video URL or channel URL
-- [ ] Fetches the transcript using YouTube's transcript API (try `youtube-transcript` npm package or YouTube Data API v3)
+- [ ] Fetches **transcripts** using `youtube-transcript` npm package (web scrape, no auth needed)
+- [ ] Fetches **video/channel metadata** using YouTube Data API v3 (API key auth from `.env`)
+- [ ] These are **two separate data sources** — the npm package gets transcript text, the API gets metadata (tags, stats, descriptions, etc.)
 - [ ] Stores raw transcript in PostgreSQL
 - [ ] Basic chunking: split transcript into segments (start with simple time-based chunks of ~2-3 minutes; we'll learn if this is good enough or if we need topic-based)
 - [ ] Generate embeddings for each segment via LiteLLM and store in Qdrant
@@ -357,8 +383,8 @@ The spike PostgreSQL instance should try these extensions where relevant:
 - The project already has `package.json` with TypeScript, ESLint, Prettier, Vitest configured
 - Node.js project — use npm for packages
 - The `.mcp.json` has a Docker MCP gateway at `http://10.0.0.27:2761/sse` — you may be able to use this for Docker operations instead of SSH
-- Shared secrets are at `/mnt/foundry_project/AppServices/env/` — check `appservices.env` and `infrastructure.env` for any existing PostgreSQL connection strings
-- If no existing PG exists on Banner for this project, spin one up in Docker alongside Qdrant
+- Shared secrets are at `/mnt/foundry_project/AppServices/env/` — reference for credential patterns, but the spike uses its own PostgreSQL container
+- Deploy a dedicated PostgreSQL container on Banner for this spike (see Infrastructure Setup section). Do NOT reuse shared AppServices PostgreSQL.
 
 ## Decision Autonomy
 

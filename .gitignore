@@ -15,6 +15,9 @@ spike/.env
 AppServices
 Standards
 
+# Planning backups (local safety nets, not tracked)
+_backups/
+
 # Environment and secrets
 .env
 *.env.local

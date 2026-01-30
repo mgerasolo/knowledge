@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-01-30T02:01:04.948Z",
+  "channels": [
+    "@Fireship",
+    "@lexfridman",
+    "@hubaborhegyi"
+  ],
+  "summary": {
+    "total_attempted": 100,
+    "succeeded": 90,
+    "failed": 0,
+    "skipped": 10
+  },
+  "failures": [],
+  "metrics": {
+    "avg_transcript_length_chars": 96108,
+    "avg_segments_per_video": 49,
+    "avg_embedding_time_ms": 1087,
+    "total_segments": 4441,
+    "total_wall_clock_ms": 305249
+  }
+}

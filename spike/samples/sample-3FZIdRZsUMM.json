@@ -1,0 +1,1801 @@
+{
+  "videoId": "3FZIdRZsUMM",
+  "title": "The Greatest Problem With AI Coding Is Solved",
+  "segments": [
+    {
+      "text": "We are in a new era of software",
+      "offset": 80,
+      "duration": 3440
+    },
+    {
+      "text": "development. Developers are shipping",
+      "offset": 1680,
+      "duration": 3679
+    },
+    {
+      "text": "products at a speed we have never seen",
+      "offset": 3520,
+      "duration": 3839
+    },
+    {
+      "text": "before. However, a problem has emerged.",
+      "offset": 5359,
+      "duration": 3841
+    },
+    {
+      "text": "Traditional workflows do not hold up",
+      "offset": 7359,
+      "duration": 3921
+    },
+    {
+      "text": "when agents are involved. This raises an",
+      "offset": 9200,
+      "duration": 3519
+    },
+    {
+      "text": "important question. What does the",
+      "offset": 11280,
+      "duration": 3439
+    },
+    {
+      "text": "developer role look like now? A recent",
+      "offset": 12719,
+      "duration": 4400
+    },
+    {
+      "text": "article by the CEO of Linear caught my",
+      "offset": 14719,
+      "duration": 3921
+    },
+    {
+      "text": "attention. Linear is a project",
+      "offset": 17119,
+      "duration": 3281
+    },
+    {
+      "text": "management tool that helps teams",
+      "offset": 18640,
+      "duration": 3360
+    },
+    {
+      "text": "organize and track their work",
+      "offset": 20400,
+      "duration": 3280
+    },
+    {
+      "text": "specifically for modern software",
+      "offset": 22000,
+      "duration": 3439
+    },
+    {
+      "text": "development. These insights come from",
+      "offset": 23680,
+      "duration": 3120
+    },
+    {
+      "text": "someone who has lived through the",
+      "offset": 25439,
+      "duration": 3281
+    },
+    {
+      "text": "transition from traditional workflows to",
+      "offset": 26800,
+      "duration": 4160
+    },
+    {
+      "text": "the AIdriven systems of today. This",
+      "offset": 28720,
+      "duration": 4240
+    },
+    {
+      "text": "article made me rethink more than just",
+      "offset": 30960,
+      "duration": 4160
+    },
+    {
+      "text": "the tools we use. It made me rethink how",
+      "offset": 32960,
+      "duration": 4080
+    },
+    {
+      "text": "we build products entirely. We've got a",
+      "offset": 35120,
+      "duration": 3599
+    },
+    {
+      "text": "lot to talk about today because this",
+      "offset": 37040,
+      "duration": 3679
+    },
+    {
+      "text": "information fundamentally changes how we",
+      "offset": 38719,
+      "duration": 4160
+    },
+    {
+      "text": "build with AI. The middle of software",
+      "offset": 40719,
+      "duration": 3921
+    },
+    {
+      "text": "work disappearing and the center of",
+      "offset": 42879,
+      "duration": 3281
+    },
+    {
+      "text": "software is actually moving. To",
+      "offset": 44640,
+      "duration": 3040
+    },
+    {
+      "text": "understand what the middle is, let us",
+      "offset": 46160,
+      "duration": 3760
+    },
+    {
+      "text": "look at how work was divided before AI",
+      "offset": 47680,
+      "duration": 3680
+    },
+    {
+      "text": "development. It started with the",
+      "offset": 49920,
+      "duration": 3119
+    },
+    {
+      "text": "beginning phase. This included all of",
+      "offset": 51360,
+      "duration": 3440
+    },
+    {
+      "text": "the requirements gathering and planning",
+      "offset": 53039,
+      "duration": 3840
+    },
+    {
+      "text": "phases. In this phase, we created plans",
+      "offset": 54800,
+      "duration": 3680
+    },
+    {
+      "text": "for what we were going to build. Then",
+      "offset": 56879,
+      "duration": 3121
+    },
+    {
+      "text": "came the middle. This was where we",
+      "offset": 58480,
+      "duration": 3440
+    },
+    {
+      "text": "converted the plan to the actual product",
+      "offset": 60000,
+      "duration": 3520
+    },
+    {
+      "text": "and it was the part where writing the",
+      "offset": 61920,
+      "duration": 3120
+    },
+    {
+      "text": "code was involved. This was the part",
+      "offset": 63520,
+      "duration": 3440
+    },
+    {
+      "text": "that took the most time of all. It took",
+      "offset": 65040,
+      "duration": 4079
+    },
+    {
+      "text": "weeks, months or even a year to deliver",
+      "offset": 66960,
+      "duration": 4320
+    },
+    {
+      "text": "a quality fully working setup. This was",
+      "offset": 69119,
+      "duration": 4241
+    },
+    {
+      "text": "also the part where details got mixed up",
+      "offset": 71280,
+      "duration": 4000
+    },
+    {
+      "text": "the most because of translating intent",
+      "offset": 73360,
+      "duration": 4160
+    },
+    {
+      "text": "or conveying ideas from one person to",
+      "offset": 75280,
+      "duration": 4000
+    },
+    {
+      "text": "another. After the code was written, the",
+      "offset": 77520,
+      "duration": 3599
+    },
+    {
+      "text": "end part included various forms of",
+      "offset": 79280,
+      "duration": 3519
+    },
+    {
+      "text": "testing and reviewing against the",
+      "offset": 81119,
+      "duration": 3360
+    },
+    {
+      "text": "original requirements. The middle was",
+      "offset": 82799,
+      "duration": 3201
+    },
+    {
+      "text": "the part that contained the most",
+      "offset": 84479,
+      "duration": 3841
+    },
+    {
+      "text": "friction. But the CEO says that is no",
+      "offset": 86000,
+      "duration": 3920
+    },
+    {
+      "text": "longer going to be the case. It is",
+      "offset": 88320,
+      "duration": 2880
+    },
+    {
+      "text": "because the middle work, the",
+      "offset": 89920,
+      "duration": 3120
+    },
+    {
+      "text": "implementation and the coding part is",
+      "offset": 91200,
+      "duration": 3919
+    },
+    {
+      "text": "actually being replaced by AI. [snorts]",
+      "offset": 93040,
+      "duration": 3600
+    },
+    {
+      "text": "Now we don't have to touch code",
+      "offset": 95119,
+      "duration": 3521
+    },
+    {
+      "text": "ourselves at all. This is because coding",
+      "offset": 96640,
+      "duration": 4080
+    },
+    {
+      "text": "agents have become so powerful that they",
+      "offset": 98640,
+      "duration": 4159
+    },
+    {
+      "text": "are able to produce code from context",
+      "offset": 100720,
+      "duration": 4240
+    },
+    {
+      "text": "and task planning alone. It is now more",
+      "offset": 102799,
+      "duration": 4320
+    },
+    {
+      "text": "about using the agents the right way and",
+      "offset": 104960,
+      "duration": 3920
+    },
+    {
+      "text": "supervising their work than writing",
+      "offset": 107119,
+      "duration": 3601
+    },
+    {
+      "text": "code. If you've been watching our videos",
+      "offset": 108880,
+      "duration": 3279
+    },
+    {
+      "text": "regularly, we have taught and",
+      "offset": 110720,
+      "duration": 3359
+    },
+    {
+      "text": "demonstrated many different ways you can",
+      "offset": 112159,
+      "duration": 3681
+    },
+    {
+      "text": "use coding workflows to produce",
+      "offset": 114079,
+      "duration": 3521
+    },
+    {
+      "text": "production level apps. You can do this",
+      "offset": 115840,
+      "duration": 3760
+    },
+    {
+      "text": "by just supervising the agents without",
+      "offset": 117600,
+      "duration": 3839
+    },
+    {
+      "text": "having to code a single line yourself.",
+      "offset": 119600,
+      "duration": 3920
+    },
+    {
+      "text": "Idees have become more of a code viewer",
+      "offset": 121439,
+      "duration": 3680
+    },
+    {
+      "text": "than a writing tool. This change is",
+      "offset": 123520,
+      "duration": 3279
+    },
+    {
+      "text": "really apparent to me because as a",
+      "offset": 125119,
+      "duration": 3521
+    },
+    {
+      "text": "developer, my go-to tool for writing",
+      "offset": 126799,
+      "duration": 3761
+    },
+    {
+      "text": "code has now become a tool for reviewing",
+      "offset": 128640,
+      "duration": 3840
+    },
+    {
+      "text": "the code the agent produces. Now I just",
+      "offset": 130560,
+      "duration": 4399
+    },
+    {
+      "text": "go to VS Code to review or add comments.",
+      "offset": 132480,
+      "duration": 4399
+    },
+    {
+      "text": "So the AI agent can implement the",
+      "offset": 134959,
+      "duration": 3841
+    },
+    {
+      "text": "commented features. I very rarely have",
+      "offset": 136879,
+      "duration": 4080
+    },
+    {
+      "text": "to change anything or write code myself",
+      "offset": 138800,
+      "duration": 4000
+    },
+    {
+      "text": "now because agents are highly capable.",
+      "offset": 140959,
+      "duration": 3601
+    },
+    {
+      "text": "But this only works if the agents are",
+      "offset": 142800,
+      "duration": 3200
+    },
+    {
+      "text": "able to understand the intent.",
+      "offset": 144560,
+      "duration": 3520
+    },
+    {
+      "text": "Therefore, our work as developers has",
+      "offset": 146000,
+      "duration": 4000
+    },
+    {
+      "text": "essentially shifted from writing code to",
+      "offset": 148080,
+      "duration": 3519
+    },
+    {
+      "text": "supervising it. You've [snorts] probably",
+      "offset": 150000,
+      "duration": 3680
+    },
+    {
+      "text": "noticed we build a lot in these videos.",
+      "offset": 151599,
+      "duration": 3761
+    },
+    {
+      "text": "All the prompts, the templates, the",
+      "offset": 153680,
+      "duration": 3360
+    },
+    {
+      "text": "stuff you'd normally have to pause and",
+      "offset": 155360,
+      "duration": 3440
+    },
+    {
+      "text": "copy from the screen. We've put it all",
+      "offset": 157040,
+      "duration": 3680
+    },
+    {
+      "text": "in one place. We've recently launched",
+      "offset": 158800,
+      "duration": 4240
+    },
+    {
+      "text": "AIABS Pro, where you get access to",
+      "offset": 160720,
+      "duration": 4320
+    },
+    {
+      "text": "everything from this video and every",
+      "offset": 163040,
+      "duration": 4080
+    },
+    {
+      "text": "video before it. If you found value in",
+      "offset": 165040,
+      "duration": 3760
+    },
+    {
+      "text": "what we do and want to support the",
+      "offset": 167120,
+      "duration": 3440
+    },
+    {
+      "text": "channel, this is the best way to do it.",
+      "offset": 168800,
+      "duration": 3600
+    },
+    {
+      "text": "Links in the description. Since [snorts]",
+      "offset": 170560,
+      "duration": 3840
+    },
+    {
+      "text": "AI has taken over most of the coding",
+      "offset": 172400,
+      "duration": 4000
+    },
+    {
+      "text": "work, this leads to a question. What is",
+      "offset": 174400,
+      "duration": 4000
+    },
+    {
+      "text": "left for us? The answer is focusing on",
+      "offset": 176400,
+      "duration": 4080
+    },
+    {
+      "text": "the new craft of refining the intentions",
+      "offset": 178400,
+      "duration": 3680
+    },
+    {
+      "text": "of what to build. The way you can do",
+      "offset": 180480,
+      "duration": 3360
+    },
+    {
+      "text": "that is by treating planning as your",
+      "offset": 182080,
+      "duration": 3360
+    },
+    {
+      "text": "primary job. You need to clearly",
+      "offset": 183840,
+      "duration": 3280
+    },
+    {
+      "text": "understand the problem you are trying to",
+      "offset": 185440,
+      "duration": 3120
+    },
+    {
+      "text": "solve. You need to know what your",
+      "offset": 187120,
+      "duration": 3440
+    },
+    {
+      "text": "customer actually wants and how people",
+      "offset": 188560,
+      "duration": 4000
+    },
+    {
+      "text": "will use your app. This has become even",
+      "offset": 190560,
+      "duration": 3759
+    },
+    {
+      "text": "more important now. You are no longer",
+      "offset": 192560,
+      "duration": 3599
+    },
+    {
+      "text": "relying on humans who can interpret",
+      "offset": 194319,
+      "duration": 4000
+    },
+    {
+      "text": "intentions from poor planning. Instead,",
+      "offset": 196159,
+      "duration": 4241
+    },
+    {
+      "text": "you are relying on AI agents that",
+      "offset": 198319,
+      "duration": 4161
+    },
+    {
+      "text": "blindly implement whatever you instruct",
+      "offset": 200400,
+      "duration": 3759
+    },
+    {
+      "text": "them to do. Whether you are building a",
+      "offset": 202480,
+      "duration": 3520
+    },
+    {
+      "text": "mobile app or a web app, you need to",
+      "offset": 204159,
+      "duration": 3601
+    },
+    {
+      "text": "know exactly what you want to build.",
+      "offset": 206000,
+      "duration": 3760
+    },
+    {
+      "text": "Without that clarity, you cannot do",
+      "offset": 207760,
+      "duration": 3759
+    },
+    {
+      "text": "meaningful planning with the agents",
+      "offset": 209760,
+      "duration": 3680
+    },
+    {
+      "text": "planning modes. Planning is vital. As we",
+      "offset": 211519,
+      "duration": 3761
+    },
+    {
+      "text": "have emphasized in our previous videos,",
+      "offset": 213440,
+      "duration": 3439
+    },
+    {
+      "text": "only good plans lead to good",
+      "offset": 215280,
+      "duration": 3519
+    },
+    {
+      "text": "implementation. It does not matter which",
+      "offset": 216879,
+      "duration": 3681
+    },
+    {
+      "text": "agent you are using. Planning is very",
+      "offset": 218799,
+      "duration": 3281
+    },
+    {
+      "text": "important because it controls the",
+      "offset": 220560,
+      "duration": 3200
+    },
+    {
+      "text": "outcome of the agent. Take as long as",
+      "offset": 222080,
+      "duration": 3439
+    },
+    {
+      "text": "you need. Keep refining the plan until",
+      "offset": 223760,
+      "duration": 3920
+    },
+    {
+      "text": "it fully satisfies your needs and meets",
+      "offset": 225519,
+      "duration": 4080
+    },
+    {
+      "text": "your expectations. This will ensure that",
+      "offset": 227680,
+      "duration": 3760
+    },
+    {
+      "text": "your app turns out the way you want.",
+      "offset": 229599,
+      "duration": 4000
+    },
+    {
+      "text": "Until 3 months ago, we never relied on",
+      "offset": 231440,
+      "duration": 4079
+    },
+    {
+      "text": "bypass permission mode for building",
+      "offset": 233599,
+      "duration": 3601
+    },
+    {
+      "text": "because agents used to hallucinate",
+      "offset": 235519,
+      "duration": 3601
+    },
+    {
+      "text": "despite a good plan. Now the agents are",
+      "offset": 237200,
+      "duration": 4239
+    },
+    {
+      "text": "so reliable that after refining the plan",
+      "offset": 239120,
+      "duration": 4399
+    },
+    {
+      "text": "I just turn the bypass permission mode",
+      "offset": 241439,
+      "duration": 4321
+    },
+    {
+      "text": "on and let the agent implement the specs",
+      "offset": 243519,
+      "duration": 4321
+    },
+    {
+      "text": "in a single run. We also saw that even",
+      "offset": 245760,
+      "duration": 4240
+    },
+    {
+      "text": "the creator of clawed code starts his",
+      "offset": 247840,
+      "duration": 4160
+    },
+    {
+      "text": "implementations with plan mode. If the",
+      "offset": 250000,
+      "duration": 3599
+    },
+    {
+      "text": "plan is good enough, you can let the",
+      "offset": 252000,
+      "duration": 3680
+    },
+    {
+      "text": "agents build the app in one shot without",
+      "offset": 253599,
+      "duration": 4241
+    },
+    {
+      "text": "worrying about messy implementations. I",
+      "offset": 255680,
+      "duration": 4079
+    },
+    {
+      "text": "also spend a significant amount of time",
+      "offset": 257840,
+      "duration": 3679
+    },
+    {
+      "text": "making sure that what I am building is",
+      "offset": 259759,
+      "duration": 3761
+    },
+    {
+      "text": "fully documented. I do not cram it all",
+      "offset": 261519,
+      "duration": 4001
+    },
+    {
+      "text": "into a single document so the agent can",
+      "offset": 263520,
+      "duration": 4000
+    },
+    {
+      "text": "navigate through the plans easily. I use",
+      "offset": 265520,
+      "duration": 3840
+    },
+    {
+      "text": "different documents for each category",
+      "offset": 267520,
+      "duration": 3760
+    },
+    {
+      "text": "such as risk assessments, mitigation,",
+      "offset": 269360,
+      "duration": 4080
+    },
+    {
+      "text": "and tech specs. I list constraints and",
+      "offset": 271280,
+      "duration": 4000
+    },
+    {
+      "text": "trade-offs in a separate document. This",
+      "offset": 273440,
+      "duration": 3600
+    },
+    {
+      "text": "is how the agent understands what is",
+      "offset": 275280,
+      "duration": 3600
+    },
+    {
+      "text": "acceptable in terms of performance,",
+      "offset": 277040,
+      "duration": 3920
+    },
+    {
+      "text": "cost, and time. This approach leads to",
+      "offset": 278880,
+      "duration": 3920
+    },
+    {
+      "text": "much more controlled development. After",
+      "offset": 280960,
+      "duration": 3679
+    },
+    {
+      "text": "all the requirements have been verified,",
+      "offset": 282800,
+      "duration": 3760
+    },
+    {
+      "text": "the next step is to actually manage the",
+      "offset": 284639,
+      "duration": 3840
+    },
+    {
+      "text": "agent and get what we want. But before",
+      "offset": 286560,
+      "duration": 3680
+    },
+    {
+      "text": "we talk about that, here's a quick word",
+      "offset": 288479,
+      "duration": 4160
+    },
+    {
+      "text": "from our sponsor, Dart AI. Managing",
+      "offset": 290240,
+      "duration": 4560
+    },
+    {
+      "text": "complex software projects often involves",
+      "offset": 292639,
+      "duration": 4161
+    },
+    {
+      "text": "more administrative overhead than actual",
+      "offset": 294800,
+      "duration": 3920
+    },
+    {
+      "text": "coding. Dart is not just a standard",
+      "offset": 296800,
+      "duration": 3920
+    },
+    {
+      "text": "project management tool. It is an AI",
+      "offset": 298720,
+      "duration": 3919
+    },
+    {
+      "text": "native workspace designed to automate",
+      "offset": 300720,
+      "duration": 3520
+    },
+    {
+      "text": "busy work for developers. With the",
+      "offset": 302639,
+      "duration": 3761
+    },
+    {
+      "text": "contextaware AI chat, you can even",
+      "offset": 304240,
+      "duration": 4640
+    },
+    {
+      "text": "create tasks and edit documents just by",
+      "offset": 306400,
+      "duration": 4720
+    },
+    {
+      "text": "talking naturally. Beyond AI chat, you",
+      "offset": 308880,
+      "duration": 4319
+    },
+    {
+      "text": "can even onboard agents like cursor to",
+      "offset": 311120,
+      "duration": 3760
+    },
+    {
+      "text": "execute work. Dart gives them the",
+      "offset": 313199,
+      "duration": 3601
+    },
+    {
+      "text": "context to actually write your code. The",
+      "offset": 314880,
+      "duration": 4240
+    },
+    {
+      "text": "real power lies in its AI guidelines",
+      "offset": 316800,
+      "duration": 4399
+    },
+    {
+      "text": "feature. You can configure global rules",
+      "offset": 319120,
+      "duration": 4480
+    },
+    {
+      "text": "like instructing the AI to always format",
+      "offset": 321199,
+      "duration": 4641
+    },
+    {
+      "text": "technical specs with specific goals and",
+      "offset": 323600,
+      "duration": 4080
+    },
+    {
+      "text": "requirements headers and Dart enforces",
+      "offset": 325840,
+      "duration": 3919
+    },
+    {
+      "text": "this structure across every chat task",
+      "offset": 327680,
+      "duration": 4160
+    },
+    {
+      "text": "and document it generates. For us, the",
+      "offset": 329759,
+      "duration": 4401
+    },
+    {
+      "text": "AI skills feature is a gamecher. You can",
+      "offset": 331840,
+      "duration": 4560
+    },
+    {
+      "text": "define custom commands like a generate",
+      "offset": 334160,
+      "duration": 4160
+    },
+    {
+      "text": "project skill that automatically creates",
+      "offset": 336400,
+      "duration": 3920
+    },
+    {
+      "text": "a populated task list, assigns",
+      "offset": 338320,
+      "duration": 4240
+    },
+    {
+      "text": "priorities, estimates sizing, and drafts",
+      "offset": 340320,
+      "duration": 4240
+    },
+    {
+      "text": "a project brief in seconds. Start",
+      "offset": 342560,
+      "duration": 3919
+    },
+    {
+      "text": "automating your project management today",
+      "offset": 344560,
+      "duration": 4160
+    },
+    {
+      "text": "by checking out Dart AI at the link in",
+      "offset": 346479,
+      "duration": 3921
+    },
+    {
+      "text": "the pinned comment. [snorts] You are no",
+      "offset": 348720,
+      "duration": 3520
+    },
+    {
+      "text": "longer just a coder. Your work is more",
+      "offset": 350400,
+      "duration": 4000
+    },
+    {
+      "text": "centered around supervising agents than",
+      "offset": 352240,
+      "duration": 4160
+    },
+    {
+      "text": "actually writing code. Writing code has",
+      "offset": 354400,
+      "duration": 3680
+    },
+    {
+      "text": "become less about constructing a",
+      "offset": 356400,
+      "duration": 3440
+    },
+    {
+      "text": "solution and more about setting up the",
+      "offset": 358080,
+      "duration": 3360
+    },
+    {
+      "text": "conditions for a good solution to",
+      "offset": 359840,
+      "duration": 3440
+    },
+    {
+      "text": "emerge. So how do you create the right",
+      "offset": 361440,
+      "duration": 3599
+    },
+    {
+      "text": "environment for agents to produce",
+      "offset": 363280,
+      "duration": 3919
+    },
+    {
+      "text": "quality outcomes? The answer is context",
+      "offset": 365039,
+      "duration": 4000
+    },
+    {
+      "text": "engineering. The next big skill you need",
+      "offset": 367199,
+      "duration": 3681
+    },
+    {
+      "text": "to learn is not a specific web",
+      "offset": 369039,
+      "duration": 3921
+    },
+    {
+      "text": "development stack like MER or me.",
+      "offset": 370880,
+      "duration": 4159
+    },
+    {
+      "text": "Instead, it is context management. We've",
+      "offset": 372960,
+      "duration": 3840
+    },
+    {
+      "text": "consistently seen that without proper",
+      "offset": 375039,
+      "duration": 3521
+    },
+    {
+      "text": "context management, it does implement",
+      "offset": 376800,
+      "duration": 3600
+    },
+    {
+      "text": "the features we prompted to, but it",
+      "offset": 378560,
+      "duration": 3600
+    },
+    {
+      "text": "doesn't follow any constraints or rules",
+      "offset": 380400,
+      "duration": 3760
+    },
+    {
+      "text": "it had to match the implementation to.",
+      "offset": 382160,
+      "duration": 4080
+    },
+    {
+      "text": "We need to ensure the context is managed",
+      "offset": 384160,
+      "duration": 3840
+    },
+    {
+      "text": "properly. When the agent is given the",
+      "offset": 386240,
+      "duration": 3840
+    },
+    {
+      "text": "right information with minimal noise, it",
+      "offset": 388000,
+      "duration": 3919
+    },
+    {
+      "text": "understands the task more clearly. It",
+      "offset": 390080,
+      "duration": 3839
+    },
+    {
+      "text": "produces better implementations and",
+      "offset": 391919,
+      "duration": 4000
+    },
+    {
+      "text": "delivers exactly what you want. Managing",
+      "offset": 393919,
+      "duration": 3840
+    },
+    {
+      "text": "the context involves using a set of",
+      "offset": 395919,
+      "duration": 3840
+    },
+    {
+      "text": "components like reusable commands,",
+      "offset": 397759,
+      "duration": 4801
+    },
+    {
+      "text": "skills, markdown files, MCPs, and sub",
+      "offset": 399759,
+      "duration": 4560
+    },
+    {
+      "text": "aents. There is no single right way to",
+      "offset": 402560,
+      "duration": 3359
+    },
+    {
+      "text": "do it. You should use multiple methods",
+      "offset": 404319,
+      "duration": 3201
+    },
+    {
+      "text": "that work well for what you are trying",
+      "offset": 405919,
+      "duration": 3361
+    },
+    {
+      "text": "to build. You need to create a workflow",
+      "offset": 407520,
+      "duration": 3200
+    },
+    {
+      "text": "that suits your project. We have",
+      "offset": 409280,
+      "duration": 3759
+    },
+    {
+      "text": "dedicated an entire video demonstrating",
+      "offset": 410720,
+      "duration": 4400
+    },
+    {
+      "text": "how you can build workflows with context",
+      "offset": 413039,
+      "duration": 4000
+    },
+    {
+      "text": "management. This ensures the model you",
+      "offset": 415120,
+      "duration": 3919
+    },
+    {
+      "text": "are using gets the right context and can",
+      "offset": 417039,
+      "duration": 4081
+    },
+    {
+      "text": "produce highquality applications. If you",
+      "offset": 419039,
+      "duration": 3841
+    },
+    {
+      "text": "want to follow along, all the resources",
+      "offset": 421120,
+      "duration": 4240
+    },
+    {
+      "text": "for that video are available in AI Labs",
+      "offset": 422880,
+      "duration": 4800
+    },
+    {
+      "text": "Pro. An agent's work is only as good as",
+      "offset": 425360,
+      "duration": 4160
+    },
+    {
+      "text": "the contextdriven environment it",
+      "offset": 427680,
+      "duration": 3519
+    },
+    {
+      "text": "operates in. The more it is connected",
+      "offset": 429520,
+      "duration": 3519
+    },
+    {
+      "text": "directly to customer feedback and",
+      "offset": 431199,
+      "duration": 3761
+    },
+    {
+      "text": "supported by a structured workflow, the",
+      "offset": 433039,
+      "duration": 3681
+    },
+    {
+      "text": "better it can perform. We need to create",
+      "offset": 434960,
+      "duration": 3679
+    },
+    {
+      "text": "such an environment because it does not",
+      "offset": 436720,
+      "duration": 3759
+    },
+    {
+      "text": "happen automatically. For this reason,",
+      "offset": 438639,
+      "duration": 3840
+    },
+    {
+      "text": "Claude has connectivity with Slack so",
+      "offset": 440479,
+      "duration": 4000
+    },
+    {
+      "text": "that teams can directly report errors.",
+      "offset": 442479,
+      "duration": 3921
+    },
+    {
+      "text": "This creates valuable feedback loops",
+      "offset": 444479,
+      "duration": 3761
+    },
+    {
+      "text": "which even the creator of Claude code",
+      "offset": 446400,
+      "duration": 3919
+    },
+    {
+      "text": "himself use. Large teams are already",
+      "offset": 448240,
+      "duration": 4799
+    },
+    {
+      "text": "producing highquality AI generated code.",
+      "offset": 450319,
+      "duration": 4641
+    },
+    {
+      "text": "The creator of Claude code claimed that",
+      "offset": 453039,
+      "duration": 4321
+    },
+    {
+      "text": "in the past month 100% of his",
+      "offset": 454960,
+      "duration": 4320
+    },
+    {
+      "text": "contributions were effectively written",
+      "offset": 457360,
+      "duration": 3760
+    },
+    {
+      "text": "by Claude code itself. This does not",
+      "offset": 459280,
+      "duration": 3840
+    },
+    {
+      "text": "happen just by giving it a prompt. It",
+      "offset": 461120,
+      "duration": 3680
+    },
+    {
+      "text": "requires a set of workflows and",
+      "offset": 463120,
+      "duration": 3280
+    },
+    {
+      "text": "orchestrated patterns to make it",
+      "offset": 464800,
+      "duration": 3839
+    },
+    {
+      "text": "possible. Even the CEO of Microsoft",
+      "offset": 466400,
+      "duration": 5600
+    },
+    {
+      "text": "admits that AI now generates 20% to 30%",
+      "offset": 468639,
+      "duration": 5521
+    },
+    {
+      "text": "of Microsoft's integrated code across",
+      "offset": 472000,
+      "duration": 3919
+    },
+    {
+      "text": "all languages. There is especially",
+      "offset": 474160,
+      "duration": 4479
+    },
+    {
+      "text": "notable progress in Python and C++.",
+      "offset": 475919,
+      "duration": 4720
+    },
+    {
+      "text": "Structure in tools works the same way",
+      "offset": 478639,
+      "duration": 4321
+    },
+    {
+      "text": "for both humans and agents. It reduces",
+      "offset": 480639,
+      "duration": 4481
+    },
+    {
+      "text": "uncertainty by clearly defining what is",
+      "offset": 482960,
+      "duration": 4400
+    },
+    {
+      "text": "expected and what capabilities exist. If",
+      "offset": 485120,
+      "duration": 4000
+    },
+    {
+      "text": "you are using AI agents without",
+      "offset": 487360,
+      "duration": 3600
+    },
+    {
+      "text": "structure, you are only using a fraction",
+      "offset": 489120,
+      "duration": 3680
+    },
+    {
+      "text": "of their potential. The structure can",
+      "offset": 490960,
+      "duration": 3600
+    },
+    {
+      "text": "take many forms. This includes a",
+      "offset": 492800,
+      "duration": 4239
+    },
+    {
+      "text": "claude.md file for overall project",
+      "offset": 494560,
+      "duration": 4240
+    },
+    {
+      "text": "guidance and a change log to track",
+      "offset": 497039,
+      "duration": 3121
+    },
+    {
+      "text": "changes. You can also use",
+      "offset": 498800,
+      "duration": 4720
+    },
+    {
+      "text": "reusable/comands or specialized skill.md",
+      "offset": 500160,
+      "duration": 5280
+    },
+    {
+      "text": "files with scripts and references.",
+      "offset": 503520,
+      "duration": 3760
+    },
+    {
+      "text": "Additionally, you can use plugins and",
+      "offset": 505440,
+      "duration": 3840
+    },
+    {
+      "text": "MCP tools to extend the agents",
+      "offset": 507280,
+      "duration": 4000
+    },
+    {
+      "text": "capabilities. But knowing these tools is",
+      "offset": 509280,
+      "duration": 3600
+    },
+    {
+      "text": "not enough. The right combination",
+      "offset": 511280,
+      "duration": 3520
+    },
+    {
+      "text": "matters. Every project requires a",
+      "offset": 512880,
+      "duration": 3519
+    },
+    {
+      "text": "different setup. So, you have to build",
+      "offset": 514800,
+      "duration": 3520
+    },
+    {
+      "text": "one based on your project's needs. With",
+      "offset": 516399,
+      "duration": 3841
+    },
+    {
+      "text": "the right balance, you will get results",
+      "offset": 518320,
+      "duration": 3760
+    },
+    {
+      "text": "just the way you want. Our job [snorts]",
+      "offset": 520240,
+      "duration": 3440
+    },
+    {
+      "text": "is not done after planning and",
+      "offset": 522080,
+      "duration": 3759
+    },
+    {
+      "text": "delegating tasks to agents. Now as I",
+      "offset": 523680,
+      "duration": 4159
+    },
+    {
+      "text": "mentioned that I let claude code work on",
+      "offset": 525839,
+      "duration": 4081
+    },
+    {
+      "text": "dangerously skip permission mode. It",
+      "offset": 527839,
+      "duration": 4000
+    },
+    {
+      "text": "does save a lot of time but it requires",
+      "offset": 529920,
+      "duration": 3680
+    },
+    {
+      "text": "our time and attention towards something",
+      "offset": 531839,
+      "duration": 3680
+    },
+    {
+      "text": "else. The pressure shifts toward the end",
+      "offset": 533600,
+      "duration": 3919
+    },
+    {
+      "text": "of the cycle. Reviewing the code becomes",
+      "offset": 535519,
+      "duration": 3521
+    },
+    {
+      "text": "more important. Code that is not",
+      "offset": 537519,
+      "duration": 3041
+    },
+    {
+      "text": "reviewed can lead to degraded",
+      "offset": 539040,
+      "duration": 3440
+    },
+    {
+      "text": "performance and high costs. You can use",
+      "offset": 540560,
+      "duration": 3760
+    },
+    {
+      "text": "structured workflows to make reviewing",
+      "offset": 542480,
+      "duration": 4000
+    },
+    {
+      "text": "easier. This will lead to fewer bugs and",
+      "offset": 544320,
+      "duration": 3840
+    },
+    {
+      "text": "save you from issues later on. Now",
+      "offset": 546480,
+      "duration": 3520
+    },
+    {
+      "text": "testing is not just going to your agent",
+      "offset": 548160,
+      "duration": 3679
+    },
+    {
+      "text": "and saying test my app for all the",
+      "offset": 550000,
+      "duration": 3760
+    },
+    {
+      "text": "issues. It involves several approaches",
+      "offset": 551839,
+      "duration": 4000
+    },
+    {
+      "text": "to improve the process. One method is",
+      "offset": 553760,
+      "duration": 3920
+    },
+    {
+      "text": "test-driven development. We ask the",
+      "offset": 555839,
+      "duration": 3521
+    },
+    {
+      "text": "agent to write test cases for the",
+      "offset": 557680,
+      "duration": 3279
+    },
+    {
+      "text": "feature we want to implement without",
+      "offset": 559360,
+      "duration": 3280
+    },
+    {
+      "text": "writing any code initially. Once the",
+      "offset": 560959,
+      "duration": 3601
+    },
+    {
+      "text": "tests are written, I clear the context",
+      "offset": 562640,
+      "duration": 4000
+    },
+    {
+      "text": "and start a new window. This ensures the",
+      "offset": 564560,
+      "duration": 4160
+    },
+    {
+      "text": "agent loses context on how it wrote the",
+      "offset": 566640,
+      "duration": 4319
+    },
+    {
+      "text": "tests. I ask Claude to run the tests and",
+      "offset": 568720,
+      "duration": 3920
+    },
+    {
+      "text": "they fail because no code has been",
+      "offset": 570959,
+      "duration": 3440
+    },
+    {
+      "text": "written yet. Now that I know the tests",
+      "offset": 572640,
+      "duration": 3759
+    },
+    {
+      "text": "are working correctly, I ask Claude to",
+      "offset": 574399,
+      "duration": 3681
+    },
+    {
+      "text": "implement the route. I ensure that it",
+      "offset": 576399,
+      "duration": 3921
+    },
+    {
+      "text": "does not modify the tests. This way the",
+      "offset": 578080,
+      "duration": 4000
+    },
+    {
+      "text": "agent has a clear goal to iterate",
+      "offset": 580320,
+      "duration": 4480
+    },
+    {
+      "text": "toward. In TDD tests are written before",
+      "offset": 582080,
+      "duration": 4640
+    },
+    {
+      "text": "the code but testing should also happen",
+      "offset": 584800,
+      "duration": 3599
+    },
+    {
+      "text": "after the code is written. For that",
+      "offset": 586720,
+      "duration": 3520
+    },
+    {
+      "text": "purpose there are many forms of testing.",
+      "offset": 588399,
+      "duration": 4081
+    },
+    {
+      "text": "I use blackbox testing and create user",
+      "offset": 590240,
+      "duration": 4400
+    },
+    {
+      "text": "stories. These act as detailed guides on",
+      "offset": 592480,
+      "duration": 4080
+    },
+    {
+      "text": "how users will actually interact with",
+      "offset": 594640,
+      "duration": 3759
+    },
+    {
+      "text": "the system and how those interactions",
+      "offset": 596560,
+      "duration": 3839
+    },
+    {
+      "text": "might trigger errors. Blackbox testing",
+      "offset": 598399,
+      "duration": 3761
+    },
+    {
+      "text": "evaluates the functionality of an",
+      "offset": 600399,
+      "duration": 3601
+    },
+    {
+      "text": "application based on requirements",
+      "offset": 602160,
+      "duration": 3760
+    },
+    {
+      "text": "without looking at the code itself. I",
+      "offset": 604000,
+      "duration": 3839
+    },
+    {
+      "text": "then use the clawed chrome extension to",
+      "offset": 605920,
+      "duration": 3680
+    },
+    {
+      "text": "perform the testing and ask it to",
+      "offset": 607839,
+      "duration": 4481
+    },
+    {
+      "text": "iterate over each user story section by",
+      "offset": 609600,
+      "duration": 4640
+    },
+    {
+      "text": "section. Blackbox testing mainly",
+      "offset": 612320,
+      "duration": 3840
+    },
+    {
+      "text": "identifies functionality issues. For",
+      "offset": 614240,
+      "duration": 3520
+    },
+    {
+      "text": "performance testing, we also need",
+      "offset": 616160,
+      "duration": 3280
+    },
+    {
+      "text": "whitebox testing. This is where we",
+      "offset": 617760,
+      "duration": 3440
+    },
+    {
+      "text": "actually look at the code, not just the",
+      "offset": 619440,
+      "duration": 3360
+    },
+    {
+      "text": "output. We trace how the code is",
+      "offset": 621200,
+      "duration": 3280
+    },
+    {
+      "text": "implemented and reason about its",
+      "offset": 622800,
+      "duration": 3680
+    },
+    {
+      "text": "architecture. For whitebox testing, I",
+      "offset": 624480,
+      "duration": 4400
+    },
+    {
+      "text": "used an XML document containing multiple",
+      "offset": 626480,
+      "duration": 4560
+    },
+    {
+      "text": "sections and subsections of tests. This",
+      "offset": 628880,
+      "duration": 4160
+    },
+    {
+      "text": "document acts as a guide for Claude on",
+      "offset": 631040,
+      "duration": 3840
+    },
+    {
+      "text": "how to navigate through written code and",
+      "offset": 633040,
+      "duration": 3840
+    },
+    {
+      "text": "how to find architectural issues. To",
+      "offset": 634880,
+      "duration": 4000
+    },
+    {
+      "text": "simplify my testing, I used a custom",
+      "offset": 636880,
+      "duration": 4079
+    },
+    {
+      "text": "command that executes the tests in the",
+      "offset": 638880,
+      "duration": 3840
+    },
+    {
+      "text": "document which I placed in the testing",
+      "offset": 640959,
+      "duration": 3440
+    },
+    {
+      "text": "folder. This command lists the",
+      "offset": 642720,
+      "duration": 3760
+    },
+    {
+      "text": "instructions for initializing the tests,",
+      "offset": 644399,
+      "duration": 4241
+    },
+    {
+      "text": "how to log the results into a file in a",
+      "offset": 646480,
+      "duration": 4080
+    },
+    {
+      "text": "structured format and at the end how to",
+      "offset": 648640,
+      "duration": 3759
+    },
+    {
+      "text": "generate a final report. This slash",
+      "offset": 650560,
+      "duration": 3920
+    },
+    {
+      "text": "command made white box testing easy for",
+      "offset": 652399,
+      "duration": 3841
+    },
+    {
+      "text": "me because it contains the structured",
+      "offset": 654480,
+      "duration": 4000
+    },
+    {
+      "text": "prompt for testing. Since the middle is",
+      "offset": 656240,
+      "duration": 4000
+    },
+    {
+      "text": "disappearing and the focus is shifting",
+      "offset": 658480,
+      "duration": 3359
+    },
+    {
+      "text": "more toward the beginning and the end,",
+      "offset": 660240,
+      "duration": 3680
+    },
+    {
+      "text": "we need to rethink our priorities. What",
+      "offset": 661839,
+      "duration": 4240
+    },
+    {
+      "text": "we need to prioritize now is forming the",
+      "offset": 663920,
+      "duration": 3599
+    },
+    {
+      "text": "right intent through planning and",
+      "offset": 666079,
+      "duration": 3121
+    },
+    {
+      "text": "requirement assessment. We must also",
+      "offset": 667519,
+      "duration": 3361
+    },
+    {
+      "text": "ensure that the outcome meets",
+      "offset": 669200,
+      "duration": 3520
+    },
+    {
+      "text": "expectations through thorough testing",
+      "offset": 670880,
+      "duration": 3840
+    },
+    {
+      "text": "and review processes. Those developers",
+      "offset": 672720,
+      "duration": 3840
+    },
+    {
+      "text": "who master these principles will be the",
+      "offset": 674720,
+      "duration": 3920
+    },
+    {
+      "text": "ones leading the future. That brings us",
+      "offset": 676560,
+      "duration": 3760
+    },
+    {
+      "text": "to the end of this video. If you'd like",
+      "offset": 678640,
+      "duration": 3680
+    },
+    {
+      "text": "to support the channel and help us keep",
+      "offset": 680320,
+      "duration": 3920
+    },
+    {
+      "text": "making videos like this, you can do so",
+      "offset": 682320,
+      "duration": 4000
+    },
+    {
+      "text": "by using the super thanks button below.",
+      "offset": 684240,
+      "duration": 3920
+    },
+    {
+      "text": "As always, thank you for watching and",
+      "offset": 686320,
+      "duration": 5440
+    },
+    {
+      "text": "I'll see you in the next one.",
+      "offset": 688160,
+      "duration": 3600
+    }
+  ]
+}

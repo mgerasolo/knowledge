@@ -1,0 +1,271 @@
+{
+  "timestamp": "2026-01-30T01:51:25.960Z",
+  "channels": [
+    "@Fireship"
+  ],
+  "summary": {
+    "total_attempted": 50,
+    "succeeded": 0,
+    "failed": 50,
+    "skipped": 0
+  },
+  "failures": [
+    {
+      "videoId": "M4TufsFlv_o",
+      "title": "Bun in 100 Seconds",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "9uW6B9LPntY",
+      "title": "A brief history of programming...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "MFsYaRnrcPQ",
+      "title": ".NET in 100 Seconds",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "EKOU3JWDNLI",
+      "title": "The unhinged world of tech in 2026...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "rEvEXQvo-F8",
+      "title": "OpenAI was dead… Then GPT-5.2 dropped",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "QLK9G5zyU-Q",
+      "title": "React.js shell shocked by 10.0 critical vulnerability…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "5JMiNsV7P3Y",
+      "title": "Anthropic just bought your favorite JS runtime...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "S6wc6yvoZLY",
+      "title": "AI agents are paying each other now…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "bsL7ZnKIAhs",
+      "title": "Did Google just kill OpenAI?",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "tF_4baiIUiQ",
+      "title": "The entire internet just crashed... again",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "Q8QdKRbC1O0",
+      "title": "The gaming console wars just got weird...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "4bQ2qhfJUjA",
+      "title": "This neural interface writes code from my brain waves…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "IIj9UWpvSFI",
+      "title": "This new JS framework wants you to quit React…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "HIp8sFB2GGw",
+      "title": "Cursor 2.0 is here... 5 things you didn't know it can do",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "q2czJLPJ4nA",
+      "title": "The humanoid-robot dystopia arrived early...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "5uSboan45Zg",
+      "title": "OpenAI’s new browser feels familiar…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "HqL0xhwDz9s",
+      "title": "US-EAST-1 is humanity’s weakest link…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "yl0YWA2K2B0",
+      "title": "React wants to win you back…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "qJle6Bki4Og",
+      "title": "Apple and Google won’t like this...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "PLKrSVuT-Dg",
+      "title": "How to make vibe coding not suck…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "91aH8jsG4cc",
+      "title": "OpenAI just made your entire tech stack obsolete...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "SquU4Bpc73Y",
+      "title": "Alibaba is going all in on Qwen…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "hkSj-QapfZo",
+      "title": "OpenAI’s new slop machine is open for business…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "bS9R6aCVEzw",
+      "title": "n8n will change your life as a developer...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "DC2p3kFjcK0",
+      "title": "There's a new Linux distro in town for developers...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "GOejI6c0CMQ",
+      "title": "Meta's most dystopian product yet...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "OfOPrmnHRxw",
+      "title": "AI companions are taking over… let’s build one",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "QVqIx-Y8s-s",
+      "title": "The largest supply-chain attack ever…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "XGmZFNG-qQQ",
+      "title": "Google won at Monopoly...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "8_GgeASwHwQ",
+      "title": "Google’s nano banana just killed Photoshop... let’s run it",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "pOF11EDprxc",
+      "title": "Deno vs Oracle: The ugly custody battle for JavaScript…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "ly6YKz9UfQ4",
+      "title": "New MIT study says most AI projects are doomed...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "uHm6FEb2Re4",
+      "title": "DuckDB in 100 Seconds",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "8tx2viHpgA8",
+      "title": "GPT-5 is here... Can it win back programmers?",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "0XvOOi6g5Ok",
+      "title": "Google’s Genie model makes realistic worlds in realtime…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "miTpJmMt7uo",
+      "title": "The dating app that doxxed 72,000 women...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "-w53i6Ae-YM",
+      "title": "Alibaba is coming for Claude...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "gA6r7iVzP6M",
+      "title": "AWS just released its Cursor killer…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "2USUfv7klr8",
+      "title": "Grok 4 pushes humanity closer to AGI… but there’s a problem",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "-_6dHIPVoTM",
+      "title": "When being over-employed goes wrong...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "qqP1ucSiVkE",
+      "title": "Google’s new CLI tool hits different…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "nFoXCLi8FCc",
+      "title": "OpenAI is ruthless...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "pF1UvN7SEGU",
+      "title": "Zuckerberg is looking pretty desperate right now...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "rUCOwCJDh8o",
+      "title": "That time Google Cloud Platform bricked the Internet…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "Q57_iaGrxLg",
+      "title": "Apple redefines reality (again) at WWDC25…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "cNywlNWan9o",
+      "title": "When bad C code puts you behind bars...",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "Sd6F2pfKJmk",
+      "title": "This Microsoft-backed AI startup just collapsed… why?",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "NLjnOsP_q1U",
+      "title": "Google goes wild, again... 11 things you missed at I/O",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "NIgrGqmoeHs",
+      "title": "Microsoft just opened the flood gates…",
+      "error": "Empty transcript"
+    },
+    {
+      "videoId": "jCTvblRXnzg",
+      "title": "Google’s AlphaEvolve is making new discoveries in math…",
+      "error": "Empty transcript"
+    }
+  ],
+  "metrics": {
+    "avg_transcript_length_chars": 0,
+    "avg_segments_per_video": 0,
+    "avg_embedding_time_ms": 0,
+    "total_segments": 0,
+    "total_wall_clock_ms": 38166
+  }
+}

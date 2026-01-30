@@ -1,0 +1,431 @@
+{
+  "videoId": "M4TufsFlv_o",
+  "title": "Bun in 100 Seconds",
+  "segments": [
+    {
+      "text": "Bun.JS, a megaast JavaScript runtime and",
+      "offset": 240,
+      "duration": 4720
+    },
+    {
+      "text": "tool chain that was built by someone who",
+      "offset": 3200,
+      "duration": 3599
+    },
+    {
+      "text": "woke up one day, looked at their node",
+      "offset": 4960,
+      "duration": 3920
+    },
+    {
+      "text": "modules folder, and chose violence. The",
+      "offset": 6799,
+      "duration": 3840
+    },
+    {
+      "text": "JavaScript programming language was",
+      "offset": 8880,
+      "duration": 3920
+    },
+    {
+      "text": "originally designed in 1995 for",
+      "offset": 10639,
+      "duration": 4000
+    },
+    {
+      "text": "front-end scripting in web browsers,",
+      "offset": 12800,
+      "duration": 3520
+    },
+    {
+      "text": "mostly to annoy people with pop-up",
+      "offset": 14639,
+      "duration": 3681
+    },
+    {
+      "text": "windows and targeted ads. But one",
+      "offset": 16320,
+      "duration": 4240
+    },
+    {
+      "text": "fateful day in 2009, it escaped the",
+      "offset": 18320,
+      "duration": 4400
+    },
+    {
+      "text": "browser, got a back-end job, and evolved",
+      "offset": 20560,
+      "duration": 3680
+    },
+    {
+      "text": "into the most cursed tool chain in",
+      "offset": 22720,
+      "duration": 3520
+    },
+    {
+      "text": "software history with a basic stack",
+      "offset": 24240,
+      "duration": 4320
+    },
+    {
+      "text": "including Node.js JS as a runtime, mpm",
+      "offset": 26240,
+      "duration": 4160
+    },
+    {
+      "text": "as a package manager, Webpack for a",
+      "offset": 28560,
+      "duration": 3920
+    },
+    {
+      "text": "bundler, just for testing, Babel for",
+      "offset": 30400,
+      "duration": 3999
+    },
+    {
+      "text": "transpiling, and a graveyard of config",
+      "offset": 32480,
+      "duration": 5040
+    },
+    {
+      "text": "files nobody understands. Then in 2021,",
+      "offset": 34399,
+      "duration": 5041
+    },
+    {
+      "text": "Bun came along and said, \"What if the",
+      "offset": 37520,
+      "duration": 3840
+    },
+    {
+      "text": "runtime could do everything and do",
+      "offset": 39440,
+      "duration": 4000
+    },
+    {
+      "text": "everything faster?\" The JavaScript world",
+      "offset": 41360,
+      "duration": 4160
+    },
+    {
+      "text": "agreed and now Bun powers tools like",
+      "offset": 43440,
+      "duration": 3920
+    },
+    {
+      "text": "Claude Code, serverless functions on",
+      "offset": 45520,
+      "duration": 3760
+    },
+    {
+      "text": "cloud platforms, and the local dev",
+      "offset": 47360,
+      "duration": 3920
+    },
+    {
+      "text": "environments for millions of soy devs.",
+      "offset": 49280,
+      "duration": 4240
+    },
+    {
+      "text": "At its core, Bun is a JavaScript runtime",
+      "offset": 51280,
+      "duration": 4000
+    },
+    {
+      "text": "like Noode.js, JS, but with an extreme",
+      "offset": 53520,
+      "duration": 3359
+    },
+    {
+      "text": "focus on performance, which they",
+      "offset": 55280,
+      "duration": 4160
+    },
+    {
+      "text": "achieved by swapping out C++ for Zigg",
+      "offset": 56879,
+      "duration": 4801
+    },
+    {
+      "text": "and Chrome's V8 engine for JavaScript",
+      "offset": 59440,
+      "duration": 4880
+    },
+    {
+      "text": "Core, the same engine used by Safari.",
+      "offset": 61680,
+      "duration": 4240
+    },
+    {
+      "text": "Starting from scratch has allowed it to",
+      "offset": 64320,
+      "duration": 3440
+    },
+    {
+      "text": "throw up some impressive Trust Me Bro",
+      "offset": 65920,
+      "duration": 3519
+    },
+    {
+      "text": "benchmarks. But it's more than just a",
+      "offset": 67760,
+      "duration": 3760
+    },
+    {
+      "text": "runtime. It replaces your bundler, so",
+      "offset": 69439,
+      "duration": 4000
+    },
+    {
+      "text": "you can write TypeScript and JavaScript",
+      "offset": 71520,
+      "duration": 3760
+    },
+    {
+      "text": "without any config nightmares. It",
+      "offset": 73439,
+      "duration": 3360
+    },
+    {
+      "text": "replaces your testing frameworks and",
+      "offset": 75280,
+      "duration": 3280
+    },
+    {
+      "text": "package managers, and it even has",
+      "offset": 76799,
+      "duration": 3680
+    },
+    {
+      "text": "built-in database drivers to work with",
+      "offset": 78560,
+      "duration": 4320
+    },
+    {
+      "text": "SQL, Reddus, and S3 buckets in the",
+      "offset": 80479,
+      "duration": 4000
+    },
+    {
+      "text": "cloud. And it does all of this from a",
+      "offset": 82880,
+      "duration": 3200
+    },
+    {
+      "text": "single binary while maintaining",
+      "offset": 84479,
+      "duration": 3921
+    },
+    {
+      "text": "compatibility with the Node.js ecosystem",
+      "offset": 86080,
+      "duration": 3840
+    },
+    {
+      "text": "is so instead of assembling a tool",
+      "offset": 88400,
+      "duration": 3520
+    },
+    {
+      "text": "chain, you just run bun and move on with",
+      "offset": 89920,
+      "duration": 3519
+    },
+    {
+      "text": "your life. To get started, we can",
+      "offset": 91920,
+      "duration": 3360
+    },
+    {
+      "text": "install it using a single command, then",
+      "offset": 93439,
+      "duration": 4000
+    },
+    {
+      "text": "open up the terminal and run bun init to",
+      "offset": 95280,
+      "duration": 4000
+    },
+    {
+      "text": "start a new project. And that gives us a",
+      "offset": 97439,
+      "duration": 3281
+    },
+    {
+      "text": "TypeScript file where we can start",
+      "offset": 99280,
+      "duration": 3440
+    },
+    {
+      "text": "writing some code. Then to run it, we",
+      "offset": 100720,
+      "duration": 4240
+    },
+    {
+      "text": "can run bun run and we can auto restart",
+      "offset": 102720,
+      "duration": 4160
+    },
+    {
+      "text": "on changes with the watch flag. No need",
+      "offset": 104960,
+      "duration": 3680
+    },
+    {
+      "text": "to mess with a transpiler or extra",
+      "offset": 106880,
+      "duration": 3599
+    },
+    {
+      "text": "dependencies. But now we want to build a",
+      "offset": 108640,
+      "duration": 3360
+    },
+    {
+      "text": "web app. And instead of installing",
+      "offset": 110479,
+      "duration": 4000
+    },
+    {
+      "text": "ExpressJS, we just use the built-in bun",
+      "offset": 112000,
+      "duration": 4960
+    },
+    {
+      "text": "HTTP module to create a basic web",
+      "offset": 114479,
+      "duration": 4401
+    },
+    {
+      "text": "server. That was easy, but now we want",
+      "offset": 116960,
+      "duration": 4000
+    },
+    {
+      "text": "to store some data in SQLite. You simply",
+      "offset": 118880,
+      "duration": 4000
+    },
+    {
+      "text": "import the database module and start",
+      "offset": 120960,
+      "duration": 3759
+    },
+    {
+      "text": "writing queries. Over the next few days,",
+      "offset": 122880,
+      "duration": 3519
+    },
+    {
+      "text": "our app goes viral with millions of",
+      "offset": 124719,
+      "duration": 3760
+    },
+    {
+      "text": "users. The database gets bogged down.",
+      "offset": 126399,
+      "duration": 3840
+    },
+    {
+      "text": "So, let's implement an in-memory cache",
+      "offset": 128479,
+      "duration": 3921
+    },
+    {
+      "text": "with Reddus. Like before, just import",
+      "offset": 130239,
+      "duration": 3841
+    },
+    {
+      "text": "the Reddus module and we're up and",
+      "offset": 132400,
+      "duration": 2960
+    },
+    {
+      "text": "running without any thirdparty",
+      "offset": 134080,
+      "duration": 3200
+    },
+    {
+      "text": "dependencies. But wait a minute, I still",
+      "offset": 135360,
+      "duration": 3519
+    },
+    {
+      "text": "love all these packages I have in this",
+      "offset": 137280,
+      "duration": 3599
+    },
+    {
+      "text": "package. JSON file. Well, instead of",
+      "offset": 138879,
+      "duration": 4000
+    },
+    {
+      "text": "running npm install, I can run bun",
+      "offset": 140879,
+      "duration": 4561
+    },
+    {
+      "text": "install to install them 25 times faster.",
+      "offset": 142879,
+      "duration": 4961
+    },
+    {
+      "text": "And we can even run executables on npm",
+      "offset": 145440,
+      "duration": 4320
+    },
+    {
+      "text": "with the bunks command. And finally, we",
+      "offset": 147840,
+      "duration": 3520
+    },
+    {
+      "text": "might as well test our code, which we",
+      "offset": 149760,
+      "duration": 3360
+    },
+    {
+      "text": "can do with the built-in test runner,",
+      "offset": 151360,
+      "duration": 3680
+    },
+    {
+      "text": "but which like everything else in Bun is",
+      "offset": 153120,
+      "duration": 4560
+    },
+    {
+      "text": "extremely fast. This has been Bun in 100",
+      "offset": 155040,
+      "duration": 4240
+    },
+    {
+      "text": "seconds. If you want to see more videos",
+      "offset": 157680,
+      "duration": 3120
+    },
+    {
+      "text": "like this, let me know what you want to",
+      "offset": 159280,
+      "duration": 3200
+    },
+    {
+      "text": "learn about next in the comments. Thanks",
+      "offset": 160800,
+      "duration": 3360
+    },
+    {
+      "text": "for watching, and I will see you in the",
+      "offset": 162480,
+      "duration": 4640
+    },
+    {
+      "text": "next one.",
+      "offset": 164160,
+      "duration": 2960
+    }
+  ]
+}

@@ -1,0 +1,596 @@
+{
+  "videoId": "IIj9UWpvSFI",
+  "title": "This new JS framework wants you to quit React…",
+  "segments": [
+    {
+      "text": "Remember back in the good old days of",
+      "offset": 0,
+      "duration": 4080
+    },
+    {
+      "text": "2019 when life was so good we could do",
+      "offset": 1680,
+      "duration": 4880
+    },
+    {
+      "text": "things like raid Area 51 for fun and",
+      "offset": 4080,
+      "duration": 4160
+    },
+    {
+      "text": "cosplay as soldiers when choosing a",
+      "offset": 6560,
+      "duration": 3200
+    },
+    {
+      "text": "JavaScript framework when you could go",
+      "offset": 8240,
+      "duration": 3359
+    },
+    {
+      "text": "to a sketchy coding boot camp learn a",
+      "offset": 9760,
+      "duration": 3680
+    },
+    {
+      "text": "few days worth of BackboneJS and",
+      "offset": 11599,
+      "duration": 3841
+    },
+    {
+      "text": "immediately land a six-f figureure job",
+      "offset": 13440,
+      "duration": 4080
+    },
+    {
+      "text": "back before murder hornets NFTTS",
+      "offset": 15440,
+      "duration": 4400
+    },
+    {
+      "text": "MorbiiUS and before AI killed a junior",
+      "offset": 17520,
+      "duration": 4320
+    },
+    {
+      "text": "developer the work life balance ping",
+      "offset": 19840,
+      "duration": 3920
+    },
+    {
+      "text": "pong tables and paychecks bigger than",
+      "offset": 21840,
+      "duration": 3679
+    },
+    {
+      "text": "other real licensed engineers weren't",
+      "offset": 23760,
+      "duration": 3439
+    },
+    {
+      "text": "enough we also needed to act like we",
+      "offset": 25519,
+      "duration": 3361
+    },
+    {
+      "text": "were so overwhelmed that if we had to",
+      "offset": 27199,
+      "duration": 3361
+    },
+    {
+      "text": "learn one more thing, we would quit and",
+      "offset": 28880,
+      "duration": 3519
+    },
+    {
+      "text": "take on a much more rewarding job, like",
+      "offset": 30560,
+      "duration": 3760
+    },
+    {
+      "text": "being a literal farmer. We even invented",
+      "offset": 32399,
+      "duration": 3361
+    },
+    {
+      "text": "a new medical condition for the",
+      "offset": 34320,
+      "duration": 4000
+    },
+    {
+      "text": "psychosis called JavaScript fatigue. The",
+      "offset": 35760,
+      "duration": 4400
+    },
+    {
+      "text": "idea was that there were so many free,",
+      "offset": 38320,
+      "duration": 3840
+    },
+    {
+      "text": "open-sourced, volunteer-led libraries",
+      "offset": 40160,
+      "duration": 3760
+    },
+    {
+      "text": "and frameworks to choose from that it",
+      "offset": 42160,
+      "duration": 3520
+    },
+    {
+      "text": "was too overwhelming to both learn them",
+      "offset": 43920,
+      "duration": 3680
+    },
+    {
+      "text": "while also trying to unlock Fortnite's",
+      "offset": 45680,
+      "duration": 3600
+    },
+    {
+      "text": "battle pass each season. Although things",
+      "offset": 47600,
+      "duration": 3279
+    },
+    {
+      "text": "are a bit different today, there's one",
+      "offset": 49280,
+      "duration": 3279
+    },
+    {
+      "text": "man crazy enough to think he can bring",
+      "offset": 50879,
+      "duration": 3680
+    },
+    {
+      "text": "back the JavaScript fatigue. In today's",
+      "offset": 52559,
+      "duration": 3840
+    },
+    {
+      "text": "video, we'll take a look at this new UI",
+      "offset": 54559,
+      "duration": 3680
+    },
+    {
+      "text": "framework and decide whether it would be",
+      "offset": 56399,
+      "duration": 3680
+    },
+    {
+      "text": "easier to learn it or just become a coal",
+      "offset": 58239,
+      "duration": 4721
+    },
+    {
+      "text": "miner instead. It is November 6, 2025,",
+      "offset": 60079,
+      "duration": 4400
+    },
+    {
+      "text": "and you are watching the code report.",
+      "offset": 62960,
+      "duration": 3120
+    },
+    {
+      "text": "And nowadays, if someone tells you they",
+      "offset": 64479,
+      "duration": 3201
+    },
+    {
+      "text": "made a new UI framework, you should",
+      "offset": 66080,
+      "duration": 3359
+    },
+    {
+      "text": "ignore them and call McGruff the crime",
+      "offset": 67680,
+      "duration": 4080
+    },
+    {
+      "text": "dog because they're probably on DMT",
+      "offset": 69439,
+      "duration": 4081
+    },
+    {
+      "text": "conversing telepathically with machine",
+      "offset": 71760,
+      "duration": 3520
+    },
+    {
+      "text": "elves about button hover states in the",
+      "offset": 73520,
+      "duration": 3360
+    },
+    {
+      "text": "seventh dimension. The one exception,",
+      "offset": 75280,
+      "duration": 3440
+    },
+    {
+      "text": "though, is if that person is Dominic",
+      "offset": 76880,
+      "duration": 3840
+    },
+    {
+      "text": "Galloway. Dominic first became popular",
+      "offset": 78720,
+      "duration": 3680
+    },
+    {
+      "text": "about a decade ago when he released",
+      "offset": 80720,
+      "duration": 3439
+    },
+    {
+      "text": "Inferno, which you can think of like",
+      "offset": 82400,
+      "duration": 4079
+    },
+    {
+      "text": "React if React were actually fast. No",
+      "offset": 84159,
+      "duration": 3521
+    },
+    {
+      "text": "one really used it, but it was",
+      "offset": 86479,
+      "duration": 2881
+    },
+    {
+      "text": "impressive enough to get him an offer at",
+      "offset": 87680,
+      "duration": 3200
+    },
+    {
+      "text": "Facebook, where he joined to work on the",
+      "offset": 89360,
+      "duration": 3680
+    },
+    {
+      "text": "React core team in 2016. A few years",
+      "offset": 90880,
+      "duration": 4080
+    },
+    {
+      "text": "later, he realized working on React kind",
+      "offset": 93040,
+      "duration": 3680
+    },
+    {
+      "text": "of sucks, which led him to join Verscell",
+      "offset": 94960,
+      "duration": 4320
+    },
+    {
+      "text": "to work on the spelt core team in 2023.",
+      "offset": 96720,
+      "duration": 4560
+    },
+    {
+      "text": "A few years after that, he realized he's",
+      "offset": 99280,
+      "duration": 3760
+    },
+    {
+      "text": "actually a peacock who needed to fly.",
+      "offset": 101280,
+      "duration": 3440
+    },
+    {
+      "text": "And his time on the React and Spel Core",
+      "offset": 103040,
+      "duration": 3439
+    },
+    {
+      "text": "teams made him uniquely qualified to do",
+      "offset": 104720,
+      "duration": 3359
+    },
+    {
+      "text": "it again. And that brings us to a new",
+      "offset": 106479,
+      "duration": 3361
+    },
+    {
+      "text": "TypeScript framework called Ripple. A",
+      "offset": 108079,
+      "duration": 3921
+    },
+    {
+      "text": "compiler-driven view library for the web",
+      "offset": 109840,
+      "duration": 4639
+    },
+    {
+      "text": "based on a superset of JSX. As you can",
+      "offset": 112000,
+      "duration": 4159
+    },
+    {
+      "text": "probably guess, it looks like the love",
+      "offset": 114479,
+      "duration": 3841
+    },
+    {
+      "text": "child of spelt and react with a hint of",
+      "offset": 116159,
+      "duration": 4560
+    },
+    {
+      "text": "infidelity. With SolidJS, you define a",
+      "offset": 118320,
+      "duration": 4320
+    },
+    {
+      "text": "component with a component keyword. And",
+      "offset": 120719,
+      "duration": 4161
+    },
+    {
+      "text": "you can use this JSX like syntax to",
+      "offset": 122640,
+      "duration": 4720
+    },
+    {
+      "text": "describe your UI. But unlike JSX,",
+      "offset": 124880,
+      "duration": 4159
+    },
+    {
+      "text": "instead of writing expressions, you",
+      "offset": 127360,
+      "duration": 3280
+    },
+    {
+      "text": "write statements, which means you can do",
+      "offset": 129039,
+      "duration": 3361
+    },
+    {
+      "text": "some cool things like write an if",
+      "offset": 130640,
+      "duration": 3679
+    },
+    {
+      "text": "statement or for loop directly within",
+      "offset": 132400,
+      "duration": 3839
+    },
+    {
+      "text": "your template. And you can use the style",
+      "offset": 134319,
+      "duration": 4401
+    },
+    {
+      "text": "element to get native CSS styling that's",
+      "offset": 136239,
+      "duration": 4080
+    },
+    {
+      "text": "scoped and localized to the component",
+      "offset": 138720,
+      "duration": 3599
+    },
+    {
+      "text": "where it's defined. But its best feature",
+      "offset": 140319,
+      "duration": 4000
+    },
+    {
+      "text": "may be how it handles reactivity. You",
+      "offset": 142319,
+      "duration": 3761
+    },
+    {
+      "text": "use the track function to create a value",
+      "offset": 144319,
+      "duration": 3920
+    },
+    {
+      "text": "that can change over time and prepend it",
+      "offset": 146080,
+      "duration": 4080
+    },
+    {
+      "text": "with the at sign whenever you need to",
+      "offset": 148239,
+      "duration": 3681
+    },
+    {
+      "text": "read or write it. From there with fine",
+      "offset": 150160,
+      "duration": 3680
+    },
+    {
+      "text": "grain rendering, Ripple will surgically",
+      "offset": 151920,
+      "duration": 4240
+    },
+    {
+      "text": "apply any mutations it needs to the DOM.",
+      "offset": 153840,
+      "duration": 3759
+    },
+    {
+      "text": "Although it's brand new, it already",
+      "offset": 156160,
+      "duration": 3439
+    },
+    {
+      "text": "comes with prettier and ESLint support,",
+      "offset": 157599,
+      "duration": 3920
+    },
+    {
+      "text": "a VS Code extension for syntax",
+      "offset": 159599,
+      "duration": 3761
+    },
+    {
+      "text": "highlighting and IntelliSense, and of",
+      "offset": 161519,
+      "duration": 3761
+    },
+    {
+      "text": "course, full TypeScript integration and",
+      "offset": 163360,
+      "duration": 3599
+    },
+    {
+      "text": "type-cheing. Who knows if it'll catch on",
+      "offset": 165280,
+      "duration": 3280
+    },
+    {
+      "text": "or not, but if it doesn't, you can at",
+      "offset": 166959,
+      "duration": 3280
+    },
+    {
+      "text": "least keep having your AI write your",
+      "offset": 168560,
+      "duration": 3920
+    },
+    {
+      "text": "React code with Curo, the sponsor of",
+      "offset": 170239,
+      "duration": 5121
+    },
+    {
+      "text": "today's video. It's a new AI IDE created",
+      "offset": 172480,
+      "duration": 5520
+    },
+    {
+      "text": "by AWS that's built for larger, more",
+      "offset": 175360,
+      "duration": 4640
+    },
+    {
+      "text": "complex projects using an approach",
+      "offset": 178000,
+      "duration": 3920
+    },
+    {
+      "text": "called specdriven development. Instead",
+      "offset": 180000,
+      "duration": 3760
+    },
+    {
+      "text": "of diving straight into code, Kira",
+      "offset": 181920,
+      "duration": 3920
+    },
+    {
+      "text": "starts with a requirements MD file to",
+      "offset": 183760,
+      "duration": 4160
+    },
+    {
+      "text": "define your user story and acceptance",
+      "offset": 185840,
+      "duration": 4319
+    },
+    {
+      "text": "criteria. Then it creates a design dock",
+      "offset": 187920,
+      "duration": 4480
+    },
+    {
+      "text": "to outline things like your architecture",
+      "offset": 190159,
+      "duration": 4641
+    },
+    {
+      "text": "plan and testing strategy. Those specs",
+      "offset": 192400,
+      "duration": 4080
+    },
+    {
+      "text": "then get merged into an implementation",
+      "offset": 194800,
+      "duration": 3920
+    },
+    {
+      "text": "file where each task outlines what code",
+      "offset": 196480,
+      "duration": 4160
+    },
+    {
+      "text": "the AI should write and lets you track",
+      "offset": 198720,
+      "duration": 3760
+    },
+    {
+      "text": "progress along the way. It even lets you",
+      "offset": 200640,
+      "duration": 3920
+    },
+    {
+      "text": "automate repetitive jobs by setting up",
+      "offset": 202480,
+      "duration": 4240
+    },
+    {
+      "text": "agent hooks that trigger on specific",
+      "offset": 204560,
+      "duration": 4319
+    },
+    {
+      "text": "events, like updating your documentation",
+      "offset": 206720,
+      "duration": 4480
+    },
+    {
+      "text": "whenever you save a file. But Kira is",
+      "offset": 208879,
+      "duration": 4401
+    },
+    {
+      "text": "especially useful when working on teams",
+      "offset": 211200,
+      "duration": 4000
+    },
+    {
+      "text": "where design docs and consistent code",
+      "offset": 213280,
+      "duration": 3519
+    },
+    {
+      "text": "quality matter. And you can try it out",
+      "offset": 215200,
+      "duration": 3440
+    },
+    {
+      "text": "for free using the link below or join",
+      "offset": 216799,
+      "duration": 4000
+    },
+    {
+      "text": "the Kiraen hackathon to access all their",
+      "offset": 218640,
+      "duration": 4159
+    },
+    {
+      "text": "protier features and see if it actually",
+      "offset": 220799,
+      "duration": 3520
+    },
+    {
+      "text": "lives up to the hype. But this has been",
+      "offset": 222799,
+      "duration": 3440
+    },
+    {
+      "text": "the code report. Thanks for watching and",
+      "offset": 224319,
+      "duration": 4961
+    },
+    {
+      "text": "I will see you in the next",
+      "offset": 226239,
+      "duration": 3041
+    }
+  ]
+}
