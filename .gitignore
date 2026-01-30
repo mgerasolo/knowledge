@@ -1,0 +1,20 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Spike (pre-alpha prototype - throwaway code)
+spike/node_modules/
+spike/.env
+
+# Symlinks to shared infrastructure (not project code)
+AppServices
+Standards
+
+# Environment and secrets
+.env
+*.env.local
