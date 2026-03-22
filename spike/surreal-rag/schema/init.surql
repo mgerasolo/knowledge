@@ -64,7 +64,8 @@ DEFINE FIELD published_at ON video TYPE datetime;
 DEFINE FIELD duration_seconds ON video TYPE option<float>;
 DEFINE FIELD url ON video TYPE string;
 DEFINE FIELD thumbnail_url ON video TYPE option<string>;
-DEFINE FIELD fetched_at ON video TYPE datetime;
+DEFINE FIELD fetched_at ON video TYPE datetime;              -- when transcript was fetched from YouTube
+DEFINE FIELD ingested_at ON video TYPE option<datetime>;     -- when added to our database (for "what's new")
 DEFINE FIELD transcript_path ON video TYPE option<string>;
 DEFINE FIELD segment_count ON video TYPE option<int>;
 -- Denormalized for query performance
@@ -72,6 +73,7 @@ DEFINE FIELD channel_handle ON video TYPE option<string>;
 DEFINE FIELD domain ON video TYPE option<string>;
 DEFINE INDEX video_youtube_idx ON video FIELDS youtube_id UNIQUE;
 DEFINE INDEX video_published_idx ON video FIELDS published_at;
+DEFINE INDEX video_ingested_idx ON video FIELDS ingested_at;   -- "what's new in my library"
 DEFINE INDEX video_domain_idx ON video FIELDS domain;
 
 -- Segments (chunks of transcript with embeddings and timestamps)
