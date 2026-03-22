@@ -1,0 +1,49 @@
+# KnowledgeStack Spike - Target Channels
+# These channels will be ingested for the SurrealDB RAG spike
+
+channels:
+  # Religion
+  - name: "Bible Study with Myron Golden"
+    url: "https://www.youtube.com/@BibleStudyWithMyronGolden"
+    domain: "religion"
+    lookback: "36 months"  # Full 3 years
+    priority: 1
+
+  # Business
+  - name: "Myron Golden"
+    url: "https://www.youtube.com/@MyronGolden"
+    domain: "business"
+    lookback: "36 months"  # Full 3 years
+    priority: 1
+
+  # OpenClaw - AI/Automation
+  - name: "Alex Finn"
+    url: "https://www.youtube.com/@AlexFinnOfficial"
+    domain: "ai-automation"
+    lookback: "3 months"
+    priority: 2
+
+  # AI Coding
+  - name: "AI Labs"
+    url: "https://www.youtube.com/@AILABS-393"
+    domain: "ai-coding"
+    lookback: "12 months"
+    priority: 2
+
+  - name: "MreFlow"
+    url: "https://www.youtube.com/@mreflow"
+    domain: "ai-coding"
+    lookback: "12 months"
+    priority: 2
+
+# Spike configuration
+spike:
+  target_db: "surrealdb"
+  target_host: "banner"
+  embedding_model: "nomic-embed-text"
+  embedding_dimensions: 768
+
+# Rate limiting
+rate_limits:
+  requests_per_minute: 10
+  delay_between_channels: 60  # seconds
