@@ -1,0 +1,591 @@
+{
+  "videoId": "Q8QdKRbC1O0",
+  "title": "The gaming console wars just got weird...",
+  "segments": [
+    {
+      "text": "It's a gaming console. No, it's a Linux",
+      "offset": 80,
+      "duration": 4800
+    },
+    {
+      "text": "PC. No, it's the new Steam machine. A",
+      "offset": 2320,
+      "duration": 4559
+    },
+    {
+      "text": "black box that lets you harvest organs",
+      "offset": 4880,
+      "duration": 3920
+    },
+    {
+      "text": "on Rim World. Then hit tab to switch",
+      "offset": 6879,
+      "duration": 3680
+    },
+    {
+      "text": "into a Linux desktop where you can hack",
+      "offset": 8800,
+      "duration": 3839
+    },
+    {
+      "text": "into the Pentagon from your couch. For",
+      "offset": 10559,
+      "duration": 3841
+    },
+    {
+      "text": "the first time in history, a gaming",
+      "offset": 12639,
+      "duration": 3841
+    },
+    {
+      "text": "console ships with a package manager.",
+      "offset": 14400,
+      "duration": 3920
+    },
+    {
+      "text": "Instead of Windows Bloatware, you get",
+      "offset": 16480,
+      "duration": 4400
+    },
+    {
+      "text": "Steam OS, a Linux DRO with big picture",
+      "offset": 18320,
+      "duration": 4320
+    },
+    {
+      "text": "mode duct taped on top of it. While",
+      "offset": 20880,
+      "duration": 4080
+    },
+    {
+      "text": "other consoles like Xbox and PlayStation",
+      "offset": 22640,
+      "duration": 4320
+    },
+    {
+      "text": "brag about exclusive titles, this thing",
+      "offset": 24960,
+      "duration": 4800
+    },
+    {
+      "text": "brags about Pac-Man flag SYU. Because",
+      "offset": 26960,
+      "duration": 4719
+    },
+    {
+      "text": "this black box is running Arch Linux",
+      "offset": 29760,
+      "duration": 3680
+    },
+    {
+      "text": "under the hood, and that means finally",
+      "offset": 31679,
+      "duration": 3841
+    },
+    {
+      "text": "every gamer will be able to say, \"I use",
+      "offset": 33440,
+      "duration": 3760
+    },
+    {
+      "text": "Arch, by the way.\" And it's even got a",
+      "offset": 35520,
+      "duration": 3680
+    },
+    {
+      "text": "customizable LED strip, y'all. In",
+      "offset": 37200,
+      "duration": 3440
+    },
+    {
+      "text": "today's video, we'll break down the",
+      "offset": 39200,
+      "duration": 3519
+    },
+    {
+      "text": "details of the brand new Steam Machine",
+      "offset": 40640,
+      "duration": 4480
+    },
+    {
+      "text": "and find out if 2026 will finally be the",
+      "offset": 42719,
+      "duration": 4081
+    },
+    {
+      "text": "year of the Linux desktop. It is",
+      "offset": 45120,
+      "duration": 4240
+    },
+    {
+      "text": "November 14th, 2025, and you're watching",
+      "offset": 46800,
+      "duration": 4880
+    },
+    {
+      "text": "the Code Report. Back [music] in 2015,",
+      "offset": 49360,
+      "duration": 4240
+    },
+    {
+      "text": "Valve's original Steam machine crashed",
+      "offset": 51680,
+      "duration": 3600
+    },
+    {
+      "text": "harder than a Segfold in production on a",
+      "offset": 53600,
+      "duration": 3840
+    },
+    {
+      "text": "Friday deploy. But like a developer who",
+      "offset": 55280,
+      "duration": 4480
+    },
+    {
+      "text": "refuses to accept their PR got rejected,",
+      "offset": 57440,
+      "duration": 4240
+    },
+    {
+      "text": "Valve spent the last decade secretly",
+      "offset": 59760,
+      "duration": 3760
+    },
+    {
+      "text": "building the most based gaming platform",
+      "offset": 61680,
+      "duration": 4080
+    },
+    {
+      "text": "in existence today. And did I mention it",
+      "offset": 63520,
+      "duration": 4080
+    },
+    {
+      "text": "runs Arch Linux, by the way? From an",
+      "offset": 65760,
+      "duration": 3760
+    },
+    {
+      "text": "enduser standpoint, that means you can",
+      "offset": 67600,
+      "duration": 3760
+    },
+    {
+      "text": "be playing AAA games on your television",
+      "offset": 69520,
+      "duration": 3680
+    },
+    {
+      "text": "set at one moment, then quickly switch",
+      "offset": 71360,
+      "duration": 4320
+    },
+    {
+      "text": "into a fullyfledged PC and clock into",
+      "offset": 73200,
+      "duration": 4320
+    },
+    {
+      "text": "your remote job and pretend like you're",
+      "offset": 75680,
+      "duration": 3360
+    },
+    {
+      "text": "doing something productive. What's",
+      "offset": 77520,
+      "duration": 3440
+    },
+    {
+      "text": "especially unique is that this operating",
+      "offset": 79040,
+      "duration": 3840
+    },
+    {
+      "text": "system is not Windows-based like most",
+      "offset": 80960,
+      "duration": 4240
+    },
+    {
+      "text": "gaming PCs, but rather Linux- based",
+      "offset": 82880,
+      "duration": 4320
+    },
+    {
+      "text": "thanks to Steam OS, which have I",
+      "offset": 85200,
+      "duration": 3919
+    },
+    {
+      "text": "mentioned is based on Arch Linux, by the",
+      "offset": 87200,
+      "duration": 4640
+    },
+    {
+      "text": "way, and uses KDE Plasma as the desktop",
+      "offset": 89119,
+      "duration": 4401
+    },
+    {
+      "text": "environment. In addition, you should",
+      "offset": 91840,
+      "duration": 3200
+    },
+    {
+      "text": "know that you're not limited to just",
+      "offset": 93520,
+      "duration": 3440
+    },
+    {
+      "text": "playing Linux native games thanks to",
+      "offset": 95040,
+      "duration": 4079
+    },
+    {
+      "text": "Valve's work on an open- source project",
+      "offset": 96960,
+      "duration": 4479
+    },
+    {
+      "text": "called Proton, which is a compatibility",
+      "offset": 99119,
+      "duration": 4161
+    },
+    {
+      "text": "layer that allows Windows games to run",
+      "offset": 101439,
+      "duration": 3841
+    },
+    {
+      "text": "seamlessly on Linux. But at the same",
+      "offset": 103280,
+      "duration": 3839
+    },
+    {
+      "text": "time, you're also not locked into",
+      "offset": 105280,
+      "duration": 3839
+    },
+    {
+      "text": "playing Steam games only. You can easily",
+      "offset": 107119,
+      "duration": 3921
+    },
+    {
+      "text": "switch over to desktop mode and launch",
+      "offset": 109119,
+      "duration": 3680
+    },
+    {
+      "text": "any game or app store that you want.",
+      "offset": 111040,
+      "duration": 3840
+    },
+    {
+      "text": "Inside the box, it's got a semi-custom",
+      "offset": 112799,
+      "duration": 5680
+    },
+    {
+      "text": "AMD chip that clocks in at 4.8 GHz. It's",
+      "offset": 114880,
+      "duration": 7440
+    },
+    {
+      "text": "got 16 GB of RAM, plus 8 GB of VRAM and",
+      "offset": 118479,
+      "duration": 6721
+    },
+    {
+      "text": "a semi-custom AMD GPU that's capable of",
+      "offset": 122320,
+      "duration": 5680
+    },
+    {
+      "text": "running 4K games at 60fps. These",
+      "offset": 125200,
+      "duration": 4880
+    },
+    {
+      "text": "hardware specs are decent, but not crazy",
+      "offset": 128000,
+      "duration": 3520
+    },
+    {
+      "text": "powerful by any stretch of the",
+      "offset": 130080,
+      "duration": 3120
+    },
+    {
+      "text": "imagination, but it should provide more",
+      "offset": 131520,
+      "duration": 3600
+    },
+    {
+      "text": "than enough horsepower for most games.",
+      "offset": 133200,
+      "duration": 3600
+    },
+    {
+      "text": "For perspective, though, I have trouble",
+      "offset": 135120,
+      "duration": 3759
+    },
+    {
+      "text": "running Microsoft Flight Simulator in VR",
+      "offset": 136800,
+      "duration": 4880
+    },
+    {
+      "text": "mode with my own PC that has 64 GB of",
+      "offset": 138879,
+      "duration": 5440
+    },
+    {
+      "text": "RAM and a GTX 4090. So, this thing may",
+      "offset": 141680,
+      "duration": 4080
+    },
+    {
+      "text": "not be for gamers who want to push",
+      "offset": 144319,
+      "duration": 3280
+    },
+    {
+      "text": "things to their absolute max potential.",
+      "offset": 145760,
+      "duration": 3360
+    },
+    {
+      "text": "However, the one thing we don't know yet",
+      "offset": 147599,
+      "duration": 3360
+    },
+    {
+      "text": "is the price. Although Steam has hinted",
+      "offset": 149120,
+      "duration": 3680
+    },
+    {
+      "text": "that their black box will be affordable",
+      "offset": 150959,
+      "duration": 4401
+    },
+    {
+      "text": "and should cost well under $1,000. If it",
+      "offset": 152800,
+      "duration": 5439
+    },
+    {
+      "text": "cost around five, six, or even $700, it",
+      "offset": 155360,
+      "duration": 4640
+    },
+    {
+      "text": "would be an incredible value. So, when",
+      "offset": 158239,
+      "duration": 4000
+    },
+    {
+      "text": "Trump's $2,000 STEMI checks hit our bank",
+      "offset": 160000,
+      "duration": 4000
+    },
+    {
+      "text": "accounts, it should be easily affordable",
+      "offset": 162239,
+      "duration": 3681
+    },
+    {
+      "text": "for everyone. It sounds awesome, but",
+      "offset": 164000,
+      "duration": 3519
+    },
+    {
+      "text": "there are some drawbacks to the Steam",
+      "offset": 165920,
+      "duration": 3360
+    },
+    {
+      "text": "machine. The hardware is fixed into the",
+      "offset": 167519,
+      "duration": 3521
+    },
+    {
+      "text": "system, which means less upgrade",
+      "offset": 169280,
+      "duration": 4160
+    },
+    {
+      "text": "flexibility than a full desktop PC, and",
+      "offset": 171040,
+      "duration": 4479
+    },
+    {
+      "text": "who knows if it'll be able to run GTA 6",
+      "offset": 173440,
+      "duration": 4159
+    },
+    {
+      "text": "when it finally comes out in 2028. And",
+      "offset": 175519,
+      "duration": 3761
+    },
+    {
+      "text": "if you're a developer, especially an",
+      "offset": 177599,
+      "duration": 3601
+    },
+    {
+      "text": "Arch user who wants full control over",
+      "offset": 179280,
+      "duration": 4000
+    },
+    {
+      "text": "every bit on the system, the Steam OS",
+      "offset": 181200,
+      "duration": 4319
+    },
+    {
+      "text": "flavor of Arch is probably not ideal.",
+      "offset": 183280,
+      "duration": 3840
+    },
+    {
+      "text": "And if your goal is to run and train",
+      "offset": 185519,
+      "duration": 3681
+    },
+    {
+      "text": "massive AI models locally, the Steam",
+      "offset": 187120,
+      "duration": 3759
+    },
+    {
+      "text": "Machine is definitely not the right tool",
+      "offset": 189200,
+      "duration": 3039
+    },
+    {
+      "text": "for the job. But if you want to",
+      "offset": 190879,
+      "duration": 3201
+    },
+    {
+      "text": "understand why AI is so resource",
+      "offset": 192239,
+      "duration": 3201
+    },
+    {
+      "text": "inensive, you need to learn the",
+      "offset": 194080,
+      "duration": 3439
+    },
+    {
+      "text": "fundamentals with Brilliant, the sponsor",
+      "offset": 195440,
+      "duration": 4560
+    },
+    {
+      "text": "of today's video. Their how AI works",
+      "offset": 197519,
+      "duration": 4000
+    },
+    {
+      "text": "course teaches you how to build a",
+      "offset": 200000,
+      "duration": 3440
+    },
+    {
+      "text": "functioning language model from scratch",
+      "offset": 201519,
+      "duration": 3761
+    },
+    {
+      "text": "and lets you experiment with things like",
+      "offset": 203440,
+      "duration": 3600
+    },
+    {
+      "text": "feature vectors to edit facial",
+      "offset": 205280,
+      "duration": 3760
+    },
+    {
+      "text": "expressions and images. This hands-on",
+      "offset": 207040,
+      "duration": 3839
+    },
+    {
+      "text": "approach is designed to help you master",
+      "offset": 209040,
+      "duration": 3919
+    },
+    {
+      "text": "challenging concepts over time while",
+      "offset": 210879,
+      "duration": 3601
+    },
+    {
+      "text": "allowing you to develop critical",
+      "offset": 212959,
+      "duration": 3121
+    },
+    {
+      "text": "thinking skills through real world",
+      "offset": 214480,
+      "duration": 3200
+    },
+    {
+      "text": "problem solving. To try everything",
+      "offset": 216080,
+      "duration": 3360
+    },
+    {
+      "text": "Brilliant has to offer for free by",
+      "offset": 217680,
+      "duration": 2960
+    },
+    {
+      "text": "visiting brilliant.org/fireship",
+      "offset": 219440,
+      "duration": 3920
+    },
+    {
+      "text": "org/fireship or scan the QR code on",
+      "offset": 220640,
+      "duration": 5360
+    },
+    {
+      "text": "screen to get 20% off an annual premium",
+      "offset": 223360,
+      "duration": 4400
+    },
+    {
+      "text": "subscription which gives you unlimited",
+      "offset": 226000,
+      "duration": 3920
+    },
+    {
+      "text": "daily access to everything on Brilliant.",
+      "offset": 227760,
+      "duration": 3680
+    },
+    {
+      "text": "This has been the code report. Thanks",
+      "offset": 229920,
+      "duration": 3280
+    },
+    {
+      "text": "for watching and I will see you in the",
+      "offset": 231440,
+      "duration": 4560
+    },
+    {
+      "text": "next one.",
+      "offset": 233200,
+      "duration": 2800
+    }
+  ]
+}

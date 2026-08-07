@@ -1,0 +1,51 @@
+youtube_handle,name,domain,tier,authority_score,relevance_score,ingestion_mode,notes
+MyronGolden,Myron Golden,business,supreme,10,10,auto,
+hubermanlab,Huberman Lab,health,supreme,10,9,auto,
+ChrisWillx,Chris Williamson - Modern Wisdom,mindset,supreme,9,9,auto,
+TheDiaryOfACEO,Steven Bartlett - DOAC,business,supreme,9,9,auto,Platform channel
+RealCoffeewithScottAdams,Scott Adams,political,supreme,8,8,auto,Scott Adams passed away; unclear how successors will perform
+AILABS-393,AI Labs,ai-tech,supreme,9,10,auto,
+BibleStudyWithMyronGolden,Myron Golden Bible Study,faith,supreme,10,9,auto,Myron Golden's Bible study channel
+JREClips,JRE Clips,general,supreme,8,8,auto,Joe Rogan clips (curated highlights)
+mindsetmentorpodcast,Mindset Mentor Podcast,mindset,supreme,9,9,auto,
+mreflow,Matt Wolfe,ai-tech,leaders,8,9,auto,AI weekly summaries (meta-knowledge channel)
+GregIsenberg,Greg Isenberg,ai-tech,leaders,8,8,auto,
+unsupervised-learning,Unsupervised Learning,ai-tech,leaders,8,8,auto,
+raroque,Raroque,ai-tech,leaders,7,8,auto,
+replit,Replit,ai-tech,leaders,8,9,auto,
+BMadCode,BMadCode,ai-tech,leaders,7,8,auto,
+TheIcedCoffeeHour,The Iced Coffee Hour,business,leaders,7,7,auto,
+VALUETAINMENT,Valuetainment - Patrick Bet-David,political,leaders,8,8,auto,
+NapoleonHill_Wisdom,Napoleon Hill Wisdom,mindset,leaders,8,8,auto,
+JordanBPeterson,Jordan B Peterson,mindset,leaders,9,8,auto,
+pradipjamnadasmd,Dr. Pradip Jamnadas,health,leaders,9,8,auto,Medical — cardiology
+AfterSkool,After Skool,mindset,leaders,8,8,auto,
+ultimatehumanpodcast,Ultimate Human Podcast,health,leaders,7,7,auto,
+askvinh,Ask Vinh,mindset,leaders,7,7,auto,
+melrobbins,Mel Robbins,mindset,leaders,8,8,auto,
+joerogan,Joe Rogan,general,mid-tier,8,7,auto,Platform channel — value depends on guest
+lexfridman,Lex Fridman,general,mid-tier,9,8,auto,Hybrid channel — host + guest both contribute
+AZisk,AZisk,ai-tech,mid-tier,6,7,auto,
+Mark_Kashef,Mark Kashef,ai-tech,mid-tier,6,7,auto,
+NetworkChuck,NetworkChuck,ai-tech,mid-tier,7,7,auto,
+sabrina_ramonov,Sabrina Ramonov,ai-tech,mid-tier,6,7,auto,
+allin,All-In Podcast,business,mid-tier,8,7,auto,
+PodcastBigDeal,Big Deal Podcast,business,mid-tier,6,6,auto,
+MyFirstMillionPod,My First Million,business,mid-tier,7,7,auto,
+RubinReport,Rubin Report,political,mid-tier,7,6,auto,
+TuckerCarlson,Tucker Carlson,political,mid-tier,8,7,auto,
+Thebasedconservative,The Based Conservative,political,mid-tier,6,6,auto,
+ShawnRyanShow,Shawn Ryan Show,political,mid-tier,7,7,auto,
+NickShirley,Nick Shirley,political,mid-tier,6,6,auto,
+ChampionsMentality365,Champions Mentality,mindset,mid-tier,6,6,auto,
+Charismaoncommand,Charisma on Command,mindset,mid-tier,7,7,auto,
+JimRohnMotivationVideos,Jim Rohn Motivation,mindset,mid-tier,8,7,auto,
+DavidOndrej,David Ondrej,ai-tech,occasional,5,6,auto,
+BartSlodyczka,Bart Slodyczka,ai-tech,occasional,5,6,auto,
+futurepedia_io,Futurepedia,ai-tech,occasional,6,6,auto,
+AI.Tooltip,AI Tooltip,ai-tech,occasional,5,5,auto,
+johnnynelofficial,Johnny Nel,ai-tech,occasional,5,5,auto,
+AlexFinnOfficial,Alex Finn,ai-tech,occasional,5,5,auto,
+danmartell,Dan Martell,business,occasional,7,6,auto,
+RussellBrand,Russell Brand,political,occasional,6,5,auto,
+TheOfficialCartierFamily,The Cartier Family,political,occasional,5,5,auto,

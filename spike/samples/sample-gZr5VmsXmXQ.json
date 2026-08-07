@@ -1,0 +1,1461 @@
+{
+  "videoId": "gZr5VmsXmXQ",
+  "title": "Vercel Just Revealed Claude Code's Greatest Advantage",
+  "segments": [
+    {
+      "text": "Ever since models started getting",
+      "offset": 160,
+      "duration": 3440
+    },
+    {
+      "text": "powerful, many people have started",
+      "offset": 1760,
+      "duration": 3360
+    },
+    {
+      "text": "building really cool products,",
+      "offset": 3600,
+      "duration": 3279
+    },
+    {
+      "text": "integrating models into them, and",
+      "offset": 5120,
+      "duration": 3600
+    },
+    {
+      "text": "solving lots of problems for us. But",
+      "offset": 6879,
+      "duration": 3921
+    },
+    {
+      "text": "these systems consume a lot of tokens,",
+      "offset": 8720,
+      "duration": 3280
+    },
+    {
+      "text": "especially if you're actually",
+      "offset": 10800,
+      "duration": 3680
+    },
+    {
+      "text": "integrating a model using an API. The",
+      "offset": 12000,
+      "duration": 4080
+    },
+    {
+      "text": "solution to this is much simpler than",
+      "offset": 14480,
+      "duration": 3520
+    },
+    {
+      "text": "you think. The best architecture is not",
+      "offset": 16080,
+      "duration": 4080
+    },
+    {
+      "text": "some extreme pipeline or highly scaled",
+      "offset": 18000,
+      "duration": 4240
+    },
+    {
+      "text": "tuning, but actually an old philosophy",
+      "offset": 20160,
+      "duration": 4080
+    },
+    {
+      "text": "that forms the basis of a Unix-based",
+      "offset": 22240,
+      "duration": 4400
+    },
+    {
+      "text": "system that everything is a file. Now, I",
+      "offset": 24240,
+      "duration": 4000
+    },
+    {
+      "text": "know they weren't talking about model",
+      "offset": 26640,
+      "duration": 3360
+    },
+    {
+      "text": "costs and we're talking about devices",
+      "offset": 28240,
+      "duration": 3920
+    },
+    {
+      "text": "and files, but surprisingly enough, the",
+      "offset": 30000,
+      "duration": 4160
+    },
+    {
+      "text": "solution to this high-cost issue is the",
+      "offset": 32160,
+      "duration": 3680
+    },
+    {
+      "text": "exact same principle. And this is",
+      "offset": 34160,
+      "duration": 3440
+    },
+    {
+      "text": "exactly what a software engineer at",
+      "offset": 35840,
+      "duration": 4000
+    },
+    {
+      "text": "Versel talks about. Before we explore",
+      "offset": 37600,
+      "duration": 4240
+    },
+    {
+      "text": "why files are the solution, let's",
+      "offset": 39840,
+      "duration": 3840
+    },
+    {
+      "text": "understand a few things about how these",
+      "offset": 41840,
+      "duration": 3920
+    },
+    {
+      "text": "models actually work. Models have been",
+      "offset": 43680,
+      "duration": 4320
+    },
+    {
+      "text": "trained on massive amounts of code. This",
+      "offset": 45760,
+      "duration": 3920
+    },
+    {
+      "text": "is the exact reason why they're better",
+      "offset": 48000,
+      "duration": 3600
+    },
+    {
+      "text": "at understanding code, directory",
+      "offset": 49680,
+      "duration": 4080
+    },
+    {
+      "text": "structures, and native bash scripts that",
+      "offset": 51600,
+      "duration": 4240
+    },
+    {
+      "text": "developers use to navigate files and",
+      "offset": 53760,
+      "duration": 3920
+    },
+    {
+      "text": "find what they need. When an agent uses",
+      "offset": 55840,
+      "duration": 4239
+    },
+    {
+      "text": "GP and ls, it's not doing something new.",
+      "offset": 57680,
+      "duration": 4160
+    },
+    {
+      "text": "It's simply doing something it already",
+      "offset": 60079,
+      "duration": 3521
+    },
+    {
+      "text": "knows how to do, just in a more",
+      "offset": 61840,
+      "duration": 3599
+    },
+    {
+      "text": "controlled way. This approach isn't",
+      "offset": 63600,
+      "duration": 4240
+    },
+    {
+      "text": "limited to code. Agents can navigate any",
+      "offset": 65439,
+      "duration": 4481
+    },
+    {
+      "text": "directory containing anything, be it",
+      "offset": 67840,
+      "duration": 3760
+    },
+    {
+      "text": "code or not, because they're already",
+      "offset": 69920,
+      "duration": 3760
+    },
+    {
+      "text": "comfortable with commands and understand",
+      "offset": 71600,
+      "duration": 4160
+    },
+    {
+      "text": "file systems. Whenever an agent needs",
+      "offset": 73680,
+      "duration": 3759
+    },
+    {
+      "text": "something, it looks around the file",
+      "offset": 75760,
+      "duration": 3760
+    },
+    {
+      "text": "system using native bash commands like",
+      "offset": 77439,
+      "duration": 4481
+    },
+    {
+      "text": "ls and find. Once the agent finds the",
+      "offset": 79520,
+      "duration": 4480
+    },
+    {
+      "text": "exact file using find, it searches for",
+      "offset": 81920,
+      "duration": 4160
+    },
+    {
+      "text": "relevant content within that file using",
+      "offset": 84000,
+      "duration": 4159
+    },
+    {
+      "text": "pattern matching with grep and cat. Only",
+      "offset": 86080,
+      "duration": 4160
+    },
+    {
+      "text": "a small relevant slice of information is",
+      "offset": 88159,
+      "duration": 3841
+    },
+    {
+      "text": "sent to the model while the rest stays",
+      "offset": 90240,
+      "duration": 3519
+    },
+    {
+      "text": "out of memory, keeping the context",
+      "offset": 92000,
+      "duration": 3360
+    },
+    {
+      "text": "window clean. This means we're not",
+      "offset": 93759,
+      "duration": 3441
+    },
+    {
+      "text": "burning through tokens on irrelevant",
+      "offset": 95360,
+      "duration": 3680
+    },
+    {
+      "text": "data that the model doesn't need. Using",
+      "offset": 97200,
+      "duration": 3680
+    },
+    {
+      "text": "this approach, the agent returns a",
+      "offset": 99040,
+      "duration": 3680
+    },
+    {
+      "text": "structured output. This pattern worked",
+      "offset": 100880,
+      "duration": 3680
+    },
+    {
+      "text": "so well that Versel ended up open",
+      "offset": 102720,
+      "duration": 3920
+    },
+    {
+      "text": "sourcing a bash tool built specifically",
+      "offset": 104560,
+      "duration": 4160
+    },
+    {
+      "text": "around it, giving agents the ability to",
+      "offset": 106640,
+      "duration": 4080
+    },
+    {
+      "text": "explore file systems the same way a",
+      "offset": 108720,
+      "duration": 4000
+    },
+    {
+      "text": "developer would. When building large",
+      "offset": 110720,
+      "duration": 3840
+    },
+    {
+      "text": "language model systems, there are two",
+      "offset": 112720,
+      "duration": 3679
+    },
+    {
+      "text": "ways of providing the right information",
+      "offset": 114560,
+      "duration": 3760
+    },
+    {
+      "text": "to the model. Either through a detailed",
+      "offset": 116399,
+      "duration": 3921
+    },
+    {
+      "text": "system prompt, hoping the agent actually",
+      "offset": 118320,
+      "duration": 3920
+    },
+    {
+      "text": "follows it, or by feeding a lot of data",
+      "offset": 120320,
+      "duration": 3759
+    },
+    {
+      "text": "into a vector database and using",
+      "offset": 122240,
+      "duration": 3919
+    },
+    {
+      "text": "semantic search to extract it. But each",
+      "offset": 124079,
+      "duration": 4400
+    },
+    {
+      "text": "approach has limitations. System prompts",
+      "offset": 126159,
+      "duration": 4320
+    },
+    {
+      "text": "have a limited token window which limits",
+      "offset": 128479,
+      "duration": 3840
+    },
+    {
+      "text": "how much information we can send to the",
+      "offset": 130479,
+      "duration": 3921
+    },
+    {
+      "text": "model at a time. To handle larger data",
+      "offset": 132319,
+      "duration": 4321
+    },
+    {
+      "text": "sets, we use semantic search which finds",
+      "offset": 134400,
+      "duration": 4000
+    },
+    {
+      "text": "information based on matching meanings",
+      "offset": 136640,
+      "duration": 3760
+    },
+    {
+      "text": "to the query. But vector search is used",
+      "offset": 138400,
+      "duration": 3919
+    },
+    {
+      "text": "for semantic similarity rather than",
+      "offset": 140400,
+      "duration": 4000
+    },
+    {
+      "text": "exact searches. It returns chunks of",
+      "offset": 142319,
+      "duration": 4081
+    },
+    {
+      "text": "data that match the general context of",
+      "offset": 144400,
+      "duration": 3919
+    },
+    {
+      "text": "the query, not necessarily the specific",
+      "offset": 146400,
+      "duration": 3520
+    },
+    {
+      "text": "value we're looking for. This leaves",
+      "offset": 148319,
+      "duration": 3280
+    },
+    {
+      "text": "extracting the right content from all",
+      "offset": 149920,
+      "duration": 3520
+    },
+    {
+      "text": "the chunks to the model itself. File",
+      "offset": 151599,
+      "duration": 3521
+    },
+    {
+      "text": "systems, however, offer a different",
+      "offset": 153440,
+      "duration": 3600
+    },
+    {
+      "text": "approach. With file systems, the",
+      "offset": 155120,
+      "duration": 3839
+    },
+    {
+      "text": "structure actually maps to your domain.",
+      "offset": 157040,
+      "duration": 3600
+    },
+    {
+      "text": "You often have relationships between",
+      "offset": 158959,
+      "duration": 3441
+    },
+    {
+      "text": "files in the folder structure that",
+      "offset": 160640,
+      "duration": 3599
+    },
+    {
+      "text": "mirror the relationships between parent",
+      "offset": 162400,
+      "duration": 3839
+    },
+    {
+      "text": "folders. With file systems, you don't",
+      "offset": 164239,
+      "duration": 3921
+    },
+    {
+      "text": "have to flatten these relationships into",
+      "offset": 166239,
+      "duration": 3841
+    },
+    {
+      "text": "model understandable vector chunks,",
+      "offset": 168160,
+      "duration": 3760
+    },
+    {
+      "text": "which helps avoid missing relationships",
+      "offset": 170080,
+      "duration": 3760
+    },
+    {
+      "text": "that are usually lost in semantic",
+      "offset": 171920,
+      "duration": 3760
+    },
+    {
+      "text": "search. These hierarchical connections",
+      "offset": 173840,
+      "duration": 3840
+    },
+    {
+      "text": "are preserved naturally, maintaining the",
+      "offset": 175680,
+      "duration": 4080
+    },
+    {
+      "text": "organizational logic that already exists",
+      "offset": 177680,
+      "duration": 4080
+    },
+    {
+      "text": "in your data. Another advantage is that",
+      "offset": 179760,
+      "duration": 4000
+    },
+    {
+      "text": "retrieval is precise because Grep and",
+      "offset": 181760,
+      "duration": 4559
+    },
+    {
+      "text": "Bash tools return exact matches. Unlike",
+      "offset": 183760,
+      "duration": 4640
+    },
+    {
+      "text": "vector search, which returns all chunks",
+      "offset": 186319,
+      "duration": 3920
+    },
+    {
+      "text": "that loosely match the query and then",
+      "offset": 188400,
+      "duration": 3680
+    },
+    {
+      "text": "leaves it to the model to decide which",
+      "offset": 190239,
+      "duration": 3920
+    },
+    {
+      "text": "one to use, you get only the required",
+      "offset": 192080,
+      "duration": 4079
+    },
+    {
+      "text": "value. The context is minimal when",
+      "offset": 194159,
+      "duration": 3841
+    },
+    {
+      "text": "agents use bash tools because they",
+      "offset": 196159,
+      "duration": 3841
+    },
+    {
+      "text": "receive the specific chunk they need and",
+      "offset": 198000,
+      "duration": 4080
+    },
+    {
+      "text": "many other chunks don't go into memory.",
+      "offset": 200000,
+      "duration": 3840
+    },
+    {
+      "text": "This allows them to stay aligned and",
+      "offset": 202080,
+      "duration": 3280
+    },
+    {
+      "text": "focused on the exact piece of",
+      "offset": 203840,
+      "duration": 3200
+    },
+    {
+      "text": "information without getting lost in",
+      "offset": 205360,
+      "duration": 4080
+    },
+    {
+      "text": "unrelated data. Now, this idea isn't",
+      "offset": 207040,
+      "duration": 4080
+    },
+    {
+      "text": "something you are unfamiliar with. This",
+      "offset": 209440,
+      "duration": 3840
+    },
+    {
+      "text": "idea has already been used inside Claude",
+      "offset": 211120,
+      "duration": 4479
+    },
+    {
+      "text": "Code and all CLI agents where they use",
+      "offset": 213280,
+      "duration": 4480
+    },
+    {
+      "text": "bash functions to narrow down findings",
+      "offset": 215599,
+      "duration": 4000
+    },
+    {
+      "text": "using pattern matching. We've already",
+      "offset": 217760,
+      "duration": 3839
+    },
+    {
+      "text": "been using the file system and Claude",
+      "offset": 219599,
+      "duration": 4161
+    },
+    {
+      "text": "codes capabilities for research purposes",
+      "offset": 221599,
+      "duration": 4161
+    },
+    {
+      "text": "for any idea that we evaluate. We",
+      "offset": 223760,
+      "duration": 4000
+    },
+    {
+      "text": "usually pass the software tool we come",
+      "offset": 225760,
+      "duration": 3759
+    },
+    {
+      "text": "across through this pipeline which",
+      "offset": 227760,
+      "duration": 3759
+    },
+    {
+      "text": "contains multiple phases with our",
+      "offset": 229519,
+      "duration": 4080
+    },
+    {
+      "text": "evaluation criteria that the research",
+      "offset": 231519,
+      "duration": 3761
+    },
+    {
+      "text": "must pass through. All of this is",
+      "offset": 233599,
+      "duration": 3681
+    },
+    {
+      "text": "defined in a markdown file containing",
+      "offset": 235280,
+      "duration": 3920
+    },
+    {
+      "text": "the requirements and objectives of the",
+      "offset": 237280,
+      "duration": 3679
+    },
+    {
+      "text": "tool we're testing, how to write the",
+      "offset": 239200,
+      "duration": 3679
+    },
+    {
+      "text": "final document, and all the information",
+      "offset": 240959,
+      "duration": 4081
+    },
+    {
+      "text": "required for each phase. We also provide",
+      "offset": 242879,
+      "duration": 3920
+    },
+    {
+      "text": "Claude with certain documents as",
+      "offset": 245040,
+      "duration": 4080
+    },
+    {
+      "text": "samples, which act as a guide for style",
+      "offset": 246799,
+      "duration": 4160
+    },
+    {
+      "text": "matching, and the final document is",
+      "offset": 249120,
+      "duration": 3920
+    },
+    {
+      "text": "saved in a research results folder. To",
+      "offset": 250959,
+      "duration": 4640
+    },
+    {
+      "text": "guide the research, we have a claude.md",
+      "offset": 253040,
+      "duration": 4800
+    },
+    {
+      "text": "file explaining how to pass the idea",
+      "offset": 255599,
+      "duration": 4001
+    },
+    {
+      "text": "through each phase one by one,",
+      "offset": 257840,
+      "duration": 3600
+    },
+    {
+      "text": "ultimately giving us a research document",
+      "offset": 259600,
+      "duration": 3760
+    },
+    {
+      "text": "that meets all our checks. Whenever we",
+      "offset": 261440,
+      "duration": 3680
+    },
+    {
+      "text": "have anything to research, I just go to",
+      "offset": 263360,
+      "duration": 3839
+    },
+    {
+      "text": "Claude and tell it the idea or the tool",
+      "offset": 265120,
+      "duration": 4000
+    },
+    {
+      "text": "to research. It then runs it through the",
+      "offset": 267199,
+      "duration": 4321
+    },
+    {
+      "text": "six-phase validation process first by",
+      "offset": 269120,
+      "duration": 4400
+    },
+    {
+      "text": "understanding the tool or idea and then",
+      "offset": 271520,
+      "duration": 3840
+    },
+    {
+      "text": "passing it through each phase one by",
+      "offset": 273520,
+      "duration": 3840
+    },
+    {
+      "text": "one. Once the idea has gone through all",
+      "offset": 275360,
+      "duration": 4080
+    },
+    {
+      "text": "the phases, Claude generates a final",
+      "offset": 277360,
+      "duration": 4000
+    },
+    {
+      "text": "report which we can read to verify",
+      "offset": 279440,
+      "duration": 4160
+    },
+    {
+      "text": "whether the idea has potential or not.",
+      "offset": 281360,
+      "duration": 4320
+    },
+    {
+      "text": "This file system approach saves us a lot",
+      "offset": 283600,
+      "duration": 4400
+    },
+    {
+      "text": "of time by automating a research process",
+      "offset": 285680,
+      "duration": 4400
+    },
+    {
+      "text": "that we would otherwise have to do step",
+      "offset": 288000,
+      "duration": 3919
+    },
+    {
+      "text": "by step. If you want to try out this",
+      "offset": 290080,
+      "duration": 3839
+    },
+    {
+      "text": "pipeline for yourself for your own use",
+      "offset": 291919,
+      "duration": 4081
+    },
+    {
+      "text": "case, you can get a readytouse template",
+      "offset": 293919,
+      "duration": 4241
+    },
+    {
+      "text": "for creating your own research pipeline",
+      "offset": 296000,
+      "duration": 4160
+    },
+    {
+      "text": "similar to ours in our recently launched",
+      "offset": 298160,
+      "duration": 4400
+    },
+    {
+      "text": "community called AI Labs Pro. For this",
+      "offset": 300160,
+      "duration": 4240
+    },
+    {
+      "text": "and for all the previous videos, you get",
+      "offset": 302560,
+      "duration": 4079
+    },
+    {
+      "text": "readytouse templates, prompts, all the",
+      "offset": 304400,
+      "duration": 4160
+    },
+    {
+      "text": "commands and skills that you can plug",
+      "offset": 306639,
+      "duration": 3681
+    },
+    {
+      "text": "directly into your projects. If you",
+      "offset": 308560,
+      "duration": 3760
+    },
+    {
+      "text": "found value in what we do and want to",
+      "offset": 310320,
+      "duration": 3520
+    },
+    {
+      "text": "support the channel, this is the best",
+      "offset": 312320,
+      "duration": 3680
+    },
+    {
+      "text": "way to do it. Links in the description.",
+      "offset": 313840,
+      "duration": 4160
+    },
+    {
+      "text": "I was going through their case study in",
+      "offset": 316000,
+      "duration": 3600
+    },
+    {
+      "text": "which they explained how to build a",
+      "offset": 318000,
+      "duration": 3360
+    },
+    {
+      "text": "sales summary. agent using this",
+      "offset": 319600,
+      "duration": 3840
+    },
+    {
+      "text": "architecture. They've also open- sourced",
+      "offset": 321360,
+      "duration": 4000
+    },
+    {
+      "text": "it, but it gave me a really interesting",
+      "offset": 323440,
+      "duration": 4319
+    },
+    {
+      "text": "idea that I wanted to try out on my own.",
+      "offset": 325360,
+      "duration": 4559
+    },
+    {
+      "text": "I was actually building a company policy",
+      "offset": 327759,
+      "duration": 4081
+    },
+    {
+      "text": "project where I had a lot of company",
+      "offset": 329919,
+      "duration": 4641
+    },
+    {
+      "text": "data in the form of JSON, markdown, and",
+      "offset": 331840,
+      "duration": 5680
+    },
+    {
+      "text": "txt files, all separated by department.",
+      "offset": 334560,
+      "duration": 4960
+    },
+    {
+      "text": "Normally, I would have implemented this",
+      "offset": 337520,
+      "duration": 4160
+    },
+    {
+      "text": "system using a vector database like",
+      "offset": 339520,
+      "duration": 4320
+    },
+    {
+      "text": "Chroma, but I decided to give this tool",
+      "offset": 341680,
+      "duration": 3840
+    },
+    {
+      "text": "a shot. I went ahead and implemented",
+      "offset": 343840,
+      "duration": 3600
+    },
+    {
+      "text": "this architecture. On the back end, I",
+      "offset": 345520,
+      "duration": 3920
+    },
+    {
+      "text": "included the path to the document folder",
+      "offset": 347440,
+      "duration": 4000
+    },
+    {
+      "text": "containing the company's data and gave",
+      "offset": 349440,
+      "duration": 5120
+    },
+    {
+      "text": "the agent access to the ls, cat, gp, and",
+      "offset": 351440,
+      "duration": 5280
+    },
+    {
+      "text": "find commands along with a guide on how",
+      "offset": 354560,
+      "duration": 4320
+    },
+    {
+      "text": "to use the tool and when to use each",
+      "offset": 356720,
+      "duration": 4960
+    },
+    {
+      "text": "command. I used the Gemini 2.5 flash",
+      "offset": 358880,
+      "duration": 4960
+    },
+    {
+      "text": "model, provided it with Versel's bash",
+      "offset": 361680,
+      "duration": 3680
+    },
+    {
+      "text": "tool, and gave it the path to the",
+      "offset": 363840,
+      "duration": 3760
+    },
+    {
+      "text": "documents inside the tool. And so when I",
+      "offset": 365360,
+      "duration": 4080
+    },
+    {
+      "text": "tested the agent by asking it any",
+      "offset": 367600,
+      "duration": 3599
+    },
+    {
+      "text": "question related to the data, it",
+      "offset": 369440,
+      "duration": 3840
+    },
+    {
+      "text": "basically answered based on the exact",
+      "offset": 371199,
+      "duration": 4161
+    },
+    {
+      "text": "content from the company's policies,",
+      "offset": 373280,
+      "duration": 4160
+    },
+    {
+      "text": "including the handbook and leave policy",
+      "offset": 375360,
+      "duration": 4480
+    },
+    {
+      "text": "documents. To verify how it was working,",
+      "offset": 377440,
+      "duration": 4640
+    },
+    {
+      "text": "I logged its tool usage on the terminal.",
+      "offset": 379840,
+      "duration": 4560
+    },
+    {
+      "text": "The agent first used the ls command to",
+      "offset": 382080,
+      "duration": 4160
+    },
+    {
+      "text": "see what documents were available and",
+      "offset": 384400,
+      "duration": 3919
+    },
+    {
+      "text": "then used grep with pattern matching to",
+      "offset": 386240,
+      "duration": 4480
+    },
+    {
+      "text": "look for off days or any similar terms.",
+      "offset": 388319,
+      "duration": 4320
+    },
+    {
+      "text": "This set of commands handled our query",
+      "offset": 390720,
+      "duration": 3840
+    },
+    {
+      "text": "and gave us results with the same level",
+      "offset": 392639,
+      "duration": 4400
+    },
+    {
+      "text": "of accuracy as a rag system would. If",
+      "offset": 394560,
+      "duration": 3919
+    },
+    {
+      "text": "you want the source code for this",
+      "offset": 397039,
+      "duration": 2961
+    },
+    {
+      "text": "project, you can find it on our",
+      "offset": 398479,
+      "duration": 3201
+    },
+    {
+      "text": "community from where you can download",
+      "offset": 400000,
+      "duration": 4319
+    },
+    {
+      "text": "and try out for yourself. Now, the first",
+      "offset": 401680,
+      "duration": 4400
+    },
+    {
+      "text": "question that came to my mind while",
+      "offset": 404319,
+      "duration": 3521
+    },
+    {
+      "text": "going through this tool was, is it",
+      "offset": 406080,
+      "duration": 4160
+    },
+    {
+      "text": "really safe to equip agents to execute",
+      "offset": 407840,
+      "duration": 4479
+    },
+    {
+      "text": "commands on the server? We literally saw",
+      "offset": 410240,
+      "duration": 3920
+    },
+    {
+      "text": "a vulnerability in React server",
+      "offset": 412319,
+      "duration": 3681
+    },
+    {
+      "text": "components this past December, which",
+      "offset": 414160,
+      "duration": 4240
+    },
+    {
+      "text": "scored a 10.0, the highest on the scale",
+      "offset": 416000,
+      "duration": 4560
+    },
+    {
+      "text": "and it involved code being executed on",
+      "offset": 418400,
+      "duration": 4480
+    },
+    {
+      "text": "the server. So this is a really powerful",
+      "offset": 420560,
+      "duration": 4560
+    },
+    {
+      "text": "and potentially dangerous capability to",
+      "offset": 422880,
+      "duration": 4480
+    },
+    {
+      "text": "give agents. So why did I actually trust",
+      "offset": 425120,
+      "duration": 4160
+    },
+    {
+      "text": "this tool? It's because it runs in a",
+      "offset": 427360,
+      "duration": 4160
+    },
+    {
+      "text": "sandbox and has isolation. It only",
+      "offset": 429280,
+      "duration": 4319
+    },
+    {
+      "text": "accesses the specific directory we",
+      "offset": 431520,
+      "duration": 3840
+    },
+    {
+      "text": "provide. It doesn't modify anything",
+      "offset": 433599,
+      "duration": 3361
+    },
+    {
+      "text": "else. In the article, they also",
+      "offset": 435360,
+      "duration": 3520
+    },
+    {
+      "text": "mentioned that the agent explores the",
+      "offset": 436960,
+      "duration": 3760
+    },
+    {
+      "text": "files without access to the production",
+      "offset": 438880,
+      "duration": 3920
+    },
+    {
+      "text": "system. So your production code remains",
+      "offset": 440720,
+      "duration": 4160
+    },
+    {
+      "text": "safe even if the agent tries to run",
+      "offset": 442800,
+      "duration": 3760
+    },
+    {
+      "text": "harmful commands on the server. It",
+      "offset": 444880,
+      "duration": 3680
+    },
+    {
+      "text": "provides two types of isolation. The",
+      "offset": 446560,
+      "duration": 4160
+    },
+    {
+      "text": "first is an in-memory environment. In",
+      "offset": 448560,
+      "duration": 4560
+    },
+    {
+      "text": "this setup, it uses just bash tool which",
+      "offset": 450720,
+      "duration": 4720
+    },
+    {
+      "text": "runs bash scripts only on the files it",
+      "offset": 453120,
+      "duration": 4320
+    },
+    {
+      "text": "has access to just like we did when",
+      "offset": 455440,
+      "duration": 4080
+    },
+    {
+      "text": "creating our agent. The second type is a",
+      "offset": 457440,
+      "duration": 4240
+    },
+    {
+      "text": "fully compatible sandbox environment",
+      "offset": 459520,
+      "duration": 4560
+    },
+    {
+      "text": "offering full virtual machine isolation",
+      "offset": 461680,
+      "duration": 4639
+    },
+    {
+      "text": "using the versal sandbox. We can choose",
+      "offset": 464080,
+      "duration": 4399
+    },
+    {
+      "text": "either based on our needs. The in-memory",
+      "offset": 466319,
+      "duration": 4000
+    },
+    {
+      "text": "approach is lighter and faster for",
+      "offset": 468479,
+      "duration": 4000
+    },
+    {
+      "text": "simple use cases while the full VM",
+      "offset": 470319,
+      "duration": 3841
+    },
+    {
+      "text": "isolation is better when you need",
+      "offset": 472479,
+      "duration": 3681
+    },
+    {
+      "text": "stronger security guarantees. Even",
+      "offset": 474160,
+      "duration": 3759
+    },
+    {
+      "text": "though this approach is really good for",
+      "offset": 476160,
+      "duration": 4000
+    },
+    {
+      "text": "saving costs per model call, it's not",
+      "offset": 477919,
+      "duration": 3921
+    },
+    {
+      "text": "the right approach for all kinds of",
+      "offset": 480160,
+      "duration": 3920
+    },
+    {
+      "text": "problems. It's definitely not ideal if",
+      "offset": 481840,
+      "duration": 4079
+    },
+    {
+      "text": "you need to match the meaning of words",
+      "offset": 484080,
+      "duration": 3679
+    },
+    {
+      "text": "because bash tools are for exact",
+      "offset": 485919,
+      "duration": 3680
+    },
+    {
+      "text": "matching. As we saw when we called our",
+      "offset": 487759,
+      "duration": 3840
+    },
+    {
+      "text": "agent, it used specific keywords to",
+      "offset": 489599,
+      "duration": 4160
+    },
+    {
+      "text": "locate the required data. It's also not",
+      "offset": 491599,
+      "duration": 4320
+    },
+    {
+      "text": "suitable for unorganized file structures",
+      "offset": 493759,
+      "duration": 3921
+    },
+    {
+      "text": "where the agent would have to struggle",
+      "offset": 495919,
+      "duration": 3761
+    },
+    {
+      "text": "with multiple tool calls. A structure",
+      "offset": 497680,
+      "duration": 4320
+    },
+    {
+      "text": "that the agent can easily navigate is",
+      "offset": 499680,
+      "duration": 4239
+    },
+    {
+      "text": "much better. My personal suggestion is",
+      "offset": 502000,
+      "duration": 3759
+    },
+    {
+      "text": "to use the bash tool when you have",
+      "offset": 503919,
+      "duration": 3921
+    },
+    {
+      "text": "highly structured data and your requests",
+      "offset": 505759,
+      "duration": 4081
+    },
+    {
+      "text": "are mostly clear in terms of what you",
+      "offset": 507840,
+      "duration": 4000
+    },
+    {
+      "text": "want. Use rag when you care more about",
+      "offset": 509840,
+      "duration": 3679
+    },
+    {
+      "text": "the meaning of what's written in the",
+      "offset": 511840,
+      "duration": 3759
+    },
+    {
+      "text": "files or when your queries are likely to",
+      "offset": 513519,
+      "duration": 4241
+    },
+    {
+      "text": "be messy. Before we wrap up, here's a",
+      "offset": 515599,
+      "duration": 3920
+    },
+    {
+      "text": "word from our sponsor, Brilliant. The",
+      "offset": 517760,
+      "duration": 3759
+    },
+    {
+      "text": "best engineers don't just know syntax.",
+      "offset": 519519,
+      "duration": 3601
+    },
+    {
+      "text": "They break down problems from first",
+      "offset": 521519,
+      "duration": 3361
+    },
+    {
+      "text": "principles. That is why we've partnered",
+      "offset": 523120,
+      "duration": 3440
+    },
+    {
+      "text": "with Brilliant. Their philosophy is that",
+      "offset": 524880,
+      "duration": 3760
+    },
+    {
+      "text": "you learn best by doing. They prioritize",
+      "offset": 526560,
+      "duration": 3760
+    },
+    {
+      "text": "active problem solving. So you get",
+      "offset": 528640,
+      "duration": 3520
+    },
+    {
+      "text": "hands-on with concepts instead of just",
+      "offset": 530320,
+      "duration": 3760
+    },
+    {
+      "text": "memorizing. For example, in their course",
+      "offset": 532160,
+      "duration": 4320
+    },
+    {
+      "text": "named how AI works. You don't just read,",
+      "offset": 534080,
+      "duration": 4400
+    },
+    {
+      "text": "you manipulate the actual logic. You'll",
+      "offset": 536480,
+      "duration": 4000
+    },
+    {
+      "text": "get hands-on with technicalities like",
+      "offset": 538480,
+      "duration": 3919
+    },
+    {
+      "text": "calculating loss in the loss space and",
+      "offset": 540480,
+      "duration": 4000
+    },
+    {
+      "text": "visualizing interpolation, building a",
+      "offset": 542399,
+      "duration": 4161
+    },
+    {
+      "text": "deep intuition you just can't get from a",
+      "offset": 544480,
+      "duration": 3840
+    },
+    {
+      "text": "video lecture. Through their interactive",
+      "offset": 546560,
+      "duration": 3520
+    },
+    {
+      "text": "technical courses, you get the most",
+      "offset": 548320,
+      "duration": 3600
+    },
+    {
+      "text": "effective way to truly master the",
+      "offset": 550080,
+      "duration": 3600
+    },
+    {
+      "text": "concepts we talk about. You'll also get",
+      "offset": 551920,
+      "duration": 4320
+    },
+    {
+      "text": "20% off on annual premium subscription,",
+      "offset": 553680,
+      "duration": 4719
+    },
+    {
+      "text": "unlocking their entire catalog of math,",
+      "offset": 556240,
+      "duration": 4159
+    },
+    {
+      "text": "data, and CS courses, giving you a",
+      "offset": 558399,
+      "duration": 3761
+    },
+    {
+      "text": "complete road map to upskill. Click the",
+      "offset": 560399,
+      "duration": 3841
+    },
+    {
+      "text": "link in the description or scan the QR",
+      "offset": 562160,
+      "duration": 4000
+    },
+    {
+      "text": "code on your screen to claim your free",
+      "offset": 564240,
+      "duration": 4159
+    },
+    {
+      "text": "30-day trial. That brings us to the end",
+      "offset": 566160,
+      "duration": 4000
+    },
+    {
+      "text": "of this video. If you'd like to support",
+      "offset": 568399,
+      "duration": 3521
+    },
+    {
+      "text": "the channel and help us keep making",
+      "offset": 570160,
+      "duration": 3760
+    },
+    {
+      "text": "videos like this, you can do so by using",
+      "offset": 571920,
+      "duration": 3919
+    },
+    {
+      "text": "the super thanks button below. As",
+      "offset": 573920,
+      "duration": 3599
+    },
+    {
+      "text": "always, thank you for watching and I'll",
+      "offset": 575839,
+      "duration": 5120
+    },
+    {
+      "text": "see you in the next one.",
+      "offset": 577519,
+      "duration": 3440
+    }
+  ]
+}

@@ -1,0 +1,586 @@
+{
+  "videoId": "rEvEXQvo-F8",
+  "title": "OpenAI was dead… Then GPT-5.2 dropped",
+  "segments": [
+    {
+      "text": "Last week, Sam Alman declared a code red",
+      "offset": 160,
+      "duration": 4720
+    },
+    {
+      "text": "threat level midnight after OpenAI's",
+      "offset": 2720,
+      "duration": 4159
+    },
+    {
+      "text": "lead in the AI race was shattered by the",
+      "offset": 4880,
+      "duration": 4080
+    },
+    {
+      "text": "unexpected dominance of Google's Gemini",
+      "offset": 6879,
+      "duration": 4161
+    },
+    {
+      "text": "3. Just about everybody was ready to",
+      "offset": 8960,
+      "duration": 4400
+    },
+    {
+      "text": "ride off OpenAI as the Netscape of the",
+      "offset": 11040,
+      "duration": 4719
+    },
+    {
+      "text": "2020s. That is until yesterday when they",
+      "offset": 13360,
+      "duration": 5600
+    },
+    {
+      "text": "dropped their answer to Gemini GPT 5.2,",
+      "offset": 15759,
+      "duration": 5121
+    },
+    {
+      "text": "a model that once again moves the AI",
+      "offset": 18960,
+      "duration": 4239
+    },
+    {
+      "text": "hype wheel back in favor of open AI.",
+      "offset": 20880,
+      "duration": 4080
+    },
+    {
+      "text": "It's dominating all the Trust Me Bro",
+      "offset": 23199,
+      "duration": 3840
+    },
+    {
+      "text": "benchmarks and even beats Claude Opus",
+      "offset": 24960,
+      "duration": 4159
+    },
+    {
+      "text": "4.5 on software engineering and",
+      "offset": 27039,
+      "duration": 3921
+    },
+    {
+      "text": "reasoning. That the real flex though is",
+      "offset": 29119,
+      "duration": 4081
+    },
+    {
+      "text": "its rise to the top of the ARC AGI",
+      "offset": 30960,
+      "duration": 4800
+    },
+    {
+      "text": "benchmark. The ARC prize just verified a",
+      "offset": 33200,
+      "duration": 5280
+    },
+    {
+      "text": "390x efficiency improvement in one year",
+      "offset": 35760,
+      "duration": 5520
+    },
+    {
+      "text": "from the 03 model to 5.2. That's not a",
+      "offset": 38480,
+      "duration": 5680
+    },
+    {
+      "text": "typo. That's a model that's 390 times",
+      "offset": 41280,
+      "duration": 4880
+    },
+    {
+      "text": "more efficient. In today's video, we'll",
+      "offset": 44160,
+      "duration": 3760
+    },
+    {
+      "text": "find out if we finally reach the edge of",
+      "offset": 46160,
+      "duration": 4000
+    },
+    {
+      "text": "the AGI threshold or if this is just",
+      "offset": 47920,
+      "duration": 4000
+    },
+    {
+      "text": "more smoke and mirrors to keep the AI",
+      "offset": 50160,
+      "duration": 4160
+    },
+    {
+      "text": "hype train going into 2026. It is",
+      "offset": 51920,
+      "duration": 4799
+    },
+    {
+      "text": "December 12th, 2025 and you're watching",
+      "offset": 54320,
+      "duration": 4399
+    },
+    {
+      "text": "the code report. Artificial intelligence",
+      "offset": 56719,
+      "duration": 3520
+    },
+    {
+      "text": "has already ruined my Christmas this",
+      "offset": 58719,
+      "duration": 2081
+    },
+    {
+      "text": "year.",
+      "offset": 60239,
+      "duration": 4320
+    },
+    {
+      "text": ">> It's the most terrible time [music] of",
+      "offset": 60800,
+      "duration": 6480
+    },
+    {
+      "text": "the year. Thanks to this nightmarish",
+      "offset": 64559,
+      "duration": 4481
+    },
+    {
+      "text": "commercial produced by the artificial",
+      "offset": 67280,
+      "duration": 4080
+    },
+    {
+      "text": "food generation company McDonald's, the",
+      "offset": 69040,
+      "duration": 3680
+    },
+    {
+      "text": "creators of this piece of crap you're",
+      "offset": 71360,
+      "duration": 3280
+    },
+    {
+      "text": "watching tried to act like they prompt",
+      "offset": 72720,
+      "duration": 3759
+    },
+    {
+      "text": "engineered a real work of art, but it",
+      "offset": 74640,
+      "duration": 3920
+    },
+    {
+      "text": "was so universally hated, McDonald's was",
+      "offset": 76479,
+      "duration": 3680
+    },
+    {
+      "text": "forced to pull it from the airwaves.",
+      "offset": 78560,
+      "duration": 4160
+    },
+    {
+      "text": "Unfortunately, this AI slop content is",
+      "offset": 80159,
+      "duration": 4801
+    },
+    {
+      "text": "only going to get worse. Because OpenAI",
+      "offset": 82720,
+      "duration": 4640
+    },
+    {
+      "text": "just inked a $1 billion deal with Disney",
+      "offset": 84960,
+      "duration": 4400
+    },
+    {
+      "text": "to allow their iconic characters to",
+      "offset": 87360,
+      "duration": 3840
+    },
+    {
+      "text": "appear in AI generated photos and",
+      "offset": 89360,
+      "duration": 3759
+    },
+    {
+      "text": "videos. And that's huge because it means",
+      "offset": 91200,
+      "duration": 3440
+    },
+    {
+      "text": "anybody can now generate their own",
+      "offset": 93119,
+      "duration": 3761
+    },
+    {
+      "text": "custom Star Wars or Toy Story movie and",
+      "offset": 94640,
+      "duration": 4240
+    },
+    {
+      "text": "will be forced to use OpenAI's tech to",
+      "offset": 96880,
+      "duration": 4320
+    },
+    {
+      "text": "do so. Very concerning. But speaking of",
+      "offset": 98880,
+      "duration": 4480
+    },
+    {
+      "text": "concerning, prediction markets like Poly",
+      "offset": 101200,
+      "duration": 4239
+    },
+    {
+      "text": "Market and Kelshi that somehow predicted",
+      "offset": 103360,
+      "duration": 4399
+    },
+    {
+      "text": "that GPT 5.2 would be released",
+      "offset": 105439,
+      "duration": 4401
+    },
+    {
+      "text": "yesterday. And by predicted, I mean",
+      "offset": 107759,
+      "duration": 4400
+    },
+    {
+      "text": "OpenAI employees and other insiders",
+      "offset": 109840,
+      "duration": 4000
+    },
+    {
+      "text": "found a new infinite money glitch",
+      "offset": 112159,
+      "duration": 3681
+    },
+    {
+      "text": "because insider trading exists in a gray",
+      "offset": 113840,
+      "duration": 3760
+    },
+    {
+      "text": "area in these markets. An obvious",
+      "offset": 115840,
+      "duration": 3440
+    },
+    {
+      "text": "insider at Google made a million bucks",
+      "offset": 117600,
+      "duration": 3360
+    },
+    {
+      "text": "this month. And in many cases, it's",
+      "offset": 119280,
+      "duration": 3280
+    },
+    {
+      "text": "insider trading that makes these",
+      "offset": 120960,
+      "duration": 3519
+    },
+    {
+      "text": "prediction markets so accurate. Very",
+      "offset": 122560,
+      "duration": 3599
+    },
+    {
+      "text": "concerning. But now, let's get back to",
+      "offset": 124479,
+      "duration": 4161
+    },
+    {
+      "text": "GPT 5.2. And the thing everyone is",
+      "offset": 126159,
+      "duration": 4160
+    },
+    {
+      "text": "talking about, its performance on the",
+      "offset": 128640,
+      "duration": 4400
+    },
+    {
+      "text": "ARC AGI benchmark. But what even is ARC?",
+      "offset": 130319,
+      "duration": 4640
+    },
+    {
+      "text": "It stands for abstraction and reasoning",
+      "offset": 133040,
+      "duration": 4000
+    },
+    {
+      "text": "corpus and is designed to test whether a",
+      "offset": 134959,
+      "duration": 4241
+    },
+    {
+      "text": "model can solve novel unique problems",
+      "offset": 137040,
+      "duration": 4160
+    },
+    {
+      "text": "it's never seen before. Problems that",
+      "offset": 139200,
+      "duration": 3759
+    },
+    {
+      "text": "require pure reasoning instead of",
+      "offset": 141200,
+      "duration": 3520
+    },
+    {
+      "text": "memorization. The problems are",
+      "offset": 142959,
+      "duration": 3920
+    },
+    {
+      "text": "intentionally weird low data puzzles",
+      "offset": 144720,
+      "duration": 4400
+    },
+    {
+      "text": "where brute force pattern mashing fails.",
+      "offset": 146879,
+      "duration": 4000
+    },
+    {
+      "text": "Regular humans can usually solve them",
+      "offset": 149120,
+      "duration": 3600
+    },
+    {
+      "text": "after a few examples. What's weird",
+      "offset": 150879,
+      "duration": 4000
+    },
+    {
+      "text": "though is most AI models completely face",
+      "offset": 152720,
+      "duration": 4159
+    },
+    {
+      "text": "plant. The important takeaway is that a",
+      "offset": 154879,
+      "duration": 3841
+    },
+    {
+      "text": "model that scores well on ARC has the",
+      "offset": 156879,
+      "duration": 3841
+    },
+    {
+      "text": "ability to generalize instead of just",
+      "offset": 158720,
+      "duration": 4239
+    },
+    {
+      "text": "acting like an autocomplete on steroids.",
+      "offset": 160720,
+      "duration": 4000
+    },
+    {
+      "text": "And that's why OpenAI flexing on this",
+      "offset": 162959,
+      "duration": 3761
+    },
+    {
+      "text": "chart is a much bigger deal than many of",
+      "offset": 164720,
+      "duration": 4000
+    },
+    {
+      "text": "the other Trust Me Bro benchmarks. But",
+      "offset": 166720,
+      "duration": 4080
+    },
+    {
+      "text": "for the average LLM user, it's becoming",
+      "offset": 168720,
+      "duration": 4000
+    },
+    {
+      "text": "harder and harder to evaluate each new",
+      "offset": 170800,
+      "duration": 5040
+    },
+    {
+      "text": "release. Like ChatGpt 5.2 2 is also",
+      "offset": 172720,
+      "duration": 4720
+    },
+    {
+      "text": "supposedly much better at coding than",
+      "offset": 175840,
+      "duration": 3280
+    },
+    {
+      "text": "before and it's supposed to have far",
+      "offset": 177440,
+      "duration": 3920
+    },
+    {
+      "text": "fewer hallucinations, but I'm not sure I",
+      "offset": 179120,
+      "duration": 3839
+    },
+    {
+      "text": "can even tell a difference. I'm happily",
+      "offset": 181360,
+      "duration": 3360
+    },
+    {
+      "text": "using it to generate spelt 5 code with",
+      "offset": 182959,
+      "duration": 3681
+    },
+    {
+      "text": "an MCP server, but what I'm more",
+      "offset": 184720,
+      "duration": 3519
+    },
+    {
+      "text": "concerned about is deploying my code",
+      "offset": 186640,
+      "duration": 3840
+    },
+    {
+      "text": "somewhere reliable, like Railway, the",
+      "offset": 188239,
+      "duration": 4161
+    },
+    {
+      "text": "sponsor of today's video. It's a cloud",
+      "offset": 190480,
+      "duration": 4000
+    },
+    {
+      "text": "platform that lets you instantly host",
+      "offset": 192400,
+      "duration": 3919
+    },
+    {
+      "text": "productionready deployments and manage",
+      "offset": 194480,
+      "duration": 3839
+    },
+    {
+      "text": "your entire infrastructure stack in one",
+      "offset": 196319,
+      "duration": 4000
+    },
+    {
+      "text": "place. is so instead of fighting with",
+      "offset": 198319,
+      "duration": 4161
+    },
+    {
+      "text": "mystery YAML files and 25 different",
+      "offset": 200319,
+      "duration": 4321
+    },
+    {
+      "text": "dashboards, you can spin up isolated",
+      "offset": 202480,
+      "duration": 3839
+    },
+    {
+      "text": "environments in one click that will",
+      "offset": 204640,
+      "duration": 3760
+    },
+    {
+      "text": "scale automatically as needed. And",
+      "offset": 206319,
+      "duration": 4241
+    },
+    {
+      "text": "unlike other platforms that shall not be",
+      "offset": 208400,
+      "duration": 4559
+    },
+    {
+      "text": "named, Railway only charges you for the",
+      "offset": 210560,
+      "duration": 4640
+    },
+    {
+      "text": "resources you actually use, not what you",
+      "offset": 212959,
+      "duration": 5280
+    },
+    {
+      "text": "provision, which saves over 65% on cloud",
+      "offset": 215200,
+      "duration": 5119
+    },
+    {
+      "text": "costs. And developers love it because it",
+      "offset": 218239,
+      "duration": 4560
+    },
+    {
+      "text": "gives you 50% faster build times while",
+      "offset": 220319,
+      "duration": 4480
+    },
+    {
+      "text": "letting you spin up any service you need",
+      "offset": 222799,
+      "duration": 4561
+    },
+    {
+      "text": "shockingly fast. They even have 1,800",
+      "offset": 224799,
+      "duration": 4401
+    },
+    {
+      "text": "different templates that let you deploy",
+      "offset": 227360,
+      "duration": 4239
+    },
+    {
+      "text": "any app or database with a single click.",
+      "offset": 229200,
+      "duration": 4160
+    },
+    {
+      "text": "Sign up for free today at the link below",
+      "offset": 231599,
+      "duration": 3761
+    },
+    {
+      "text": "and you'll get $20 in credits when you",
+      "offset": 233360,
+      "duration": 3760
+    },
+    {
+      "text": "upgrade. This has been the Code Report.",
+      "offset": 235360,
+      "duration": 3439
+    },
+    {
+      "text": "Thanks for watching and I will see you",
+      "offset": 237120,
+      "duration": 4880
+    },
+    {
+      "text": "in the next one.",
+      "offset": 238799,
+      "duration": 3201
+    }
+  ]
+}

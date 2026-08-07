@@ -1,0 +1,1386 @@
+{
+  "videoId": "VNx9Gy5pHZI",
+  "title": "This is How I Design With AI Now",
+  "segments": [
+    {
+      "text": "AI design has been getting better and",
+      "offset": 160,
+      "duration": 3680
+    },
+    {
+      "text": "better with each new tool release and",
+      "offset": 2000,
+      "duration": 3839
+    },
+    {
+      "text": "model update. But good design doesn't",
+      "offset": 3840,
+      "duration": 3999
+    },
+    {
+      "text": "come from relying on a single tool and",
+      "offset": 5839,
+      "duration": 3840
+    },
+    {
+      "text": "hoping your app looks great. It's always",
+      "offset": 7839,
+      "duration": 3680
+    },
+    {
+      "text": "a combination of tools and resources",
+      "offset": 9679,
+      "duration": 3601
+    },
+    {
+      "text": "that make designs better. But more",
+      "offset": 11519,
+      "duration": 3601
+    },
+    {
+      "text": "importantly, it's about using the right",
+      "offset": 13280,
+      "duration": 4160
+    },
+    {
+      "text": "tool for the right purpose. Google's AI",
+      "offset": 15120,
+      "duration": 4159
+    },
+    {
+      "text": "design tool, Stitch, just got a really",
+      "offset": 17440,
+      "duration": 3999
+    },
+    {
+      "text": "cool upgrade that made UI designing much",
+      "offset": 19279,
+      "duration": 4160
+    },
+    {
+      "text": "easier. And Versel also recently",
+      "offset": 21439,
+      "duration": 3840
+    },
+    {
+      "text": "released something that has surpassed",
+      "offset": 23439,
+      "duration": 3840
+    },
+    {
+      "text": "Claude's Chrome extension and has now",
+      "offset": 25279,
+      "duration": 3840
+    },
+    {
+      "text": "become my go-to tool for browser",
+      "offset": 27279,
+      "duration": 3521
+    },
+    {
+      "text": "testing. We've got a lot to talk about",
+      "offset": 29119,
+      "duration": 3440
+    },
+    {
+      "text": "today because I wasn't expecting this",
+      "offset": 30800,
+      "duration": 3520
+    },
+    {
+      "text": "combination to deliver such a solid",
+      "offset": 32559,
+      "duration": 3921
+    },
+    {
+      "text": "design. Google Stitch is now available",
+      "offset": 34320,
+      "duration": 4960
+    },
+    {
+      "text": "as an MCP for connecting the AI agent,",
+      "offset": 36480,
+      "duration": 4480
+    },
+    {
+      "text": "enabling it to create and manage",
+      "offset": 39280,
+      "duration": 3760
+    },
+    {
+      "text": "projects as well as create designs using",
+      "offset": 40960,
+      "duration": 4000
+    },
+    {
+      "text": "the agent. With this update, I didn't",
+      "offset": 43040,
+      "duration": 3760
+    },
+    {
+      "text": "have to give tailored prompts to stitch",
+      "offset": 44960,
+      "duration": 3919
+    },
+    {
+      "text": "myself and let Claude do that for me. It",
+      "offset": 46800,
+      "duration": 4000
+    },
+    {
+      "text": "offers multiple features like project",
+      "offset": 48879,
+      "duration": 3921
+    },
+    {
+      "text": "management and the ability to create new",
+      "offset": 50800,
+      "duration": 3919
+    },
+    {
+      "text": "projects and retrieve all of your active",
+      "offset": 52800,
+      "duration": 3919
+    },
+    {
+      "text": "projects. It is able to manage projects",
+      "offset": 54719,
+      "duration": 3840
+    },
+    {
+      "text": "by using list screens and by getting",
+      "offset": 56719,
+      "duration": 3840
+    },
+    {
+      "text": "projects and screens. It also allows the",
+      "offset": 58559,
+      "duration": 4081
+    },
+    {
+      "text": "agent to create new designs from a text",
+      "offset": 60559,
+      "duration": 3841
+    },
+    {
+      "text": "prompt. The installation process is",
+      "offset": 62640,
+      "duration": 3280
+    },
+    {
+      "text": "explained step by step in their",
+      "offset": 64400,
+      "duration": 3440
+    },
+    {
+      "text": "documentation. It requires installing",
+      "offset": 65920,
+      "duration": 4239
+    },
+    {
+      "text": "the Google Cloud SDK using curl. But",
+      "offset": 67840,
+      "duration": 4160
+    },
+    {
+      "text": "since I'm using a Mac, I installed it",
+      "offset": 70159,
+      "duration": 3601
+    },
+    {
+      "text": "using Brew and let it download the",
+      "offset": 72000,
+      "duration": 4000
+    },
+    {
+      "text": "Google Cloud CLI. You need to log in",
+      "offset": 73760,
+      "duration": 4320
+    },
+    {
+      "text": "twice, once as a user and once as an",
+      "offset": 76000,
+      "duration": 3680
+    },
+    {
+      "text": "application because you need to connect",
+      "offset": 78080,
+      "duration": 3760
+    },
+    {
+      "text": "it to a project inside Google cloud to",
+      "offset": 79680,
+      "duration": 4320
+    },
+    {
+      "text": "enable the stitch API inside that",
+      "offset": 81840,
+      "duration": 4000
+    },
+    {
+      "text": "project as it uses that project's",
+      "offset": 84000,
+      "duration": 3920
+    },
+    {
+      "text": "resources for creating designs. Once we",
+      "offset": 85840,
+      "duration": 3840
+    },
+    {
+      "text": "go through the entire process, you can",
+      "offset": 87920,
+      "duration": 3760
+    },
+    {
+      "text": "connect Stitch to any editor. Since I",
+      "offset": 89680,
+      "duration": 4240
+    },
+    {
+      "text": "use clawed code, I set it up inside it",
+      "offset": 91680,
+      "duration": 3920
+    },
+    {
+      "text": "and all the tools were available for",
+      "offset": 93920,
+      "duration": 3680
+    },
+    {
+      "text": "use. Now, someone has simplified this",
+      "offset": 95600,
+      "duration": 4240
+    },
+    {
+      "text": "entire lengthy setup process for us and",
+      "offset": 97600,
+      "duration": 4720
+    },
+    {
+      "text": "created a stitch MCP which handles the",
+      "offset": 99840,
+      "duration": 4319
+    },
+    {
+      "text": "whole process from installing Google",
+      "offset": 102320,
+      "duration": 3920
+    },
+    {
+      "text": "Cloud to project setup. It handles it",
+      "offset": 104159,
+      "duration": 4240
+    },
+    {
+      "text": "all by itself. But this is unofficial.",
+      "offset": 106240,
+      "duration": 4159
+    },
+    {
+      "text": "It's just an independent experimental",
+      "offset": 108399,
+      "duration": 3921
+    },
+    {
+      "text": "tool though it works just as well for",
+      "offset": 110399,
+      "duration": 4000
+    },
+    {
+      "text": "now. No matter what we are building,",
+      "offset": 112320,
+      "duration": 3920
+    },
+    {
+      "text": "planning before implementation is",
+      "offset": 114399,
+      "duration": 3601
+    },
+    {
+      "text": "essential. I was working on a mock",
+      "offset": 116240,
+      "duration": 3519
+    },
+    {
+      "text": "technical interview app that doesn't",
+      "offset": 118000,
+      "duration": 3920
+    },
+    {
+      "text": "just cover technical interviews. It also",
+      "offset": 119759,
+      "duration": 4241
+    },
+    {
+      "text": "covers other types of interviews, all",
+      "offset": 121920,
+      "duration": 4000
+    },
+    {
+      "text": "aimed at jobs in the tech industry.",
+      "offset": 124000,
+      "duration": 3439
+    },
+    {
+      "text": "Throughout the whole video, I found",
+      "offset": 125920,
+      "duration": 3199
+    },
+    {
+      "text": "numerous problems in the way that the",
+      "offset": 127439,
+      "duration": 4001
+    },
+    {
+      "text": "Stitch MCP operates and how it should be",
+      "offset": 129119,
+      "duration": 4401
+    },
+    {
+      "text": "better utilized for my design process.",
+      "offset": 131440,
+      "duration": 3920
+    },
+    {
+      "text": "I've put all of those rules inside a",
+      "offset": 133520,
+      "duration": 4160
+    },
+    {
+      "text": "claude.md file along with the source",
+      "offset": 135360,
+      "duration": 4800
+    },
+    {
+      "text": "code for this app on AIABS Pro. For",
+      "offset": 137680,
+      "duration": 4240
+    },
+    {
+      "text": "those who don't know, it is our recently",
+      "offset": 140160,
+      "duration": 3600
+    },
+    {
+      "text": "launched community where we put together",
+      "offset": 141920,
+      "duration": 4000
+    },
+    {
+      "text": "all our resources from this video and",
+      "offset": 143760,
+      "duration": 4479
+    },
+    {
+      "text": "all our previous videos in one place. Be",
+      "offset": 145920,
+      "duration": 4399
+    },
+    {
+      "text": "it prompts, our reusable commands,",
+      "offset": 148239,
+      "duration": 3921
+    },
+    {
+      "text": "skills we create for our projects, and",
+      "offset": 150319,
+      "duration": 3920
+    },
+    {
+      "text": "much more. If you found value in what we",
+      "offset": 152160,
+      "duration": 4000
+    },
+    {
+      "text": "do and want to support the channel, this",
+      "offset": 154239,
+      "duration": 3681
+    },
+    {
+      "text": "is the best way to do it. Links in the",
+      "offset": 156160,
+      "duration": 3920
+    },
+    {
+      "text": "description. I prefer to plan my apps",
+      "offset": 157920,
+      "duration": 4240
+    },
+    {
+      "text": "using Claude Codes plan mode because it",
+      "offset": 160080,
+      "duration": 4400
+    },
+    {
+      "text": "iterates on every aspect of the generic",
+      "offset": 162160,
+      "duration": 4320
+    },
+    {
+      "text": "idea I give it and writes a detailed",
+      "offset": 164480,
+      "duration": 4160
+    },
+    {
+      "text": "document, but you can plan with the IDE",
+      "offset": 166480,
+      "duration": 4240
+    },
+    {
+      "text": "of your choice. I gave my app idea to",
+      "offset": 168640,
+      "duration": 4000
+    },
+    {
+      "text": "Claude Code in planning mode and asked",
+      "offset": 170720,
+      "duration": 4000
+    },
+    {
+      "text": "it to create a UI guide for it, making",
+      "offset": 172640,
+      "duration": 4160
+    },
+    {
+      "text": "sure the UI didn't look like the generic",
+      "offset": 174720,
+      "duration": 4320
+    },
+    {
+      "text": "AI designs that it usually produces.",
+      "offset": 176800,
+      "duration": 3439
+    },
+    {
+      "text": "Even though it was a really",
+      "offset": 179040,
+      "duration": 3119
+    },
+    {
+      "text": "time-consuming process, I went through",
+      "offset": 180239,
+      "duration": 3841
+    },
+    {
+      "text": "the entire planning process. It is",
+      "offset": 182159,
+      "duration": 3601
+    },
+    {
+      "text": "highly important to read through the",
+      "offset": 184080,
+      "duration": 3600
+    },
+    {
+      "text": "plan thoroughly because I even had to",
+      "offset": 185760,
+      "duration": 4080
+    },
+    {
+      "text": "refine the plan to my liking by making",
+      "offset": 187680,
+      "duration": 4160
+    },
+    {
+      "text": "lots of changes to the plan. I kept",
+      "offset": 189840,
+      "duration": 4000
+    },
+    {
+      "text": "refining the plan until I was completely",
+      "offset": 191840,
+      "duration": 3920
+    },
+    {
+      "text": "satisfied and in the end I had a plan",
+      "offset": 193840,
+      "duration": 4160
+    },
+    {
+      "text": "exactly how I wanted it. Once the design",
+      "offset": 195760,
+      "duration": 3920
+    },
+    {
+      "text": "plan was finalized with Claude's",
+      "offset": 198000,
+      "duration": 3599
+    },
+    {
+      "text": "planning mode, it was time to get that",
+      "offset": 199680,
+      "duration": 4000
+    },
+    {
+      "text": "plan implemented. Honestly, I prefer",
+      "offset": 201599,
+      "duration": 4081
+    },
+    {
+      "text": "Gemini's design capabilities over",
+      "offset": 203680,
+      "duration": 4000
+    },
+    {
+      "text": "Claude's models. So, I asked Claude to",
+      "offset": 205680,
+      "duration": 3839
+    },
+    {
+      "text": "take the plan it had just generated,",
+      "offset": 207680,
+      "duration": 4080
+    },
+    {
+      "text": "create an exact design by starting a new",
+      "offset": 209519,
+      "duration": 4640
+    },
+    {
+      "text": "project using the Stitch MCP. It used",
+      "offset": 211760,
+      "duration": 4880
+    },
+    {
+      "text": "the MCP tool to create a new project and",
+      "offset": 214159,
+      "duration": 4720
+    },
+    {
+      "text": "then started generating the sections. It",
+      "offset": 216640,
+      "duration": 4080
+    },
+    {
+      "text": "identified the project using a project",
+      "offset": 218879,
+      "duration": 4161
+    },
+    {
+      "text": "ID and sent a detailed prompt to Stitch,",
+      "offset": 220720,
+      "duration": 4079
+    },
+    {
+      "text": "which received the prompt and started",
+      "offset": 223040,
+      "duration": 4240
+    },
+    {
+      "text": "generating the screens. It used Gemini 3",
+      "offset": 224799,
+      "duration": 4641
+    },
+    {
+      "text": "Flash to generate the first section. One",
+      "offset": 227280,
+      "duration": 3679
+    },
+    {
+      "text": "thing I didn't like was that it sent",
+      "offset": 229440,
+      "duration": 3359
+    },
+    {
+      "text": "prompts for all the sections of the",
+      "offset": 230959,
+      "duration": 3601
+    },
+    {
+      "text": "landing page separately instead of",
+      "offset": 232799,
+      "duration": 3841
+    },
+    {
+      "text": "creating one long design the way web",
+      "offset": 234560,
+      "duration": 3920
+    },
+    {
+      "text": "designs are usually done. This might",
+      "offset": 236640,
+      "duration": 3599
+    },
+    {
+      "text": "pose trouble when we have to implement",
+      "offset": 238480,
+      "duration": 3759
+    },
+    {
+      "text": "them together in one app. So I asked",
+      "offset": 240239,
+      "duration": 4080
+    },
+    {
+      "text": "Claude to create one long page design",
+      "offset": 242239,
+      "duration": 4161
+    },
+    {
+      "text": "instead of individual components. Claude",
+      "offset": 244319,
+      "duration": 4081
+    },
+    {
+      "text": "then produced a really detailed prompt",
+      "offset": 246400,
+      "duration": 4080
+    },
+    {
+      "text": "which was received by Stitch and used to",
+      "offset": 248400,
+      "duration": 4240
+    },
+    {
+      "text": "generate the entire landing page while",
+      "offset": 250480,
+      "duration": 4240
+    },
+    {
+      "text": "keeping all the ideas from the section",
+      "offset": 252640,
+      "duration": 3920
+    },
+    {
+      "text": "bysection approach intact. In the",
+      "offset": 254720,
+      "duration": 3519
+    },
+    {
+      "text": "design, I really liked how it used",
+      "offset": 256560,
+      "duration": 3519
+    },
+    {
+      "text": "references like comments and terminal",
+      "offset": 258239,
+      "duration": 3601
+    },
+    {
+      "text": "commands to make it feel closer to",
+      "offset": 260079,
+      "duration": 3840
+    },
+    {
+      "text": "developers and used references like",
+      "offset": 261840,
+      "duration": 3919
+    },
+    {
+      "text": "comments and terminal commands to make",
+      "offset": 263919,
+      "duration": 3921
+    },
+    {
+      "text": "it feel closer to developers. I used",
+      "offset": 265759,
+      "duration": 3921
+    },
+    {
+      "text": "Stitch's preview feature to check how",
+      "offset": 267840,
+      "duration": 4000
+    },
+    {
+      "text": "the UI looked across different platforms",
+      "offset": 269680,
+      "duration": 4079
+    },
+    {
+      "text": "and it had implemented smooth hover",
+      "offset": 271840,
+      "duration": 3919
+    },
+    {
+      "text": "effects. The design was responsive and",
+      "offset": 273759,
+      "duration": 4641
+    },
+    {
+      "text": "worked well on both mobile and desktop.",
+      "offset": 275759,
+      "duration": 4401
+    },
+    {
+      "text": "Once I was satisfied with the design",
+      "offset": 278400,
+      "duration": 3840
+    },
+    {
+      "text": "that Stitch generated, I wanted to move",
+      "offset": 280160,
+      "duration": 4240
+    },
+    {
+      "text": "it into my next.js project in which I",
+      "offset": 282240,
+      "duration": 4239
+    },
+    {
+      "text": "was building the entire app around using",
+      "offset": 284400,
+      "duration": 4079
+    },
+    {
+      "text": "Claude code. I asked Claude to use the",
+      "offset": 286479,
+      "duration": 4321
+    },
+    {
+      "text": "Stitch MCP to get the code for the",
+      "offset": 288479,
+      "duration": 4160
+    },
+    {
+      "text": "complete landing page design and",
+      "offset": 290800,
+      "duration": 3760
+    },
+    {
+      "text": "implement it in the newly initialized",
+      "offset": 292639,
+      "duration": 4641
+    },
+    {
+      "text": "Nex.js project I was working on. It used",
+      "offset": 294560,
+      "duration": 4400
+    },
+    {
+      "text": "the get screen tool to fetch the",
+      "offset": 297280,
+      "duration": 3760
+    },
+    {
+      "text": "screens. This tool returned downloadable",
+      "offset": 298960,
+      "duration": 4000
+    },
+    {
+      "text": "links for code. So Claude used curl",
+      "offset": 301040,
+      "duration": 3599
+    },
+    {
+      "text": "commands on those links to extract the",
+      "offset": 302960,
+      "duration": 4000
+    },
+    {
+      "text": "code. Once it had the HTML, it became",
+      "offset": 304639,
+      "duration": 3921
+    },
+    {
+      "text": "easy to implement it in the existing",
+      "offset": 306960,
+      "duration": 3840
+    },
+    {
+      "text": "Nex.js project. It started integrating",
+      "offset": 308560,
+      "duration": 4079
+    },
+    {
+      "text": "the design into the app, but it only",
+      "offset": 310800,
+      "duration": 4480
+    },
+    {
+      "text": "made changes to the main page. .TSX",
+      "offset": 312639,
+      "duration": 4961
+    },
+    {
+      "text": "file, dumping it all in one file and not",
+      "offset": 315280,
+      "duration": 4160
+    },
+    {
+      "text": "following a proper component structure",
+      "offset": 317600,
+      "duration": 3439
+    },
+    {
+      "text": "as is the recommended standard for",
+      "offset": 319440,
+      "duration": 3840
+    },
+    {
+      "text": "React-based applications. For now, I ran",
+      "offset": 321039,
+      "duration": 3681
+    },
+    {
+      "text": "the dev server to see how the",
+      "offset": 323280,
+      "duration": 3520
+    },
+    {
+      "text": "implemented UI looked. The implemented",
+      "offset": 324720,
+      "duration": 3919
+    },
+    {
+      "text": "design was almost identical to what",
+      "offset": 326800,
+      "duration": 3760
+    },
+    {
+      "text": "Stitch generated aside from the hero",
+      "offset": 328639,
+      "duration": 3601
+    },
+    {
+      "text": "sections text placement. It had",
+      "offset": 330560,
+      "duration": 3760
+    },
+    {
+      "text": "implemented all the hover effects, added",
+      "offset": 332240,
+      "duration": 4320
+    },
+    {
+      "text": "animations for bento grids and parallax",
+      "offset": 334320,
+      "duration": 3920
+    },
+    {
+      "text": "scrolling in the background. To fix the",
+      "offset": 336560,
+      "duration": 3840
+    },
+    {
+      "text": "dump of code into a single file, I asked",
+      "offset": 338240,
+      "duration": 3760
+    },
+    {
+      "text": "Claude to use a proper component",
+      "offset": 340400,
+      "duration": 3519
+    },
+    {
+      "text": "structure for better modularity. It",
+      "offset": 342000,
+      "duration": 3840
+    },
+    {
+      "text": "refactored the code and reorganized it",
+      "offset": 343919,
+      "duration": 3761
+    },
+    {
+      "text": "into a clean and well ststructured set",
+      "offset": 345840,
+      "duration": 4079
+    },
+    {
+      "text": "of UI components and pages, making it",
+      "offset": 347680,
+      "duration": 4239
+    },
+    {
+      "text": "easier to navigate. With the help of",
+      "offset": 349919,
+      "duration": 4161
+    },
+    {
+      "text": "claude code and stitch, I created a",
+      "offset": 351919,
+      "duration": 4081
+    },
+    {
+      "text": "complete application with a theme that",
+      "offset": 354080,
+      "duration": 3839
+    },
+    {
+      "text": "incorporated the developer vibe with",
+      "offset": 356000,
+      "duration": 4080
+    },
+    {
+      "text": "terminal aesthetic. However, it still",
+      "offset": 357919,
+      "duration": 4560
+    },
+    {
+      "text": "had several UI issues. For example, the",
+      "offset": 360080,
+      "duration": 4320
+    },
+    {
+      "text": "code panel should be editable because",
+      "offset": 362479,
+      "duration": 4160
+    },
+    {
+      "text": "that's where users will type code during",
+      "offset": 364400,
+      "duration": 4079
+    },
+    {
+      "text": "their technical interview sessions.",
+      "offset": 366639,
+      "duration": 3840
+    },
+    {
+      "text": "Also, the question should appear at the",
+      "offset": 368479,
+      "duration": 4241
+    },
+    {
+      "text": "top as its current placement creates a",
+      "offset": 370479,
+      "duration": 4641
+    },
+    {
+      "text": "poor UX for those using the app. To test",
+      "offset": 372720,
+      "duration": 4479
+    },
+    {
+      "text": "the application, I used Versel's agent",
+      "offset": 375120,
+      "duration": 4240
+    },
+    {
+      "text": "browser. This is a CLI tool designed for",
+      "offset": 377199,
+      "duration": 4801
+    },
+    {
+      "text": "AI agents. Built on Rust and NodeJS,",
+      "offset": 379360,
+      "duration": 4399
+    },
+    {
+      "text": "meaning it's significantly faster than",
+      "offset": 382000,
+      "duration": 3680
+    },
+    {
+      "text": "traditional browser automation tools.",
+      "offset": 383759,
+      "duration": 3761
+    },
+    {
+      "text": "Installation is simple. Just run the",
+      "offset": 385680,
+      "duration": 3840
+    },
+    {
+      "text": "install command and it installs globally",
+      "offset": 387520,
+      "duration": 3840
+    },
+    {
+      "text": "across your system. It is limited to",
+      "offset": 389520,
+      "duration": 3760
+    },
+    {
+      "text": "Chromium based browsers for now and",
+      "offset": 391360,
+      "duration": 4000
+    },
+    {
+      "text": "isn't available in Firefox or Safari.",
+      "offset": 393280,
+      "duration": 3919
+    },
+    {
+      "text": "Agent browser offers better features",
+      "offset": 395360,
+      "duration": 3600
+    },
+    {
+      "text": "than Claude's Chrome extension,",
+      "offset": 397199,
+      "duration": 3840
+    },
+    {
+      "text": "Playright, Puppeteer, or other dev",
+      "offset": 398960,
+      "duration": 3679
+    },
+    {
+      "text": "tools. This is because the Chrome",
+      "offset": 401039,
+      "duration": 3440
+    },
+    {
+      "text": "extension relies on running a full",
+      "offset": 402639,
+      "duration": 4081
+    },
+    {
+      "text": "browser, taking screenshots, visually",
+      "offset": 404479,
+      "duration": 4321
+    },
+    {
+      "text": "mapping pixels, and then navigating",
+      "offset": 406720,
+      "duration": 4319
+    },
+    {
+      "text": "around on the UI. In contrast, agent",
+      "offset": 408800,
+      "duration": 4720
+    },
+    {
+      "text": "browser is a CLI tool that runs as bash",
+      "offset": 411039,
+      "duration": 4321
+    },
+    {
+      "text": "commands and works with snapshots",
+      "offset": 413520,
+      "duration": 3920
+    },
+    {
+      "text": "instead of screenshots. Essentially, a",
+      "offset": 415360,
+      "duration": 4239
+    },
+    {
+      "text": "snapshot is an accessibility tree of the",
+      "offset": 417440,
+      "duration": 4479
+    },
+    {
+      "text": "entire page tagged with selectors to",
+      "offset": 419599,
+      "duration": 4160
+    },
+    {
+      "text": "identify individual components. The",
+      "offset": 421919,
+      "duration": 3761
+    },
+    {
+      "text": "agent uses these selectors to navigate",
+      "offset": 423759,
+      "duration": 3681
+    },
+    {
+      "text": "the page efficiently. It doesn't share",
+      "offset": 425680,
+      "duration": 3440
+    },
+    {
+      "text": "the session with your existing browser",
+      "offset": 427440,
+      "duration": 3599
+    },
+    {
+      "text": "and runs in a separate browser. So, it",
+      "offset": 429120,
+      "duration": 3519
+    },
+    {
+      "text": "won't be able to take actions that",
+      "offset": 431039,
+      "duration": 3440
+    },
+    {
+      "text": "require your active sessions unlike",
+      "offset": 432639,
+      "duration": 3680
+    },
+    {
+      "text": "Claude's extension which runs inside",
+      "offset": 434479,
+      "duration": 3840
+    },
+    {
+      "text": "your own browser and can perform actions",
+      "offset": 436319,
+      "duration": 3681
+    },
+    {
+      "text": "on your behalf. If you want to see the",
+      "offset": 438319,
+      "duration": 3361
+    },
+    {
+      "text": "available commands, you can check out",
+      "offset": 440000,
+      "duration": 3599
+    },
+    {
+      "text": "the GitHub repo which contains a",
+      "offset": 441680,
+      "duration": 4000
+    },
+    {
+      "text": "detailed list of all core commands.",
+      "offset": 443599,
+      "duration": 4320
+    },
+    {
+      "text": "These show how to navigate the UI, use",
+      "offset": 445680,
+      "duration": 4239
+    },
+    {
+      "text": "selectors, simulate mouse control,",
+      "offset": 447919,
+      "duration": 3921
+    },
+    {
+      "text": "manage cookies and storage, and even",
+      "offset": 449919,
+      "duration": 4081
+    },
+    {
+      "text": "monitor network activity. For my app, I",
+      "offset": 451840,
+      "duration": 4560
+    },
+    {
+      "text": "added a claude.m MD file and instructed",
+      "offset": 454000,
+      "duration": 4400
+    },
+    {
+      "text": "it to use the agent browser tools for",
+      "offset": 456400,
+      "duration": 4000
+    },
+    {
+      "text": "all kinds of testing. I also told it to",
+      "offset": 458400,
+      "duration": 3840
+    },
+    {
+      "text": "use the help command if it didn't know",
+      "offset": 460400,
+      "duration": 3919
+    },
+    {
+      "text": "how to use any agent browser command.",
+      "offset": 462240,
+      "duration": 3600
+    },
+    {
+      "text": "You can get these rules along with the",
+      "offset": 464319,
+      "duration": 3761
+    },
+    {
+      "text": "complete workflow guidelines in AIABS",
+      "offset": 465840,
+      "duration": 4079
+    },
+    {
+      "text": "Pro as well. Even though this tool is a",
+      "offset": 468080,
+      "duration": 4000
+    },
+    {
+      "text": "headless browser automation tool, we can",
+      "offset": 469919,
+      "duration": 4081
+    },
+    {
+      "text": "also run it in headed mode by enabling",
+      "offset": 472080,
+      "duration": 3600
+    },
+    {
+      "text": "the headed option which shows the",
+      "offset": 474000,
+      "duration": 3599
+    },
+    {
+      "text": "browser window so we can see it working.",
+      "offset": 475680,
+      "duration": 3760
+    },
+    {
+      "text": "I asked Claude to use the browser in",
+      "offset": 477599,
+      "duration": 4320
+    },
+    {
+      "text": "headed mode to test the application UI.",
+      "offset": 479440,
+      "duration": 4319
+    },
+    {
+      "text": "It first used the help command to see",
+      "offset": 481919,
+      "duration": 3680
+    },
+    {
+      "text": "all the available commands and then it",
+      "offset": 483759,
+      "duration": 3681
+    },
+    {
+      "text": "opened the browser. It used an approach",
+      "offset": 485599,
+      "duration": 3841
+    },
+    {
+      "text": "similar to what we suggested with claude",
+      "offset": 487440,
+      "duration": 3920
+    },
+    {
+      "text": "browser use. That is taking a full page",
+      "offset": 489440,
+      "duration": 4000
+    },
+    {
+      "text": "snapshot instead of section bysection",
+      "offset": 491360,
+      "duration": 3679
+    },
+    {
+      "text": "screenshots like Claude's Chrome",
+      "offset": 493440,
+      "duration": 3680
+    },
+    {
+      "text": "extension does, which significantly sped",
+      "offset": 495039,
+      "duration": 4081
+    },
+    {
+      "text": "up the testing process while maintaining",
+      "offset": 497120,
+      "duration": 4000
+    },
+    {
+      "text": "the same level of accuracy. The agent",
+      "offset": 499120,
+      "duration": 3840
+    },
+    {
+      "text": "performed many actions, navigating",
+      "offset": 501120,
+      "duration": 3519
+    },
+    {
+      "text": "through the entire app and testing",
+      "offset": 502960,
+      "duration": 3519
+    },
+    {
+      "text": "multiple features by moving across",
+      "offset": 504639,
+      "duration": 3921
+    },
+    {
+      "text": "different UIs and checking the visual",
+      "offset": 506479,
+      "duration": 4081
+    },
+    {
+      "text": "layout. It completed the entire testing",
+      "offset": 508560,
+      "duration": 4080
+    },
+    {
+      "text": "process in just 4 minutes, whereas other",
+      "offset": 510560,
+      "duration": 3760
+    },
+    {
+      "text": "browser automation tools would have",
+      "offset": 512640,
+      "duration": 3680
+    },
+    {
+      "text": "taken much longer because it relies on",
+      "offset": 514320,
+      "duration": 4000
+    },
+    {
+      "text": "accessibility trees, not the screenshot",
+      "offset": 516320,
+      "duration": 3920
+    },
+    {
+      "text": "approach. It also identified that the",
+      "offset": 518320,
+      "duration": 3920
+    },
+    {
+      "text": "code editor needed to be editable and",
+      "offset": 520240,
+      "duration": 3919
+    },
+    {
+      "text": "implemented that fix right away. It then",
+      "offset": 522240,
+      "duration": 3680
+    },
+    {
+      "text": "tested it in the browser by taking a",
+      "offset": 524159,
+      "duration": 3841
+    },
+    {
+      "text": "snapshot, finding the editor selector,",
+      "offset": 525920,
+      "duration": 4000
+    },
+    {
+      "text": "and using the agent browser's clicking",
+      "offset": 528000,
+      "duration": 4000
+    },
+    {
+      "text": "and typing functions to edit a part of",
+      "offset": 529920,
+      "duration": 4000
+    },
+    {
+      "text": "the code to see if it was implemented",
+      "offset": 532000,
+      "duration": 3920
+    },
+    {
+      "text": "correctly. That brings us to the end of",
+      "offset": 533920,
+      "duration": 3680
+    },
+    {
+      "text": "this video. If you'd like to support the",
+      "offset": 535920,
+      "duration": 3280
+    },
+    {
+      "text": "channel and help us keep making videos",
+      "offset": 537600,
+      "duration": 3359
+    },
+    {
+      "text": "like this, you can do so by joining",
+      "offset": 539200,
+      "duration": 3840
+    },
+    {
+      "text": "AIABS Pro. As always, thank you for",
+      "offset": 540959,
+      "duration": 3521
+    },
+    {
+      "text": "watching and I'll see you in the next",
+      "offset": 543040,
+      "duration": 4440
+    },
+    {
+      "text": "one.",
+      "offset": 544480,
+      "duration": 3000
+    }
+  ]
+}

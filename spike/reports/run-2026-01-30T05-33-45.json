@@ -1,0 +1,106 @@
+{
+  "timestamp": "2026-01-30T05:33:45.509Z",
+  "channels": [
+    "@AILABS-393"
+  ],
+  "summary": {
+    "total_attempted": 50,
+    "succeeded": 0,
+    "failed": 17,
+    "skipped": 33
+  },
+  "failures": [
+    {
+      "videoId": "yq3EN46qw_U",
+      "title": "You can literally win 50K... Just By Prompting",
+      "error": "Transcript fetch failed for yq3EN46qw_U: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-yq3EN46qw_U https://www.youtube.com/watch?v=yq3EN46qw_U\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "v9Rd_l6gLjU",
+      "title": "Gemini Designer is INSANE... Build Beautiful Websites in Minutes",
+      "error": "Transcript fetch failed for v9Rd_l6gLjU: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-v9Rd_l6gLjU https://www.youtube.com/watch?v=v9Rd_l6gLjU\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "ageSodnKpw0",
+      "title": "I Tested the 20% Claude VS ChatGPT Plans To Decide Which is Better",
+      "error": "Transcript fetch failed for ageSodnKpw0: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-ageSodnKpw0 https://www.youtube.com/watch?v=ageSodnKpw0\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "w3pmfaczpLc",
+      "title": "A Problem You Never Knew About",
+      "error": "Transcript fetch failed for w3pmfaczpLc: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-w3pmfaczpLc https://www.youtube.com/watch?v=w3pmfaczpLc\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "_Xbe7MQ2NxI",
+      "title": "Claude code vs Codex vs Cursor: Who gets the cake?",
+      "error": "Transcript fetch failed for _Xbe7MQ2NxI: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-_Xbe7MQ2NxI https://www.youtube.com/watch?v=_Xbe7MQ2NxI\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "Ym-iMJ-sds0",
+      "title": "Why Your LLM Answers Are Mediocre (And How to Fix It)",
+      "error": "Transcript fetch failed for Ym-iMJ-sds0: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-Ym-iMJ-sds0 https://www.youtube.com/watch?v=Ym-iMJ-sds0\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "_-FEgdQ_L4I",
+      "title": "How to Use Figma AI To Make Sites 10X More Beautiful",
+      "error": "Transcript fetch failed for _-FEgdQ_L4I: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-_-FEgdQ_L4I https://www.youtube.com/watch?v=_-FEgdQ_L4I\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "Z9glbip8pZc",
+      "title": "How Claude Solved AI's Biggest Problem",
+      "error": "Transcript fetch failed for Z9glbip8pZc: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-Z9glbip8pZc https://www.youtube.com/watch?v=Z9glbip8pZc\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "WKy71aZHx20",
+      "title": "Cursor AI Just Got a Massive Upgrade Over Claude Code",
+      "error": "Transcript fetch failed for WKy71aZHx20: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-WKy71aZHx20 https://www.youtube.com/watch?v=WKy71aZHx20\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "oj44Vrh0XyM",
+      "title": "Claude FINALLY Fixed AI Coding By Releasing This",
+      "error": "Transcript fetch failed for oj44Vrh0XyM: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-oj44Vrh0XyM https://www.youtube.com/watch?v=oj44Vrh0XyM\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "lcqlgif2hFA",
+      "title": "ChatGPT Apps vs n8n vs AgentKit: The Future of AI Automation",
+      "error": "Transcript fetch failed for lcqlgif2hFA: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-lcqlgif2hFA https://www.youtube.com/watch?v=lcqlgif2hFA\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "6odlDS7-G8k",
+      "title": "I Built 5 Websites Without Touching HTML:  Here's How (Kibo UI)",
+      "error": "Transcript fetch failed for 6odlDS7-G8k: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-6odlDS7-G8k https://www.youtube.com/watch?v=6odlDS7-G8k\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "xhrqmAWI_cw",
+      "title": "How to 10X Your Claude Code Workflow",
+      "error": "Transcript fetch failed for xhrqmAWI_cw: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-xhrqmAWI_cw https://www.youtube.com/watch?v=xhrqmAWI_cw\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "sLiVXlIlSBQ",
+      "title": "OpenAI Agent Builder vs Claude: Who Wins Multi-Agent Workflows? (Complete Comparison)",
+      "error": "Transcript fetch failed for sLiVXlIlSBQ: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-sLiVXlIlSBQ https://www.youtube.com/watch?v=sLiVXlIlSBQ\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "idccdssOZQ8",
+      "title": "Claude Code Can Finally Make Beautiful Websites",
+      "error": "Transcript fetch failed for idccdssOZQ8: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-idccdssOZQ8 https://www.youtube.com/watch?v=idccdssOZQ8\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "wEHWvzWOjt0",
+      "title": "GLM 4.6 Review: Better Than Claude for Coding? (Real Project Tests)",
+      "error": "Transcript fetch failed for wEHWvzWOjt0: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-wEHWvzWOjt0 https://www.youtube.com/watch?v=wEHWvzWOjt0\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    },
+    {
+      "videoId": "t7VuWwukO3I",
+      "title": "Sonnet 4.5 Just Unlocked a New Breed of Agents",
+      "error": "Transcript fetch failed for t7VuWwukO3I: Command failed: yt-dlp --write-auto-subs --skip-download --sub-format json3 --sub-langs en -o /tmp/yt-transcript-t7VuWwukO3I https://www.youtube.com/watch?v=t7VuWwukO3I\nWARNING: [youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt-dlp/wiki/EJS  for details on installing one\nWARNING: ffmpeg not found. The downloaded format may not be the best available. Installing ffmpeg is strongly recommended: https://github.com/yt-dlp/yt-dlp#dependencies\nWARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies\nERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests\n"
+    }
+  ],
+  "metrics": {
+    "avg_transcript_length_chars": 0,
+    "avg_segments_per_video": 0,
+    "avg_embedding_time_ms": 0,
+    "total_segments": 0,
+    "total_wall_clock_ms": 244123
+  }
+}

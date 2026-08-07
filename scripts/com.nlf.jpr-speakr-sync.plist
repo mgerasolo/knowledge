@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LaunchAgent: runs jpr-speakr-sync.sh every 60 seconds on the Mac.
+  Replace YOURNAME with your macOS short username before installing.
+  Install to: ~/Library/LaunchAgents/com.nlf.jpr-speakr-sync.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.nlf.jpr-speakr-sync</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/YOURNAME/bin/jpr-speakr-sync.sh</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>60</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/jpr-speakr-sync.out</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/jpr-speakr-sync.err</string>
+</dict>
+</plist>

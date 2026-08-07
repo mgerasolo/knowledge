@@ -1,0 +1,946 @@
+{
+  "videoId": "9uW6B9LPntY",
+  "title": "A brief history of programming...",
+  "segments": [
+    {
+      "text": "In the beginning, there was nothing.",
+      "offset": 80,
+      "duration": 3440
+    },
+    {
+      "text": "Then someone invented one. And then",
+      "offset": 1760,
+      "duration": 3680
+    },
+    {
+      "text": "someone else invented zero. And everyone",
+      "offset": 3520,
+      "duration": 4319
+    },
+    {
+      "text": "said, \"Wow, this is useless.\" Then about",
+      "offset": 5440,
+      "duration": 4560
+    },
+    {
+      "text": "20,000 years later, electricity shows",
+      "offset": 7839,
+      "duration": 4561
+    },
+    {
+      "text": "up. Electricity likes on and off. On is",
+      "offset": 10000,
+      "duration": 4639
+    },
+    {
+      "text": "one, off is zero. And suddenly we're",
+      "offset": 12400,
+      "duration": 4080
+    },
+    {
+      "text": "programming stuff. They say, \"What if we",
+      "offset": 14639,
+      "duration": 4400
+    },
+    {
+      "text": "combine 1 and zero?\" So they do. 1 0 1 0",
+      "offset": 16480,
+      "duration": 4959
+    },
+    {
+      "text": "1 0 1 0. Nobody knows what it means, but",
+      "offset": 19039,
+      "duration": 4881
+    },
+    {
+      "text": "it feels important. 1936 rolls around.",
+      "offset": 21439,
+      "duration": 4161
+    },
+    {
+      "text": "This guy defines what computable even",
+      "offset": 23920,
+      "duration": 3279
+    },
+    {
+      "text": "means. He goes on to crack the Nazi",
+      "offset": 25600,
+      "duration": 3360
+    },
+    {
+      "text": "Enigma machine to save the war for",
+      "offset": 27199,
+      "duration": 3521
+    },
+    {
+      "text": "Britain, but he's way too gay, so they",
+      "offset": 28960,
+      "duration": 3279
+    },
+    {
+      "text": "throw him in prison. The war is over,",
+      "offset": 30720,
+      "duration": 3359
+    },
+    {
+      "text": "and people realize computing machines",
+      "offset": 32239,
+      "duration": 3521
+    },
+    {
+      "text": "are pretty useful. They use vacuum tubes",
+      "offset": 34079,
+      "duration": 3361
+    },
+    {
+      "text": "and punch cards to represent ones and",
+      "offset": 35760,
+      "duration": 4000
+    },
+    {
+      "text": "zeros. They call each number a bit or a",
+      "offset": 37440,
+      "duration": 4160
+    },
+    {
+      "text": "binary number. It's how computers think.",
+      "offset": 39760,
+      "duration": 3520
+    },
+    {
+      "text": "They don't understand words, they",
+      "offset": 41600,
+      "duration": 3440
+    },
+    {
+      "text": "understand voltage. And then someone had",
+      "offset": 43280,
+      "duration": 3759
+    },
+    {
+      "text": "the idea, what if we take eight bits to",
+      "offset": 45040,
+      "duration": 3600
+    },
+    {
+      "text": "represent a regular number? Everyone",
+      "offset": 47039,
+      "duration": 4321
+    },
+    {
+      "text": "agrees. And now we can count to 255.",
+      "offset": 48640,
+      "duration": 4480
+    },
+    {
+      "text": "Then this guy says, dudes, let's call",
+      "offset": 51360,
+      "duration": 3600
+    },
+    {
+      "text": "this eight pack of bits a bite. a bite",
+      "offset": 53120,
+      "duration": 3520
+    },
+    {
+      "text": "with the Y to make it sound futuristic",
+      "offset": 54960,
+      "duration": 3520
+    },
+    {
+      "text": "and cool. And now people start arranging",
+      "offset": 56640,
+      "duration": 3599
+    },
+    {
+      "text": "ones and zeros all day to make machines",
+      "offset": 58480,
+      "duration": 4160
+    },
+    {
+      "text": "do math. And they realize this sucks. So",
+      "offset": 60239,
+      "duration": 3681
+    },
+    {
+      "text": "this woman shows up and says,",
+      "offset": 62640,
+      "duration": 3200
+    },
+    {
+      "text": "\"Absolutely not.\" And invents assembly",
+      "offset": 63920,
+      "duration": 5280
+    },
+    {
+      "text": "language. Instead of writing 101 1 0 0,",
+      "offset": 65840,
+      "duration": 5840
+    },
+    {
+      "text": "you write. It still sucks, but now it",
+      "offset": 69200,
+      "duration": 4720
+    },
+    {
+      "text": "sucks less. Then another woman shows up",
+      "offset": 71680,
+      "duration": 4160
+    },
+    {
+      "text": "and completely changes everything. Grace",
+      "offset": 73920,
+      "duration": 3199
+    },
+    {
+      "text": "says, \"What if computers could",
+      "offset": 75840,
+      "duration": 2800
+    },
+    {
+      "text": "understand something like English?\"",
+      "offset": 77119,
+      "duration": 3040
+    },
+    {
+      "text": "Everyone laughs. They tell her to go",
+      "offset": 78640,
+      "duration": 3600
+    },
+    {
+      "text": "make a sandwich. So she does and calls",
+      "offset": 80159,
+      "duration": 4241
+    },
+    {
+      "text": "it a compiler. A compiler is like a",
+      "offset": 82240,
+      "duration": 4000
+    },
+    {
+      "text": "translator. You give it readable code,",
+      "offset": 84400,
+      "duration": 3680
+    },
+    {
+      "text": "it thinks really hard, then gives you a",
+      "offset": 86240,
+      "duration": 4080
+    },
+    {
+      "text": "new file. That file is machine code, a",
+      "offset": 88080,
+      "duration": 3760
+    },
+    {
+      "text": "bunch of ones and zeros again. The",
+      "offset": 90320,
+      "duration": 3040
+    },
+    {
+      "text": "computer loves it. You never look at it",
+      "offset": 91840,
+      "duration": 3040
+    },
+    {
+      "text": "again. And this leads to the first",
+      "offset": 93360,
+      "duration": 3520
+    },
+    {
+      "text": "highle programming languages. Before",
+      "offset": 94880,
+      "duration": 3919
+    },
+    {
+      "text": "trans for scientists, the cobalt for",
+      "offset": 96880,
+      "duration": 3360
+    },
+    {
+      "text": "businesses and government that somehow",
+      "offset": 98799,
+      "duration": 3201
+    },
+    {
+      "text": "half of global finance still runs on",
+      "offset": 100240,
+      "duration": 3760
+    },
+    {
+      "text": "cobalt. No one knows how. No one touches",
+      "offset": 102000,
+      "duration": 4000
+    },
+    {
+      "text": "it. Meanwhile, this weird guy creates",
+      "offset": 104000,
+      "duration": 3759
+    },
+    {
+      "text": "this weird language called lisp.",
+      "offset": 106000,
+      "duration": 4000
+    },
+    {
+      "text": "Everything is a list. Code is data. Data",
+      "offset": 107759,
+      "duration": 3761
+    },
+    {
+      "text": "is code. It doesn't even need a",
+      "offset": 110000,
+      "duration": 3280
+    },
+    {
+      "text": "compiler. Instead, it uses an",
+      "offset": 111520,
+      "duration": 3760
+    },
+    {
+      "text": "interpreter that runs code line by line",
+      "offset": 113280,
+      "duration": 4479
+    },
+    {
+      "text": "on the fly until the code stops working.",
+      "offset": 115280,
+      "duration": 4400
+    },
+    {
+      "text": "Wild stuff. And it also unlocks a new",
+      "offset": 117759,
+      "duration": 3601
+    },
+    {
+      "text": "superpower called garbage collection,",
+      "offset": 119680,
+      "duration": 3119
+    },
+    {
+      "text": "where the programmer no longer even",
+      "offset": 121360,
+      "duration": 2960
+    },
+    {
+      "text": "needs to think about memory. After",
+      "offset": 122799,
+      "duration": 3680
+    },
+    {
+      "text": "everyone does LSD in the late '60s,",
+      "offset": 124320,
+      "duration": 3600
+    },
+    {
+      "text": "things start to get weird. In the early",
+      "offset": 126479,
+      "duration": 3920
+    },
+    {
+      "text": "'7s, Dystra says, \"Go-to statements are",
+      "offset": 127920,
+      "duration": 4399
+    },
+    {
+      "text": "trash and everybody agrees that we need",
+      "offset": 130399,
+      "duration": 3601
+    },
+    {
+      "text": "readable, maintainable code.\" Dennis",
+      "offset": 132319,
+      "duration": 4401
+    },
+    {
+      "text": "invents C. The C is fast. C is powerful.",
+      "offset": 134000,
+      "duration": 4160
+    },
+    {
+      "text": "The C lets you shoot yourself in the",
+      "offset": 136720,
+      "duration": 3920
+    },
+    {
+      "text": "foot with military precision. But C lets",
+      "offset": 138160,
+      "duration": 4400
+    },
+    {
+      "text": "you talk directly to memory, which means",
+      "offset": 140640,
+      "duration": 3840
+    },
+    {
+      "text": "power. Dennis has a buddy named Ken.",
+      "offset": 142560,
+      "duration": 4240
+    },
+    {
+      "text": "Together, they use C to make Unix. It's",
+      "offset": 144480,
+      "duration": 4160
+    },
+    {
+      "text": "an operating system. It's not the first",
+      "offset": 146800,
+      "duration": 3439
+    },
+    {
+      "text": "one, but it's the only one that still",
+      "offset": 148640,
+      "duration": 3440
+    },
+    {
+      "text": "matters. Instead of one giant machine,",
+      "offset": 150239,
+      "duration": 4080
+    },
+    {
+      "text": "we get small programs. They each do one",
+      "offset": 152080,
+      "duration": 4239
+    },
+    {
+      "text": "thing well and pipe data to each other",
+      "offset": 154319,
+      "duration": 4721
+    },
+    {
+      "text": "like CD to change directories and ls to",
+      "offset": 156319,
+      "duration": 5041
+    },
+    {
+      "text": "list out its contents. The idea infects",
+      "offset": 159040,
+      "duration": 3760
+    },
+    {
+      "text": "everything and now the command line",
+      "offset": 161360,
+      "duration": 3280
+    },
+    {
+      "text": "becomes religion among programmers.",
+      "offset": 162800,
+      "duration": 3439
+    },
+    {
+      "text": "Everything was perfect. Then this guy",
+      "offset": 164640,
+      "duration": 3520
+    },
+    {
+      "text": "comes along and says, \"What if C,\" but",
+      "offset": 166239,
+      "duration": 3761
+    },
+    {
+      "text": "with more abstraction. And so he adds a",
+      "offset": 168160,
+      "duration": 3439
+    },
+    {
+      "text": "plus to it. And then another plus. And",
+      "offset": 170000,
+      "duration": 3599
+    },
+    {
+      "text": "now all of a sudden we have objects,",
+      "offset": 171599,
+      "duration": 4321
+    },
+    {
+      "text": "classes, inheritance, and arguments that",
+      "offset": 173599,
+      "duration": 4481
+    },
+    {
+      "text": "never end. Programmers love complexity.",
+      "offset": 175920,
+      "duration": 4640
+    },
+    {
+      "text": "So C++ takes over the world. Games,",
+      "offset": 178080,
+      "duration": 4879
+    },
+    {
+      "text": "browsers, databases, engines are all",
+      "offset": 180560,
+      "duration": 4800
+    },
+    {
+      "text": "built with C++ even today, and people",
+      "offset": 182959,
+      "duration": 4081
+    },
+    {
+      "text": "still can't stop arguing about it. Now",
+      "offset": 185360,
+      "duration": 3920
+    },
+    {
+      "text": "the year is 1982. Every nerd owns a",
+      "offset": 187040,
+      "duration": 4320
+    },
+    {
+      "text": "Commodore 64 while learning how to code",
+      "offset": 189280,
+      "duration": 3920
+    },
+    {
+      "text": "in basic while listening to Thriller on",
+      "offset": 191360,
+      "duration": 4400
+    },
+    {
+      "text": "a record player. Soon Turbo Pascal shows",
+      "offset": 193200,
+      "duration": 5200
+    },
+    {
+      "text": "up. Like C, it has a compiler but also a",
+      "offset": 195760,
+      "duration": 4479
+    },
+    {
+      "text": "full integrated development environment.",
+      "offset": 198400,
+      "duration": 3600
+    },
+    {
+      "text": "It sells like Thriller, but many new",
+      "offset": 200239,
+      "duration": 3041
+    },
+    {
+      "text": "programming languages are hitting the",
+      "offset": 202000,
+      "duration": 3280
+    },
+    {
+      "text": "scene. ADA is created for the military,",
+      "offset": 203280,
+      "duration": 4080
+    },
+    {
+      "text": "Erlang for the phone system, Mat Lab,",
+      "offset": 205280,
+      "duration": 4080
+    },
+    {
+      "text": "Pearl, Objective C, and more. Oh, and",
+      "offset": 207360,
+      "duration": 3439
+    },
+    {
+      "text": "don't forget Small Talk, one of the",
+      "offset": 209360,
+      "duration": 3519
+    },
+    {
+      "text": "first pure objectoriented languages",
+      "offset": 210799,
+      "duration": 3761
+    },
+    {
+      "text": "where everything is an object. Everybody",
+      "offset": 212879,
+      "duration": 3440
+    },
+    {
+      "text": "forgets about it, but everybody copies",
+      "offset": 214560,
+      "duration": 3679
+    },
+    {
+      "text": "it. Then the '9s happen and three",
+      "offset": 216319,
+      "duration": 4321
+    },
+    {
+      "text": "philosophies collide. Guido says code",
+      "offset": 218239,
+      "duration": 4080
+    },
+    {
+      "text": "should read like thoughts. is so we get",
+      "offset": 220640,
+      "duration": 3840
+    },
+    {
+      "text": "Python where readability matters and",
+      "offset": 222319,
+      "duration": 4321
+    },
+    {
+      "text": "indentation is law. But James says",
+      "offset": 224480,
+      "duration": 3839
+    },
+    {
+      "text": "program should run everywhere is so we",
+      "offset": 226640,
+      "duration": 4000
+    },
+    {
+      "text": "get Java where you write once and debug",
+      "offset": 228319,
+      "duration": 4401
+    },
+    {
+      "text": "everywhere. Java doesn't just ship a",
+      "offset": 230640,
+      "duration": 3920
+    },
+    {
+      "text": "language but also a revolutionary",
+      "offset": 232720,
+      "duration": 3920
+    },
+    {
+      "text": "virtual machine which is like a fake",
+      "offset": 234560,
+      "duration": 3759
+    },
+    {
+      "text": "computer that runs in the real computer",
+      "offset": 236640,
+      "duration": 3679
+    },
+    {
+      "text": "and compiles Java to bite code instead",
+      "offset": 238319,
+      "duration": 3840
+    },
+    {
+      "text": "of machine code. It's basically cheating",
+      "offset": 240319,
+      "duration": 3761
+    },
+    {
+      "text": "to get Java to run everywhere. But then",
+      "offset": 242159,
+      "duration": 3360
+    },
+    {
+      "text": "Brendan comes along and invents",
+      "offset": 244080,
+      "duration": 3519
+    },
+    {
+      "text": "JavaScript in 10 days to make buttons",
+      "offset": 245519,
+      "duration": 3761
+    },
+    {
+      "text": "animate in the browser. It was supposed",
+      "offset": 247599,
+      "duration": 3200
+    },
+    {
+      "text": "to be small. It was supposed to be",
+      "offset": 249280,
+      "duration": 4239
+    },
+    {
+      "text": "temporary. It now runs servers, phones,",
+      "offset": 250799,
+      "duration": 5041
+    },
+    {
+      "text": "databases, and spacecraft. No one",
+      "offset": 253519,
+      "duration": 4481
+    },
+    {
+      "text": "planned this. No one wanted this. Then",
+      "offset": 255840,
+      "duration": 4160
+    },
+    {
+      "text": "the worldwide web happened. The experts",
+      "offset": 258000,
+      "duration": 3359
+    },
+    {
+      "text": "said it would be no more important than",
+      "offset": 260000,
+      "duration": 3120
+    },
+    {
+      "text": "the fax machine. But billions of",
+      "offset": 261359,
+      "duration": 3601
+    },
+    {
+      "text": "websites were created anyway. Most of",
+      "offset": 263120,
+      "duration": 3680
+    },
+    {
+      "text": "them with PHP. Nobody likes to talk",
+      "offset": 264960,
+      "duration": 4239
+    },
+    {
+      "text": "about PHP, only JavaScript frameworks.",
+      "offset": 266800,
+      "duration": 3760
+    },
+    {
+      "text": "Wars were fought over JavaScript",
+      "offset": 269199,
+      "duration": 3601
+    },
+    {
+      "text": "frameworks like jQuery, Moo Tools,",
+      "offset": 270560,
+      "duration": 4639
+    },
+    {
+      "text": "React, Angular, View, Spelt, and",
+      "offset": 272800,
+      "duration": 4320
+    },
+    {
+      "text": "thousands more. Many people died from",
+      "offset": 275199,
+      "duration": 3921
+    },
+    {
+      "text": "unrelated causes. But they didn't die",
+      "offset": 277120,
+      "duration": 3680
+    },
+    {
+      "text": "for nothing. Throughout the 2000s,",
+      "offset": 279120,
+      "duration": 3200
+    },
+    {
+      "text": "languages became cleaner and more",
+      "offset": 280800,
+      "duration": 3920
+    },
+    {
+      "text": "elegant. The Swift fixed Objective C.",
+      "offset": 282320,
+      "duration": 4720
+    },
+    {
+      "text": "Cotlin fixed Java. The TypeScript fixed",
+      "offset": 284720,
+      "duration": 5680
+    },
+    {
+      "text": "JavaScript. Go fix C. Rust fix C. No,",
+      "offset": 287040,
+      "duration": 6240
+    },
+    {
+      "text": "Zigfix C. JK C is still the best. In",
+      "offset": 290400,
+      "duration": 4640
+    },
+    {
+      "text": "2020, the world is beautiful and",
+      "offset": 293280,
+      "duration": 3520
+    },
+    {
+      "text": "perfect. But programmers are cool,",
+      "offset": 295040,
+      "duration": 3520
+    },
+    {
+      "text": "programmers are rich, and programmers",
+      "offset": 296800,
+      "duration": 4080
+    },
+    {
+      "text": "are highly desirable mates. Even Fire",
+      "offset": 298560,
+      "duration": 4320
+    },
+    {
+      "text": "was making good videos without any AI",
+      "offset": 300880,
+      "duration": 4400
+    },
+    {
+      "text": "slop. But then the asteroid hit. Someone",
+      "offset": 302880,
+      "duration": 4319
+    },
+    {
+      "text": "says, \"What if we can get statistics to",
+      "offset": 305280,
+      "duration": 3120
+    },
+    {
+      "text": "write code?\" But first it's",
+      "offset": 307199,
+      "duration": 3280
+    },
+    {
+      "text": "autocomplete, then llinters, then",
+      "offset": 308400,
+      "duration": 4400
+    },
+    {
+      "text": "refactors, then whole functions, then",
+      "offset": 310479,
+      "duration": 4321
+    },
+    {
+      "text": "entire full stack applications. And",
+      "offset": 312800,
+      "duration": 4239
+    },
+    {
+      "text": "suddenly everybody says programming is",
+      "offset": 314800,
+      "duration": 4320
+    },
+    {
+      "text": "dead. But here's the secret. Typing code",
+      "offset": 317039,
+      "duration": 4481
+    },
+    {
+      "text": "was never the job. The job was thinking.",
+      "offset": 319120,
+      "duration": 3680
+    },
+    {
+      "text": "Thinking with your brain. But",
+      "offset": 321520,
+      "duration": 3040
+    },
+    {
+      "text": "programming isn't dead. It just keeps",
+      "offset": 322800,
+      "duration": 3360
+    },
+    {
+      "text": "changing the keyboard and it always",
+      "offset": 324560,
+      "duration": 3199
+    },
+    {
+      "text": "will. And one tool that's changed the",
+      "offset": 326160,
+      "duration": 3520
+    },
+    {
+      "text": "way I use the keyboard comes from Jet",
+      "offset": 327759,
+      "duration": 3761
+    },
+    {
+      "text": "Brains, the sponsor of today's video.",
+      "offset": 329680,
+      "duration": 4320
+    },
+    {
+      "text": "Their AI coding agent, Juny, is built",
+      "offset": 331520,
+      "duration": 4880
+    },
+    {
+      "text": "directly into the Jet Brains IDE, which",
+      "offset": 334000,
+      "duration": 4000
+    },
+    {
+      "text": "lets it understand the structure and",
+      "offset": 336400,
+      "duration": 3519
+    },
+    {
+      "text": "history of your entire codebase. I've",
+      "offset": 338000,
+      "duration": 3840
+    },
+    {
+      "text": "been using Juny on my own side project",
+      "offset": 339919,
+      "duration": 3840
+    },
+    {
+      "text": "to build a custom voice recorder. And",
+      "offset": 341840,
+      "duration": 3359
+    },
+    {
+      "text": "although it may be a little bit slower",
+      "offset": 343759,
+      "duration": 3521
+    },
+    {
+      "text": "than some other codegen tools, it's much",
+      "offset": 345199,
+      "duration": 4000
+    },
+    {
+      "text": "better at context and accuracy,",
+      "offset": 347280,
+      "duration": 3280
+    },
+    {
+      "text": "especially when working with this",
+      "offset": 349199,
+      "duration": 3681
+    },
+    {
+      "text": "complex waveform data. I also appreciate",
+      "offset": 350560,
+      "duration": 4479
+    },
+    {
+      "text": "the built-in AI chat where you can ask",
+      "offset": 352880,
+      "duration": 3840
+    },
+    {
+      "text": "deeper questions about the code it's",
+      "offset": 355039,
+      "duration": 3921
+    },
+    {
+      "text": "writing and the logic behind it. Juny",
+      "offset": 356720,
+      "duration": 4319
+    },
+    {
+      "text": "just added support for Grock, Gemini,",
+      "offset": 358960,
+      "duration": 4000
+    },
+    {
+      "text": "and all the other major coding models.",
+      "offset": 361039,
+      "duration": 3600
+    },
+    {
+      "text": "And you can try it out today for free",
+      "offset": 362960,
+      "duration": 3519
+    },
+    {
+      "text": "using the link below. to thanks for",
+      "offset": 364639,
+      "duration": 5441
+    },
+    {
+      "text": "watching and I will see you in the next",
+      "offset": 366479,
+      "duration": 3601
+    }
+  ]
+}

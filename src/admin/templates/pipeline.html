@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Pipeline - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="flex flex-between flex-center mb-20">
+    <h1>Pipeline Queue</h1>
+    <div class="flex gap-10">
+        <select id="filter-status" class="form-select" style="width:150px" onchange="loadPipeline()">
+            <option value="">All Status</option>
+            <optgroup label="Pre-Ingestion">
+                <option value="discovered">Discovered</option>
+                <option value="queued">Queued</option>
+                <option value="skipped">Skipped</option>
+            </optgroup>
+            <optgroup label="Processing">
+                <option value="downloading">Downloading</option>
+                <option value="transcribing">Transcribing</option>
+                <option value="segmenting">Segmenting</option>
+                <option value="embedding">Embedding</option>
+            </optgroup>
+            <optgroup label="Complete">
+                <option value="transcribed">Transcribed</option>
+                <option value="indexed_speakr">Indexed (Speakr)</option>
+                <option value="indexed_surreal">Indexed (SurrealDB)</option>
+                <option value="indexed_full">Indexed (Full)</option>
+            </optgroup>
+            <optgroup label="Error">
+                <option value="failed">Failed</option>
+            </optgroup>
+        </select>
+        <button class="btn btn-secondary" onclick="loadPipeline()">Refresh</button>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(6, 1fr);">
+    <div class="card"><div class="card-title" style="color:#f87171">Discovered</div><div class="card-value" id="stat-discovered">-</div></div>
+    <div class="card"><div class="card-title" style="color:#fb923c">Queued</div><div class="card-value" id="stat-queued">-</div></div>
+    <div class="card"><div class="card-title" style="color:#f59e0b">Processing</div><div class="card-value status-warning" id="stat-processing">-</div></div>
+    <div class="card"><div class="card-title" style="color:#22c55e">Indexed</div><div class="card-value status-healthy" id="stat-indexed">-</div></div>
+    <div class="card"><div class="card-title" style="color:#ef4444">Failed</div><div class="card-value status-error" id="stat-failed">-</div></div>
+    <div class="card"><div class="card-title">Total</div><div class="card-value" id="stat-total">-</div></div>
+</div>
+
+<div class="panel">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:45%">Video</th>
+                <th>Channel</th>
+                <th>Status</th>
+                <th>Discovered</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="pipeline-table">
+            <tr><td colspan="5" class="loading"><div class="spinner"></div>Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="flex flex-between flex-center mt-20">
+    <div id="pagination-info" style="color:#64748b"></div>
+    <div class="flex gap-10">
+        <button class="btn btn-secondary btn-sm" id="prev-btn" onclick="prevPage()" disabled>Previous</button>
+        <button class="btn btn-secondary btn-sm" id="next-btn" onclick="nextPage()">Next</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const urlPrefix = '{{ url_prefix }}';
+let offset = 0;
+const limit = 50;
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function loadPipeline() {
+    const status = document.getElementById('filter-status').value;
+    let url = urlPrefix + '/api/v1/pipeline/items?limit=' + limit + '&offset=' + offset;
+    if (status) url += '&status=' + status;
+
+    // Load stats
+    const stats = await fetch(urlPrefix + '/api/v1/pipeline/stats').then(r => r.json());
+
+    // Convert by_status array to object for easy lookup
+    const byStatus = {};
+    (stats.by_status || []).forEach(s => { byStatus[s.status] = s.count; });
+
+    document.getElementById('stat-discovered').textContent = byStatus.discovered || 0;
+    document.getElementById('stat-queued').textContent = byStatus.queued || 0;
+    document.getElementById('stat-processing').textContent =
+        (byStatus.downloading || 0) + (byStatus.transcribing || 0) +
+        (byStatus.segmenting || 0) + (byStatus.embedding || 0);
+    document.getElementById('stat-indexed').textContent =
+        (byStatus.transcribed || 0) + (byStatus.indexed_speakr || 0) +
+        (byStatus.indexed_surreal || 0) + (byStatus.indexed_full || 0) +
+        (byStatus.indexed_light || 0) + (byStatus.indexed || 0);
+    document.getElementById('stat-failed').textContent = byStatus.failed || 0;
+    document.getElementById('stat-total').textContent = stats.total || 0;
+
+    // Load items
+    const data = await fetch(url).then(r => r.json());
+    const tbody = document.getElementById('pipeline-table');
+    tbody.replaceChildren();
+
+    if (!data.items?.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No items found</td></tr>';
+        return;
+    }
+
+    data.items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.onclick = function() { window.location.href = urlPrefix + '/videos/' + item.youtube_video_id; };
+
+        const title = (item.title || item.youtube_video_id).substring(0, 60);
+        const videoId = item.youtube_video_id;
+        const canCancel = ['discovered', 'queued'].includes(item.status);
+
+        // Build cells using DOM methods
+        const td1 = document.createElement('td');
+        const videoRow = document.createElement('div');
+        videoRow.className = 'video-row';
+        const img = document.createElement('img');
+        img.src = 'https://i.ytimg.com/vi/' + videoId + '/default.jpg';
+        img.style.cssText = 'width:80px;height:45px;border-radius:4px';
+        img.onerror = function() { this.style.display = 'none'; };
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'video-info';
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'video-title';
+        titleDiv.textContent = title;
+        infoDiv.appendChild(titleDiv);
+        videoRow.appendChild(img);
+        videoRow.appendChild(infoDiv);
+        td1.appendChild(videoRow);
+
+        const td2 = document.createElement('td');
+        td2.textContent = item.channel_name || '-';
+
+        const td3 = document.createElement('td');
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-' + item.status;
+        badge.textContent = item.status;
+        td3.appendChild(badge);
+
+        const td4 = document.createElement('td');
+        td4.style.cssText = 'color:#64748b;font-size:0.85rem';
+        td4.textContent = formatTime(item.discovered_at);
+
+        const td5 = document.createElement('td');
+        td5.onclick = function(e) { e.stopPropagation(); };
+
+        const viewBtn = document.createElement('a');
+        viewBtn.href = urlPrefix + '/videos/' + videoId;
+        viewBtn.className = 'btn btn-sm btn-outline';
+        viewBtn.textContent = 'View';
+        td5.appendChild(viewBtn);
+
+        if (canCancel) {
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'btn btn-sm btn-danger';
+            cancelBtn.style.marginLeft = '5px';
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.onclick = function() { cancelItem(videoId); };
+            td5.appendChild(cancelBtn);
+        }
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById('pagination-info').textContent = 'Showing ' + (offset + 1) + '-' + (offset + data.items.length) + ' of ' + data.total;
+    document.getElementById('prev-btn').disabled = offset === 0;
+    document.getElementById('next-btn').disabled = offset + limit >= data.total;
+}
+
+function formatTime(dateStr) {
+    if (!dateStr) return '-';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
+
+function prevPage() { offset = Math.max(0, offset - limit); loadPipeline(); }
+function nextPage() { offset += limit; loadPipeline(); }
+
+async function cancelItem(videoId) {
+    if (!confirm('Cancel this item? It will be marked as skipped.')) return;
+
+    try {
+        const resp = await fetch(urlPrefix + '/api/v1/pipeline/items/' + videoId + '/skip', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        });
+        if (resp.ok) {
+            loadPipeline();
+        } else {
+            const data = await resp.json();
+            alert('Error: ' + (data.error || 'Failed to cancel'));
+        }
+    } catch (err) {
+        alert('Error: ' + err.message);
+    }
+}
+
+loadPipeline();
+</script>
+{% endblock %}

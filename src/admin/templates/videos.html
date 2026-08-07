@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+{% block title %}Videos - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="flex flex-between flex-center mb-20">
+    <h1>Video Library</h1>
+    <div class="flex gap-10">
+        <input type="text" id="search-input" class="form-input" placeholder="Search videos..." style="width: 300px;">
+        <select id="domain-filter" class="form-select" style="width: 150px;">
+            <option value="">All Domains</option>
+        </select>
+    </div>
+</div>
+
+<div class="grid" id="stats-grid">
+    <div class="card">
+        <div class="card-title">Total Videos</div>
+        <div class="card-value" id="stat-videos">-</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Total Segments</div>
+        <div class="card-value" id="stat-segments">-</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Visual Segments</div>
+        <div class="card-value" id="stat-visual">-</div>
+        <div class="card-sub">Require screen context</div>
+    </div>
+</div>
+
+<!-- Search Results (hidden by default) -->
+<div id="search-results" class="panel" style="display: none;">
+    <div class="panel-header">
+        <div class="panel-title">Search Results</div>
+        <button class="btn btn-sm btn-secondary" onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="search-results-list"></div>
+</div>
+
+<!-- Video List -->
+<div class="panel">
+    <div class="panel-header">
+        <div class="panel-title">Recent Videos</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Video</th>
+                <th>Domain</th>
+                <th>Segments</th>
+                <th>Ingested</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="video-list">
+            <tr><td colspan="5" class="loading"><div class="spinner"></div> Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const urlPrefix = '{{ url_prefix }}';
+let debounceTimer;
+
+async function loadStats() {
+    try {
+        const res = await fetch(urlPrefix + '/videos/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-videos').textContent = data.total_videos;
+        document.getElementById('stat-segments').textContent = data.total_segments;
+        document.getElementById('stat-visual').textContent = data.visual_segments;
+    } catch (e) {
+        console.error('Failed to load stats:', e);
+    }
+}
+
+async function loadDomains() {
+    try {
+        const res = await fetch(urlPrefix + '/videos/api/domains');
+        const data = await res.json();
+        const select = document.getElementById('domain-filter');
+        data.domains.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d;
+            select.appendChild(opt);
+        });
+    } catch (e) {
+        console.error('Failed to load domains:', e);
+    }
+}
+
+async function loadVideos(search, domain) {
+    search = search || '';
+    domain = domain || '';
+    const tbody = document.getElementById('video-list');
+    tbody.textContent = '';
+    const loadingRow = document.createElement('tr');
+    const loadingCell = document.createElement('td');
+    loadingCell.colSpan = 5;
+    loadingCell.className = 'loading';
+    loadingCell.textContent = 'Loading...';
+    loadingRow.appendChild(loadingCell);
+    tbody.appendChild(loadingRow);
+
+    try {
+        let url = urlPrefix + '/videos/api/list?limit=50';
+        if (search) url += '&q=' + encodeURIComponent(search);
+        if (domain) url += '&domain=' + encodeURIComponent(domain);
+
+        const res = await fetch(url);
+        const data = await res.json();
+        tbody.textContent = '';
+
+        if (data.videos.length === 0) {
+            const emptyRow = document.createElement('tr');
+            const emptyCell = document.createElement('td');
+            emptyCell.colSpan = 5;
+            emptyCell.className = 'empty-state';
+            emptyCell.textContent = 'No videos found';
+            emptyRow.appendChild(emptyCell);
+            tbody.appendChild(emptyRow);
+            return;
+        }
+
+        data.videos.forEach(v => {
+            const row = document.createElement('tr');
+            row.style.cursor = 'pointer';
+            row.onclick = () => { window.location = urlPrefix + '/videos/' + v.youtube_id; };
+
+            // Video cell
+            const videoCell = document.createElement('td');
+            const videoRow = document.createElement('div');
+            videoRow.className = 'video-row';
+
+            const thumb = document.createElement('img');
+            thumb.src = 'https://i.ytimg.com/vi/' + v.youtube_id + '/default.jpg';
+            thumb.className = 'thumbnail-video';
+            thumb.alt = '';
+
+            const info = document.createElement('div');
+            info.className = 'video-info';
+
+            const title = document.createElement('div');
+            title.className = 'video-title';
+            title.textContent = v.title || 'Untitled';
+
+            const meta = document.createElement('div');
+            meta.className = 'video-meta';
+            meta.textContent = v.channel_handle || 'Unknown channel';
+
+            info.appendChild(title);
+            info.appendChild(meta);
+            videoRow.appendChild(thumb);
+            videoRow.appendChild(info);
+            videoCell.appendChild(videoRow);
+
+            // Domain cell
+            const domainCell = document.createElement('td');
+            const badge = document.createElement('span');
+            badge.className = 'badge badge-' + (v.domain || 'general');
+            badge.textContent = v.domain || 'general';
+            domainCell.appendChild(badge);
+
+            // Segments cell
+            const segCell = document.createElement('td');
+            segCell.textContent = v.segment_count || 0;
+
+            // Date cell
+            const dateCell = document.createElement('td');
+            dateCell.textContent = v.ingested_at ? new Date(v.ingested_at).toLocaleDateString() : '-';
+
+            // Action cell
+            const actionCell = document.createElement('td');
+            const viewBtn = document.createElement('a');
+            viewBtn.href = urlPrefix + '/videos/' + v.youtube_id;
+            viewBtn.className = 'btn btn-sm btn-outline';
+            viewBtn.textContent = 'View';
+            actionCell.appendChild(viewBtn);
+
+            row.appendChild(videoCell);
+            row.appendChild(domainCell);
+            row.appendChild(segCell);
+            row.appendChild(dateCell);
+            row.appendChild(actionCell);
+            tbody.appendChild(row);
+        });
+    } catch (e) {
+        tbody.textContent = '';
+        const errRow = document.createElement('tr');
+        const errCell = document.createElement('td');
+        errCell.colSpan = 5;
+        errCell.className = 'status-error';
+        errCell.textContent = 'Failed to load videos';
+        errRow.appendChild(errCell);
+        tbody.appendChild(errRow);
+    }
+}
+
+async function searchSegments(query) {
+    if (!query || query.length < 2) {
+        document.getElementById('search-results').style.display = 'none';
+        return;
+    }
+
+    const container = document.getElementById('search-results');
+    const list = document.getElementById('search-results-list');
+    container.style.display = 'block';
+    list.textContent = 'Searching...';
+
+    try {
+        const res = await fetch(urlPrefix + '/videos/api/search?q=' + encodeURIComponent(query) + '&limit=10');
+        const data = await res.json();
+        list.textContent = '';
+
+        if (data.results.length === 0) {
+            list.textContent = 'No segments found';
+            return;
+        }
+
+        data.results.forEach(r => {
+            const seg = document.createElement('div');
+            seg.className = 'segment';
+            seg.style.cursor = 'pointer';
+            seg.onclick = () => { window.location = urlPrefix + '/videos/' + r.video_youtube_id + '#segment-' + r.chunk_index; };
+
+            const time = document.createElement('div');
+            time.className = 'segment-time';
+            const link = document.createElement('a');
+            link.href = urlPrefix + '/videos/' + r.video_youtube_id;
+            link.textContent = r.video_title || 'Unknown';
+            time.appendChild(link);
+            time.appendChild(document.createTextNode(' — ' + formatTime(r.start_time)));
+
+            const text = document.createElement('div');
+            text.className = 'segment-text';
+            text.textContent = r.text;
+
+            seg.appendChild(time);
+            seg.appendChild(text);
+            list.appendChild(seg);
+        });
+    } catch (e) {
+        list.textContent = 'Search failed';
+    }
+}
+
+function clearSearch() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-results').style.display = 'none';
+    loadVideos();
+}
+
+function formatTime(seconds) {
+    if (!seconds) return '0:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return m + ':' + s.toString().padStart(2, '0');
+}
+
+// Event listeners
+document.getElementById('search-input').addEventListener('input', function(e) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function() {
+        const q = e.target.value.trim();
+        if (q.length >= 2) {
+            searchSegments(q);
+        } else {
+            document.getElementById('search-results').style.display = 'none';
+            loadVideos('', document.getElementById('domain-filter').value);
+        }
+    }, 300);
+});
+
+document.getElementById('domain-filter').addEventListener('change', function(e) {
+    loadVideos(document.getElementById('search-input').value, e.target.value);
+});
+
+// Initial load
+loadStats();
+loadDomains();
+loadVideos();
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+# SurrealDB Spike - Docker Compose
+# Deploy on Banner (10.0.0.33)
+
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    container_name: knowledgestack-surrealdb
+    restart: unless-stopped
+    ports:
+      - "5040:8000"  # KnowledgeStack port block: 5000-5099
+    volumes:
+      - surrealdb_data:/data
+      - ./schema:/schema:ro
+    # Persistent storage. Was `memory` until 2026-08-05, which silently discarded
+    # every write on restart and left the `knowledge` namespace non-existent.
+    # The volume must be owned by uid 65532 (the image's `nonroot` user) or
+    # SurrealDB fails to open the datastore and you end up back on memory.
+    command: start --user root --pass ${SURREAL_PASSWORD:-changeme} rocksdb:/data/knowledge.db
+    environment:
+      - SURREAL_LOG=info
+    networks:
+      - knowledgestack
+
+  # Optional: SurrealDB web UI for debugging
+  surrealist:
+    image: surrealdb/surrealist:latest
+    container_name: knowledgestack-surrealist
+    restart: unless-stopped
+    ports:
+      - "5041:80"
+    depends_on:
+      - surrealdb
+    networks:
+      - knowledgestack
+
+volumes:
+  surrealdb_data:
+
+networks:
+  knowledgestack:
+    driver: bridge

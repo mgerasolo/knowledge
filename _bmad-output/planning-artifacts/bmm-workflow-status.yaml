@@ -1,0 +1,100 @@
+# BMM Workflow Status - knowledge
+# Generated: 2026-01-29
+# Track: BMad Method (Greenfield)
+
+generated: "2026-01-29"
+project: "knowledge"
+project_type: "knowledge-ingestion-rag-platform"
+selected_track: "bmad-method"
+field_type: "greenfield"
+workflow_path: "method-greenfield"
+
+workflow_status:
+  # Phase 1: Analysis (Optional - all selected by user)
+  - phase: 1
+    name: "Analysis"
+    workflows:
+      - id: "brainstorm-project"
+        name: "Brainstorm"
+        status: "pending"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:brainstorming"
+        optional: true
+        included: true
+
+      - id: "research"
+        name: "Research"
+        status: "pending"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:research"
+        optional: true
+        included: true
+
+      - id: "product-brief"
+        name: "Product Brief"
+        status: "pending"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:create-product-brief"
+        optional: true
+        included: true
+
+  # Phase 2: Planning (Required)
+  - phase: 2
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        name: "Product Requirements Document"
+        status: "pending"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:prd"
+        required: true
+
+      - id: "create-ux-design"
+        name: "UX Design"
+        status: "pending"
+        agent: "ux-designer"
+        command: "/bmad:bmm:workflows:create-ux-design"
+        conditional: "if_has_ui"
+
+  # Phase 3: Solutioning (Required)
+  - phase: 3
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        name: "Architecture"
+        status: "pending"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:create-architecture"
+        required: true
+
+      - id: "create-epics-and-stories"
+        name: "Epics & Stories"
+        status: "pending"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-epics-and-stories"
+        required: true
+
+      - id: "test-design"
+        name: "Test Design"
+        status: "pending"
+        agent: "tea"
+        command: "/bmad:bmm:workflows:testarch-test-design"
+        optional: true
+
+      - id: "implementation-readiness"
+        name: "Implementation Readiness"
+        status: "pending"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:check-implementation-readiness"
+        required: true
+
+  # Phase 4: Implementation
+  - phase: 4
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        name: "Sprint Planning"
+        status: "pending"
+        agent: "sm"
+        command: "/bmad:bmm:workflows:sprint-planning"
+        required: true

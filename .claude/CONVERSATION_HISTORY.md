@@ -2,7 +2,9 @@
 
 ## Active Conversations
 
-(Conversations will be listed here by baton system)
+| Conv ID | Title | Started | Status |
+|---------|-------|---------|--------|
+| conv-20260129-200801 | BMAD Brainstorming: Knowledge Ingestion Platform | 2026-01-29 | Active |
 
 ## Completed Conversations
 

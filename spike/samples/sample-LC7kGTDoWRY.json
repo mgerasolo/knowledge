@@ -1,0 +1,1946 @@
+{
+  "videoId": "LC7kGTDoWRY",
+  "title": "I Wasn’t Expecting Claude To Release This",
+  "segments": [
+    {
+      "text": "What really separates the developers who",
+      "offset": 160,
+      "duration": 3920
+    },
+    {
+      "text": "will thrive from those who will get",
+      "offset": 2159,
+      "duration": 3841
+    },
+    {
+      "text": "replaced? Ever since AI entered the",
+      "offset": 4080,
+      "duration": 4080
+    },
+    {
+      "text": "mainstream, it has started automating a",
+      "offset": 6000,
+      "duration": 3679
+    },
+    {
+      "text": "lot of things for us, completely",
+      "offset": 8160,
+      "duration": 3519
+    },
+    {
+      "text": "transforming our workflows. As you saw",
+      "offset": 9679,
+      "duration": 3920
+    },
+    {
+      "text": "in our previous video that Claude has",
+      "offset": 11679,
+      "duration": 3681
+    },
+    {
+      "text": "become an orchestrator of agents,",
+      "offset": 13599,
+      "duration": 3520
+    },
+    {
+      "text": "software developers were the first to",
+      "offset": 15360,
+      "duration": 3600
+    },
+    {
+      "text": "adopt it heavily because much of their",
+      "offset": 17119,
+      "duration": 3841
+    },
+    {
+      "text": "work involved repetitive codew writing",
+      "offset": 18960,
+      "duration": 4399
+    },
+    {
+      "text": "which often became inefficient. Now AI",
+      "offset": 20960,
+      "duration": 4319
+    },
+    {
+      "text": "is a main part of every developer's",
+      "offset": 23359,
+      "duration": 4080
+    },
+    {
+      "text": "workflow. And if you still use AI the",
+      "offset": 25279,
+      "duration": 4160
+    },
+    {
+      "text": "same way you did 6 months ago, you are",
+      "offset": 27439,
+      "duration": 3760
+    },
+    {
+      "text": "not keeping up. Upon this scenario,",
+      "offset": 29439,
+      "duration": 3761
+    },
+    {
+      "text": "Anthropic released an article discussing",
+      "offset": 31199,
+      "duration": 4161
+    },
+    {
+      "text": "trends in software development. As we",
+      "offset": 33200,
+      "duration": 3840
+    },
+    {
+      "text": "were talking about it within our team,",
+      "offset": 35360,
+      "duration": 3359
+    },
+    {
+      "text": "we found that it was something that was",
+      "offset": 37040,
+      "duration": 3280
+    },
+    {
+      "text": "too inherent in our workflow and",
+      "offset": 38719,
+      "duration": 3761
+    },
+    {
+      "text": "resonated with us. The software",
+      "offset": 40320,
+      "duration": 3840
+    },
+    {
+      "text": "development life cycle is changing",
+      "offset": 42480,
+      "duration": 3440
+    },
+    {
+      "text": "dramatically. The cycles that used to",
+      "offset": 44160,
+      "duration": 3520
+    },
+    {
+      "text": "take weeks or months are now happening",
+      "offset": 45920,
+      "duration": 4000
+    },
+    {
+      "text": "in hours because of AI. The traditional",
+      "offset": 47680,
+      "duration": 4160
+    },
+    {
+      "text": "life cycle looked like this. weeks worth",
+      "offset": 49920,
+      "duration": 4000
+    },
+    {
+      "text": "of planning and design, implementation",
+      "offset": 51840,
+      "duration": 4239
+    },
+    {
+      "text": "and testing, review and then the cycle",
+      "offset": 53920,
+      "duration": 4479
+    },
+    {
+      "text": "repeated. That changed with AI. Now you",
+      "offset": 56079,
+      "duration": 4160
+    },
+    {
+      "text": "only express your intent and the agent",
+      "offset": 58399,
+      "duration": 3761
+    },
+    {
+      "text": "produces an implementation. The only",
+      "offset": 60239,
+      "duration": 3601
+    },
+    {
+      "text": "parts where humans are still involved",
+      "offset": 62160,
+      "duration": 3359
+    },
+    {
+      "text": "are the review and expressing the",
+      "offset": 63840,
+      "duration": 3680
+    },
+    {
+      "text": "intent. The rest is handled by AI",
+      "offset": 65519,
+      "duration": 4001
+    },
+    {
+      "text": "agents. This changes what engineering",
+      "offset": 67520,
+      "duration": 4160
+    },
+    {
+      "text": "means entirely. Software development",
+      "offset": 69520,
+      "duration": 4000
+    },
+    {
+      "text": "doesn't mean writing code anymore. It",
+      "offset": 71680,
+      "duration": 3759
+    },
+    {
+      "text": "means orchestrating agents that write",
+      "offset": 73520,
+      "duration": 4320
+    },
+    {
+      "text": "code, providing strategic direction, and",
+      "offset": 75439,
+      "duration": 3921
+    },
+    {
+      "text": "making sure the system works as",
+      "offset": 77840,
+      "duration": 3040
+    },
+    {
+      "text": "intended. Even the onboarding has",
+      "offset": 79360,
+      "duration": 3360
+    },
+    {
+      "text": "collapsed from weeks to hours. AI can",
+      "offset": 80880,
+      "duration": 3680
+    },
+    {
+      "text": "explore the codebase and onboard new",
+      "offset": 82720,
+      "duration": 4000
+    },
+    {
+      "text": "joiners immediately. And now as our",
+      "offset": 84560,
+      "duration": 4239
+    },
+    {
+      "text": "focus is on directing agents, everyone",
+      "offset": 86720,
+      "duration": 4160
+    },
+    {
+      "text": "is becoming a full stack engineer rather",
+      "offset": 88799,
+      "duration": 4000
+    },
+    {
+      "text": "than a specialist in a single domain.",
+      "offset": 90880,
+      "duration": 3760
+    },
+    {
+      "text": "Engineers can work with just basic",
+      "offset": 92799,
+      "duration": 3761
+    },
+    {
+      "text": "knowledge of their stack and AI fills",
+      "offset": 94640,
+      "duration": 3920
+    },
+    {
+      "text": "the gaps while they lack knowledge. This",
+      "offset": 96560,
+      "duration": 3760
+    },
+    {
+      "text": "enables tighter feedback loops and",
+      "offset": 98560,
+      "duration": 3680
+    },
+    {
+      "text": "faster learning. Weeks of cross team",
+      "offset": 100320,
+      "duration": 3839
+    },
+    {
+      "text": "coordination become a single working",
+      "offset": 102240,
+      "duration": 3600
+    },
+    {
+      "text": "session. This matches exactly what",
+      "offset": 104159,
+      "duration": 3920
+    },
+    {
+      "text": "Linear's CEO predicted in his article",
+      "offset": 105840,
+      "duration": 4080
+    },
+    {
+      "text": "that the middle of the software workflow",
+      "offset": 108079,
+      "duration": 3921
+    },
+    {
+      "text": "has been replaced by AI. And if you're",
+      "offset": 109920,
+      "duration": 3519
+    },
+    {
+      "text": "still spending your time in the middle",
+      "offset": 112000,
+      "duration": 2960
+    },
+    {
+      "text": "phase, you're working against this",
+      "offset": 113439,
+      "duration": 3281
+    },
+    {
+      "text": "shift. And this brings us back to the",
+      "offset": 114960,
+      "duration": 3600
+    },
+    {
+      "text": "same principle we keep talking about.",
+      "offset": 116720,
+      "duration": 3280
+    },
+    {
+      "text": "You need to be effective in your",
+      "offset": 118560,
+      "duration": 3440
+    },
+    {
+      "text": "planning and express your intent in",
+      "offset": 120000,
+      "duration": 4240
+    },
+    {
+      "text": "clear terms. The skill that matters most",
+      "offset": 122000,
+      "duration": 4320
+    },
+    {
+      "text": "now is clarity. That is describing",
+      "offset": 124240,
+      "duration": 4239
+    },
+    {
+      "text": "exactly what you need and making agents",
+      "offset": 126320,
+      "duration": 4079
+    },
+    {
+      "text": "deliver the best product. Before we move",
+      "offset": 128479,
+      "duration": 4241
+    },
+    {
+      "text": "on, team AIABS is attending the web",
+      "offset": 130399,
+      "duration": 5281
+    },
+    {
+      "text": "summit 2026 being held in Doha, Qatar.",
+      "offset": 132720,
+      "duration": 5040
+    },
+    {
+      "text": "If you are attending or are nearby, this",
+      "offset": 135680,
+      "duration": 3680
+    },
+    {
+      "text": "is your chance to meet with the team,",
+      "offset": 137760,
+      "duration": 3280
+    },
+    {
+      "text": "connect with us and learn from us.",
+      "offset": 139360,
+      "duration": 3840
+    },
+    {
+      "text": "Looking forwards to seeing you there.",
+      "offset": 141040,
+      "duration": 4160
+    },
+    {
+      "text": "We've evolved from single agents to",
+      "offset": 143200,
+      "duration": 3840
+    },
+    {
+      "text": "multi- aent systems. We have already",
+      "offset": 145200,
+      "duration": 3679
+    },
+    {
+      "text": "covered this in our previous video that",
+      "offset": 147040,
+      "duration": 3600
+    },
+    {
+      "text": "Claude code has now implemented",
+      "offset": 148879,
+      "duration": 3921
+    },
+    {
+      "text": "multi-agent architecture inside their",
+      "offset": 150640,
+      "duration": 4160
+    },
+    {
+      "text": "product. Earlier the structure used to",
+      "offset": 152800,
+      "duration": 4000
+    },
+    {
+      "text": "handle development with a single agent",
+      "offset": 154800,
+      "duration": 3920
+    },
+    {
+      "text": "having a single context window and",
+      "offset": 156800,
+      "duration": 4079
+    },
+    {
+      "text": "managing all the tasks by itself. The",
+      "offset": 158720,
+      "duration": 4400
+    },
+    {
+      "text": "problem was a single context window got",
+      "offset": 160879,
+      "duration": 4161
+    },
+    {
+      "text": "bloated fast because there was too much",
+      "offset": 163120,
+      "duration": 3839
+    },
+    {
+      "text": "information in its working memory making",
+      "offset": 165040,
+      "duration": 3440
+    },
+    {
+      "text": "it lose focus. Now there's an",
+      "offset": 166959,
+      "duration": 3280
+    },
+    {
+      "text": "orchestrator agent that acts like a",
+      "offset": 168480,
+      "duration": 4000
+    },
+    {
+      "text": "project manager and delegates tasks to",
+      "offset": 170239,
+      "duration": 4161
+    },
+    {
+      "text": "specialist agents. Each of the agents",
+      "offset": 172480,
+      "duration": 3839
+    },
+    {
+      "text": "has its own context window and then",
+      "offset": 174400,
+      "duration": 3760
+    },
+    {
+      "text": "integrates the output to produce the",
+      "offset": 176319,
+      "duration": 3761
+    },
+    {
+      "text": "final result. Even though Claude handles",
+      "offset": 178160,
+      "duration": 3760
+    },
+    {
+      "text": "agent spawning and management on its",
+      "offset": 180080,
+      "duration": 3680
+    },
+    {
+      "text": "own, we create our own agents for",
+      "offset": 181920,
+      "duration": 3920
+    },
+    {
+      "text": "specialized tasks. We use these agents",
+      "offset": 183760,
+      "duration": 3680
+    },
+    {
+      "text": "because they were tailored according to",
+      "offset": 185840,
+      "duration": 3600
+    },
+    {
+      "text": "our preferences using different Claude",
+      "offset": 187440,
+      "duration": 4159
+    },
+    {
+      "text": "models based on the tasks difficulty and",
+      "offset": 189440,
+      "duration": 3760
+    },
+    {
+      "text": "containing instructions to guide the",
+      "offset": 191599,
+      "duration": 3360
+    },
+    {
+      "text": "agent. Sub agents have gotten better",
+      "offset": 193200,
+      "duration": 3440
+    },
+    {
+      "text": "because you can now let them run in the",
+      "offset": 194959,
+      "duration": 3280
+    },
+    {
+      "text": "background, handling different aspects",
+      "offset": 196640,
+      "duration": 3440
+    },
+    {
+      "text": "of the application simultaneously,",
+      "offset": 198239,
+      "duration": 3681
+    },
+    {
+      "text": "speeding up the whole process.",
+      "offset": 200080,
+      "duration": 3680
+    },
+    {
+      "text": "Longunning agents will become more",
+      "offset": 201920,
+      "duration": 3679
+    },
+    {
+      "text": "capable. Agents have gone from building",
+      "offset": 203760,
+      "duration": 3600
+    },
+    {
+      "text": "feature by feature to being able to",
+      "offset": 205599,
+      "duration": 3601
+    },
+    {
+      "text": "build complete systems on their own.",
+      "offset": 207360,
+      "duration": 4560
+    },
+    {
+      "text": "This started emerging by late 2025. Ever",
+      "offset": 209200,
+      "duration": 5920
+    },
+    {
+      "text": "since models like Opus 4.5 and GPT 5.2",
+      "offset": 211920,
+      "duration": 6000
+    },
+    {
+      "text": "were released. In 2026, agents will be",
+      "offset": 215120,
+      "duration": 4720
+    },
+    {
+      "text": "able to work for days at a time with",
+      "offset": 217920,
+      "duration": 4160
+    },
+    {
+      "text": "minimal human intervention. Previously,",
+      "offset": 219840,
+      "duration": 4240
+    },
+    {
+      "text": "agents were handling small parts of an",
+      "offset": 222080,
+      "duration": 3600
+    },
+    {
+      "text": "application. Now, they're building and",
+      "offset": 224080,
+      "duration": 3680
+    },
+    {
+      "text": "testing entire applications and systems",
+      "offset": 225680,
+      "duration": 4080
+    },
+    {
+      "text": "while verifying if the system is working",
+      "offset": 227760,
+      "duration": 3759
+    },
+    {
+      "text": "before moving on to the next feature. We",
+      "offset": 229760,
+      "duration": 3759
+    },
+    {
+      "text": "have dedicated a video explaining how to",
+      "offset": 231519,
+      "duration": 3521
+    },
+    {
+      "text": "make long-running systems more",
+      "offset": 233519,
+      "duration": 3121
+    },
+    {
+      "text": "effective, which you can check out on",
+      "offset": 235040,
+      "duration": 3119
+    },
+    {
+      "text": "the channel. With the right tools and",
+      "offset": 236640,
+      "duration": 3519
+    },
+    {
+      "text": "workflows, agents are able to plan,",
+      "offset": 238159,
+      "duration": 3921
+    },
+    {
+      "text": "iterate, and they recover from failure",
+      "offset": 240159,
+      "duration": 4000
+    },
+    {
+      "text": "at scale. This changes the economics of",
+      "offset": 242080,
+      "duration": 4159
+    },
+    {
+      "text": "development. In big companies, software",
+      "offset": 244159,
+      "duration": 4080
+    },
+    {
+      "text": "accumulates years of technical debt that",
+      "offset": 246239,
+      "duration": 4161
+    },
+    {
+      "text": "nobody had time to address. Now, agents",
+      "offset": 248239,
+      "duration": 4000
+    },
+    {
+      "text": "can actively work through the backlog.",
+      "offset": 250400,
+      "duration": 3360
+    },
+    {
+      "text": "This also opens up a path for",
+      "offset": 252239,
+      "duration": 3441
+    },
+    {
+      "text": "entrepreneurs. Previously, the main",
+      "offset": 253760,
+      "duration": 3920
+    },
+    {
+      "text": "struggle was the skill gap and time.",
+      "offset": 255680,
+      "duration": 4160
+    },
+    {
+      "text": "People had ideas but lacked resources to",
+      "offset": 257680,
+      "duration": 3920
+    },
+    {
+      "text": "build them. With autonomous agents,",
+      "offset": 259840,
+      "duration": 3600
+    },
+    {
+      "text": "startups can now build and deploy",
+      "offset": 261600,
+      "duration": 3440
+    },
+    {
+      "text": "products in days. We also use",
+      "offset": 263440,
+      "duration": 3759
+    },
+    {
+      "text": "long-running agents for our tasks. Our",
+      "offset": 265040,
+      "duration": 4080
+    },
+    {
+      "text": "workflow for longunning tasks uses",
+      "offset": 267199,
+      "duration": 4401
+    },
+    {
+      "text": "claude.md containing instructions. We",
+      "offset": 269120,
+      "duration": 4160
+    },
+    {
+      "text": "guide Claude to test after each",
+      "offset": 271600,
+      "duration": 3760
+    },
+    {
+      "text": "implementation. For a feature to be well",
+      "offset": 273280,
+      "duration": 4000
+    },
+    {
+      "text": "completed, Claude needs a way to verify",
+      "offset": 275360,
+      "duration": 3680
+    },
+    {
+      "text": "it's working. We test using agents",
+      "offset": 277280,
+      "duration": 3600
+    },
+    {
+      "text": "internally and for visual testing, we",
+      "offset": 279040,
+      "duration": 3680
+    },
+    {
+      "text": "use Claude Chrome. Once testing is",
+      "offset": 280880,
+      "duration": 3360
+    },
+    {
+      "text": "completed, from both the agents",
+      "offset": 282720,
+      "duration": 3680
+    },
+    {
+      "text": "perspective and visual verification, we",
+      "offset": 284240,
+      "duration": 3679
+    },
+    {
+      "text": "commit the changes to Git with",
+      "offset": 286400,
+      "duration": 3359
+    },
+    {
+      "text": "descriptive messages. This matters",
+      "offset": 287919,
+      "duration": 4081
+    },
+    {
+      "text": "because agents tend to modify code and",
+      "offset": 289759,
+      "duration": 4321
+    },
+    {
+      "text": "tests that we didn't ask them to. Git",
+      "offset": 292000,
+      "duration": 4160
+    },
+    {
+      "text": "lets us roll back easily. We always ask",
+      "offset": 294080,
+      "duration": 3760
+    },
+    {
+      "text": "Claude to document the decisions that",
+      "offset": 296160,
+      "duration": 3520
+    },
+    {
+      "text": "were made so commits are clean and ready",
+      "offset": 297840,
+      "duration": 4000
+    },
+    {
+      "text": "to be shipped. To maximize time, we ask",
+      "offset": 299680,
+      "duration": 4560
+    },
+    {
+      "text": "Claude to break down tasks into smaller",
+      "offset": 301840,
+      "duration": 4560
+    },
+    {
+      "text": "independent units and assign agents to",
+      "offset": 304240,
+      "duration": 4160
+    },
+    {
+      "text": "work on them simultaneously. If you want",
+      "offset": 306400,
+      "duration": 4400
+    },
+    {
+      "text": "this claude.md and the agents so that",
+      "offset": 308400,
+      "duration": 4239
+    },
+    {
+      "text": "you can use them for your own projects,",
+      "offset": 310800,
+      "duration": 4080
+    },
+    {
+      "text": "you can find them in AIABS Pro. For",
+      "offset": 312639,
+      "duration": 4000
+    },
+    {
+      "text": "those who don't know, it is our recently",
+      "offset": 314880,
+      "duration": 3520
+    },
+    {
+      "text": "launched community where you get ready",
+      "offset": 316639,
+      "duration": 3521
+    },
+    {
+      "text": "to use templates, prompts, all the",
+      "offset": 318400,
+      "duration": 3600
+    },
+    {
+      "text": "commands, and skills that you can plug",
+      "offset": 320160,
+      "duration": 3680
+    },
+    {
+      "text": "directly into your projects for this",
+      "offset": 322000,
+      "duration": 3759
+    },
+    {
+      "text": "video and all the previous videos. If",
+      "offset": 323840,
+      "duration": 3919
+    },
+    {
+      "text": "you found value in what we do and want",
+      "offset": 325759,
+      "duration": 3681
+    },
+    {
+      "text": "to support the channel, this is the best",
+      "offset": 327759,
+      "duration": 4000
+    },
+    {
+      "text": "way to do it. Links in the description.",
+      "offset": 329440,
+      "duration": 4160
+    },
+    {
+      "text": "Human oversight is scaling through",
+      "offset": 331759,
+      "duration": 4081
+    },
+    {
+      "text": "intelligent collaboration. As agents are",
+      "offset": 333600,
+      "duration": 4159
+    },
+    {
+      "text": "getting better, they can review outputs",
+      "offset": 335840,
+      "duration": 3680
+    },
+    {
+      "text": "much faster than we can. We cannot",
+      "offset": 337759,
+      "duration": 3601
+    },
+    {
+      "text": "review large scale outputs that the",
+      "offset": 339520,
+      "duration": 3600
+    },
+    {
+      "text": "models are producing at the same speed",
+      "offset": 341360,
+      "duration": 3920
+    },
+    {
+      "text": "as agents do. So we are relying on them",
+      "offset": 343120,
+      "duration": 4000
+    },
+    {
+      "text": "for all kinds of reviews like security",
+      "offset": 345280,
+      "duration": 3440
+    },
+    {
+      "text": "vulnerabilities, architecture",
+      "offset": 347120,
+      "duration": 3600
+    },
+    {
+      "text": "consistency and quality issues. Going",
+      "offset": 348720,
+      "duration": 3680
+    },
+    {
+      "text": "through a codebase that you didn't write",
+      "offset": 350720,
+      "duration": 3680
+    },
+    {
+      "text": "is draining. Agents handle that. Now",
+      "offset": 352400,
+      "duration": 4239
+    },
+    {
+      "text": "agents are also learning to ask for help",
+      "offset": 354400,
+      "duration": 4480
+    },
+    {
+      "text": "rather than blindly attempting tasks.",
+      "offset": 356639,
+      "duration": 4400
+    },
+    {
+      "text": "They know when human input is required",
+      "offset": 358880,
+      "duration": 4640
+    },
+    {
+      "text": "and ask questions as part of a team. Our",
+      "offset": 361039,
+      "duration": 4481
+    },
+    {
+      "text": "team has already noticed this pattern in",
+      "offset": 363520,
+      "duration": 3760
+    },
+    {
+      "text": "Claude. When we said that the output",
+      "offset": 365520,
+      "duration": 3679
+    },
+    {
+      "text": "looked bad, it asked clarifying",
+      "offset": 367280,
+      "duration": 3680
+    },
+    {
+      "text": "questions about what didn't meet our",
+      "offset": 369199,
+      "duration": 3440
+    },
+    {
+      "text": "expectations and how it could improve.",
+      "offset": 370960,
+      "duration": 3679
+    },
+    {
+      "text": "Oversight is shifting from reviewing",
+      "offset": 372639,
+      "duration": 4161
+    },
+    {
+      "text": "everything to reviewing what matters. We",
+      "offset": 374639,
+      "duration": 3761
+    },
+    {
+      "text": "only need to review the exceptional",
+      "offset": 376800,
+      "duration": 3760
+    },
+    {
+      "text": "cases where problems might emerge. This",
+      "offset": 378400,
+      "duration": 4160
+    },
+    {
+      "text": "also addresses the question of AI",
+      "offset": 380560,
+      "duration": 4160
+    },
+    {
+      "text": "replacing developers. Even though AI",
+      "offset": 382560,
+      "duration": 4160
+    },
+    {
+      "text": "capabilities are expanding, the role of",
+      "offset": 384720,
+      "duration": 3919
+    },
+    {
+      "text": "humans remains central. The main change",
+      "offset": 386720,
+      "duration": 3520
+    },
+    {
+      "text": "is the shift from writing code to",
+      "offset": 388639,
+      "duration": 3840
+    },
+    {
+      "text": "reviewing code and guiding AI outputs.",
+      "offset": 390240,
+      "duration": 4079
+    },
+    {
+      "text": "One of anthropics engineers said the",
+      "offset": 392479,
+      "duration": 4241
+    },
+    {
+      "text": "best practice for working with AI is to",
+      "offset": 394319,
+      "duration": 4000
+    },
+    {
+      "text": "use it when you know what the right",
+      "offset": 396720,
+      "duration": 3440
+    },
+    {
+      "text": "answer should look like. The people who",
+      "offset": 398319,
+      "duration": 3600
+    },
+    {
+      "text": "know the answer are those with real",
+      "offset": 400160,
+      "duration": 3840
+    },
+    {
+      "text": "software engineering experience who have",
+      "offset": 401919,
+      "duration": 3840
+    },
+    {
+      "text": "learned programming concepts the hard",
+      "offset": 404000,
+      "duration": 3199
+    },
+    {
+      "text": "way. And how do you know the right",
+      "offset": 405759,
+      "duration": 3280
+    },
+    {
+      "text": "answer? When you know which method to",
+      "offset": 407199,
+      "duration": 4000
+    },
+    {
+      "text": "use for which purpose. For example, for",
+      "offset": 409039,
+      "duration": 3921
+    },
+    {
+      "text": "testing, you need to use specific",
+      "offset": 411199,
+      "duration": 3681
+    },
+    {
+      "text": "approaches. We've already shown you how",
+      "offset": 412960,
+      "duration": 4320
+    },
+    {
+      "text": "to use the testdriven approach, whitebox",
+      "offset": 414880,
+      "duration": 4400
+    },
+    {
+      "text": "testing, and blackbox testing. We've",
+      "offset": 417280,
+      "duration": 4080
+    },
+    {
+      "text": "also covered visual testing using tools",
+      "offset": 419280,
+      "duration": 3759
+    },
+    {
+      "text": "like the Claude Chrome extension and",
+      "offset": 421360,
+      "duration": 4160
+    },
+    {
+      "text": "Puppeteer MCP. Also, if you are enjoying",
+      "offset": 423039,
+      "duration": 4560
+    },
+    {
+      "text": "our content, consider pressing the hype",
+      "offset": 425520,
+      "duration": 4000
+    },
+    {
+      "text": "button because it helps us create more",
+      "offset": 427599,
+      "duration": 3921
+    },
+    {
+      "text": "content like this and reach out to more",
+      "offset": 429520,
+      "duration": 4560
+    },
+    {
+      "text": "people. Agentic coding is expanding to",
+      "offset": 431520,
+      "duration": 4399
+    },
+    {
+      "text": "new services and users that we have",
+      "offset": 434080,
+      "duration": 4959
+    },
+    {
+      "text": "never seen before. Earlier in 2025, AI",
+      "offset": 435919,
+      "duration": 5201
+    },
+    {
+      "text": "coding was mostly effective for popular",
+      "offset": 439039,
+      "duration": 4000
+    },
+    {
+      "text": "frameworks and often struggled with",
+      "offset": 441120,
+      "duration": 4000
+    },
+    {
+      "text": "systems that used legacy languages or",
+      "offset": 443039,
+      "duration": 4000
+    },
+    {
+      "text": "frameworks that are not commonly used.",
+      "offset": 445120,
+      "duration": 3600
+    },
+    {
+      "text": "That's why the best working applications",
+      "offset": 447039,
+      "duration": 3600
+    },
+    {
+      "text": "were react-based because these were the",
+      "offset": 448720,
+      "duration": 3759
+    },
+    {
+      "text": "frameworks model was primarily trained",
+      "offset": 450639,
+      "duration": 4960
+    },
+    {
+      "text": "on. By 2026, agentic coding will expand",
+      "offset": 452479,
+      "duration": 4720
+    },
+    {
+      "text": "into contexts that traditional",
+      "offset": 455599,
+      "duration": 3281
+    },
+    {
+      "text": "development tools couldn't reach,",
+      "offset": 457199,
+      "duration": 3601
+    },
+    {
+      "text": "including support for legacy languages",
+      "offset": 458880,
+      "duration": 4400
+    },
+    {
+      "text": "like cobalt, forran, and other domain",
+      "offset": 460800,
+      "duration": 4239
+    },
+    {
+      "text": "specific languages. This will make",
+      "offset": 463280,
+      "duration": 3919
+    },
+    {
+      "text": "maintaining legacy systems easier by",
+      "offset": 465039,
+      "duration": 3921
+    },
+    {
+      "text": "eliminating the need to navigate through",
+      "offset": 467199,
+      "duration": 3761
+    },
+    {
+      "text": "old documentation. AI has made",
+      "offset": 468960,
+      "duration": 3359
+    },
+    {
+      "text": "development accessible for",
+      "offset": 470960,
+      "duration": 3440
+    },
+    {
+      "text": "non-developers, opening up opportunities",
+      "offset": 472319,
+      "duration": 4320
+    },
+    {
+      "text": "to non-traditional developers in fields",
+      "offset": 474400,
+      "duration": 4160
+    },
+    {
+      "text": "like cyber security, operations, and",
+      "offset": 476639,
+      "duration": 4000
+    },
+    {
+      "text": "data science. The release of co-work is",
+      "offset": 478560,
+      "duration": 3840
+    },
+    {
+      "text": "already signaling progress in this",
+      "offset": 480639,
+      "duration": 3361
+    },
+    {
+      "text": "direction. The barriers separating",
+      "offset": 482400,
+      "duration": 3359
+    },
+    {
+      "text": "people who code and people who don't are",
+      "offset": 484000,
+      "duration": 3759
+    },
+    {
+      "text": "becoming increasingly invisible as AI",
+      "offset": 485759,
+      "duration": 4241
+    },
+    {
+      "text": "progresses. For example, someone on a",
+      "offset": 487759,
+      "duration": 4641
+    },
+    {
+      "text": "security team can use AI to understand",
+      "offset": 490000,
+      "duration": 4879
+    },
+    {
+      "text": "unfamiliar code in order to find issues.",
+      "offset": 492400,
+      "duration": 4160
+    },
+    {
+      "text": "Research teams have been using it to",
+      "offset": 494879,
+      "duration": 3841
+    },
+    {
+      "text": "build front-end visualizations for their",
+      "offset": 496560,
+      "duration": 4319
+    },
+    {
+      "text": "data and nontechnical employees are",
+      "offset": 498720,
+      "duration": 4640
+    },
+    {
+      "text": "already using AI in areas unfamiliar to",
+      "offset": 500879,
+      "duration": 4481
+    },
+    {
+      "text": "them like networking and data analytics.",
+      "offset": 503360,
+      "duration": 3519
+    },
+    {
+      "text": "This is something our team has already",
+      "offset": 505360,
+      "duration": 3040
+    },
+    {
+      "text": "been doing. One of our team members",
+      "offset": 506879,
+      "duration": 3361
+    },
+    {
+      "text": "wasn't familiar with Golang, but was",
+      "offset": 508400,
+      "duration": 3680
+    },
+    {
+      "text": "tasked to make a backend for a chat",
+      "offset": 510240,
+      "duration": 3679
+    },
+    {
+      "text": "application. They turned on plan mode",
+      "offset": 512080,
+      "duration": 3759
+    },
+    {
+      "text": "and created a whole plan by answering",
+      "offset": 513919,
+      "duration": 3521
+    },
+    {
+      "text": "the questions about the app. Claude",
+      "offset": 515839,
+      "duration": 3521
+    },
+    {
+      "text": "built the entire server in one shot,",
+      "offset": 517440,
+      "duration": 3599
+    },
+    {
+      "text": "working exactly as intended. This",
+      "offset": 519360,
+      "duration": 3440
+    },
+    {
+      "text": "eliminated the need for wasting time",
+      "offset": 521039,
+      "duration": 3521
+    },
+    {
+      "text": "learning a new language for just one",
+      "offset": 522800,
+      "duration": 4320
+    },
+    {
+      "text": "task. Productivity gains will reshape",
+      "offset": 524560,
+      "duration": 4480
+    },
+    {
+      "text": "software development economics. We",
+      "offset": 527120,
+      "duration": 3680
+    },
+    {
+      "text": "already mentioned how timelines have",
+      "offset": 529040,
+      "duration": 3600
+    },
+    {
+      "text": "been compressed because agents handle",
+      "offset": 530800,
+      "duration": 3599
+    },
+    {
+      "text": "the difficult parts. Three factors",
+      "offset": 532640,
+      "duration": 3280
+    },
+    {
+      "text": "reinforce each other. Agent",
+      "offset": 534399,
+      "duration": 3041
+    },
+    {
+      "text": "capabilities, orchestration",
+      "offset": 535920,
+      "duration": 3359
+    },
+    {
+      "text": "improvements, and human experience.",
+      "offset": 537440,
+      "duration": 3600
+    },
+    {
+      "text": "Together, they compress timelines and",
+      "offset": 539279,
+      "duration": 3601
+    },
+    {
+      "text": "change what's viable to build. Projects",
+      "offset": 541040,
+      "duration": 3600
+    },
+    {
+      "text": "that were once considered too difficult",
+      "offset": 542880,
+      "duration": 3760
+    },
+    {
+      "text": "are now viable, allowing products to",
+      "offset": 544640,
+      "duration": 3920
+    },
+    {
+      "text": "enter the market more quickly. Agents",
+      "offset": 546640,
+      "duration": 3520
+    },
+    {
+      "text": "help teams work with fewer people.",
+      "offset": 548560,
+      "duration": 3520
+    },
+    {
+      "text": "Project timelines are shorter, letting",
+      "offset": 550160,
+      "duration": 4080
+    },
+    {
+      "text": "us achieve faster returns on investment.",
+      "offset": 552080,
+      "duration": 3840
+    },
+    {
+      "text": "Features that used to take much longer",
+      "offset": 554240,
+      "duration": 3440
+    },
+    {
+      "text": "can now be built in a smaller time",
+      "offset": 555920,
+      "duration": 3440
+    },
+    {
+      "text": "frame. But before we move forwards,",
+      "offset": 557680,
+      "duration": 3599
+    },
+    {
+      "text": "let's have a word from our sponsor, Luma",
+      "offset": 559360,
+      "duration": 3919
+    },
+    {
+      "text": "AI. If you've messed around with AI",
+      "offset": 561279,
+      "duration": 3841
+    },
+    {
+      "text": "video before, you know the frustration.",
+      "offset": 563279,
+      "duration": 3761
+    },
+    {
+      "text": "It usually feels like a slot machine.",
+      "offset": 565120,
+      "duration": 5040
+    },
+    {
+      "text": "But Luma AI's new model, Ray 3 Modify,",
+      "offset": 567040,
+      "duration": 4960
+    },
+    {
+      "text": "actually changes the game by giving us",
+      "offset": 570160,
+      "duration": 4080
+    },
+    {
+      "text": "the modify capabilities that developers",
+      "offset": 572000,
+      "duration": 4000
+    },
+    {
+      "text": "have been waiting for. Instead of just",
+      "offset": 574240,
+      "duration": 3520
+    },
+    {
+      "text": "prompting and praying, you can now take",
+      "offset": 576000,
+      "duration": 3839
+    },
+    {
+      "text": "a video and completely restyle it,",
+      "offset": 577760,
+      "duration": 4079
+    },
+    {
+      "text": "swapping environments or lighting while",
+      "offset": 579839,
+      "duration": 3921
+    },
+    {
+      "text": "keeping the original motion and physics",
+      "offset": 581839,
+      "duration": 3761
+    },
+    {
+      "text": "fully locked. It respects your input",
+      "offset": 583760,
+      "duration": 3840
+    },
+    {
+      "text": "data. It's not just generating random",
+      "offset": 585600,
+      "duration": 3760
+    },
+    {
+      "text": "noise. It's video to video that",
+      "offset": 587600,
+      "duration": 3840
+    },
+    {
+      "text": "maintains structural integrity. Plus,",
+      "offset": 589360,
+      "duration": 3760
+    },
+    {
+      "text": "with character reference, you can",
+      "offset": 591440,
+      "duration": 3440
+    },
+    {
+      "text": "finally keep your subject consistent",
+      "offset": 593120,
+      "duration": 3680
+    },
+    {
+      "text": "across different shots, which is usually",
+      "offset": 594880,
+      "duration": 4079
+    },
+    {
+      "text": "impossible. It's the first time an AI",
+      "offset": 596800,
+      "duration": 4080
+    },
+    {
+      "text": "video feels like a controllable tool",
+      "offset": 598959,
+      "duration": 3681
+    },
+    {
+      "text": "rather than just a toy. Make small",
+      "offset": 600880,
+      "duration": 4320
+    },
+    {
+      "text": "productions feel huge. Scan the QR code",
+      "offset": 602640,
+      "duration": 4319
+    },
+    {
+      "text": "on the screen or check the link in the",
+      "offset": 605200,
+      "duration": 4079
+    },
+    {
+      "text": "pinned comment and try Ray 3 in Dream",
+      "offset": 606959,
+      "duration": 4241
+    },
+    {
+      "text": "Machine. Today, there is an increase in",
+      "offset": 609279,
+      "duration": 4161
+    },
+    {
+      "text": "the number of non- tech use cases across",
+      "offset": 611200,
+      "duration": 4160
+    },
+    {
+      "text": "organizations. Teams in sales,",
+      "offset": 613440,
+      "duration": 4320
+    },
+    {
+      "text": "marketing, legal, and operations can now",
+      "offset": 615360,
+      "duration": 4960
+    },
+    {
+      "text": "use AI coding to automate workflows and",
+      "offset": 617760,
+      "duration": 4560
+    },
+    {
+      "text": "build tools without any engineering team",
+      "offset": 620320,
+      "duration": 4320
+    },
+    {
+      "text": "support. AI agents can operate directly",
+      "offset": 622320,
+      "duration": 4320
+    },
+    {
+      "text": "by their guidance and develop systems.",
+      "offset": 624640,
+      "duration": 3920
+    },
+    {
+      "text": "People with domain expertise and deep",
+      "offset": 626640,
+      "duration": 3840
+    },
+    {
+      "text": "understanding of the problems they face",
+      "offset": 628560,
+      "duration": 3839
+    },
+    {
+      "text": "use agents to initiate solutions",
+      "offset": 630480,
+      "duration": 3919
+    },
+    {
+      "text": "themselves. For example, someone working",
+      "offset": 632399,
+      "duration": 3921
+    },
+    {
+      "text": "in accounting or other departments",
+      "offset": 634399,
+      "duration": 3521
+    },
+    {
+      "text": "understands the problems they face",
+      "offset": 636320,
+      "duration": 3199
+    },
+    {
+      "text": "better than anyone else. They can",
+      "offset": 637920,
+      "duration": 3280
+    },
+    {
+      "text": "instruct agents and have a working",
+      "offset": 639519,
+      "duration": 3760
+    },
+    {
+      "text": "solution without waiting for dev team.",
+      "offset": 641200,
+      "duration": 3920
+    },
+    {
+      "text": "Our team has already been using Claude",
+      "offset": 643279,
+      "duration": 3921
+    },
+    {
+      "text": "in our workflow. We automated the boring",
+      "offset": 645120,
+      "duration": 4560
+    },
+    {
+      "text": "non-development work like documentation,",
+      "offset": 647200,
+      "duration": 4800
+    },
+    {
+      "text": "ideation, and research by using claude",
+      "offset": 649680,
+      "duration": 4000
+    },
+    {
+      "text": "code, letting us focus on the",
+      "offset": 652000,
+      "duration": 3440
+    },
+    {
+      "text": "interesting and creative part of our",
+      "offset": 653680,
+      "duration": 4000
+    },
+    {
+      "text": "work. Agentic coding improves security",
+      "offset": 655440,
+      "duration": 4320
+    },
+    {
+      "text": "defenses and offensive uses. Security",
+      "offset": 657680,
+      "duration": 4399
+    },
+    {
+      "text": "and AI are a double-edged sword. The",
+      "offset": 659760,
+      "duration": 4400
+    },
+    {
+      "text": "same AI that can navigate your codebase",
+      "offset": 662079,
+      "duration": 4081
+    },
+    {
+      "text": "and help with onboarding is also capable",
+      "offset": 664160,
+      "duration": 3919
+    },
+    {
+      "text": "of exploiting its vulnerabilities.",
+      "offset": 666160,
+      "duration": 3679
+    },
+    {
+      "text": "Security knowledge is not limited to",
+      "offset": 668079,
+      "duration": 4081
+    },
+    {
+      "text": "security engineers. Any engineer can act",
+      "offset": 669839,
+      "duration": 4081
+    },
+    {
+      "text": "as a security reviewer handling",
+      "offset": 672160,
+      "duration": 3760
+    },
+    {
+      "text": "hardening and monitoring of systems.",
+      "offset": 673920,
+      "duration": 3760
+    },
+    {
+      "text": "Since security engineers are domain",
+      "offset": 675920,
+      "duration": 3440
+    },
+    {
+      "text": "specialists, they still need to be",
+      "offset": 677680,
+      "duration": 3839
+    },
+    {
+      "text": "consulted. But combining AI with their",
+      "offset": 679360,
+      "duration": 4000
+    },
+    {
+      "text": "knowledge, it becomes easier to build,",
+      "offset": 681519,
+      "duration": 3760
+    },
+    {
+      "text": "harden, and secure applications. While",
+      "offset": 683360,
+      "duration": 3599
+    },
+    {
+      "text": "security engineers can defend the",
+      "offset": 685279,
+      "duration": 3361
+    },
+    {
+      "text": "applications, there will be offensive",
+      "offset": 686959,
+      "duration": 3921
+    },
+    {
+      "text": "use cases too. Last year, we saw a",
+      "offset": 688640,
+      "duration": 4160
+    },
+    {
+      "text": "coordinated attack carried out using",
+      "offset": 690880,
+      "duration": 4000
+    },
+    {
+      "text": "clawed code and its tools. This means",
+      "offset": 692800,
+      "duration": 4000
+    },
+    {
+      "text": "agentic capabilities will evolve the",
+      "offset": 694880,
+      "duration": 3680
+    },
+    {
+      "text": "types of attacks we see, making them",
+      "offset": 696800,
+      "duration": 3760
+    },
+    {
+      "text": "more intelligent and harmful than ever.",
+      "offset": 698560,
+      "duration": 3600
+    },
+    {
+      "text": "Securing systems is going to become",
+      "offset": 700560,
+      "duration": 3519
+    },
+    {
+      "text": "increasingly crucial, and engineers will",
+      "offset": 702160,
+      "duration": 3600
+    },
+    {
+      "text": "need to focus on security from the",
+      "offset": 704079,
+      "duration": 3681
+    },
+    {
+      "text": "start. AI agents will play a growing",
+      "offset": 705760,
+      "duration": 4240
+    },
+    {
+      "text": "role in cyber defense systems, enabling",
+      "offset": 707760,
+      "duration": 3840
+    },
+    {
+      "text": "responses that match the speed of",
+      "offset": 710000,
+      "duration": 3440
+    },
+    {
+      "text": "offensive attacks. We need to prepare",
+      "offset": 711600,
+      "duration": 3919
+    },
+    {
+      "text": "before attacks happen. We also expect a",
+      "offset": 713440,
+      "duration": 3839
+    },
+    {
+      "text": "rise in zeroday attacks, making",
+      "offset": 715519,
+      "duration": 3521
+    },
+    {
+      "text": "proactive preparation even more",
+      "offset": 717279,
+      "duration": 3680
+    },
+    {
+      "text": "important. When our team creates an app,",
+      "offset": 719040,
+      "duration": 4080
+    },
+    {
+      "text": "we use specialized agents for security.",
+      "offset": 720959,
+      "duration": 3921
+    },
+    {
+      "text": "These agents handle code review,",
+      "offset": 723120,
+      "duration": 3920
+    },
+    {
+      "text": "testing, and serverside security, the",
+      "offset": 724880,
+      "duration": 4160
+    },
+    {
+      "text": "layer where we control access. Securing",
+      "offset": 727040,
+      "duration": 3840
+    },
+    {
+      "text": "applications can be done using different",
+      "offset": 729040,
+      "duration": 3280
+    },
+    {
+      "text": "combinations depending on the",
+      "offset": 730880,
+      "duration": 3040
+    },
+    {
+      "text": "application, whether it's built-in",
+      "offset": 732320,
+      "duration": 3440
+    },
+    {
+      "text": "skills, reusable commands for build",
+      "offset": 733920,
+      "duration": 4400
+    },
+    {
+      "text": "purposes, or tools from external MCPs.",
+      "offset": 735760,
+      "duration": 4319
+    },
+    {
+      "text": "It is better to use an external tool",
+      "offset": 738320,
+      "duration": 3519
+    },
+    {
+      "text": "like Code Rabbit because they're built",
+      "offset": 740079,
+      "duration": 3601
+    },
+    {
+      "text": "to catch known vulnerability patterns",
+      "offset": 741839,
+      "duration": 4000
+    },
+    {
+      "text": "early. That brings us to the end of this",
+      "offset": 743680,
+      "duration": 3599
+    },
+    {
+      "text": "video. If you'd like to support the",
+      "offset": 745839,
+      "duration": 3120
+    },
+    {
+      "text": "channel and help us keep making videos",
+      "offset": 747279,
+      "duration": 4161
+    },
+    {
+      "text": "like this, you can do so by joining AIAS",
+      "offset": 748959,
+      "duration": 4161
+    },
+    {
+      "text": "Pro. As always, thank you for watching",
+      "offset": 751440,
+      "duration": 5800
+    },
+    {
+      "text": "and I'll see you in the next one.",
+      "offset": 753120,
+      "duration": 4120
+    }
+  ]
+}
