@@ -1,0 +1,26 @@
+services:
+  speakr:
+    image: learnedmachine/speakr:latest
+    container_name: speakr
+    restart: unless-stopped
+    ports:
+      - "5000:8899"
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data/uploads:/data/uploads
+      - ./data/instance:/data/instance
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8899/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  default:
+    name: speakr-network

@@ -1,0 +1,269 @@
+{
+  "name": "KS - Backfill Transcripts",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 1,
+              "triggerAtMinute": 0
+            },
+            {
+              "triggerAtHour": 7,
+              "triggerAtMinute": 0
+            },
+            {
+              "triggerAtHour": 13,
+              "triggerAtMinute": 0
+            },
+            {
+              "triggerAtHour": 19,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://10.0.0.33:5025/api/pending",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "8"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "get-pending",
+      "name": "Get Pending Videos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-count",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-pending",
+      "name": "Has Pending?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract pending videos for batch processing\nconst input = $input.first().json;\nconst videos = input.videos || [];\n\nreturn videos.map(v => ({ json: v }));\n"
+      },
+      "id": "extract-pending",
+      "name": "Extract Pending List",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, -60]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "batch-pending",
+      "name": "One At A Time",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [880, -60]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://10.0.0.33:5025/api/fetch",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "fetch-transcript",
+      "name": "Fetch Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, -120]
+    },
+    {
+      "parameters": {
+        "amount": 4,
+        "unit": "minutes"
+      },
+      "id": "wait-between",
+      "name": "Wait 4 Min",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1320, -120]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://10.0.0.33:5025/api/status",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "get-status",
+      "name": "Get Final Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Backfill complete or nothing to do\nconst input = $input.first().json;\nreturn [{\n  json: {\n    message: 'No pending videos - backfill may be complete',\n    checked_at: new Date().toISOString()\n  }\n}];\n"
+      },
+      "id": "no-pending",
+      "name": "Log: Backfill Complete",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 100]
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [
+          {
+            "node": "Get Pending Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pending Videos": {
+      "main": [
+        [
+          {
+            "node": "Has Pending?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Pending?": {
+      "main": [
+        [
+          {
+            "node": "Extract Pending List",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log: Backfill Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Pending List": {
+      "main": [
+        [
+          {
+            "node": "One At A Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "One At A Time": {
+      "main": [
+        [
+          {
+            "node": "Fetch Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Final Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Transcript": {
+      "main": [
+        [
+          {
+            "node": "Wait 4 Min",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 4 Min": {
+      "main": [
+        [
+          {
+            "node": "One At A Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "KnowledgeStack"
+    },
+    {
+      "name": "YouTube"
+    },
+    {
+      "name": "Backfill"
+    }
+  ]
+}
