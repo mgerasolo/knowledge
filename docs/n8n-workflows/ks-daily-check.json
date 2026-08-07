@@ -1,0 +1,230 @@
+{
+  "id": "ks-daily-check-001",
+  "name": "KS - Daily New Video Check",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily 6 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://10.0.0.33:5025/api/discover",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"lookback_days\": 7 }",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "discover-videos",
+      "name": "Discover New Videos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-new-count",
+              "leftValue": "={{ $json.new_count }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-new-videos",
+      "name": "Has New Videos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract new videos array for batch processing\nconst input = $input.first().json;\nconst videos = input.new_videos || [];\n\nreturn videos.map(v => ({ json: v }));\n"
+      },
+      "id": "extract-videos",
+      "name": "Extract Video List",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, -60]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "batch-videos",
+      "name": "One At A Time",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [880, -60]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://10.0.0.33:5025/api/fetch",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "fetch-transcript",
+      "name": "Fetch Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1100, -120]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "minutes"
+      },
+      "id": "wait-between",
+      "name": "Wait 3 Min",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1320, -120]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log summary of discovery results\nconst input = $input.first().json;\nreturn [{\n  json: {\n    message: `No new videos found across ${input.channel_stats?.length || 0} channels`,\n    checked_at: input.checked_at\n  }\n}];\n"
+      },
+      "id": "no-new-videos",
+      "name": "Log: No New Videos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 100]
+    }
+  ],
+  "connections": {
+    "Daily 6 AM": {
+      "main": [
+        [
+          {
+            "node": "Discover New Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discover New Videos": {
+      "main": [
+        [
+          {
+            "node": "Has New Videos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has New Videos?": {
+      "main": [
+        [
+          {
+            "node": "Extract Video List",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log: No New Videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Video List": {
+      "main": [
+        [
+          {
+            "node": "One At A Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "One At A Time": {
+      "main": [
+        [
+          {
+            "node": "Fetch Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Fetch Transcript": {
+      "main": [
+        [
+          {
+            "node": "Wait 3 Min",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 3 Min": {
+      "main": [
+        [
+          {
+            "node": "One At A Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "active": true,
+  "staticData": null,
+  "tags": [
+    {
+      "name": "KnowledgeStack"
+    },
+    {
+      "name": "YouTube"
+    }
+  ]
+}
