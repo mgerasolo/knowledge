@@ -14,6 +14,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import (
     TranscriptsDisabled,
@@ -500,10 +501,61 @@ def fetch_and_save(video: dict) -> dict:
         state["failed"].remove(video_id)
     save_state(state)
 
+    # Push into the search index. Without this the file archive grows while the
+    # searchable corpus does not — EMBEDDING_SERVICE_URL was configured in three
+    # places and called from none, so everything this worker fetched was
+    # invisible to every consumer of the API (found 2026-08-07).
+    indexed, index_error = _index_video(video, segments, description)
+
     return {
         "success": True,
         "video_id": video_id,
         "file_path": filepath,
         "segment_count": len(segments),
         "has_description": description is not None,
+        "indexed": indexed,
+        "index_error": index_error,
     }
+
+
+def _index_video(video: dict, segments: list, description) -> tuple:
+    """Send a freshly fetched transcript to the embedding service.
+
+    Returns (indexed, error). The transcript file is already safely on disk by
+    this point, so an indexing failure is reported but not raised — the file can
+    always be replayed later with scripts/reindex_from_files.py.
+    """
+    payload = {
+        "video_id": video["id"],
+        "title": video.get("title", ""),
+        "url": f"https://youtube.com/watch?v={video['id']}",
+        "channel_handle": video.get("channel_handle", "unknown"),
+        "channel_name": video.get("channel_name", ""),
+        "domain": video.get("domain", "general"),
+        "description": description or "",
+        "segments": segments,
+        "skip_embeddings": True,   # no semantic search consumes embeddings yet
+    }
+
+    try:
+        r = requests.post(
+            f"{Config.EMBEDDING_SERVICE_URL}/api/embed",
+            json=payload,
+            timeout=120,
+        )
+    except Exception as e:
+        return False, f"embedding service unreachable: {e}"
+
+    if not r.ok:
+        return False, f"embedding service returned HTTP {r.status_code}"
+
+    try:
+        body = r.json()
+    except ValueError:
+        return False, "embedding service response was not JSON"
+
+    # embed_video() reports real write failures now, so trust its verdict
+    # rather than the status code alone.
+    if not body.get("success"):
+        return False, str(body.get("error", "indexing reported failure"))
+    return True, None

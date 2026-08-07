@@ -1,5 +1,11 @@
 FROM python:3.11-slim
 
+# Without this, Python buffers stdout when it isn't a TTY, so every print() in
+# the service — including the SurrealDB error messages — is swallowed and the
+# container logs stay empty while requests fail. Diagnosing the 2026-08-07
+# indexing failure was blocked on exactly this.
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
 # Install dependencies

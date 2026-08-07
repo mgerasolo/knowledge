@@ -92,6 +92,13 @@ services:
       SERVICE_PORT: "5025"
       EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
+      # Discovery had not run since 2026-03-22, leaving a real ~4.5-month
+      # backlog of roughly 1,076 uploads across 51 channels (~4.7/channel/month,
+      # which checks out). The default abort threshold of 500 is tuned to catch
+      # a broken filter — a runaway looks like tens of thousands, not ~1k — so
+      # it is raised here to let the genuine catch-up through. Drop it back to
+      # the default once the queue has drained.
+      DISCOVERY_MAX_NEW: "1500"
     ports:
       - "5025:5025"
     volumes:

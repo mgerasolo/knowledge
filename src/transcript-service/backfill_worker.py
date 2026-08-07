@@ -170,7 +170,16 @@ def backfill_loop():
 
             if result.get("success"):
                 seg_count = result.get("segment_count", "?")
-                print(f"[backfill] OK: {video_id} ({seg_count} segments)")
+                # Report indexing separately from fetching: a transcript on disk
+                # that never reached the search index is invisible to every
+                # consumer, and used to pass silently as a success.
+                if result.get("already_fetched"):
+                    index_note = ""
+                elif result.get("indexed"):
+                    index_note = " indexed"
+                else:
+                    index_note = f" NOT INDEXED ({result.get('index_error')})"
+                print(f"[backfill] OK: {video_id} ({seg_count} segments){index_note}")
                 _beat(f"fetched {video_id}")
             else:
                 error = result.get("error", "unknown")

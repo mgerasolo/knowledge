@@ -1,5 +1,8 @@
 FROM python:3.11-slim
 
+# Keep print() visible in container logs (see embedding Dockerfile for why).
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
 # Install system dependencies including yt-dlp

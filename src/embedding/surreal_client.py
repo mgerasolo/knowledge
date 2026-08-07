@@ -16,7 +16,14 @@ def surreal_query(query: str):
                 "surreal-db": Config.SURREAL_DB,
             },
             auth=(Config.SURREAL_USER, Config.SURREAL_PASS),
-            data=query,
+            # Encode explicitly. Handed a str, requests falls back to latin-1
+            # for the body, which mangles any non-latin-1 character into
+            # invalid bytes and SurrealDB rejects the whole statement with
+            # "Parse error: Unexpected end of file". YouTube descriptions are
+            # full of such characters — em dashes, smart quotes, emoji, and
+            # mathematical-bold letters creators use for headings — so this
+            # silently failed to index exactly the videos with rich metadata.
+            data=query.encode("utf-8"),
             timeout=30
         )
         if response.ok:
