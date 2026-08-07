@@ -1,0 +1,140 @@
+# KnowledgeEnroll Development Stack
+# Target: Banner (10.0.0.33)
+# Port Block: 5000-5099
+#
+# External Services (already running on Banner):
+# - PostgreSQL: knowledge-postgres on 10.0.0.33:5019
+# - SurrealDB: knowledgestack-surrealdb on 10.0.0.33:5040
+
+services:
+  # Admin API (Flask)
+  # Connects to external PostgreSQL (knowledge-postgres on 5019)
+  admin-api:
+    build: ./src/admin
+    container_name: knowledge-admin-api
+    restart: unless-stopped
+    environment:
+      KNOWLEDGE_DB_HOST: knowledge-postgres
+      KNOWLEDGE_DB_PORT: 5432
+      KNOWLEDGE_DB_NAME: knowledge
+      KNOWLEDGE_DB_USER: knowledge
+      KNOWLEDGE_DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      FLASK_DEBUG: ${FLASK_DEBUG:-false}
+      URL_PREFIX: /enroll
+      SURREAL_URL: http://10.0.0.33:5040
+      SURREAL_USER: root
+      SURREAL_PASS: ${SURREAL_PASS:-changeme}
+      SURREAL_NS: knowledge
+      SURREAL_DB: transcripts
+      TRANSCRIPT_DIR: /data/transcripts
+    ports:
+      - "5020:5020"
+    volumes:
+      # Read-only: /api/v1/status reports corpus size and freshness from the
+      # files themselves, which is the only check that catches a stalled ingest.
+      - /mnt/foundry_resources/transcripts:/data/transcripts:ro
+    labels:
+      - "traefik.enable=true"
+      # Primary: knowledge.nextlevelfoundry.com/enroll/
+      - "traefik.http.routers.knowledge-enroll.rule=Host(`knowledge.nextlevelfoundry.com`) && PathPrefix(`/enroll`)"
+      - "traefik.http.routers.knowledge-enroll.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-enroll.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.knowledge-enroll.middlewares=enroll-stripprefix"
+      - "traefik.http.middlewares.enroll-stripprefix.stripprefix.prefixes=/enroll"
+      - "traefik.http.services.knowledge-enroll.loadbalancer.server.port=5020"
+      # Legacy: keep old domain working during transition
+      - "traefik.http.routers.knowledge-admin-legacy.rule=Host(`knowledge-admin.nextlevelguild.com`)"
+      - "traefik.http.routers.knowledge-admin-legacy.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-admin-legacy.tls.certresolver=letsencrypt"
+      - "traefik.http.services.knowledge-admin-legacy.loadbalancer.server.port=5020"
+
+  # Embedding Service (Flask)
+  # Connects to external SurrealDB (knowledgestack-surrealdb on 5040)
+  embedding:
+    build: ./src/embedding
+    container_name: knowledge-embedding
+    restart: unless-stopped
+    environment:
+      SURREAL_URL: http://10.0.0.33:5040
+      SURREAL_USER: root
+      SURREAL_PASS: ${SURREAL_PASS:-changeme}
+      SURREAL_NS: knowledge
+      SURREAL_DB: transcripts
+      LITELLM_URL: ${LITELLM_URL:-http://10.0.0.27:2764/v1/embeddings}
+      LITELLM_API_KEY: ${LITELLM_API_KEY:-}
+      FLASK_DEBUG: ${FLASK_DEBUG:-false}
+    ports:
+      - "5030:5030"
+    labels:
+      - "traefik.enable=true"
+      # Primary: knowledge.nextlevelfoundry.com/ingest/
+      - "traefik.http.routers.knowledge-ingest.rule=Host(`knowledge.nextlevelfoundry.com`) && PathPrefix(`/ingest`)"
+      - "traefik.http.routers.knowledge-ingest.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-ingest.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.knowledge-ingest.middlewares=ingest-stripprefix"
+      - "traefik.http.middlewares.ingest-stripprefix.stripprefix.prefixes=/ingest"
+      - "traefik.http.services.knowledge-ingest.loadbalancer.server.port=5030"
+      # Legacy: keep old domain working during transition
+      - "traefik.http.routers.knowledge-embedding-legacy.rule=Host(`knowledge-embedding.nextlevelguild.com`)"
+      - "traefik.http.routers.knowledge-embedding-legacy.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-embedding-legacy.tls.certresolver=letsencrypt"
+      - "traefik.http.services.knowledge-embedding-legacy.loadbalancer.server.port=5030"
+
+  # Transcript Service (Flask)
+  # Fetches YouTube transcripts and discovers new videos for n8n workflows
+  transcript-service:
+    build: ./src/transcript-service
+    container_name: knowledge-transcript-service
+    restart: unless-stopped
+    environment:
+      TRANSCRIPT_DIR: /data/transcripts
+      STATE_DIR: /data/state
+      SERVICE_PORT: "5025"
+      EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
+      FLASK_DEBUG: ${FLASK_DEBUG:-false}
+    ports:
+      - "5025:5025"
+    volumes:
+      - /mnt/foundry_resources/transcripts:/data/transcripts
+      - transcript_state:/data/state
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.knowledge-transcript.rule=Host(`knowledge.nextlevelfoundry.com`) && PathPrefix(`/transcript`)"
+      - "traefik.http.routers.knowledge-transcript.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-transcript.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.knowledge-transcript.middlewares=transcript-stripprefix"
+      - "traefik.http.middlewares.transcript-stripprefix.stripprefix.prefixes=/transcript"
+      - "traefik.http.services.knowledge-transcript.loadbalancer.server.port=5025"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:5025/health').status==200 else 1)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Landing Page (nginx)
+  # Root page at knowledge.nextlevelfoundry.com/
+  landing:
+    build: ./src/landing
+    container_name: knowledge-landing
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    volumes:
+      # Bind-mounted (not baked into the image) so editing docs/CONSUMER_GUIDE.md
+      # updates https://knowledge.nextlevelfoundry.com/guide with no rebuild needed.
+      - ./docs/CONSUMER_GUIDE.md:/usr/share/nginx/html/consumer-guide.md:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.knowledge-landing.rule=Host(`knowledge.nextlevelfoundry.com`) && !PathPrefix(`/enroll`) && !PathPrefix(`/ingest`) && !PathPrefix(`/transcript`) && !PathPrefix(`/lecture`) && !PathPrefix(`/college`)"
+      - "traefik.http.routers.knowledge-landing.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-landing.tls.certresolver=letsencrypt"
+      - "traefik.http.services.knowledge-landing.loadbalancer.server.port=5000"
+
+volumes:
+  transcript_state:
+
+networks:
+  default:
+    name: knowledge-network
+    external: true

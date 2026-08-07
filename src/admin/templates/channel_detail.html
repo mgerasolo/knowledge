@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+{% block title %}{{ channel.name or channel.youtube_handle }} - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_prefix }}/">Dashboard</a>
+    <span>/</span>
+    <a href="{{ url_prefix }}/channels">Channels</a>
+    <span>/</span>
+    <span class="current">{{ channel.name or channel.youtube_handle }}</span>
+</div>
+
+<div class="flex flex-between flex-center mb-20">
+    <div class="channel-row">
+        {% if channel.thumbnail_url %}
+        <img src="{{ channel.thumbnail_url }}" class="thumbnail thumbnail-lg">
+        {% endif %}
+        <div>
+            <h1 style="margin-bottom:5px">{{ channel.name or channel.youtube_handle }}</h1>
+            <div style="color:#64748b">
+                <a href="https://youtube.com/@{{ channel.youtube_handle }}" target="_blank">@{{ channel.youtube_handle }}</a>
+                {% if channel.subscriber_count %}
+                <span style="margin-left:15px">{{ channel.subscriber_count }} subscribers</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="flex gap-10">
+        <span class="badge badge-{{ channel.ingestion_mode or 'new_only' }}" style="font-size:0.9rem;padding:8px 14px">{{ channel.ingestion_mode or 'new_only' }}</span>
+        <span class="badge badge-{{ 'active' if channel.is_active else 'inactive' }}" style="font-size:0.9rem;padding:8px 14px">{{ 'Active' if channel.is_active else 'Inactive' }}</span>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="card">
+        <div class="card-title">In Pipeline</div>
+        <div class="card-value">{{ pipeline_stats.values()|sum if pipeline_stats else 0 }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Indexed</div>
+        <div class="card-value status-healthy">{{ (pipeline_stats.get('indexed_light', 0) or 0) + (pipeline_stats.get('indexed_full', 0) or 0) }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Processing</div>
+        <div class="card-value status-info">{{ (pipeline_stats.get('downloading', 0) or 0) + (pipeline_stats.get('transcribing', 0) or 0) }}</div>
+    </div>
+    <div class="card">
+        <div class="card-title">Failed</div>
+        <div class="card-value status-error">{{ pipeline_stats.get('failed', 0) or 0 }}</div>
+    </div>
+</div>
+
+<div class="two-col">
+    <!-- Left: Video List -->
+    <div>
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Videos</span>
+                <div class="flex gap-10">
+                    <button class="btn btn-sm" onclick="ingestSelected()">Ingest Selected</button>
+                    <button class="btn btn-sm btn-danger" onclick="skipSelected()">Skip Selected</button>
+                    <button class="btn btn-sm btn-secondary" onclick="loadVideos()">Refresh</button>
+                </div>
+            </div>
+
+            <div id="select-all-row" class="flex flex-center gap-10 mb-20" style="padding:10px;background:#0f172a;border-radius:6px">
+                <input type="checkbox" id="select-all" class="checkbox" onchange="toggleSelectAll()">
+                <label for="select-all" style="color:#94a3b8;cursor:pointer">Select All</label>
+                <span id="selected-count" style="color:#64748b;margin-left:auto">0 selected</span>
+                <span id="in-pipeline-count" style="color:#38bdf8;margin-left:10px">0 in pipeline</span>
+            </div>
+
+            <div id="videos-list">
+                <div class="loading"><div class="spinner"></div>Loading videos from YouTube...</div>
+            </div>
+
+            <div class="flex flex-between flex-center mt-20">
+                <button class="btn btn-secondary btn-sm" id="load-more-btn" onclick="loadMoreVideos()">Load More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Settings -->
+    <div>
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Ingestion Settings</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ingestion Mode</label>
+                <select id="ingestion-mode" class="form-select">
+                    <option value="all" {% if channel.ingestion_mode == 'all' %}selected{% endif %}>Ingest All - Auto-import all videos</option>
+                    <option value="new_only" {% if channel.ingestion_mode == 'new_only' or not channel.ingestion_mode %}selected{% endif %}>New Only - RSS discovered videos</option>
+                    <option value="selected" {% if channel.ingestion_mode == 'selected' %}selected{% endif %}>Selected - Manual curation only</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Backfill Limit (max videos to import)</label>
+                <input type="number" id="backfill-limit" class="form-input" value="{{ channel.backfill_limit or 100 }}" min="0" max="1000">
+            </div>
+
+            <button class="btn" onclick="updateSettings()">Save Settings</button>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Initial Import</span>
+            </div>
+            <p style="color:#94a3b8;margin-bottom:15px">Pull recent videos from this channel's YouTube page and add to pipeline.</p>
+
+            <div class="form-group">
+                <label class="form-label">Number of videos to import</label>
+                <input type="number" id="import-count" class="form-input" value="20" min="1" max="500">
+            </div>
+
+            <button class="btn btn-success" onclick="triggerBackfill()">Import Videos</button>
+            <div id="import-status" style="margin-top:10px;color:#64748b"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Channel Info</span>
+            </div>
+            <table style="background:transparent">
+                <tr><td style="color:#64748b;border:none;padding:8px 0">Domain</td><td style="border:none;padding:8px 0">{{ channel.domain or '-' }}</td></tr>
+                <tr><td style="color:#64748b;border:none;padding:8px 0">Channel ID</td><td style="border:none;padding:8px 0;font-family:monospace;font-size:0.85rem">{{ channel.youtube_channel_id or '-' }}</td></tr>
+                <tr><td style="color:#64748b;border:none;padding:8px 0">Last Checked</td><td style="border:none;padding:8px 0">{{ channel.last_checked_at or 'Never' }}</td></tr>
+                <tr><td style="color:#64748b;border:none;padding:8px 0">Last Backfill</td><td style="border:none;padding:8px 0">{{ channel.last_backfill_at or 'Never' }}</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const urlPrefix = '{{ url_prefix }}';
+const channelId = '{{ channel.id }}';
+let videos = [];
+let selectedIds = new Set();
+let videoLimit = 50;
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function loadVideos() {
+    const container = document.getElementById('videos-list');
+    container.innerHTML = '<div class="loading"><div class="spinner"></div>Loading videos from YouTube...</div>';
+
+    try {
+        const data = await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/videos?source=youtube&limit=' + videoLimit).then(r => r.json());
+
+        if (data.error) {
+            container.innerHTML = '<div class="empty-state status-error">' + escapeHtml(data.error) + '</div>';
+            return;
+        }
+
+        videos = data.videos || [];
+        
+        // Pre-select videos that are already in pipeline
+        selectedIds.clear();
+        let inPipelineCount = 0;
+        videos.forEach(v => {
+            if (v.in_pipeline) {
+                selectedIds.add(v.youtube_video_id);
+                inPipelineCount++;
+            }
+        });
+        
+        renderVideos();
+        document.getElementById('in-pipeline-count').textContent = inPipelineCount + ' in pipeline';
+    } catch (err) {
+        console.error('Error:', err);
+        container.innerHTML = '<div class="empty-state status-error">Error loading videos: ' + escapeHtml(err.message) + '</div>';
+    }
+}
+
+function renderVideos() {
+    const container = document.getElementById('videos-list');
+    container.replaceChildren();
+
+    if (videos.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No videos found. Try using the Initial Import panel.';
+        container.appendChild(empty);
+        return;
+    }
+
+    videos.forEach(v => {
+        const div = document.createElement('div');
+        div.className = 'video-card flex flex-center gap-10';
+
+        // Color-code by phase
+        const isSkipped = v.pipeline_status === 'skipped';
+        const isProcessing = ['downloading', 'transcribing', 'segmenting', 'embedding'].includes(v.pipeline_status);
+        const isPostIngestion = v.pipeline_status && (v.pipeline_status.startsWith('indexed') || v.pipeline_status === 'transcribed');
+        const isQueued = v.pipeline_status === 'queued';
+        const isDiscovered = v.pipeline_status === 'discovered';
+
+        if (isSkipped) {
+            div.style.borderLeft = '3px solid #6b7280';  // gray
+            div.style.opacity = '0.6';
+        } else if (isPostIngestion) {
+            div.style.borderLeft = '3px solid #22c55e';  // green - complete
+        } else if (isProcessing) {
+            div.style.borderLeft = '3px solid #f59e0b';  // amber - in progress
+        } else if (isQueued) {
+            div.style.borderLeft = '3px solid #fb923c';  // orange - ready to go
+        } else if (isDiscovered || v.in_pipeline) {
+            div.style.borderLeft = '3px solid #f87171';  // coral red - pre-ingestion
+        }
+
+        // Build elements safely
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkbox video-checkbox';
+        checkbox.dataset.id = v.youtube_video_id;
+        checkbox.checked = selectedIds.has(v.youtube_video_id) && !isSkipped;
+        checkbox.onchange = function() { updateSelection(this); };
+
+        const thumb = document.createElement('img');
+        thumb.src = v.thumbnail || 'https://i.ytimg.com/vi/' + v.youtube_video_id + '/hqdefault.jpg';
+        thumb.className = 'thumbnail-video';
+        thumb.onerror = function() { this.style.display = 'none'; };
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'video-info';
+
+        const titleLink = document.createElement('a');
+        titleLink.href = urlPrefix + '/videos/' + v.youtube_video_id;
+        titleLink.className = 'video-title';
+        titleLink.textContent = v.title || v.youtube_video_id;
+        if (isSkipped) {
+            titleLink.style.textDecoration = 'line-through';
+            titleLink.style.color = '#64748b';
+        }
+
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'video-meta';
+
+        let metaText = '';
+        if (v.duration) metaText += Math.floor(v.duration / 60) + ':' + String(v.duration % 60).padStart(2, '0') + ' ';
+        if (v.view_count) metaText += v.view_count.toLocaleString() + ' views ';
+        metaDiv.textContent = metaText;
+
+        const badge = document.createElement('span');
+        badge.className = 'badge badge-' + (v.pipeline_status || 'available');
+        badge.textContent = v.pipeline_status || 'Available';
+        if (!v.pipeline_status) badge.style.background = '#334155';
+        metaDiv.appendChild(badge);
+
+        infoDiv.appendChild(titleLink);
+        infoDiv.appendChild(metaDiv);
+
+        div.appendChild(checkbox);
+        div.appendChild(thumb);
+        div.appendChild(infoDiv);
+        container.appendChild(div);
+    });
+
+    updateSelectedCount();
+}
+
+function updateSelection(checkbox) {
+    const id = checkbox.dataset.id;
+    if (checkbox.checked) {
+        selectedIds.add(id);
+    } else {
+        selectedIds.delete(id);
+    }
+    updateSelectedCount();
+}
+
+function toggleSelectAll() {
+    const checked = document.getElementById('select-all').checked;
+    document.querySelectorAll('.video-checkbox').forEach(cb => {
+        cb.checked = checked;
+        const id = cb.dataset.id;
+        if (checked) selectedIds.add(id); else selectedIds.delete(id);
+    });
+    updateSelectedCount();
+}
+
+function updateSelectedCount() {
+    document.getElementById('selected-count').textContent = selectedIds.size + ' selected';
+}
+
+async function ingestSelected() {
+    if (selectedIds.size === 0) {
+        alert('No videos selected');
+        return;
+    }
+
+    // Filter to only videos NOT already processed or skipped
+    const toIngest = [];
+    const titles = {};
+    videos.forEach(v => {
+        if (selectedIds.has(v.youtube_video_id)) {
+            // Allow re-queueing discovered or skipped videos, but not ones already processing/indexed
+            const skipStatuses = ['downloading', 'transcribing', 'embedding', 'indexed_light', 'indexed_full'];
+            if (!skipStatuses.includes(v.pipeline_status)) {
+                toIngest.push(v.youtube_video_id);
+                titles[v.youtube_video_id] = v.title;
+            }
+        }
+    });
+
+    if (toIngest.length === 0) {
+        alert('All selected videos are already being processed or indexed');
+        return;
+    }
+
+    try {
+        const resp = await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/ingest', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({video_ids: toIngest, titles: titles})
+        }).then(r => r.json());
+
+        const total = (resp.inserted || 0) + (resp.updated || 0);
+        alert('Queued ' + total + ' videos for ingestion');
+        loadVideos();
+    } catch (err) {
+        alert('Error: ' + err.message);
+    }
+}
+
+async function skipSelected() {
+    if (selectedIds.size === 0) {
+        alert('No videos selected');
+        return;
+    }
+
+    // Filter to only videos that can be skipped (not already processing/indexed)
+    const toSkip = [];
+    const titles = {};
+    videos.forEach(v => {
+        if (selectedIds.has(v.youtube_video_id)) {
+            const noSkipStatuses = ['downloading', 'transcribing', 'embedding', 'indexed_light', 'indexed_full', 'skipped'];
+            if (!noSkipStatuses.includes(v.pipeline_status)) {
+                toSkip.push(v.youtube_video_id);
+                titles[v.youtube_video_id] = v.title;
+            }
+        }
+    });
+
+    if (toSkip.length === 0) {
+        alert('No videos to skip (already processing, indexed, or skipped)');
+        return;
+    }
+
+    try {
+        const resp = await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/skip', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({video_ids: toSkip, titles: titles})
+        }).then(r => r.json());
+
+        alert('Skipped ' + resp.skipped + ' videos');
+        loadVideos();
+    } catch (err) {
+        alert('Error: ' + err.message);
+    }
+}
+
+async function updateSettings() {
+    const mode = document.getElementById('ingestion-mode').value;
+    const limit = parseInt(document.getElementById('backfill-limit').value) || 100;
+
+    try {
+        await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/settings', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ingestion_mode: mode, backfill_limit: limit})
+        });
+        alert('Settings saved');
+        location.reload();
+    } catch (err) {
+        alert('Error saving settings');
+    }
+}
+
+async function triggerBackfill() {
+    const count = parseInt(document.getElementById('import-count').value) || 20;
+    const status = document.getElementById('import-status');
+    status.textContent = 'Importing videos...';
+    status.style.color = '#38bdf8';
+
+    try {
+        const resp = await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/backfill', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({limit: count})
+        }).then(r => r.json());
+
+        if (resp.error) {
+            status.textContent = 'Error: ' + resp.error;
+            status.style.color = '#f87171';
+            return;
+        }
+
+        status.textContent = 'Imported ' + resp.inserted + ' videos (' + resp.skipped + ' already existed)';
+        status.style.color = '#4ade80';
+        loadVideos();
+    } catch (err) {
+        status.textContent = 'Error: ' + err.message;
+        status.style.color = '#f87171';
+    }
+}
+
+function loadMoreVideos() {
+    videoLimit += 50;
+    loadVideos();
+}
+
+// Load videos on page load
+loadVideos();
+</script>
+{% endblock %}

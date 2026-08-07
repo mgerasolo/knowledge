@@ -12,8 +12,8 @@ spike/node_modules/
 spike/.env
 
 # Symlinks to shared infrastructure (not project code)
-AppServices
-Standards
+standards
+protocols
 
 # Planning backups (local safety nets, not tracked)
 _backups/
@@ -21,3 +21,19 @@ _backups/
 # Environment and secrets
 .env
 *.env.local
+deploy/.env
+deploy/data/
+transcripts
+
+# Re-index worker state (scratch; regenerated on each run)
+scripts/.reindex_progress.txt
+scripts/.reindex_failures.log
+
+# Spike scratch state — logs and fetch/video state snapshots, not source
+spike/surreal-rag/scripts/*.log
+spike/surreal-rag/scripts/fetch_state*.json
+spike/surreal-rag/scripts/video_list*.json
+spike/surreal-rag/scripts/repair_state.json
+spike/surreal-rag/scripts/fetch_log.txt
+__pycache__/
+*.pyc

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Settings - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<h1>Settings</h1>
+
+<div class="two-col">
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">Default Ingestion Settings</span>
+        </div>
+        <p style="color:#94a3b8;margin-bottom:20px">These settings apply to new channels by default.</p>
+
+        <div class="form-group">
+            <label class="form-label">Default Ingestion Mode</label>
+            <select id="default-mode" class="form-select">
+                <option value="new_only" selected>New Only - RSS discovered videos</option>
+                <option value="all">Ingest All - Auto-import all videos</option>
+                <option value="selected">Selected - Manual curation only</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Default Backfill Limit</label>
+            <input type="number" id="default-backfill" class="form-input" value="100" min="0" max="1000">
+        </div>
+
+        <button class="btn">Save Defaults</button>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <span class="panel-title">System Status</span>
+        </div>
+        <table style="background:transparent">
+            <tr><td style="color:#64748b;border:none;padding:10px 0">Database</td><td style="border:none;padding:10px 0" id="db-status">Checking...</td></tr>
+            <tr><td style="color:#64748b;border:none;padding:10px 0">RSS Monitor</td><td style="border:none;padding:10px 0">Every 30 minutes</td></tr>
+            <tr><td style="color:#64748b;border:none;padding:10px 0">Embedding Service</td><td style="border:none;padding:10px 0" id="embed-status">Checking...</td></tr>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function checkHealth() {
+    try {
+        const health = await fetch('/health').then(r => r.json());
+        document.getElementById('db-status').innerHTML = health.database === 'connected' ? '<span class="status-healthy">Connected</span>' : '<span class="status-error">Disconnected</span>';
+    } catch {
+        document.getElementById('db-status').innerHTML = '<span class="status-error">Error</span>';
+    }
+}
+checkHealth();
+</script>
+{% endblock %}

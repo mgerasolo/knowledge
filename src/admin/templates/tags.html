@@ -1,0 +1,485 @@
+{% extends "base.html" %}
+{% block title %}Tags - KnowledgeEnroll{% endblock %}
+
+{% block head %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-between flex-center mb-20">
+    <h1>Tag Explorer</h1>
+    <div class="flex gap-10">
+        <select id="type-filter" class="form-select" style="width:150px" onchange="loadTags()">
+            <option value="">All Types</option>
+            <option value="product">Product</option>
+            <option value="company">Company</option>
+            <option value="person">Person</option>
+            <option value="technology">Technology</option>
+            <option value="health">Health</option>
+            <option value="concept">Concept</option>
+        </select>
+        <input type="text" id="search" class="form-input" placeholder="Search tags..." style="width:200px" oninput="debounceSearch()">
+        <div class="tabs" style="border:0;margin:0;padding:0">
+            <button class="tab active" onclick="switchView('list', this)">List</button>
+            <button class="tab" onclick="switchView('graph', this)">Graph</button>
+            <button class="tab" onclick="switchView('tree', this)">Hierarchy</button>
+        </div>
+    </div>
+</div>
+
+<div class="grid" id="stats-grid">
+    <div class="card"><div class="card-title">Total Tags</div><div class="card-value" id="stat-total">-</div></div>
+    <div class="card"><div class="card-title">Segment Links</div><div class="card-value" id="stat-segments">-</div></div>
+    <div class="card"><div class="card-title">Video Links</div><div class="card-value" id="stat-videos">-</div></div>
+    <div class="card"><div class="card-title">Hierarchy Edges</div><div class="card-value" id="stat-hierarchy">-</div></div>
+</div>
+
+<div class="panel" style="padding:12px 20px;">
+    <div class="flex gap-10 flex-center" id="type-badges" style="flex-wrap:wrap"></div>
+</div>
+
+<!-- List View -->
+<div id="view-list" class="panel">
+    <div class="panel-header">
+        <div class="panel-title">Tags</div>
+        <select id="sort-by" class="form-select" style="width:130px" onchange="loadTags()">
+            <option value="mentions">By Mentions</option>
+            <option value="name">By Name</option>
+            <option value="recent">By Recent</option>
+        </select>
+    </div>
+    <table>
+        <thead><tr><th>Tag</th><th>Type</th><th>Mentions</th><th>Wikidata</th><th></th></tr></thead>
+        <tbody id="tags-table">
+            <tr><td colspan="5" class="loading"><div class="spinner"></div>Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Graph View -->
+<div id="view-graph" class="panel" style="display:none">
+    <div class="panel-header">
+        <div class="panel-title">Relationship Graph</div>
+        <div class="flex gap-10">
+            <label class="form-label" style="margin:0;line-height:32px">Min mentions:</label>
+            <input type="number" id="graph-min" class="form-input" value="2" min="1" max="20" style="width:60px" onchange="loadGraph()">
+        </div>
+    </div>
+    <div id="graph-container" style="width:100%;height:600px;background:#0f172a;border-radius:6px;overflow:hidden"></div>
+</div>
+
+<!-- Hierarchy View -->
+<div id="view-tree" class="panel" style="display:none">
+    <div class="panel-header"><div class="panel-title">Tag Hierarchy</div></div>
+    <div id="tree-container" style="max-height:600px;overflow-y:auto"></div>
+</div>
+
+<!-- Tag Detail Modal -->
+<div id="tag-detail" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;padding:40px;overflow-y:auto">
+    <div style="max-width:800px;margin:0 auto;background:#1e293b;border-radius:12px;padding:30px;position:relative">
+        <button onclick="closeDetail()" style="position:absolute;top:15px;right:15px;background:none;border:none;color:#64748b;font-size:1.5rem;cursor:pointer">&times;</button>
+        <div id="detail-content"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+    .type-badge { cursor: pointer; transition: all 0.2s; }
+    .type-badge:hover { opacity: 0.8; }
+    .tree-node { padding: 4px 0; }
+    .tree-toggle { cursor: pointer; color: #38bdf8; margin-right: 6px; font-family: monospace; width: 14px; display: inline-block; }
+    .tree-children { margin-left: 24px; border-left: 1px solid #334155; padding-left: 12px; }
+    .tree-meta { color: #64748b; font-size: 0.8rem; margin-left: 8px; }
+    .tag-link { cursor: pointer; color: #38bdf8; }
+    .tag-link:hover { text-decoration: underline; }
+    .node circle { cursor: pointer; }
+    .node text { fill: #94a3b8; font-size: 11px; pointer-events: none; }
+    .link-child { stroke: #3b82f6; stroke-opacity: 0.4; }
+    .link-related { stroke: #64748b; stroke-opacity: 0.3; stroke-dasharray: 4,4; }
+</style>
+<script>
+const urlPrefix = '{{ url_prefix }}';
+let searchTimeout;
+const typeColors = {
+    product: '#38bdf8', company: '#f59e0b', person: '#a78bfa',
+    technology: '#10b981', health: '#f43f5e', concept: '#64748b', topic: '#818cf8'
+};
+
+function esc(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(loadTags, 300); }
+
+async function loadStats() {
+    try {
+        const res = await fetch(urlPrefix + '/tags/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-total').textContent = data.total_tags;
+        document.getElementById('stat-segments').textContent = data.segment_links;
+        document.getElementById('stat-videos').textContent = data.video_links;
+        document.getElementById('stat-hierarchy').textContent = data.hierarchies;
+        const badges = document.getElementById('type-badges');
+        badges.textContent = '';
+        (data.by_type || []).forEach(function(t) {
+            var span = document.createElement('span');
+            span.className = 'badge type-badge';
+            span.style.background = typeColors[t.type] || '#64748b';
+            span.style.color = 'white';
+            span.textContent = t.type + ': ' + t.c;
+            span.onclick = function() { document.getElementById('type-filter').value = t.type; loadTags(); };
+            badges.appendChild(span);
+        });
+    } catch(e) { console.error('Stats error:', e); }
+}
+
+async function loadTags() {
+    var type = document.getElementById('type-filter').value;
+    var sort = document.getElementById('sort-by').value;
+    var search = document.getElementById('search').value;
+    var url = urlPrefix + '/tags/api/list?limit=200&sort=' + sort;
+    if (type) url += '&type=' + type;
+    if (search) url += '&q=' + encodeURIComponent(search);
+    var tbody = document.getElementById('tags-table');
+    tbody.textContent = '';
+    var loadRow = document.createElement('tr');
+    var loadCell = document.createElement('td');
+    loadCell.colSpan = 5;
+    loadCell.className = 'loading';
+    loadCell.textContent = 'Loading...';
+    loadRow.appendChild(loadCell);
+    tbody.appendChild(loadRow);
+    try {
+        var res = await fetch(url);
+        var data = await res.json();
+        tbody.textContent = '';
+        if (!data.tags.length) {
+            var emptyRow = document.createElement('tr');
+            var emptyCell = document.createElement('td');
+            emptyCell.colSpan = 5;
+            emptyCell.className = 'empty-state';
+            emptyCell.textContent = 'No tags found';
+            emptyRow.appendChild(emptyCell);
+            tbody.appendChild(emptyRow);
+            return;
+        }
+        data.tags.forEach(function(t) {
+            var tr = document.createElement('tr');
+            tr.style.cursor = 'pointer';
+            var tagIdStr = String(t.id);
+            tr.onclick = function() { showDetail(tagIdStr); };
+            var color = typeColors[t.type] || '#64748b';
+            // Name cell
+            var td1 = document.createElement('td');
+            var nameSpan = document.createElement('span');
+            nameSpan.className = 'tag-link';
+            nameSpan.style.color = color;
+            nameSpan.textContent = t.name;
+            td1.appendChild(nameSpan);
+            // Type cell
+            var td2 = document.createElement('td');
+            var typeBadge = document.createElement('span');
+            typeBadge.className = 'badge';
+            typeBadge.style.background = color;
+            typeBadge.style.color = 'white';
+            typeBadge.textContent = t.type;
+            td2.appendChild(typeBadge);
+            // Mentions cell
+            var td3 = document.createElement('td');
+            td3.textContent = t.mention_count;
+            // Wikidata cell
+            var td4 = document.createElement('td');
+            if (t.wikidata_id) {
+                var wdLink = document.createElement('a');
+                wdLink.href = 'https://www.wikidata.org/wiki/' + t.wikidata_id;
+                wdLink.target = '_blank';
+                wdLink.style.color = '#64748b';
+                wdLink.textContent = t.wikidata_id;
+                td4.appendChild(wdLink);
+            } else {
+                td4.textContent = '-';
+            }
+            // Action cell
+            var td5 = document.createElement('td');
+            var viewBtn = document.createElement('button');
+            viewBtn.className = 'btn btn-sm btn-outline';
+            viewBtn.textContent = 'View';
+            viewBtn.onclick = function(e) { e.stopPropagation(); showDetail(tagIdStr); };
+            td5.appendChild(viewBtn);
+            tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
+            tbody.appendChild(tr);
+        });
+    } catch(e) {
+        tbody.textContent = '';
+        var errRow = document.createElement('tr');
+        var errCell = document.createElement('td');
+        errCell.colSpan = 5;
+        errCell.className = 'status-error';
+        errCell.textContent = 'Failed to load tags';
+        errRow.appendChild(errCell);
+        tbody.appendChild(errRow);
+    }
+}
+
+async function loadGraph() {
+    var container = document.getElementById('graph-container');
+    container.textContent = '';
+    var minMentions = document.getElementById('graph-min').value || 2;
+    try {
+        var res = await fetch(urlPrefix + '/tags/api/graph?min_mentions=' + minMentions + '&limit=150');
+        var data = await res.json();
+        if (!data.nodes.length) {
+            container.textContent = 'No graph data. Run enrichment first.';
+            return;
+        }
+        var width = container.clientWidth;
+        var height = 600;
+        var svg = d3.select(container).append('svg').attr('width', width).attr('height', height);
+        var g = svg.append('g');
+        svg.call(d3.zoom().scaleExtent([0.2, 5]).on('zoom', function(e) { g.attr('transform', e.transform); }));
+        var nodeMap = {};
+        data.nodes.forEach(function(n) { nodeMap[n.id] = n; });
+        var edges = data.edges.filter(function(e) { return nodeMap[e.source] && nodeMap[e.target]; });
+        var simulation = d3.forceSimulation(data.nodes)
+            .force('link', d3.forceLink(edges).id(function(d) { return d.id; }).distance(80))
+            .force('charge', d3.forceManyBody().strength(-200))
+            .force('center', d3.forceCenter(width/2, height/2))
+            .force('collision', d3.forceCollide().radius(function(d) { return Math.sqrt(d.mentions) * 3 + 15; }));
+        var link = g.append('g').selectAll('line').data(edges).join('line')
+            .attr('class', function(d) { return 'link-' + (d.type === 'child_of' ? 'child' : 'related'); })
+            .attr('stroke-width', 1);
+        var node = g.append('g').selectAll('g').data(data.nodes).join('g').attr('class', 'node')
+            .call(d3.drag()
+                .on('start', function(e,d) { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+                .on('drag', function(e,d) { d.fx=e.x; d.fy=e.y; })
+                .on('end', function(e,d) { if (!e.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; })
+            );
+        node.append('circle')
+            .attr('r', function(d) { return Math.sqrt(d.mentions) * 2 + 5; })
+            .attr('fill', function(d) { return typeColors[d.type] || '#64748b'; })
+            .attr('stroke', '#0f172a').attr('stroke-width', 2)
+            .on('click', function(e, d) { showDetail(d.id); });
+        node.append('text')
+            .text(function(d) { return d.name.length > 20 ? d.name.substring(0, 18) + '...' : d.name; })
+            .attr('dx', function(d) { return Math.sqrt(d.mentions) * 2 + 8; })
+            .attr('dy', 4);
+        simulation.on('tick', function() {
+            link.attr('x1', function(d) { return d.source.x; }).attr('y1', function(d) { return d.source.y; })
+                .attr('x2', function(d) { return d.target.x; }).attr('y2', function(d) { return d.target.y; });
+            node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+        });
+    } catch(e) {
+        container.textContent = 'Error loading graph: ' + e.message;
+    }
+}
+
+async function loadTree() {
+    var container = document.getElementById('tree-container');
+    container.textContent = '';
+    var loadDiv = document.createElement('div');
+    loadDiv.className = 'loading';
+    loadDiv.textContent = 'Loading hierarchy...';
+    container.appendChild(loadDiv);
+    try {
+        var res = await fetch(urlPrefix + '/tags/api/hierarchy');
+        var data = await res.json();
+        container.textContent = '';
+        if (!data.roots.length) {
+            container.textContent = 'No hierarchy data yet.';
+            return;
+        }
+        function renderNode(parentEl, node) {
+            var div = document.createElement('div');
+            div.className = 'tree-node';
+            var hasChildren = node.children && node.children.length > 0;
+            var color = typeColors[node.type] || '#64748b';
+            if (hasChildren) {
+                var toggle = document.createElement('span');
+                toggle.className = 'tree-toggle';
+                toggle.textContent = '\u25B6';
+                toggle.onclick = function() { toggleTreeNode(toggle); };
+                div.appendChild(toggle);
+            } else {
+                var spacer = document.createElement('span');
+                spacer.style.cssText = 'width:14px;display:inline-block;margin-right:6px';
+                div.appendChild(spacer);
+            }
+            var nameSpan = document.createElement('span');
+            nameSpan.className = 'tag-link';
+            nameSpan.style.color = color;
+            nameSpan.textContent = node.name;
+            nameSpan.onclick = function() { showDetail(node.id); };
+            div.appendChild(nameSpan);
+            var meta = document.createElement('span');
+            meta.className = 'tree-meta';
+            meta.textContent = node.type + ' \u00B7 ' + node.mentions + 'x' + (node.wikidata_id ? ' \u00B7 ' + node.wikidata_id : '');
+            div.appendChild(meta);
+            parentEl.appendChild(div);
+            if (hasChildren) {
+                var childDiv = document.createElement('div');
+                childDiv.className = 'tree-children';
+                childDiv.style.display = 'none';
+                node.children.forEach(function(c) { renderNode(childDiv, c); });
+                parentEl.appendChild(childDiv);
+            }
+        }
+        data.roots.forEach(function(r) { renderNode(container, r); });
+    } catch(e) {
+        container.textContent = 'Error loading hierarchy';
+    }
+}
+
+function toggleTreeNode(el) {
+    var children = el.parentElement.nextElementSibling;
+    if (children && children.classList.contains('tree-children')) {
+        var showing = children.style.display !== 'none';
+        children.style.display = showing ? 'none' : 'block';
+        el.textContent = showing ? '\u25B6' : '\u25BC';
+    }
+}
+
+async function showDetail(tagId) {
+    var safeId = String(tagId).replace('tag:', '');
+    var modal = document.getElementById('tag-detail');
+    var content = document.getElementById('detail-content');
+    modal.style.display = 'block';
+    content.textContent = 'Loading...';
+    try {
+        var res = await fetch(urlPrefix + '/tags/api/' + safeId);
+        var data = await res.json();
+        var color = typeColors[data.type] || '#64748b';
+        content.textContent = '';
+
+        // Header
+        var h2 = document.createElement('h2');
+        h2.style.color = color;
+        h2.textContent = data.name;
+        content.appendChild(h2);
+
+        var typeBadge = document.createElement('span');
+        typeBadge.className = 'badge';
+        typeBadge.style.cssText = 'background:' + color + ';color:white;margin-right:10px';
+        typeBadge.textContent = data.type;
+        content.appendChild(typeBadge);
+
+        if (data.wikidata_id) {
+            var wdLink = document.createElement('a');
+            wdLink.href = 'https://www.wikidata.org/wiki/' + data.wikidata_id;
+            wdLink.target = '_blank';
+            wdLink.style.cssText = 'color:#64748b;font-size:0.85rem';
+            wdLink.textContent = data.wikidata_id;
+            content.appendChild(wdLink);
+        }
+
+        if (data.description) {
+            var desc = document.createElement('div');
+            desc.style.cssText = 'color:#94a3b8;margin-top:8px';
+            desc.textContent = data.description;
+            content.appendChild(desc);
+        }
+
+        var mentions = document.createElement('div');
+        mentions.style.cssText = 'color:#64748b;margin-top:4px;margin-bottom:20px';
+        mentions.textContent = 'Mentions: ' + data.mention_count;
+        content.appendChild(mentions);
+
+        // Parents
+        if (data.parents && data.parents.length) {
+            var h3p = document.createElement('h3');
+            h3p.textContent = 'Parent Tags';
+            content.appendChild(h3p);
+            var pDiv = document.createElement('div');
+            pDiv.className = 'flex gap-10';
+            pDiv.style.cssText = 'flex-wrap:wrap;margin-bottom:15px';
+            data.parents.forEach(function(p) {
+                var span = document.createElement('span');
+                span.className = 'topic-tag tag-link';
+                span.style.borderLeft = '3px solid ' + (typeColors[p.type] || '#64748b');
+                span.textContent = p.name;
+                span.onclick = function() { showDetail(String(p.id)); };
+                pDiv.appendChild(span);
+            });
+            content.appendChild(pDiv);
+        }
+
+        // Children
+        if (data.children && data.children.length) {
+            var h3c = document.createElement('h3');
+            h3c.textContent = 'Child Tags';
+            content.appendChild(h3c);
+            var cDiv = document.createElement('div');
+            cDiv.className = 'flex gap-10';
+            cDiv.style.cssText = 'flex-wrap:wrap;margin-bottom:15px';
+            data.children.forEach(function(c) {
+                var span = document.createElement('span');
+                span.className = 'topic-tag tag-link';
+                span.textContent = c.name + ' (' + (c.mentions||0) + ')';
+                span.onclick = function() { showDetail(String(c.id)); };
+                cDiv.appendChild(span);
+            });
+            content.appendChild(cDiv);
+        }
+
+        // Videos
+        if (data.videos && data.videos.length) {
+            var h3v = document.createElement('h3');
+            h3v.textContent = 'Videos (' + data.videos.length + ')';
+            content.appendChild(h3v);
+            data.videos.forEach(function(v) {
+                var vDiv = document.createElement('div');
+                vDiv.style.cssText = 'padding:6px 0;border-bottom:1px solid #334155';
+                var vLink = document.createElement('a');
+                vLink.href = urlPrefix + '/videos/' + (v.youtube_id || '');
+                vLink.style.color = '#f1f5f9';
+                vLink.textContent = v.title || 'Unknown';
+                vDiv.appendChild(vLink);
+                var segCount = document.createElement('span');
+                segCount.style.cssText = 'color:#64748b;font-size:0.8rem;margin-left:8px';
+                segCount.textContent = '(' + (v.segment_count || 0) + ' segments)';
+                vDiv.appendChild(segCount);
+                content.appendChild(vDiv);
+            });
+        }
+
+        // Sample segments
+        if (data.segments && data.segments.length) {
+            var h3s = document.createElement('h3');
+            h3s.textContent = 'Sample Segments';
+            h3s.style.marginTop = '15px';
+            content.appendChild(h3s);
+            data.segments.forEach(function(s) {
+                var seg = document.createElement('div');
+                seg.className = 'segment';
+                var segText = document.createElement('div');
+                segText.className = 'segment-text';
+                segText.textContent = (s.text || '').substring(0, 300) + '...';
+                seg.appendChild(segText);
+                content.appendChild(seg);
+            });
+        }
+    } catch(e) {
+        content.textContent = 'Error loading tag details';
+    }
+}
+
+function closeDetail() { document.getElementById('tag-detail').style.display = 'none'; }
+document.getElementById('tag-detail').onclick = function(e) { if (e.target === this) closeDetail(); };
+
+function switchView(view, btn) {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('view-list').style.display = view === 'list' ? '' : 'none';
+    document.getElementById('view-graph').style.display = view === 'graph' ? '' : 'none';
+    document.getElementById('view-tree').style.display = view === 'tree' ? '' : 'none';
+    if (view === 'graph') loadGraph();
+    if (view === 'tree') loadTree();
+}
+
+loadStats();
+loadTags();
+</script>
+{% endblock %}

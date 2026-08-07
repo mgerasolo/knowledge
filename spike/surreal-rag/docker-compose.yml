@@ -11,7 +11,11 @@ services:
     volumes:
       - surrealdb_data:/data
       - ./schema:/schema:ro
-    command: start --user root --pass ${SURREAL_PASSWORD:-changeme} file:/data/knowledgestack.db
+    # Persistent storage. Was `memory` until 2026-08-05, which silently discarded
+    # every write on restart and left the `knowledge` namespace non-existent.
+    # The volume must be owned by uid 65532 (the image's `nonroot` user) or
+    # SurrealDB fails to open the datastore and you end up back on memory.
+    command: start --user root --pass ${SURREAL_PASSWORD:-changeme} rocksdb:/data/knowledge.db
     environment:
       - SURREAL_LOG=info
     networks:

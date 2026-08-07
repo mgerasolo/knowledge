@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% block title %}Video Details - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_prefix }}/videos">Videos</a>
+    <span>/</span>
+    <span class="current" id="breadcrumb-title">Loading...</span>
+</div>
+
+<div class="two-col" style="grid-template-columns: 2fr 1fr;">
+    <!-- Left: Video and Main Content -->
+    <div>
+        <!-- Video Embed -->
+        <div class="panel" style="padding:0;overflow:hidden">
+            <div class="video-embed">
+                <iframe id="youtube-player" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <h1 id="video-title" style="margin-top:20px">Loading...</h1>
+        <div id="video-meta" style="color:#64748b;margin-bottom:20px"></div>
+
+        <!-- Tabs for Transcript/Segments -->
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('segments', this)">Segments</button>
+            <button class="tab" onclick="showSection('transcript', this)">Full Transcript</button>
+        </div>
+
+        <!-- Segments Section -->
+        <div id="section-segments" class="panel">
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="segment-search" class="form-input" placeholder="Filter segments...">
+            </div>
+            <div id="segments-list">
+                <div class="loading"><div class="spinner"></div> Loading segments...</div>
+            </div>
+        </div>
+
+        <!-- Transcript Section -->
+        <div id="section-transcript" class="panel" style="display:none">
+            <div class="flex flex-between flex-center mb-20">
+                <div id="transcript-stats" style="color:#64748b"></div>
+                <button class="btn btn-sm btn-secondary" onclick="copyTranscript()">Copy Transcript</button>
+            </div>
+            <div class="transcript-text" id="transcript-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Right: Metadata -->
+    <div>
+        <!-- Tags & Analysis -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Tags & Analysis</span>
+            </div>
+            <div id="tags-section">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Video Info -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Metadata</span>
+            </div>
+            <table id="metadata-table" style="background:transparent">
+                <tbody>
+                    <tr><td colspan="2">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Actions -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">Actions</span>
+            </div>
+            <div class="flex gap-10" style="flex-wrap:wrap">
+                <a id="youtube-link" href="#" target="_blank" class="btn btn-secondary btn-sm">Open on YouTube</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const videoId = '{{ video_id }}';
+const urlPrefix = '{{ url_prefix }}';
+let allSegments = [];
+
+async function loadVideo() {
+    try {
+        const res = await fetch(urlPrefix + '/videos/api/' + videoId);
+        const data = await res.json();
+
+        if (data.error) {
+            document.getElementById('breadcrumb-title').textContent = 'Not Found';
+            document.getElementById('video-title').textContent = 'Video not found';
+            return;
+        }
+
+        const video = data.video;
+        allSegments = data.segments || [];
+
+        // Update page
+        document.getElementById('breadcrumb-title').textContent = truncate(video.title || videoId, 40);
+        document.getElementById('video-title').textContent = video.title || videoId;
+        document.getElementById('youtube-player').src = 'https://www.youtube.com/embed/' + video.youtube_id;
+        document.getElementById('youtube-link').href = 'https://youtube.com/watch?v=' + video.youtube_id;
+
+        // Meta line
+        const metaParts = [];
+        if (video.channel_handle) metaParts.push(video.channel_handle);
+        if (video.published_at) metaParts.push('Published ' + formatDate(video.published_at));
+        if (video.segment_count) metaParts.push(video.segment_count + ' segments');
+        document.getElementById('video-meta').textContent = metaParts.join(' | ');
+
+        // Render sections
+        renderMetadata(video);
+        renderTags(video, allSegments);
+        renderSegments(allSegments);
+        renderTranscript(allSegments);
+
+    } catch (e) {
+        console.error('Failed to load video:', e);
+        document.getElementById('video-title').textContent = 'Error loading video';
+    }
+}
+
+function renderMetadata(video) {
+    const tbody = document.getElementById('metadata-table').querySelector('tbody');
+    tbody.textContent = '';
+
+    const fields = [
+        ['YouTube ID', video.youtube_id, true],
+        ['Title', video.title, false],
+        ['Channel', video.channel_handle || '-', false],
+        ['Domain', video.domain, false],
+        ['Segments', video.segment_count, false],
+        ['Published', formatDate(video.published_at), false],
+        ['Ingested', formatDate(video.ingested_at), false],
+        ['Fetched', formatDate(video.fetched_at), false],
+        ['SurrealDB ID', video.id, true]
+    ];
+
+    fields.forEach(function(f) {
+        const row = document.createElement('tr');
+
+        const labelCell = document.createElement('td');
+        labelCell.style.cssText = 'color:#64748b;border:none;padding:8px 0;width:100px';
+        labelCell.textContent = f[0];
+
+        const valueCell = document.createElement('td');
+        valueCell.style.cssText = 'border:none;padding:8px 0';
+        if (f[2]) valueCell.style.fontFamily = 'monospace';
+        if (f[0] === 'Domain' && f[1]) {
+            const badge = document.createElement('span');
+            badge.className = 'badge badge-' + f[1];
+            badge.textContent = f[1];
+            valueCell.appendChild(badge);
+        } else {
+            valueCell.textContent = f[1] || '-';
+        }
+
+        row.appendChild(labelCell);
+        row.appendChild(valueCell);
+        tbody.appendChild(row);
+    });
+}
+
+function renderTags(video, segments) {
+    const section = document.getElementById('tags-section');
+    section.textContent = '';
+
+    // Domain
+    const domainDiv = document.createElement('div');
+    domainDiv.style.marginBottom = '15px';
+    const domainLabel = document.createElement('div');
+    domainLabel.style.cssText = 'color:#94a3b8;font-size:0.85rem;margin-bottom:5px';
+    domainLabel.textContent = 'Domain';
+    domainDiv.appendChild(domainLabel);
+    const domainBadge = document.createElement('span');
+    domainBadge.className = 'topic-tag';
+    domainBadge.textContent = video.domain || 'general';
+    domainDiv.appendChild(domainBadge);
+    section.appendChild(domainDiv);
+
+    // Visual segments
+    const visualCount = segments.filter(function(s) { return s.requires_visual; }).length;
+    const visualDiv = document.createElement('div');
+    visualDiv.style.marginBottom = '15px';
+    const visualLabel = document.createElement('div');
+    visualLabel.style.cssText = 'color:#94a3b8;font-size:0.85rem;margin-bottom:5px';
+    visualLabel.textContent = 'Visual References';
+    visualDiv.appendChild(visualLabel);
+    const visualText = document.createElement('div');
+    if (visualCount > 0) {
+        visualText.style.color = '#f59e0b';
+        visualText.textContent = visualCount + ' of ' + segments.length + ' segments';
+    } else {
+        visualText.style.color = '#64748b';
+        visualText.textContent = 'None detected';
+    }
+    visualDiv.appendChild(visualText);
+    section.appendChild(visualDiv);
+
+    // Future features note
+    const futureDiv = document.createElement('div');
+    futureDiv.style.cssText = 'background:#0f172a;border-radius:6px;padding:15px;margin-top:15px';
+    const futureLabel = document.createElement('div');
+    futureLabel.style.cssText = 'color:#f59e0b;font-weight:500;margin-bottom:8px';
+    futureLabel.textContent = 'Coming Soon';
+    futureDiv.appendChild(futureLabel);
+    const futureList = document.createElement('ul');
+    futureList.style.cssText = 'color:#64748b;margin-left:20px;font-size:0.85rem';
+    ['Topic extraction', 'Entity detection', 'Auto-summary', 'Sentiment analysis'].forEach(function(item) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        futureList.appendChild(li);
+    });
+    futureDiv.appendChild(futureList);
+    section.appendChild(futureDiv);
+}
+
+function renderSegments(segments, filter) {
+    filter = filter || '';
+    const container = document.getElementById('segments-list');
+    container.textContent = '';
+
+    const filtered = filter
+        ? segments.filter(function(s) { return s.text && s.text.toLowerCase().includes(filter.toLowerCase()); })
+        : segments;
+
+    if (filtered.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = filter ? 'No segments match filter' : 'No segments available';
+        container.appendChild(empty);
+        return;
+    }
+
+    filtered.forEach(function(seg, idx) {
+        const div = document.createElement('div');
+        div.className = 'segment';
+        div.id = 'segment-' + seg.chunk_index;
+
+        // Time header
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'segment-time';
+
+        const timeLink = document.createElement('a');
+        timeLink.href = 'https://youtube.com/watch?v=' + videoId + '&t=' + Math.floor(seg.start_time || 0);
+        timeLink.target = '_blank';
+        timeLink.textContent = formatTime(seg.start_time) + ' - ' + formatTime(seg.end_time);
+        timeDiv.appendChild(timeLink);
+
+        // Chunk index
+        const chunkBadge = document.createElement('span');
+        chunkBadge.style.cssText = 'margin-left:10px;color:#64748b;font-size:0.8rem';
+        chunkBadge.textContent = '#' + seg.chunk_index;
+        timeDiv.appendChild(chunkBadge);
+
+        // Visual tag
+        if (seg.requires_visual) {
+            const visualTag = document.createElement('span');
+            visualTag.className = 'badge badge-discovered';
+            visualTag.style.marginLeft = '10px';
+            visualTag.textContent = 'visual';
+            timeDiv.appendChild(visualTag);
+        }
+
+        // Domain tag
+        if (seg.domain) {
+            const domainTag = document.createElement('span');
+            domainTag.className = 'topic-tag';
+            domainTag.style.marginLeft = '10px';
+            domainTag.textContent = seg.domain;
+            timeDiv.appendChild(domainTag);
+        }
+
+        // Text
+        const textDiv = document.createElement('div');
+        textDiv.className = 'segment-text';
+        textDiv.textContent = seg.text || '';
+
+        div.appendChild(timeDiv);
+        div.appendChild(textDiv);
+        container.appendChild(div);
+    });
+}
+
+function renderTranscript(segments) {
+    const container = document.getElementById('transcript-text');
+    const stats = document.getElementById('transcript-stats');
+
+    const text = segments.map(function(s) { return s.text || ''; }).join(' ');
+    const wordCount = text.split(/\s+/).filter(function(w) { return w; }).length;
+
+    container.textContent = text || 'No transcript available';
+    stats.textContent = wordCount + ' words | ' + segments.length + ' segments';
+}
+
+function showSection(section, btn) {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('[id^="section-"]').forEach(function(s) { s.style.display = 'none'; });
+    btn.classList.add('active');
+    document.getElementById('section-' + section).style.display = 'block';
+}
+
+function copyTranscript() {
+    const text = document.getElementById('transcript-text').textContent;
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Transcript copied to clipboard');
+    });
+}
+
+function formatTime(seconds) {
+    if (!seconds) return '0:00';
+    var h = Math.floor(seconds / 3600);
+    var m = Math.floor((seconds % 3600) / 60);
+    var s = Math.floor(seconds % 60);
+    if (h > 0) {
+        return h + ':' + m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+    }
+    return m + ':' + s.toString().padStart(2, '0');
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '-';
+    return new Date(dateStr).toLocaleString();
+}
+
+function truncate(str, len) {
+    if (!str) return '';
+    return str.length > len ? str.substring(0, len) + '...' : str;
+}
+
+// Filter segments
+document.getElementById('segment-search').addEventListener('input', function(e) {
+    renderSegments(allSegments, e.target.value);
+});
+
+// Load on page load
+loadVideo();
+
+// Handle hash navigation
+if (window.location.hash) {
+    setTimeout(function() {
+        var el = document.querySelector(window.location.hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
+}
+</script>
+{% endblock %}

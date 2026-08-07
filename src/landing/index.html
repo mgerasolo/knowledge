@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowledgeStack - Next Level Foundry</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 20px 60px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 48px; }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .header .tagline {
+            color: #94a3b8;
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto 28px;
+            line-height: 1.5;
+        }
+
+        /* Stats bar */
+        .stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: #f1f5f9; }
+        .stat-label { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+
+        /* Pipeline flow */
+        .pipeline-section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+
+        /* Flow connector */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: stretch;
+            min-height: 100px;
+        }
+
+        /* Left rail: number + connector line */
+        .flow-rail {
+            width: 56px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .flow-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+        .flow-line {
+            width: 2px;
+            flex: 1;
+            min-height: 16px;
+        }
+        .flow-step:last-child .flow-line { display: none; }
+
+        /* Card */
+        .flow-card {
+            flex: 1;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 4px 0 12px 0;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        a.flow-card:hover {
+            border-color: #475569;
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .flow-card-body { flex: 1; }
+        .flow-card h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 2px;
+        }
+        .flow-card .role {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .flow-card p {
+            color: #94a3b8;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+        .flow-card .tech {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .flow-card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        /* Status badges */
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .status-live { background: #22c55e18; color: #4ade80; border: 1px solid #22c55e33; }
+        .status-active { background: #a78bfa18; color: #a78bfa; border: 1px solid #a78bfa33; }
+        .status-planned { background: #64748b18; color: #94a3b8; border: 1px solid #64748b33; }
+        .status-deferred { background: #47556918; color: #64748b; border: 1px solid #47556933; }
+
+        .arrow-link {
+            color: #38bdf8;
+            font-size: 1.2rem;
+            text-decoration: none;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        a.flow-card:hover .arrow-link { opacity: 1; }
+
+        /* Colors per phase */
+        .color-enroll { background: #0ea5e9; }
+        .color-lecture { background: #f59e0b; }
+        .color-college { background: #8b5cf6; }
+        .color-graduate { background: #10b981; }
+        .color-gateway { background: #f43f5e; }
+        .color-ops { background: #64748b; }
+
+        .line-enroll { background: linear-gradient(180deg, #0ea5e9, #f59e0b); }
+        .line-lecture { background: linear-gradient(180deg, #f59e0b, #8b5cf6); }
+        .line-college { background: linear-gradient(180deg, #8b5cf6, #10b981); }
+        .line-graduate { background: linear-gradient(180deg, #10b981, #f43f5e); }
+        .line-gateway { background: #f43f5e; }
+
+        .disabled-card {
+            opacity: 0.45;
+        }
+        .disabled-card:hover {
+            transform: none !important;
+            box-shadow: none !important;
+            border-color: #334155 !important;
+        }
+
+        /* Ops cross-cutting bar */
+        .ops-bar {
+            margin-top: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .ops-bar-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .ops-bar-body { flex: 1; }
+        .ops-bar h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+        .ops-bar p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .ops-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #475569;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            color: #475569;
+            font-size: 0.85rem;
+        }
+        .footer a { color: #64748b; text-decoration: none; }
+        .footer a:hover { color: #94a3b8; }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header h1 { font-size: 2.2rem; }
+            .flow-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .flow-card-right { flex-direction: row; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>KnowledgeStack</h1>
+            <p class="tagline">Transforms YouTube content from trusted experts into a searchable, AI-queryable knowledge repository. Six products, one pipeline.</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="stat-channels">-</div>
+                    <div class="stat-label">Channels</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-pipeline">-</div>
+                    <div class="stat-label">In Pipeline</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-indexed">-</div>
+                    <div class="stat-label">Indexed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="stat-segments">-</div>
+                    <div class="stat-label">Segments</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pipeline-section">
+            <div class="section-title">Content Pipeline</div>
+
+            <div class="flow">
+                <!-- 1. Enroll -->
+                <div class="flow-step">
+                    <div class="flow-rail">
+                        <div class="flow-number color-enroll">1</div>
+                        <div class="flow-line line-enroll"></div>
+                    </div>
+                    <a href="/enroll/" class="flow-card">
+                        <div class="flow-card-body">
+                            <h2>KnowledgeEnroll</h2>
+                            <div class="role">Ingestion</div>
+                            <p>Monitors RSS feeds, manages channel subscriptions, curates which videos enter the system. Controls the front door.</p>
+                            <div class="tech">n8n workflows, YouTube API, channel management UI</div>
+                        </div>
+                        <div class="flow-card-right">
+                            <span class="status status-live">Live</span>
+                            <span class="arrow-link">&rarr;</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 2. Lecture -->
+                <div class="flow-step">
+                    <div class="flow-rail">
+                        <div class="flow-number color-lecture">2</div>
+                        <div class="flow-line line-lecture"></div>
+                    </div>
+                    <a href="/lecture/" class="flow-card">
+                        <div class="flow-card-body">
+                            <h2>KnowledgeLecture</h2>
+                            <div class="role">Lecture Hall</div>
+                            <p>Listen to and watch transcribed content from expert lectures. Full-text search, per-recording AI chat, tagging, bookmarks, and multi-user access.</p>
+                            <div class="tech">Speakr (adopted open-source, AGPL-3.0)</div>
+                        </div>
+                        <div class="flow-card-right">
+                            <span class="status status-live">Live</span>
+                            <span class="arrow-link">&rarr;</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 3. College -->
+                <div class="flow-step">
+                    <div class="flow-rail">
+                        <div class="flow-number color-college">3</div>
+                        <div class="flow-line line-college"></div>
+                    </div>
+                    <a href="/ingest/" class="flow-card">
+                        <div class="flow-card-body">
+                            <h2>KnowledgeCollege</h2>
+                            <div class="role">Intelligence</div>
+                            <p>Embeds transcripts into vector store, enables semantic search, enriches segments with entities, topics, and speaker identification.</p>
+                            <div class="tech">SurrealDB (vector + graph), LiteLLM, MCP Gateway</div>
+                        </div>
+                        <div class="flow-card-right">
+                            <span class="status status-active">Active</span>
+                            <span class="arrow-link">&rarr;</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 4. Graduate -->
+                <div class="flow-step">
+                    <div class="flow-rail">
+                        <div class="flow-number color-graduate">4</div>
+                        <div class="flow-line line-graduate"></div>
+                    </div>
+                    <div class="flow-card disabled-card">
+                        <div class="flow-card-body">
+                            <h2>KnowledgeGraduate</h2>
+                            <div class="role">Refinement</div>
+                            <p>Curates "golden standard" content through human review. Creates premium excerpts and refined knowledge artifacts.</p>
+                            <div class="tech">Admin UI, curation workflows</div>
+                        </div>
+                        <div class="flow-card-right">
+                            <span class="status status-deferred">Growth Phase</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Gateway -->
+                <div class="flow-step">
+                    <div class="flow-rail">
+                        <div class="flow-number color-gateway">5</div>
+                        <div class="flow-line" style="display:none"></div>
+                    </div>
+                    <div class="flow-card disabled-card">
+                        <div class="flow-card-body">
+                            <h2>KnowledgeGateway</h2>
+                            <div class="role">Access</div>
+                            <p>Exposes the knowledge repository to external apps and AI tools via REST API and MCP server. Powers downstream integrations.</p>
+                            <div class="tech">REST API, MCP Server, LobeChat integration</div>
+                        </div>
+                        <div class="flow-card-right">
+                            <span class="status status-deferred">Vision Phase</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ops cross-cutting -->
+            <div class="ops-bar">
+                <div class="ops-bar-icon color-ops">Ops</div>
+                <div class="ops-bar-body">
+                    <h3>KnowledgeOps</h3>
+                    <p>Pipeline monitoring, alerting, failed item management, admin tooling, and DevOps lifecycle. Runs across all phases.</p>
+                </div>
+                <span class="status status-active">Active</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>KnowledgeStack &mdash; <a href="https://nextlevelfoundry.com">Next Level Foundry</a></p>
+        </div>
+    </div>
+
+    <script>
+    async function loadStats() {
+        try {
+            const [channelRes, pipelineRes] = await Promise.all([
+                fetch('/enroll/api/v1/channels/stats').catch(() => null),
+                fetch('/enroll/api/v1/pipeline/stats').catch(() => null)
+            ]);
+
+            if (channelRes?.ok) {
+                const channels = await channelRes.json();
+                document.getElementById('stat-channels').textContent = channels.total || 0;
+            }
+
+            if (pipelineRes?.ok) {
+                const pipeline = await pipelineRes.json();
+                const byStatus = {};
+                (pipeline.by_status || []).forEach(s => { byStatus[s.status] = s.count; });
+                const indexed = (byStatus.indexed_surreal || 0) + (byStatus.indexed_full || 0) +
+                    (byStatus.indexed_light || 0) + (byStatus.indexed || 0);
+                document.getElementById('stat-indexed').textContent = indexed;
+                document.getElementById('stat-pipeline').textContent = pipeline.total || 0;
+            }
+
+            const segRes = await fetch('/enroll/videos/api/stats').catch(() => null);
+            if (segRes?.ok) {
+                const stats = await segRes.json();
+                document.getElementById('stat-segments').textContent = stats.total_segments || 0;
+            }
+        } catch (e) {
+            console.log('Stats unavailable:', e);
+        }
+    }
+    loadStats();
+    </script>
+</body>
+</html>

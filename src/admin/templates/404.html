@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Not Found - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="empty-state" style="padding:100px 20px">
+    <h1 style="font-size:4rem;color:#334155;margin-bottom:20px">404</h1>
+    <h3>{{ message or 'Page not found' }}</h3>
+    <p style="margin-top:20px"><a href="/">Return to Dashboard</a></p>
+</div>
+{% endblock %}

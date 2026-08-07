@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowledgeEnroll Admin</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { color: #38bdf8; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        h2 { color: #94a3b8; font-size: 1.2rem; margin: 20px 0 10px; }
+        .subtitle { color: #64748b; font-size: 0.9rem; font-weight: normal; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .card { background: #1e293b; border-radius: 8px; padding: 20px; }
+        .card-title { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; }
+        .card-value { color: #f1f5f9; font-size: 2rem; font-weight: bold; margin-top: 5px; }
+        .card-sub { color: #64748b; font-size: 0.8rem; margin-top: 5px; }
+        .status-healthy { color: #4ade80; }
+        .status-warning { color: #fbbf24; }
+        .status-error { color: #f87171; }
+        .status-info { color: #38bdf8; }
+        table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #334155; }
+        th { background: #0f172a; color: #94a3b8; font-weight: 500; }
+        tr:hover { background: #334155; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+        .badge-discovered { background: #3b82f6; }
+        .badge-queued { background: #6366f1; }
+        .badge-downloading { background: #8b5cf6; }
+        .badge-transcribing { background: #a855f7; }
+        .badge-embedding { background: #f59e0b; }
+        .badge-indexed_light { background: #22c55e; }
+        .badge-indexed_full { background: #10b981; }
+        .badge-failed { background: #ef4444; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { padding: 10px 20px; background: #1e293b; border: none; color: #94a3b8; cursor: pointer; border-radius: 6px; }
+        .tab.active { background: #3b82f6; color: white; }
+        .hidden { display: none; }
+        .btn { background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+        .btn:hover { background: #2563eb; }
+        .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+        a { color: #38bdf8; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .info-box { background: #1e293b; border-left: 4px solid #3b82f6; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .info-box h3 { color: #38bdf8; margin-bottom: 8px; font-size: 1rem; }
+        .info-box p { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; }
+        .progress-bar { background: #334155; border-radius: 4px; height: 8px; overflow: hidden; margin-top: 8px; }
+        .progress-fill { background: #22c55e; height: 100%; transition: width 0.3s; }
+        .split-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .split-grid { grid-template-columns: 1fr; } }
+        .video-card { background: #1e293b; border-radius: 8px; padding: 15px; margin-bottom: 10px; }
+        .video-card-title { color: #f1f5f9; font-weight: 500; margin-bottom: 5px; }
+        .video-card-meta { color: #64748b; font-size: 0.8rem; }
+        .channel-link { display: flex; align-items: center; gap: 8px; }
+        .domain-tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; background: #334155; color: #94a3b8; }
+        .empty-state { text-align: center; padding: 40px; color: #64748b; }
+        .empty-state h3 { color: #94a3b8; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            KnowledgeEnroll
+            <span class="subtitle">YouTube Transcript Ingestion</span>
+            <button class="btn" onclick="loadAll()" style="margin-left:auto">Refresh</button>
+        </h1>
+
+        <!-- Stats Overview -->
+        <div class="grid" id="stats">
+            <div class="card">
+                <div class="card-title">Channels</div>
+                <div class="card-value" id="total-channels">-</div>
+                <div class="card-sub"><span id="channels-with-ids">-</span> with channel IDs</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Videos in Pipeline</div>
+                <div class="card-value" id="total-pipeline">-</div>
+                <div class="card-sub" id="pipeline-breakdown">-</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Indexed</div>
+                <div class="card-value status-healthy" id="indexed-count">-</div>
+                <div class="card-sub">Ready for search</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Processing</div>
+                <div class="card-value status-info" id="processing-count">-</div>
+                <div class="card-sub">In progress now</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Discovered (24h)</div>
+                <div class="card-value" id="discovered-24h">-</div>
+                <div class="card-sub">New videos found</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Failed</div>
+                <div class="card-value status-error" id="failed-count">-</div>
+                <div class="card-sub"><a href="#" onclick="showTab('failed');return false">View failed</a></div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box" id="system-status">
+            <h3>System Status</h3>
+            <p id="status-message">Loading...</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">Overview</button>
+            <button class="tab" onclick="showTab('videos')">Videos</button>
+            <button class="tab" onclick="showTab('channels')">Channels</button>
+            <button class="tab" onclick="showTab('pipeline')">Pipeline Queue</button>
+            <button class="tab" onclick="showTab('failed')">Failed Items</button>
+            <button class="tab" onclick="showTab('domains')">By Domain</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview-tab">
+            <div class="split-grid">
+                <div>
+                    <h2>Recent Videos</h2>
+                    <div id="recent-videos">Loading...</div>
+                </div>
+                <div>
+                    <h2>Pipeline Status</h2>
+                    <div id="status-breakdown"></div>
+                    <h2 style="margin-top:20px">Quick Actions</h2>
+                    <div class="card">
+                        <p style="margin-bottom:10px;color:#94a3b8">Trigger workflows manually:</p>
+                        <button class="btn btn-sm" onclick="alert('Workflow trigger not yet implemented')">Check RSS Now</button>
+                        <button class="btn btn-sm" onclick="alert('Retry not yet implemented')">Retry Failed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Tab -->
+        <div id="videos-tab" class="hidden">
+            <h2>All Discovered Videos</h2>
+            <p style="color:#64748b;margin-bottom:15px">Videos discovered from YouTube RSS feeds and their processing status.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Video</th>
+                        <th>Channel</th>
+                        <th>Status</th>
+                        <th>Discovered</th>
+                    </tr>
+                </thead>
+                <tbody id="videos-table"></tbody>
+            </table>
+        </div>
+
+        <!-- Channels Tab -->
+        <div id="channels-tab" class="hidden">
+            <h2>Monitored Channels <span style="font-weight:normal;color:#64748b">(sorted by name)</span></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Channel</th>
+                        <th>Domain</th>
+                        <th>Channel ID</th>
+                        <th>Videos</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="channels-table"></tbody>
+            </table>
+        </div>
+
+        <!-- Pipeline Tab -->
+        <div id="pipeline-tab" class="hidden">
+            <h2>Pipeline Queue</h2>
+            <p style="color:#64748b;margin-bottom:15px">Items currently being processed through the ingestion pipeline.</p>
+            <table>
+                <thead>
+                    <tr><th>Video ID</th><th>Title</th><th>Status</th><th>Stage</th><th>Discovered</th></tr>
+                </thead>
+                <tbody id="pipeline-table"></tbody>
+            </table>
+        </div>
+
+        <!-- Failed Tab -->
+        <div id="failed-tab" class="hidden">
+            <h2>Failed Items</h2>
+            <p style="color:#64748b;margin-bottom:15px">Videos that failed processing. Review errors and retry.</p>
+            <table>
+                <thead>
+                    <tr><th>Video</th><th>Error Stage</th><th>Error Message</th><th>Retries</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="failed-table"></tbody>
+            </table>
+        </div>
+
+        <!-- Domains Tab -->
+        <div id="domains-tab" class="hidden">
+            <h2>Channels by Domain</h2>
+            <div class="grid" id="domain-cards"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = '/api/v1';
+        let channelStats = null;
+        let pipelineStats = null;
+        let pipelineItems = [];
+
+        async function loadStats() {
+            try {
+                [channelStats, pipelineStats] = await Promise.all([
+                    fetch(`${API}/channels/stats`).then(r => r.json()),
+                    fetch(`${API}/pipeline/stats`).then(r => r.json())
+                ]);
+
+                // Channel stats
+                document.getElementById('total-channels').textContent = channelStats.total || 0;
+
+                // Count channels with IDs (we'll estimate from API)
+                const channelsData = await fetch(`${API}/channels?limit=100`).then(r => r.json());
+                const withIds = (channelsData.channels || []).filter(c => c.youtube_channel_id).length;
+                document.getElementById('channels-with-ids').textContent = withIds;
+
+                // Pipeline stats
+                const total = pipelineStats.total || 0;
+                document.getElementById('total-pipeline').textContent = total;
+
+                // Calculate indexed and processing
+                const byStatus = pipelineStats.by_status || [];
+                const indexed = byStatus.filter(s => s.status?.includes('indexed')).reduce((a,b) => a + b.count, 0);
+                const processing = byStatus.filter(s => ['downloading','uploading','transcribing','embedding','indexing'].includes(s.status)).reduce((a,b) => a + b.count, 0);
+                const failed = byStatus.filter(s => s.status === 'failed').reduce((a,b) => a + b.count, 0);
+
+                document.getElementById('indexed-count').textContent = indexed;
+                document.getElementById('processing-count').textContent = processing;
+                document.getElementById('discovered-24h').textContent = pipelineStats.recent_24h?.discovered_24h || 0;
+                document.getElementById('failed-count').textContent = failed;
+
+                // Pipeline breakdown
+                const breakdown = byStatus.map(s => `${s.count} ${s.status}`).join(', ') || 'No items';
+                document.getElementById('pipeline-breakdown').textContent = breakdown;
+
+                // Status breakdown cards
+                const statusBreakdown = document.getElementById('status-breakdown');
+                statusBreakdown.innerHTML = byStatus.map(s => `
+                    <div class="card" style="margin-bottom:10px">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <span class="badge badge-${s.status}">${s.status}</span>
+                            <strong style="font-size:1.5rem">${s.count}</strong>
+                        </div>
+                    </div>
+                `).join('') || '<div class="card"><p style="color:#64748b">No items in pipeline yet</p></div>';
+
+                // Domain cards
+                const domainCards = document.getElementById('domain-cards');
+                domainCards.innerHTML = (channelStats.by_domain || []).map(d => `
+                    <div class="card">
+                        <div class="card-title">${d.domain}</div>
+                        <div class="card-value">${d.count}</div>
+                        <div class="card-sub">${d.active_count} active channels</div>
+                    </div>
+                `).join('');
+
+                // System status
+                updateSystemStatus(withIds, channelStats.total);
+
+            } catch (e) {
+                console.error('Failed to load stats:', e);
+            }
+        }
+
+        function updateSystemStatus(withIds, total) {
+            const pct = total > 0 ? Math.round((withIds / total) * 100) : 0;
+            let msg = '';
+            if (withIds === 0) {
+                msg = '<span class="status-error">No channels have YouTube IDs configured.</span> RSS monitoring cannot discover videos without channel IDs.';
+            } else if (withIds < total) {
+                msg = `<span class="status-warning">${withIds}/${total} channels (${pct}%) have YouTube IDs.</span> RSS monitoring is active for configured channels. Remaining channels need IDs to be monitored.`;
+            } else {
+                msg = '<span class="status-healthy">All channels configured.</span> RSS monitoring is active and discovering new videos.';
+            }
+            document.getElementById('status-message').innerHTML = msg;
+        }
+
+        async function loadChannels() {
+            try {
+                const data = await fetch(`${API}/channels?limit=100`).then(r => r.json());
+                const channels = (data.channels || []).sort((a,b) => (a.name || '').localeCompare(b.name || ''));
+
+                const tbody = document.getElementById('channels-table');
+                tbody.innerHTML = channels.map(c => `
+                    <tr>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px">
+                                ${c.thumbnail_url
+                                    ? `<img src="${c.thumbnail_url}" style="width:40px;height:40px;border-radius:50%;object-fit:cover" alt="">`
+                                    : `<div style="width:40px;height:40px;border-radius:50%;background:#334155;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:0.8rem">${(c.name || c.youtube_handle || '?')[0].toUpperCase()}</div>`}
+                                <div>
+                                    <a href="https://youtube.com/@${c.youtube_handle}" target="_blank" style="font-weight:500">@${c.youtube_handle}</a>
+                                    <div style="color:#94a3b8;font-size:0.8rem">${c.name || ''}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="domain-tag">${c.domain || 'general'}</span></td>
+                        <td style="font-size:0.75rem;color:${c.youtube_channel_id ? '#64748b' : '#f87171'}">${c.youtube_channel_id ? '...' + c.youtube_channel_id.slice(-8) : 'MISSING'}</td>
+                        <td>-</td>
+                        <td class="${c.is_active ? 'status-healthy' : 'status-error'}">${c.is_active ? 'Active' : 'Paused'}</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error('Failed to load channels:', e);
+            }
+        }
+
+        async function loadPipeline() {
+            try {
+                const data = await fetch(`${API}/pipeline?limit=100`).then(r => r.json());
+                pipelineItems = data.items || [];
+
+                // Videos table (all items)
+                const videosTable = document.getElementById('videos-table');
+                if (pipelineItems.length === 0) {
+                    videosTable.innerHTML = '<tr><td colspan="4" class="empty-state"><h3>No videos discovered yet</h3><p>Videos will appear here once RSS monitoring discovers new uploads from your channels.</p></td></tr>';
+                } else {
+                    videosTable.innerHTML = pipelineItems.map(p => `
+                        <tr>
+                            <td>
+                                <a href="https://youtube.com/watch?v=${p.youtube_video_id}" target="_blank">${(p.title || p.youtube_video_id).substring(0, 70)}${p.title?.length > 70 ? '...' : ''}</a>
+                                <div style="color:#64748b;font-size:0.75rem">${p.youtube_video_id}</div>
+                            </td>
+                            <td style="color:#64748b">-</td>
+                            <td><span class="badge badge-${p.status}">${p.status}</span></td>
+                            <td style="font-size:0.8rem">${new Date(p.discovered_at).toLocaleString()}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Pipeline queue (non-indexed items)
+                const queueItems = pipelineItems.filter(p => !p.status?.includes('indexed') && p.status !== 'failed');
+                const pipelineTable = document.getElementById('pipeline-table');
+                if (queueItems.length === 0) {
+                    pipelineTable.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748b;padding:30px">Pipeline queue is empty</td></tr>';
+                } else {
+                    pipelineTable.innerHTML = queueItems.map(p => `
+                        <tr>
+                            <td><a href="https://youtube.com/watch?v=${p.youtube_video_id}" target="_blank">${p.youtube_video_id}</a></td>
+                            <td>${(p.title || '-').substring(0, 50)}${p.title?.length > 50 ? '...' : ''}</td>
+                            <td><span class="badge badge-${p.status}">${p.status}</span></td>
+                            <td>${p.error_stage || '-'}</td>
+                            <td style="font-size:0.8rem">${new Date(p.discovered_at).toLocaleString()}</td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Failed items
+                const failedItems = pipelineItems.filter(p => p.status === 'failed');
+                const failedTable = document.getElementById('failed-table');
+                if (failedItems.length === 0) {
+                    failedTable.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748b;padding:30px">No failed items</td></tr>';
+                } else {
+                    failedTable.innerHTML = failedItems.map(p => `
+                        <tr>
+                            <td><a href="https://youtube.com/watch?v=${p.youtube_video_id}" target="_blank">${p.youtube_video_id}</a></td>
+                            <td>${p.error_stage || 'unknown'}</td>
+                            <td style="color:#f87171;font-size:0.8rem">${(p.last_error || '-').substring(0, 80)}</td>
+                            <td>${p.retry_count || 0}/${p.max_retries || 3}</td>
+                            <td><button class="btn btn-sm" onclick="alert('Retry not implemented')">Retry</button></td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Recent videos for overview
+                const recentVideos = document.getElementById('recent-videos');
+                const recent = pipelineItems.slice(0, 5);
+                if (recent.length === 0) {
+                    recentVideos.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No videos discovered yet</h3>
+                            <p>Once RSS monitoring runs and discovers new videos from your channels, they'll appear here.</p>
+                            <p style="margin-top:10px">RSS monitor runs every 30 minutes. Make sure channels have YouTube IDs configured.</p>
+                        </div>
+                    `;
+                } else {
+                    recentVideos.innerHTML = recent.map(p => `
+                        <div class="video-card">
+                            <div class="video-card-title">
+                                <a href="https://youtube.com/watch?v=${p.youtube_video_id}" target="_blank">${p.title || p.youtube_video_id}</a>
+                            </div>
+                            <div class="video-card-meta">
+                                <span class="badge badge-${p.status}">${p.status}</span>
+                                &middot; Discovered ${new Date(p.discovered_at).toLocaleString()}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+            } catch (e) {
+                console.error('Failed to load pipeline:', e);
+            }
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('[id$="-tab"]').forEach(t => t.classList.add('hidden'));
+            const tabBtn = document.querySelector(`[onclick="showTab('${tab}')"]`);
+            if (tabBtn) tabBtn.classList.add('active');
+            const tabContent = document.getElementById(`${tab}-tab`);
+            if (tabContent) tabContent.classList.remove('hidden');
+        }
+
+        function loadAll() {
+            loadStats();
+            loadChannels();
+            loadPipeline();
+        }
+
+        loadAll();
+        setInterval(loadAll, 30000);
+    </script>
+</body>
+</html>

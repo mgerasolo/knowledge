@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Channels - KnowledgeEnroll{% endblock %}
+
+{% block content %}
+<div class="flex flex-between flex-center mb-20">
+    <h1>Channels</h1>
+    <div class="flex gap-10">
+        <select id="filter-domain" class="form-select" style="width:150px" onchange="loadChannels()">
+            <option value="">All Domains</option>
+        </select>
+        <select id="filter-mode" class="form-select" style="width:150px" onchange="loadChannels()">
+            <option value="">All Modes</option>
+            <option value="all">Ingest All</option>
+            <option value="new_only">New Only</option>
+            <option value="selected">Selected</option>
+        </select>
+        <input type="text" id="search" class="form-input" placeholder="Search channels..." style="width:200px" oninput="debounceSearch()">
+    </div>
+</div>
+
+<div class="panel">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:40%">Channel</th>
+                <th>Domain</th>
+                <th>Mode</th>
+                <th>Videos</th>
+                <th>Status</th>
+                <th style="width:100px">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="channels-table">
+            <tr><td colspan="6" class="loading"><div class="spinner"></div>Loading channels...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="flex flex-between flex-center mt-20">
+    <div id="pagination-info" style="color:#64748b"></div>
+    <div class="flex gap-10">
+        <button class="btn btn-secondary btn-sm" id="prev-btn" onclick="prevPage()" disabled>Previous</button>
+        <button class="btn btn-secondary btn-sm" id="next-btn" onclick="nextPage()">Next</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const urlPrefix = '{{ url_prefix }}';
+let currentOffset = 0;
+const limit = 25;
+let searchTimeout;
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function loadChannels() {
+    const domain = document.getElementById('filter-domain').value;
+    const mode = document.getElementById('filter-mode').value;
+    const search = document.getElementById('search').value;
+
+    let url = urlPrefix + '/api/v1/channels?limit=' + limit + '&offset=' + currentOffset;
+    if (domain) url += '&domain=' + encodeURIComponent(domain);
+    if (mode) url += '&ingestion_mode=' + encodeURIComponent(mode);
+
+    try {
+        const data = await fetch(url).then(r => r.json());
+        const tbody = document.getElementById('channels-table');
+        tbody.replaceChildren();
+
+        let channels = data.channels || [];
+        if (search) {
+            const s = search.toLowerCase();
+            channels = channels.filter(c => (c.name || '').toLowerCase().includes(s) || (c.youtube_handle || '').toLowerCase().includes(s));
+        }
+
+        if (channels.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="6" class="empty-state"><h3>No channels found</h3></td>';
+            tbody.appendChild(tr);
+            return;
+        }
+
+        channels.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.style.cursor = 'pointer';
+            tr.onclick = function() { window.location.href = urlPrefix + '/channels/' + c.id; };
+            // Build HTML with escaped values
+            const thumbUrl = escapeHtml(c.thumbnail_url || '');
+            const name = escapeHtml(c.name || c.youtube_handle);
+            const handle = escapeHtml(c.youtube_handle);
+            const dom = escapeHtml(c.domain || 'Uncategorized');
+            const ingMode = escapeHtml(c.ingestion_mode || 'new_only');
+            const vcount = c.video_count || '-';
+            const statusBadge = c.is_active ? 'active' : 'inactive';
+            const statusText = c.is_active ? 'Active' : 'Inactive';
+            tr.innerHTML = '<td><div class="channel-row"><img src="' + thumbUrl + '" class="thumbnail" onerror="this.style.display=\'none\'"><div class="channel-info"><div class="channel-name">' + name + '</div><div class="channel-handle">@' + handle + '</div></div></div></td><td><span class="topic-tag">' + dom + '</span></td><td><span class="badge badge-' + ingMode + '">' + ingMode + '</span></td><td>' + vcount + '</td><td><span class="badge badge-' + statusBadge + '">' + statusText + '</span></td><td onclick="event.stopPropagation()"><a href="' + urlPrefix + '/channels/' + c.id + '" class="btn btn-sm btn-outline">View</a></td>';
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('pagination-info').textContent = 'Showing ' + (currentOffset + 1) + '-' + (currentOffset + channels.length) + ' of ' + data.total;
+        document.getElementById('prev-btn').disabled = currentOffset === 0;
+        document.getElementById('next-btn').disabled = currentOffset + limit >= data.total;
+    } catch (err) {
+        console.error('Error loading channels:', err);
+    }
+}
+
+async function loadDomains() {
+    const stats = await fetch(urlPrefix + '/api/v1/channels/stats').then(r => r.json());
+    const select = document.getElementById('filter-domain');
+    stats.by_domain.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.domain || '';
+        opt.textContent = (d.domain || 'Uncategorized') + ' (' + d.count + ')';
+        select.appendChild(opt);
+    });
+}
+
+function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(loadChannels, 300); }
+function prevPage() { currentOffset = Math.max(0, currentOffset - limit); loadChannels(); }
+function nextPage() { currentOffset += limit; loadChannels(); }
+
+loadDomains();
+loadChannels();
+</script>
+{% endblock %}

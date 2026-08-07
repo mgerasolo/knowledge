@@ -12,8 +12,8 @@
 -- ============================================
 
 -- NAMESPACE & DATABASE
-DEFINE NAMESPACE IF NOT EXISTS knowledgespike;
-USE NS knowledgespike;
+DEFINE NAMESPACE IF NOT EXISTS knowledge;
+USE NS knowledge;
 DEFINE DATABASE IF NOT EXISTS transcripts;
 USE DB transcripts;
 
@@ -27,7 +27,10 @@ DEFINE FIELD youtube_handle ON channel TYPE string;
 DEFINE FIELD youtube_id ON channel TYPE option<string>;
 DEFINE FIELD name ON channel TYPE string;
 DEFINE FIELD domain ON channel TYPE string;           -- "religion", "business", "ai-coding", etc.
-DEFINE FIELD lookback_months ON channel TYPE int;
+-- Optional since 2026-08-05: this is an ingestion setting, not observed data,
+-- and no writer has ever set it. As a required int it rejected every channel
+-- write — silently, because embed_video ignored write results.
+DEFINE FIELD lookback_months ON channel TYPE option<int>;
 DEFINE FIELD authority_score ON channel TYPE option<int>;    -- 1-10 score
 DEFINE FIELD relevance_score ON channel TYPE option<int>;    -- 1-10 score for your context
 DEFINE FIELD ingested_at ON channel TYPE datetime;
@@ -68,6 +71,24 @@ DEFINE FIELD fetched_at ON video TYPE datetime;              -- when transcript 
 DEFINE FIELD ingested_at ON video TYPE option<datetime>;     -- when added to our database (for "what's new")
 DEFINE FIELD transcript_path ON video TYPE option<string>;
 DEFINE FIELD segment_count ON video TYPE option<int>;
+-- YouTube metadata written by embedder.embed_video(). These were missing until
+-- 2026-08-05: the table is SCHEMAFULL, so every video write was rejected with
+-- "no such field exists" while embed_video still reported success. Any field
+-- added to the UPSERT in embedder.py MUST be defined here or writes fail silently.
+DEFINE FIELD channel_name ON video TYPE option<string>;
+DEFINE FIELD uploader ON video TYPE option<string>;
+DEFINE FIELD category ON video TYPE option<string>;
+DEFINE FIELD chapters ON video TYPE option<array>;           -- [{title, start_time}, ...]
+DEFINE FIELD hashtags ON video TYPE option<array<string>>;
+DEFINE FIELD youtube_tags ON video TYPE option<array<string>>;
+DEFINE FIELD view_count ON video TYPE option<int>;
+DEFINE FIELD like_count ON video TYPE option<int>;
+DEFINE FIELD comment_count ON video TYPE option<int>;
+DEFINE FIELD metadata_fetched_at ON video TYPE option<datetime>;
+-- False for the ~200 older transcripts stored as plain prose with no [M:SS]
+-- markers. Their text is complete; only segment start/end times are meaningless
+-- (all zero). Consumers doing timestamp-based deep links must check this.
+DEFINE FIELD has_timestamps ON video TYPE option<bool>;
 -- Denormalized for query performance
 DEFINE FIELD channel_handle ON video TYPE option<string>;
 DEFINE FIELD domain ON video TYPE option<string>;
@@ -250,9 +271,9 @@ DEFINE FUNCTION fn::hybrid_search($query_embedding: array<float>, $domain: optio
             video_youtube_id,
             vector::similarity::cosine(embedding, $query_embedding) AS vector_score
         FROM segment
-        WHERE embedding <|$limit * 2, 100|> $query_embedding
+        WHERE embedding <|50, 100|> $query_embedding
             AND ($domain IS NONE OR domain = $domain)
-            AND ($recency_days IS NONE OR published_at > time::now() - duration::from::days($recency_days))
+            AND ($recency_days IS NONE OR published_at > time::now() - duration::from_days($recency_days))
         ORDER BY vector_score DESC
         LIMIT $limit
     );
