@@ -1,0 +1,626 @@
+{% extends "base.html" %}
+{% block title %}Control - KnowledgeEnroll{% endblock %}
+
+{#
+  The ingestion control page.
+
+  Ordered by what Matt actually asked of it: "The total count doesn't really help
+  because if we're not getting fresh data, that's a problem. It's a matter of how
+  fresh is our information? Are we currently fresh?"
+
+  So: the verdict leads, the daily chart is the body, and library size appears only
+  as small print. Every panel distinguishes "we read it and it is zero" from "we
+  could not read it" — this project already survived a two-week outage in which
+  every check reported healthy while the corpus was empty.
+#}
+
+{% block head %}
+{# Served same-origin, vendored at image build time — see the Dockerfile for why
+   this is not a CDN link. #}
+<script src="{{ url_prefix }}/static/vendor/echarts.min.js"></script>
+<style>
+    /* Colours are rgb() throughout per the house design rules. Red, green, amber
+       are RESERVED for freshness, so category colours deliberately avoid them —
+       otherwise "Politics is red" reads as "Politics is broken". */
+
+    .verdict {
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin-bottom: 16px;
+        border: 1px solid rgb(51, 65, 85);
+        border-left-width: 6px;
+        background: rgb(30, 41, 59);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    .verdict-headline { font-size: 1.5rem; font-weight: 700; color: rgb(241, 245, 249); }
+    .verdict-detail { color: rgb(148, 163, 184); font-size: 0.9rem; margin-top: 4px; }
+    .verdict-count { text-align: right; }
+    .verdict-count .n { font-size: 2.4rem; font-weight: 700; line-height: 1; color: rgb(241, 245, 249); }
+    .verdict-count .label { color: rgb(148, 163, 184); font-size: 0.8rem; text-transform: uppercase; }
+
+    .v-fresh    { border-left-color: rgb(34, 197, 94); }
+    .v-slowing  { border-left-color: rgb(234, 179, 8); }
+    .v-quiet    { border-left-color: rgb(148, 163, 184); }
+    .v-stalled  { border-left-color: rgb(239, 68, 68); }
+    .v-never    { border-left-color: rgb(100, 116, 139); }
+    .v-unknown  { border-left-color: rgb(148, 163, 184); }
+
+    .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
+    .d-fresh   { background: rgb(34, 197, 94); }
+    .d-slowing { background: rgb(234, 179, 8); }
+    .d-quiet   { background: rgb(148, 163, 184); }
+    .d-stalled { background: rgb(239, 68, 68); }
+    .d-never   { background: rgb(100, 116, 139); }
+    .d-unknown { background: rgb(148, 163, 184); }
+
+    /* A read failure must be unmistakable and must never look like data. */
+    .unreadable {
+        background: rgb(69, 26, 26);
+        border: 1px solid rgb(239, 68, 68);
+        border-radius: 6px;
+        padding: 14px 16px;
+        color: rgb(254, 226, 226);
+        margin-bottom: 14px;
+    }
+    .unreadable strong { color: rgb(252, 165, 165); }
+
+    .note {
+        background: rgb(30, 41, 59);
+        border-left: 3px solid rgb(100, 116, 139);
+        border-radius: 4px;
+        padding: 8px 12px;
+        color: rgb(148, 163, 184);
+        font-size: 0.82rem;
+        margin-bottom: 8px;
+    }
+
+    .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .seg { display: inline-flex; border: 1px solid rgb(51, 65, 85); border-radius: 6px; overflow: hidden; }
+    .seg button {
+        background: rgb(15, 23, 42); color: rgb(148, 163, 184); border: 0;
+        padding: 6px 14px; cursor: pointer; font-size: 0.85rem;
+    }
+    .seg button:hover { background: rgb(51, 65, 85); color: rgb(226, 232, 240); }
+    .seg button.on { background: rgb(56, 189, 248); color: rgb(15, 23, 42); font-weight: 600; }
+
+    #daily-chart { width: 100%; height: 380px; }
+
+    .cat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .cat-card {
+        background: rgb(30, 41, 59); border: 1px solid rgb(51, 65, 85);
+        border-radius: 6px; padding: 12px 14px; cursor: pointer; text-decoration: none; display: block;
+    }
+    .cat-card:hover { border-color: rgb(56, 189, 248); background: rgb(38, 51, 71); }
+    .cat-card .name { color: rgb(241, 245, 249); font-weight: 600; font-size: 0.95rem; }
+    .cat-card .meta { color: rgb(148, 163, 184); font-size: 0.78rem; margin-top: 5px; }
+
+    /* Dense table per the house preference for information density. */
+    table.dense { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    table.dense th {
+        text-align: left; color: rgb(148, 163, 184); font-weight: 600;
+        border-bottom: 2px solid rgb(51, 65, 85); padding: 8px 10px;
+        cursor: pointer; user-select: none; white-space: nowrap;
+    }
+    table.dense th:hover { color: rgb(226, 232, 240); }
+    table.dense td { padding: 7px 10px; border-bottom: 1px solid rgb(30, 41, 59); color: rgb(226, 232, 240); }
+    table.dense tr:hover td { background: rgb(30, 41, 59); }
+    table.dense td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .pill {
+        display: inline-block; padding: 2px 8px; border-radius: 10px;
+        font-size: 0.72rem; background: rgb(51, 65, 85); color: rgb(148, 163, 184);
+    }
+    .pill-warn { background: rgb(69, 55, 20); color: rgb(253, 224, 71); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-between flex-center mb-20">
+    <h1 style="margin-bottom:0">Ingestion Control</h1>
+    <div class="controls">
+        <span id="updated" style="color:rgb(100,116,139);font-size:0.8rem"></span>
+        <button class="btn btn-secondary" onclick="refreshAll(true)">Refresh</button>
+    </div>
+</div>
+
+<div id="verdict" class="verdict v-unknown">
+    <div>
+        <div class="verdict-headline">Checking…</div>
+        <div class="verdict-detail">Reading the search library</div>
+    </div>
+    <div class="verdict-count">
+        <div class="n">–</div>
+        <div class="label">ingested today</div>
+    </div>
+</div>
+
+<div id="global-problems"></div>
+
+<div class="panel mb-20">
+    <div class="panel-header">
+        <span class="panel-title" id="chart-title">Videos ingested per day</span>
+        <div class="controls">
+            <div class="seg" id="range-seg">
+                <button data-days="14">14d</button>
+                <button data-days="30">30d</button>
+                <button data-days="90" class="on">90d</button>
+                <button data-days="180">All</button>
+            </div>
+            <div class="seg" id="group-seg">
+                <button data-group="category" class="on">By category</button>
+                <button data-group="channel">By channel</button>
+            </div>
+            <button class="btn btn-sm btn-secondary" id="back-btn" style="display:none" onclick="clearDrill()">
+                &larr; All categories
+            </button>
+        </div>
+    </div>
+    <div id="chart-notes"></div>
+    <div id="daily-chart"></div>
+    <div style="color:rgb(100,116,139);font-size:0.78rem;margin-top:8px">
+        Ingestion runs in bursts, not a daily trickle — empty days between tall bars are
+        normal, not an outage. Click a category in the legend to isolate it; click a bar
+        to see which channels delivered that day.
+    </div>
+</div>
+
+<h2>Freshness by category</h2>
+<div class="cat-strip" id="cat-strip"></div>
+
+<div class="panel">
+    <div class="panel-header">
+        <span class="panel-title">Channels — needing attention first</span>
+        <span style="color:rgb(100,116,139);font-size:0.8rem" id="channel-summary"></span>
+    </div>
+    <table class="dense">
+        <thead>
+            <tr>
+                <th data-sort="state">Status</th>
+                <th data-sort="name">Channel</th>
+                <th data-sort="category">Category</th>
+                <th data-sort="videos" class="num">Videos held</th>
+                <th data-sort="hours_since" class="num">Last new video</th>
+                <th data-sort="typical_gap_hours" class="num">Typical gap</th>
+            </tr>
+        </thead>
+        <tbody id="channel-rows">
+            <tr><td colspan="6" class="loading"><div class="spinner"></div>Loading…</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="library-line" style="color:rgb(100,116,139);font-size:0.8rem;margin-top:14px"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const PREFIX = "{{ url_prefix }}";
+
+// Category colours deliberately avoid red / green / amber, which are reserved for
+// freshness. Order is fixed so a category never silently changes colour between
+// loads and implies a change that did not happen.
+const CATEGORY_COLOURS = {
+    "AI":       "rgb(56, 189, 248)",
+    "Business": "rgb(139, 92, 246)",
+    "Finance":  "rgb(217, 70, 239)",
+    "Politics": "rgb(244, 114, 182)",
+    "Mindset":  "rgb(34, 211, 238)",
+    "Health":   "rgb(125, 211, 252)",
+    "Faith":    "rgb(196, 181, 253)",
+    "Other":    "rgb(100, 116, 139)",
+};
+const FALLBACK_COLOURS = [
+    "rgb(56, 189, 248)", "rgb(139, 92, 246)", "rgb(217, 70, 239)",
+    "rgb(244, 114, 182)", "rgb(34, 211, 238)", "rgb(125, 211, 252)",
+    "rgb(196, 181, 253)", "rgb(148, 163, 184)", "rgb(103, 232, 249)",
+    "rgb(165, 180, 252)",
+];
+
+const STATE_WORDS = {
+    fresh:   "Running",
+    slowing: "Slowing down",
+    quiet:   "Quiet",
+    stalled: "Stalled",
+    never:   "Nothing ever ingested",
+    unknown: "Can't tell",
+};
+
+let chart = null;
+let state = { days: 90, group: "category", category: null };
+
+// --- URL state --------------------------------------------------------------
+// Drill-down lives in the address bar so a view is a real, shareable link and the
+// back button works, per the house rule that navigation must produce real URLs.
+
+function readUrl() {
+    const params = new URLSearchParams(window.location.search);
+    state.days = parseInt(params.get("days") || "90", 10);
+    state.group = params.get("group") || "category";
+    state.category = params.get("category") || null;
+}
+
+function writeUrl() {
+    const params = new URLSearchParams();
+    params.set("days", state.days);
+    params.set("group", state.group);
+    if (state.category) params.set("category", state.category);
+    history.replaceState(null, "", PREFIX + "/control?" + params.toString());
+}
+
+// --- Helpers ----------------------------------------------------------------
+
+function humanAge(hours) {
+    if (hours === null || hours === undefined) return "never";
+    if (hours < 1) return Math.max(1, Math.round(hours * 60)) + " min ago";
+    if (hours < 48) return Math.round(hours) + "h ago";
+    const days = hours / 24;
+    if (days < 14) return days.toFixed(1).replace(/\.0$/, "") + " days ago";
+    return Math.round(days) + " days ago";
+}
+
+function humanGap(hours) {
+    if (!hours) return "—";
+    if (hours < 48) return Math.round(hours) + "h";
+    return Math.round(hours / 24) + "d";
+}
+
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text === null || text === undefined ? "" : String(text);
+    return div.innerHTML;
+}
+
+function showProblems(containerId, problems) {
+    const box = document.getElementById(containerId);
+    if (!problems || !problems.length) { box.innerHTML = ""; return; }
+    box.innerHTML = problems.map(p =>
+        `<div class="unreadable"><strong>Can't read this source:</strong> ${escapeHtml(p)}
+         <div style="margin-top:6px;font-size:0.82rem">Numbers below are incomplete —
+         this is not a report of zero.</div></div>`
+    ).join("");
+}
+
+// --- Verdict ----------------------------------------------------------------
+
+function renderVerdict(data) {
+    const box = document.getElementById("verdict");
+
+    if (!data.readable) {
+        box.className = "verdict v-unknown";
+        box.innerHTML = `
+            <div>
+                <div class="verdict-headline">Can't tell — the library didn't answer</div>
+                <div class="verdict-detail">${escapeHtml(data.problem || "unknown error")}</div>
+            </div>
+            <div class="verdict-count"><div class="n">?</div><div class="label">ingested today</div></div>`;
+        return;
+    }
+
+    const overall = data.overall;
+    const word = STATE_WORDS[overall.state] || overall.state;
+    const detail = overall.newest_at
+        ? `Newest video came in ${humanAge(overall.hours_since)}. ` +
+          `Counting the day in ${escapeHtml(data.timezone)}.`
+        : "No videos have ever been ingested.";
+
+    box.className = "verdict v-" + overall.state;
+    box.innerHTML = `
+        <div>
+            <div class="verdict-headline">${word}</div>
+            <div class="verdict-detail">${detail}</div>
+        </div>
+        <div class="verdict-count">
+            <div class="n">${data.ingested_today}</div>
+            <div class="label">ingested today</div>
+        </div>`;
+}
+
+function renderCategories(data) {
+    const strip = document.getElementById("cat-strip");
+    if (!data.readable) { strip.innerHTML = ""; return; }
+
+    strip.innerHTML = data.categories.map(c => {
+        const swatch = CATEGORY_COLOURS[c.category] || "rgb(148,163,184)";
+        // Empty categories still render. A hidden empty category cannot be told
+        // apart from one that stopped producing.
+        const meta = c.videos === 0
+            ? "nothing ingested yet"
+            : `${c.videos.toLocaleString()} videos · ${humanAge(c.hours_since)}`;
+        const href = `${PREFIX}/control?days=${state.days}&group=channel&category=${encodeURIComponent(c.category)}`;
+        return `<a class="cat-card" href="${href}">
+            <div class="name">
+                <span class="dot d-${c.state}"></span>
+                <span style="border-bottom:3px solid ${swatch};padding-bottom:1px">${escapeHtml(c.category)}</span>
+            </div>
+            <div class="meta">${meta}</div>
+        </a>`;
+    }).join("");
+}
+
+// --- Channel table ----------------------------------------------------------
+
+let channelData = [];
+let channelSort = { key: null, dir: 1 };
+
+function renderChannels() {
+    const body = document.getElementById("channel-rows");
+    if (!channelData.length) {
+        body.innerHTML = `<tr><td colspan="6" style="color:rgb(148,163,184);padding:20px">
+            No channels to show.</td></tr>`;
+        return;
+    }
+
+    let rows = channelData.slice();
+    if (channelSort.key) {
+        const key = channelSort.key;
+        rows.sort((a, b) => {
+            let x = a[key], y = b[key];
+            if (x === null || x === undefined) x = -Infinity;
+            if (y === null || y === undefined) y = -Infinity;
+            if (typeof x === "string") return channelSort.dir * x.localeCompare(y);
+            return channelSort.dir * (x - y);
+        });
+    }
+
+    body.innerHTML = rows.map(c => `
+        <tr>
+            <td><span class="dot d-${c.state}"></span>${escapeHtml(STATE_WORDS[c.state] || c.state)}</td>
+            <td>${escapeHtml(c.name)}
+                ${c.adopted ? "" : '<span class="pill pill-warn" title="This channel has videos but no channel record, so its category comes from the video itself">not set up</span>'}
+            </td>
+            <td>${escapeHtml(c.category)}</td>
+            <td class="num">${c.videos.toLocaleString()}</td>
+            <td class="num">${humanAge(c.hours_since)}</td>
+            <td class="num">${humanGap(c.typical_gap_hours)}</td>
+        </tr>`).join("");
+}
+
+document.querySelectorAll("table.dense th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => {
+        const key = th.dataset.sort;
+        channelSort.dir = channelSort.key === key ? -channelSort.dir : 1;
+        channelSort.key = key;
+        renderChannels();
+    });
+});
+
+// --- Chart ------------------------------------------------------------------
+
+function renderChart(payload) {
+    const notes = document.getElementById("chart-notes");
+    notes.innerHTML = (payload.notes || [])
+        .map(n => `<div class="note">${escapeHtml(n)}</div>`).join("");
+    showProblems("global-problems", payload.problems);
+
+    const dates = payload.days.map(d => d.date);
+    const names = payload.series.filter(name =>
+        // Keep every top-level category even at zero so an empty category stays
+        // visible; drop empty series only in the noisier per-channel view.
+        payload.group === "category" || (payload.totals[name] || 0) > 0
+    );
+
+    const series = names.map((name, index) => ({
+        name: name,
+        type: "bar",
+        stack: "total",
+        emphasis: { focus: "series" },
+        itemStyle: {
+            color: CATEGORY_COLOURS[name] || FALLBACK_COLOURS[index % FALLBACK_COLOURS.length],
+        },
+        data: payload.days.map(d => d.counts[name] || 0),
+    }));
+
+    // The rebuild day is a marker, never a bar. Charting 3,057 re-filed records as
+    // a day's ingestion would show a fake spike ~60x the real rate and permanently
+    // wreck the Y-axis scale.
+    const rebuildIndex = dates.indexOf(payload.rebuild_day);
+    if (rebuildIndex >= 0 && series.length) {
+        series[0].markLine = {
+            silent: true,
+            symbol: "none",
+            lineStyle: { color: "rgb(148, 163, 184)", type: "dashed", width: 2 },
+            label: {
+                formatter: "corpus rebuilt",
+                color: "rgb(148, 163, 184)",
+                fontSize: 10,
+                position: "insideEndTop",
+            },
+            data: [{ xAxis: rebuildIndex }],
+        };
+    }
+
+    const reconstructedUntil = payload.days.filter(d => d.reconstructed).length;
+
+    const option = {
+        backgroundColor: "transparent",
+        grid: { left: 50, right: 20, top: 42, bottom: 60 },
+        tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "shadow" },
+            backgroundColor: "rgb(15, 23, 42)",
+            borderColor: "rgb(51, 65, 85)",
+            textStyle: { color: "rgb(226, 232, 240)" },
+            formatter: function (params) {
+                if (!params.length) return "";
+                const day = payload.days[params[0].dataIndex];
+                let head = `<strong>${day.date}</strong>`;
+                if (day.rebuild) {
+                    return head + `<br><span style="color:rgb(148,163,184)">${escapeHtml(day.note)}</span>`;
+                }
+                if (day.reconstructed) {
+                    head += ` <span style="color:rgb(148,163,184)">(reconstructed from files)</span>`;
+                }
+                const lines = params
+                    .filter(p => p.value > 0)
+                    .map(p => `${p.marker} ${p.seriesName}: <strong>${p.value}</strong>`);
+                if (!lines.length) return head + "<br><span style='color:rgb(148,163,184)'>nothing ingested</span>";
+                return head + "<br>" + lines.join("<br>") +
+                    `<br><span style="color:rgb(148,163,184)">total ${day.total}</span>`;
+            },
+        },
+        legend: {
+            top: 6,
+            textStyle: { color: "rgb(148, 163, 184)" },
+            inactiveColor: "rgb(71, 85, 105)",
+            type: "scroll",
+        },
+        xAxis: {
+            type: "category",
+            data: dates,
+            axisLine: { lineStyle: { color: "rgb(51, 65, 85)" } },
+            axisLabel: {
+                color: "rgb(148, 163, 184)",
+                formatter: value => value.slice(5),
+            },
+        },
+        yAxis: {
+            type: "value",
+            name: "videos",
+            nameTextStyle: { color: "rgb(100, 116, 139)" },
+            axisLine: { lineStyle: { color: "rgb(51, 65, 85)" } },
+            splitLine: { lineStyle: { color: "rgb(30, 41, 59)" } },
+            axisLabel: { color: "rgb(148, 163, 184)" },
+        },
+        dataZoom: reconstructedUntil > 40
+            ? [{ type: "inside" }, { type: "slider", height: 18, bottom: 8,
+                 borderColor: "rgb(51,65,85)", fillerColor: "rgba(56,189,248,0.15)",
+                 textStyle: { color: "rgb(100,116,139)" } }]
+            : undefined,
+        series: series,
+    };
+
+    chart.setOption(option, true);
+
+    chart.off("click");
+    chart.on("click", params => {
+        // Drill from a day's bar into the channels that delivered it.
+        if (state.group === "category" && params.seriesName) {
+            state.group = "channel";
+            state.category = params.seriesName;
+            writeUrl();
+            loadChart();
+        }
+    });
+}
+
+// --- Loading ----------------------------------------------------------------
+
+function syncControls() {
+    document.querySelectorAll("#range-seg button").forEach(b =>
+        b.classList.toggle("on", parseInt(b.dataset.days, 10) === state.days));
+    document.querySelectorAll("#group-seg button").forEach(b =>
+        b.classList.toggle("on", b.dataset.group === state.group));
+
+    const title = document.getElementById("chart-title");
+    const back = document.getElementById("back-btn");
+    if (state.category) {
+        title.textContent = `Videos ingested per day — ${state.category}, by channel`;
+        back.style.display = "";
+    } else if (state.group === "channel") {
+        title.textContent = "Videos ingested per day — by channel";
+        back.style.display = "";
+    } else {
+        title.textContent = "Videos ingested per day";
+        back.style.display = "none";
+    }
+}
+
+async function loadChart() {
+    syncControls();
+    const params = new URLSearchParams({ days: state.days, group: state.group });
+    if (state.category) params.set("category", state.category);
+    try {
+        const response = await fetch(`${PREFIX}/api/v1/metrics/daily?${params}`);
+        renderChart(await response.json());
+    } catch (error) {
+        showProblems("global-problems", ["the dashboard could not reach its own API — " + error]);
+    }
+}
+
+async function loadFreshness() {
+    try {
+        const response = await fetch(`${PREFIX}/api/v1/metrics/freshness`);
+        const data = await response.json();
+        renderVerdict(data);
+        renderCategories(data);
+        channelData = data.channels || [];
+        renderChannels();
+
+        const summary = document.getElementById("channel-summary");
+        if (data.readable) {
+            // "Delivering" means fresh. Counting 'slowing' as delivering read as
+            // "all 58 delivering" while thirty rows on screen said Slowing down.
+            const fresh = channelData.filter(c => c.state === "fresh").length;
+            summary.textContent = fresh === channelData.length
+                ? `all ${channelData.length} delivering`
+                : `${channelData.length - fresh} of ${channelData.length} have nothing new`;
+            if (data.unadopted_channels) {
+                summary.textContent += ` · ${data.unadopted_channels} not set up`;
+            }
+        }
+    } catch (error) {
+        showProblems("global-problems", ["could not load freshness — " + error]);
+    }
+}
+
+async function loadLibrary() {
+    try {
+        const response = await fetch(`${PREFIX}/api/v1/metrics/library`);
+        const data = await response.json();
+        const line = document.getElementById("library-line");
+        line.textContent = data.readable
+            ? `Library holds ${data.videos.toLocaleString()} videos across ${data.channels} channels. ` +
+              `Size is context only — it can't tell you whether anything is still arriving.`
+            : "";
+    } catch (error) { /* size is small print; never block the page for it */ }
+}
+
+async function refreshAll(force) {
+    if (force) {
+        try { await fetch(`${PREFIX}/api/v1/metrics/refresh`, { method: "POST" }); }
+        catch (error) { /* fall through to a cached read rather than showing nothing */ }
+    }
+    document.getElementById("updated").textContent =
+        "updated " + new Date().toLocaleTimeString();
+    await Promise.all([loadChart(), loadFreshness(), loadLibrary()]);
+}
+
+function clearDrill() {
+    state.group = "category";
+    state.category = null;
+    writeUrl();
+    loadChart();
+}
+
+document.querySelectorAll("#range-seg button").forEach(button => {
+    button.addEventListener("click", () => {
+        state.days = parseInt(button.dataset.days, 10);
+        writeUrl();
+        loadChart();
+    });
+});
+
+document.querySelectorAll("#group-seg button").forEach(button => {
+    button.addEventListener("click", () => {
+        state.group = button.dataset.group;
+        if (state.group === "category") state.category = null;
+        writeUrl();
+        loadChart();
+    });
+});
+
+window.addEventListener("resize", () => chart && chart.resize());
+
+readUrl();
+chart = echarts.init(document.getElementById("daily-chart"), null, { renderer: "canvas" });
+refreshAll(false);
+
+// The page is for watching a backfill run, so it keeps itself current. Sixty
+// seconds matches the server-side cache TTL — polling faster would return the
+// same cached numbers and only cost the NAS.
+setInterval(() => refreshAll(false), 60000);
+</script>
+{% endblock %}

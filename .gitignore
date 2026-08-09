@@ -37,3 +37,5 @@ spike/surreal-rag/scripts/repair_state.json
 spike/surreal-rag/scripts/fetch_log.txt
 __pycache__/
 *.pyc
+src/admin/static/vendor/
+.venv-test/

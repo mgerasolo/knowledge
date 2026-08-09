@@ -8,6 +8,8 @@ from api.pipeline import pipeline_bp
 from api.videos import videos_bp
 from api.tags import tags_bp
 from api.status import status_bp, build_status
+from api.metrics_routes import metrics_bp
+from api import metrics
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app, origins=Config.CORS_ORIGINS)
@@ -25,6 +27,7 @@ app.register_blueprint(pipeline_bp, url_prefix=Config.API_PREFIX)
 app.register_blueprint(videos_bp, url_prefix='/videos')
 app.register_blueprint(tags_bp, url_prefix='/tags')
 app.register_blueprint(status_bp, url_prefix=Config.API_PREFIX)
+app.register_blueprint(metrics_bp, url_prefix=Config.API_PREFIX)
 
 
 @app.route('/health')
@@ -117,7 +120,29 @@ def channel_detail(channel_id):
         """, (str(channel_id),))
         pipeline_stats = {row['status']: row['count'] for row in cursor.fetchall()}
 
-    return render_template('channel_detail.html', channel=dict(channel), pipeline_stats=pipeline_stats)
+    # How many videos this channel actually has IN THE LIBRARY, which is a
+    # different question from how many rows sit in the work queue. The queue said
+    # "0 indexed" for AI Labs while the library held 86 — the number on this page
+    # is the one people act on, so it comes from the library.
+    handle = (channel['youtube_handle'] or '').strip().lstrip('@').lower()
+    library_count = metrics.channel_video_counts().get(handle)
+
+    return render_template(
+        'channel_detail.html',
+        channel=dict(channel),
+        pipeline_stats=pipeline_stats,
+        library_count=library_count,
+    )
+
+
+@app.route('/control')
+def control_page():
+    """Ingestion control page — freshness and daily counts from the real library.
+
+    Separate from /pipeline on purpose: that page is about work in flight, this one
+    is about what we hold and whether it is still arriving.
+    """
+    return render_template('control.html')
 
 
 @app.route('/pipeline')
