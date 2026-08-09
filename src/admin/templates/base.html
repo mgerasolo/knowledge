@@ -191,6 +191,7 @@
             <a href="{{ url_prefix }}/" class="nav-brand">KnowledgeEnroll</a>
             <div class="nav-links">
                 <a href="{{ url_prefix }}/" class="nav-link {% if request.path == '/' %}active{% endif %}">Dashboard</a>
+                <a href="{{ url_prefix }}/control" class="nav-link {% if request.path == '/control' %}active{% endif %}">Control</a>
                 <a href="{{ url_prefix }}/channels" class="nav-link {% if '/channels' in request.path %}active{% endif %}">Channels</a>
                 <a href="{{ url_prefix }}/pipeline" class="nav-link {% if request.path == '/pipeline' %}active{% endif %}">Pipeline</a>
                 <a href="{{ url_prefix }}/videos" class="nav-link {% if '/videos' in request.path %}active{% endif %}">Videos</a>

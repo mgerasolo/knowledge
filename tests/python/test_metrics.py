@@ -338,6 +338,27 @@ class TestChannelRhythm:
 
         assert channel['typical_gap_hours'] != 0
 
+    def test_batch_ingested_channel_reports_no_rhythm(self, sources):
+        """A backfill writes a whole catalogue in minutes. Those gaps describe the
+        backfill's speed, not the channel's cadence — reporting 'typical gap: 0h'
+        looks like a measurement while meaning nothing."""
+        rows = [video(handle='backfilled', hours_ago=i * 0.02) for i in range(30)]
+        sources['corpus'] = SourceResult(rows=rows)
+
+        channel = next(c for c in metrics.freshness()['channels']
+                       if c['handle'] == 'backfilled')
+
+        assert channel['typical_gap_hours'] is None
+
+    def test_a_genuine_cadence_is_still_reported(self, sources):
+        rows = [video(handle='weekly', days_ago=7 * i) for i in range(8)]
+        sources['corpus'] = SourceResult(rows=rows)
+
+        channel = next(c for c in metrics.freshness()['channels']
+                       if c['handle'] == 'weekly')
+
+        assert channel['typical_gap_hours'] == pytest.approx(168, rel=0.1)
+
     def test_a_quiet_channel_still_sorts_above_a_healthy_one(self, sources):
         sources['corpus'] = SourceResult(rows=[
             video(handle='healthy', hours_ago=1),

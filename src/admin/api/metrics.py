@@ -96,6 +96,13 @@ STALLED_HOURS = int(os.getenv('STALE_INGEST_HOURS', '72')) * 2  # 7d at the defa
 RHYTHM_MULTIPLIER = 3
 MIN_VIDEOS_FOR_RHYTHM = 5
 
+# A backfill writes a channel's whole catalogue within minutes, so the gaps between
+# those `ingested_at` values are seconds apart and describe the BACKFILL's speed,
+# not the channel's cadence. Reporting that as "typical gap: 0h" is worse than
+# reporting nothing, because it looks like a measurement. Below this, we say we
+# don't know.
+MIN_MEANINGFUL_GAP_HOURS = 6
+
 
 # --- Small TTL cache --------------------------------------------------------
 
@@ -522,7 +529,13 @@ def _median_gap_hours(times: list[datetime]) -> float | None:
     gaps = [g for g in gaps if g > 0]
     if len(gaps) < MIN_VIDEOS_FOR_RHYTHM - 1:
         return None
-    return median(gaps) if gaps else None
+    if not gaps:
+        return None
+
+    typical = median(gaps)
+    # Sub-threshold means we are measuring a backfill, not a cadence. Say nothing
+    # rather than publish a number that means nothing.
+    return typical if typical >= MIN_MEANINGFUL_GAP_HOURS else None
 
 
 def freshness() -> dict:

@@ -31,22 +31,36 @@
     </div>
 </div>
 
+{#
+  "In library" comes from the corpus; the other three come from the work queue.
+  They are deliberately labelled so nobody reads a queue number as an inventory
+  again — the queue reported 0 indexed for a channel holding 86 videos.
+#}
 <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
     <div class="card">
-        <div class="card-title">In Pipeline</div>
-        <div class="card-value">{{ pipeline_stats.values()|sum if pipeline_stats else 0 }}</div>
+        <div class="card-title">In library</div>
+        {% if library_count is none %}
+        <div class="card-value" style="color:rgb(148,163,184)" title="The search library did not answer — this is not a count of zero">?</div>
+        <div class="card-sub" style="color:rgb(148,163,184)">library unreachable</div>
+        {% else %}
+        <div class="card-value status-healthy">{{ library_count }}</div>
+        <div class="card-sub">videos we hold</div>
+        {% endif %}
     </div>
     <div class="card">
-        <div class="card-title">Indexed</div>
-        <div class="card-value status-healthy">{{ (pipeline_stats.get('indexed_light', 0) or 0) + (pipeline_stats.get('indexed_full', 0) or 0) }}</div>
+        <div class="card-title">Queued</div>
+        <div class="card-value">{{ pipeline_stats.values()|sum if pipeline_stats else 0 }}</div>
+        <div class="card-sub">rows in the work queue</div>
     </div>
     <div class="card">
         <div class="card-title">Processing</div>
-        <div class="card-value status-info">{{ (pipeline_stats.get('downloading', 0) or 0) + (pipeline_stats.get('transcribing', 0) or 0) }}</div>
+        <div class="card-value status-info">{{ (pipeline_stats.get('downloading', 0) or 0) + (pipeline_stats.get('transcribing', 0) or 0) + (pipeline_stats.get('embedding', 0) or 0) }}</div>
+        <div class="card-sub">in flight now</div>
     </div>
     <div class="card">
         <div class="card-title">Failed</div>
         <div class="card-value status-error">{{ pipeline_stats.get('failed', 0) or 0 }}</div>
+        <div class="card-sub">need a retry</div>
     </div>
 </div>
 

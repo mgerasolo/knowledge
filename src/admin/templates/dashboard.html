@@ -18,7 +18,7 @@
 <!-- Linear Pipeline Flow -->
 <div class="pipeline-flow mb-20">
     <div class="flow-header">
-        <span class="flow-title">Pipeline Flow</span>
+        <span class="flow-title">Work queue — items in flight</span>
         <span id="period-label" style="color:#64748b;font-size:0.85rem">All Time</span>
     </div>
     <div class="flow-stages">
@@ -74,27 +74,32 @@
     </div>
 </div>
 
-<!-- Summary Cards -->
+{#
+  These four come from the LIBRARY, not the work queue. The queue's own numbers
+  live in the flow strip above, relabelled so they stop being read as an
+  inventory — it reported 1,150 videos and no activity in 55 hours while the
+  library held 3,493 and had taken one in 12 minutes earlier.
+#}
 <div class="grid" id="stats-grid">
     <div class="card">
-        <div class="card-title">Channels</div>
-        <div class="card-value" id="total-channels">-</div>
-        <div class="card-sub"><span id="active-channels">-</span> active</div>
+        <div class="card-title">Ingestion</div>
+        <div class="card-value" id="live-state">-</div>
+        <div class="card-sub" id="live-detail">checking the library</div>
     </div>
     <div class="card">
-        <div class="card-title">Discovered (24h)</div>
-        <div class="card-value" id="discovered-24h">-</div>
-        <div class="card-sub">New videos found</div>
+        <div class="card-title">Ingested today</div>
+        <div class="card-value status-healthy" id="ingested-today">-</div>
+        <div class="card-sub">into the search library</div>
     </div>
     <div class="card">
-        <div class="card-title">Completed (24h)</div>
-        <div class="card-value status-healthy" id="completed-24h">-</div>
-        <div class="card-sub">Finished processing</div>
+        <div class="card-title">Library</div>
+        <div class="card-value" id="library-videos">-</div>
+        <div class="card-sub"><span id="library-channels">-</span> channels · <a href="{{ url_prefix }}/control">daily breakdown</a></div>
     </div>
     <div class="card">
-        <div class="card-title">Stale Claims</div>
-        <div class="card-value status-warning" id="stale-claims">-</div>
-        <div class="card-sub"><a href="{{ url_prefix }}/pipeline?status=downloading">View stuck items</a></div>
+        <div class="card-title">Not delivering</div>
+        <div class="card-value status-warning" id="channels-quiet">-</div>
+        <div class="card-sub"><a href="{{ url_prefix }}/control">See which channels</a></div>
     </div>
 </div>
 
@@ -288,10 +293,10 @@ async function loadDashboard() {
         document.getElementById('stat-skipped').textContent = byStatus.skipped || 0;
         document.getElementById('stat-total').textContent = pipelineStats.total || 0;
 
-        // 24h activity cards (always from recent_24h regardless of period filter)
-        document.getElementById('discovered-24h').textContent = pipelineStats.recent_24h?.discovered_24h || 0;
-        document.getElementById('completed-24h').textContent = pipelineStats.recent_24h?.completed_24h || 0;
-        document.getElementById('stale-claims').textContent = pipelineStats.stale_claims || 0;
+        // Headline cards come from the LIBRARY. The queue cannot answer "what do
+        // we hold" or "is anything still arriving" — it only knows what it was
+        // asked to do, and it stopped being written to.
+        await loadLibraryCards();
 
         // Recent activity table
         const recent = await fetch(urlPrefix + '/api/v1/pipeline/items?limit=10').then(r => r.json());
@@ -313,6 +318,58 @@ async function loadDashboard() {
         }
     } catch (err) {
         console.error('Error loading dashboard:', err);
+    }
+}
+
+const LIVE_WORDS = {
+    fresh: 'Running', slowing: 'Slowing', quiet: 'Quiet',
+    stalled: 'Stalled', never: 'Never run', unknown: "Can't tell",
+};
+
+async function loadLibraryCards() {
+    const stateCell = document.getElementById('live-state');
+    const detailCell = document.getElementById('live-detail');
+    try {
+        const [fresh, library] = await Promise.all([
+            fetch(urlPrefix + '/api/v1/metrics/freshness').then(r => r.json()),
+            fetch(urlPrefix + '/api/v1/metrics/library').then(r => r.json()),
+        ]);
+
+        if (!fresh.readable) {
+            // NOT zeros. "We could not read the library" and "the library is
+            // empty" must never render the same way — that confusion is what let
+            // a two-week outage report healthy.
+            stateCell.textContent = "Can't tell";
+            stateCell.className = 'card-value status-warning';
+            detailCell.textContent = fresh.problem || 'the library did not answer';
+            ['ingested-today', 'library-videos', 'channels-quiet'].forEach(id => {
+                document.getElementById(id).textContent = '?';
+            });
+            document.getElementById('library-channels').textContent = '?';
+            return;
+        }
+
+        stateCell.textContent = LIVE_WORDS[fresh.overall.state] || fresh.overall.state;
+        stateCell.className = 'card-value ' +
+            (fresh.overall.state === 'fresh' ? 'status-healthy'
+             : fresh.overall.state === 'slowing' ? 'status-warning' : 'status-error');
+        detailCell.textContent = fresh.overall.newest_at
+            ? 'newest video ' + formatTime(fresh.overall.newest_at)
+            : 'nothing ingested yet';
+
+        document.getElementById('ingested-today').textContent = fresh.ingested_today;
+        document.getElementById('channels-quiet').textContent =
+            (fresh.channels || []).filter(c =>
+                c.state === 'stalled' || c.state === 'quiet' || c.state === 'never').length;
+
+        if (library.readable) {
+            document.getElementById('library-videos').textContent =
+                library.videos.toLocaleString();
+            document.getElementById('library-channels').textContent = library.channels;
+        }
+    } catch (err) {
+        stateCell.textContent = "Can't tell";
+        detailCell.textContent = 'the dashboard could not reach its own API';
     }
 }
 

@@ -9,6 +9,7 @@ from api.videos import videos_bp
 from api.tags import tags_bp
 from api.status import status_bp, build_status
 from api.metrics_routes import metrics_bp
+from api import metrics
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app, origins=Config.CORS_ORIGINS)
@@ -119,7 +120,19 @@ def channel_detail(channel_id):
         """, (str(channel_id),))
         pipeline_stats = {row['status']: row['count'] for row in cursor.fetchall()}
 
-    return render_template('channel_detail.html', channel=dict(channel), pipeline_stats=pipeline_stats)
+    # How many videos this channel actually has IN THE LIBRARY, which is a
+    # different question from how many rows sit in the work queue. The queue said
+    # "0 indexed" for AI Labs while the library held 86 — the number on this page
+    # is the one people act on, so it comes from the library.
+    handle = (channel['youtube_handle'] or '').strip().lstrip('@').lower()
+    library_count = metrics.channel_video_counts().get(handle)
+
+    return render_template(
+        'channel_detail.html',
+        channel=dict(channel),
+        pipeline_stats=pipeline_stats,
+        library_count=library_count,
+    )
 
 
 @app.route('/control')
