@@ -394,6 +394,40 @@ class TestUnadoptedChannels:
         assert metrics.daily_series(days=2).totals['AI'] == 1
 
 
+class TestVideosWithNoChannel:
+    """A video with no channel handle is not a channel. Grouping them under ''
+    invented a row called 'Unknown' and made the channel count disagree with the
+    library's — two pages answering the same question differently."""
+
+    def test_blank_handle_does_not_become_a_channel_row(self, sources):
+        sources['corpus'] = SourceResult(rows=[
+            video(handle='real'), video(handle=''), video(handle='   '),
+        ])
+
+        result = metrics.freshness()
+
+        assert [c['handle'] for c in result['channels']] == ['real']
+
+    def test_unattributed_videos_are_counted_not_hidden(self, sources):
+        sources['corpus'] = SourceResult(rows=[
+            video(handle='real'), video(handle=''), video(handle=''),
+        ])
+
+        assert metrics.freshness()['unattributed_videos'] == 2
+
+    def test_unattributed_videos_still_count_toward_their_category(self, sources):
+        sources['corpus'] = SourceResult(rows=[video(handle='', domain='ai')])
+
+        assert metrics.daily_series(days=2).totals['AI'] == 1
+
+    def test_channel_count_matches_the_library_count(self, sources):
+        sources['corpus'] = SourceResult(rows=[
+            video(handle='one'), video(handle='two'), video(handle=''),
+        ])
+
+        assert len(metrics.freshness()['channels']) == metrics.library_totals()['channels']
+
+
 class TestTaxonomyDriftIsSurfaced:
     def test_unrecognised_domain_is_reported_in_notes(self, sources):
         sources['corpus'] = SourceResult(rows=[video(domain='brand-new-topic')])

@@ -97,7 +97,7 @@
         <div class="card-sub"><span id="library-channels">-</span> channels · <a href="{{ url_prefix }}/control">daily breakdown</a></div>
     </div>
     <div class="card">
-        <div class="card-title">Not delivering</div>
+        <div class="card-title">Nothing new</div>
         <div class="card-value status-warning" id="channels-quiet">-</div>
         <div class="card-sub"><a href="{{ url_prefix }}/control">See which channels</a></div>
     </div>
@@ -247,9 +247,6 @@ async function loadDashboard() {
 
         // Channel stats
         const channelStats = await fetch(urlPrefix + '/api/v1/channels/stats').then(r => r.json());
-        document.getElementById('total-channels').textContent = channelStats.total;
-        document.getElementById('active-channels').textContent =
-            channelStats.by_domain.reduce((sum, d) => sum + (d.active_count || 0), 0);
 
         const domainBody = document.getElementById('domain-stats');
         domainBody.replaceChildren();
@@ -293,10 +290,7 @@ async function loadDashboard() {
         document.getElementById('stat-skipped').textContent = byStatus.skipped || 0;
         document.getElementById('stat-total').textContent = pipelineStats.total || 0;
 
-        // Headline cards come from the LIBRARY. The queue cannot answer "what do
-        // we hold" or "is anything still arriving" — it only knows what it was
-        // asked to do, and it stopped being written to.
-        await loadLibraryCards();
+        // Library cards deliberately load OUTSIDE this try block — see below.
 
         // Recent activity table
         const recent = await fetch(urlPrefix + '/api/v1/pipeline/items?limit=10').then(r => r.json());
@@ -358,9 +352,11 @@ async function loadLibraryCards() {
             : 'nothing ingested yet';
 
         document.getElementById('ingested-today').textContent = fresh.ingested_today;
+        // Non-fresh, matching the control page exactly. Counting only stalled and
+        // quiet made this read "0 not delivering" while the control page said 35
+        // channels had nothing new — the same question answered two ways.
         document.getElementById('channels-quiet').textContent =
-            (fresh.channels || []).filter(c =>
-                c.state === 'stalled' || c.state === 'quiet' || c.state === 'never').length;
+            (fresh.channels || []).filter(c => c.state !== 'fresh').length;
 
         if (library.readable) {
             document.getElementById('library-videos').textContent =
@@ -391,7 +387,16 @@ function formatTime(dateStr) {
     return Math.floor(diff / 86400) + 'd ago';
 }
 
-loadDashboard();
-setInterval(loadDashboard, 30000);
+// The headline cards come from the LIBRARY and load independently of the queue
+// section. They answer "are we running" and "what do we hold", which must not go
+// blank because an unrelated queue query failed — a dashboard that shows nothing
+// when one panel breaks is how a working system gets reported as dead.
+function refreshDashboard() {
+    loadLibraryCards();
+    loadDashboard();
+}
+
+refreshDashboard();
+setInterval(refreshDashboard, 30000);
 </script>
 {% endblock %}

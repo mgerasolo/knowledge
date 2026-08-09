@@ -277,7 +277,7 @@ def _load_channels() -> SourceResult:
 
     mapping = {}
     for record in records:
-        handle = (record['youtube_handle'] or '').strip().lstrip('@').lower()
+        handle = _norm_handle(record['youtube_handle'])
         if handle:
             mapping[handle] = {
                 'name': record['name'],
@@ -303,6 +303,18 @@ def _channel_map() -> dict:
     return result.rows[0] if result.rows else {}
 
 
+def _norm_handle(raw: str | None) -> str:
+    """One definition of a channel handle, used everywhere.
+
+    It was previously spelled out at each call site and they drifted: one stripped
+    the leading '@' and another did not, so the channel table counted 58 while the
+    library counted 57 for the same corpus. Returns '' for anything blank.
+    """
+    if not raw:
+        return ''
+    return str(raw).strip().lstrip('@').strip().lower()
+
+
 def _local_day(moment: datetime) -> date:
     return moment.astimezone(DISPLAY_TZ).date()
 
@@ -324,7 +336,7 @@ class DailySeries:
 
 def _bucket_key(handle: str, video_domain, group: str, channel_map: dict):
     """Which series a video belongs to, and whether its category was a fallback."""
-    record = channel_map.get(handle.lstrip('@').lower(), {})
+    record = channel_map.get(_norm_handle(handle), {})
     if group == 'channel':
         return record.get('name') or handle or 'Unknown', False
 
@@ -370,7 +382,7 @@ def daily_series(days: int = 90, group: str = 'category',
         name, by_fallback = _bucket_key(row['handle'], row['domain'], group, channel_map)
         if category and group in ('subcategory', 'channel'):
             resolved = resolve_category(
-                channel_map.get(row['handle'].lstrip('@').lower(), {}).get('domain'),
+                channel_map.get(_norm_handle(row['handle']), {}).get('domain'),
                 row['domain'],
             ).category
             if resolved != category:
@@ -387,7 +399,7 @@ def daily_series(days: int = 90, group: str = 'category',
             continue
         if day == REBUILD_DAY:
             continue
-        record = channel_map.get(row['handle'].lstrip('@').lower(), {})
+        record = channel_map.get(_norm_handle(row['handle']), {})
         if group == 'channel':
             name = record.get('name') or row['handle']
         elif group == 'subcategory':
@@ -466,7 +478,8 @@ def _unadopted_channel_count() -> int:
     channel_map = _channel_map()
     if not corpus.ok or not channel_map:
         return 0
-    handles = {row['handle'].lstrip('@').lower() for row in corpus.rows if row['handle']}
+    handles = {_norm_handle(row['handle']) for row in corpus.rows}
+    handles.discard('')
     return len(handles - set(channel_map))
 
 
@@ -562,10 +575,11 @@ def freshness() -> dict:
     by_category: dict[str, datetime] = {}
     category_totals: dict[str, int] = defaultdict(int)
     by_channel: dict[str, dict] = {}
+    unattributed = 0
 
     for row in corpus.rows:
         moment = row['at']
-        handle = row['handle'].lstrip('@').lower()
+        handle = _norm_handle(row['handle'])
         record = channel_map.get(handle, {})
         category = resolve_category(record.get('domain'), row['domain']).category
 
@@ -574,6 +588,14 @@ def freshness() -> dict:
         if category not in by_category or moment > by_category[category]:
             by_category[category] = moment
         category_totals[category] += 1
+
+        if not handle:
+            # A video with no channel handle is not a channel. Grouping these
+            # under '' invented a phantom row called "Unknown" and made the
+            # channel count disagree with the library's (58 vs 57). The videos
+            # still count everywhere else; they are reported separately below.
+            unattributed += 1
+            continue
 
         channel = by_channel.setdefault(handle, {
             'handle': handle,
@@ -638,6 +660,7 @@ def freshness() -> dict:
         'categories': categories,
         'channels': channels,
         'unadopted_channels': _unadopted_channel_count(),
+        'unattributed_videos': unattributed,
         'thresholds': {
             'fresh_within_hours': FRESH_HOURS,
             'stalled_after_hours': STALLED_HOURS,
@@ -651,7 +674,10 @@ def library_totals() -> dict:
     corpus = _corpus_cache.get()
     if not corpus.ok:
         return {'readable': False, 'problem': corpus.problem}
-    handles = {row['handle'].lower() for row in corpus.rows if row['handle']}
+    # Normalised identically to freshness() — the two were counting 57 and 58
+    # channels for the same corpus because only one of them stripped the '@'.
+    handles = {_norm_handle(row['handle']) for row in corpus.rows}
+    handles.discard('')
     return {
         'readable': True,
         'videos': len(corpus.rows),
@@ -670,6 +696,7 @@ def channel_video_counts() -> dict:
         return {}
     counts: dict[str, int] = defaultdict(int)
     for row in corpus.rows:
-        if row['handle']:
-            counts[row['handle'].lstrip('@').lower()] += 1
+        handle = _norm_handle(row['handle'])
+        if handle:
+            counts[handle] += 1
     return dict(counts)
