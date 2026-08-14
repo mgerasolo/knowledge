@@ -13,6 +13,7 @@ from fetcher import (
     discover_new_videos,
     fetch_and_save,
     load_state,
+    proxy_status,
 )
 from backfill_worker import start_backfill_thread, worker_status
 
@@ -64,6 +65,10 @@ def health():
         'status': 'healthy',
         'service': 'transcript-service',
         'backfill': ws if _BACKFILL_ENABLED else 'disabled',
+        # Whether YouTube traffic is going out through a proxy is the first
+        # thing you need to know when ingestion stalls, and it is invisible
+        # otherwise. Never includes the credential — mode and scope only.
+        'proxy': proxy_status(),
     }), 200
 
 

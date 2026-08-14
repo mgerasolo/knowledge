@@ -110,6 +110,13 @@ services:
       # HTTP_PROXY, which would push internal SurrealDB and embedding-service
       # calls through a metered third party too.
       YOUTUBE_PROXY_URL: ${YOUTUBE_PROXY_URL:-}
+      WEBSHARE_PROXY_USERNAME: ${WEBSHARE_PROXY_USERNAME:-}
+      WEBSHARE_PROXY_PASSWORD: ${WEBSHARE_PROXY_PASSWORD:-}
+      WEBSHARE_PROXY_LOCATIONS: ${WEBSHARE_PROXY_LOCATIONS:-US}
+      # 'transcript' (default) proxies only the blocked caption calls; 'all'
+      # also tunnels yt-dlp's much larger metadata fetches. Residential proxies
+      # bill per gigabyte, so the default keeps the meter on text only.
+      YOUTUBE_PROXY_SCOPE: ${YOUTUBE_PROXY_SCOPE:-transcript}
       # Discovery had not run since 2026-03-22, leaving a real ~4.5-month
       # backlog of roughly 1,076 uploads across 51 channels (~4.7/channel/month,
       # which checks out). The default abort threshold of 500 is tuned to catch

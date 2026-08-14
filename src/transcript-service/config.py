@@ -30,6 +30,27 @@ class Config:
     # paid, metered, third-party hop.
     YOUTUBE_PROXY_URL = os.getenv('YOUTUBE_PROXY_URL', '').strip()
 
+    # Webshare residential is the supported vendor path: give it the "Proxy
+    # Username"/"Proxy Password" from the dashboard and the library handles the
+    # rotating endpoint and per-request IP rotation itself. Takes precedence
+    # over YOUTUBE_PROXY_URL when both are set.
+    WEBSHARE_PROXY_USERNAME = os.getenv('WEBSHARE_PROXY_USERNAME', '').strip()
+    WEBSHARE_PROXY_PASSWORD = os.getenv('WEBSHARE_PROXY_PASSWORD', '').strip()
+
+    # Optional country filter for the rotating pool, e.g. "US" or "US,CA".
+    # Closer IPs mean lower latency; empty means the whole pool.
+    WEBSHARE_PROXY_LOCATIONS = os.getenv('WEBSHARE_PROXY_LOCATIONS', 'US').strip()
+
+    # What goes through the proxy: 'transcript' (default) or 'all'.
+    #
+    # Residential proxies bill per gigabyte, and the two kinds of traffic here
+    # are wildly different sizes: a transcript is a few tens of KB of text,
+    # while each yt-dlp metadata call pulls a full watch page measured in MB.
+    # Only the caption endpoint is rate-limited, so paying to tunnel the page
+    # fetches would multiply the bill for no benefit. Set 'all' only if YouTube
+    # starts blocking metadata calls too.
+    YOUTUBE_PROXY_SCOPE = os.getenv('YOUTUBE_PROXY_SCOPE', 'transcript').strip().lower()
+
     # Rate limiting (backfill worker)
     MIN_DELAY_SECONDS = int(os.getenv('MIN_DELAY_SECONDS', '30'))
     MAX_DELAY_SECONDS = int(os.getenv('MAX_DELAY_SECONDS', '600'))
