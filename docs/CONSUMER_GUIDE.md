@@ -4,15 +4,15 @@ type: api
 provider: knowledge
 audience: [internal-apps, agents]
 stability: beta
-version: 2.2.0
+version: 2.3.0
 updated: 2026-08-14
-verified: 2026-08-14
+verified: 2026-08-13
 owner: Matt Gerasolo <matt@gerasolo.com>
 ---
 
 # KnowledgeStack — YouTube Transcript & Knowledge API
 
-> Query timestamped YouTube transcripts, entity/topic tags, and ingestion status for 51 monitored channels, instead of re-scraping or re-transcribing content this project has already processed.
+> Query timestamped YouTube transcripts, entity/topic tags, and ingestion status for 50+ monitored channels, instead of re-scraping or re-transcribing content this project has already processed.
 
 ---
 
@@ -36,7 +36,7 @@ KnowledgeStack watches a set of YouTube channels, transcribes and chunks their v
 
 ### When this helps
 
-- You need "what has creator X said about Y" and the channel is one of the 51 already monitored — the content is likely already transcribed and timestamped, so you avoid re-transcribing it yourself.
+- You need "what has creator X said about Y" and the channel is one of the 50+ already monitored — the content is likely already transcribed and timestamped, so you avoid re-transcribing it yourself.
 - You want a timestamped segment, not just a full transcript wall of text, so you can deep-link to the moment in the video.
 - You want to scope a query to a topic area — content is pre-classified into `ai-tech`, `mindset`, `political`, `business`, `general`, `health`, `faith`.
 - You want to know whether "no results" means "doesn't exist" vs. "not ingested yet" — the ingestion pipeline's queue/failure state is queryable.
@@ -48,13 +48,13 @@ Transcripts are pulled from YouTube's caption endpoint, which rate-limits by IP 
 ### When this doesn't help (use something else)
 
 - You need semantic ("meaning-based") search. It still does not exist. Only substring keyword search is built — it now works (§3), but it matches literal text, not meaning. Embeddings are not generated for the corpus. Use your own embedding search if you need semantic matching.
-- You need a channel that isn't one of the 51 currently monitored. There's no on-demand "transcribe this video for me" endpoint — only the standing channel watch list is ingested.
+- You need a channel that isn't one of the 50+ currently monitored. There's no on-demand "transcribe this video for me" endpoint — only the standing channel watch list is ingested.
 - You need guaranteed uptime or a support SLA. See the operational table below — there is none.
 - You need entity/topic tags. The `/tags/*` endpoints return **HTTP 501** — tagging was never implemented and no tag data has ever been written. Ignore the tag graph described in older versions of this guide.
 
 ### Video descriptions carry more than the transcript
 
-Each video record includes the full YouTube `description`, which for many creators contains material that is **not spoken in the video** — verbatim prompts, tool links, timestamps/chapters, and resource lists. If you are grounding an answer in "what this creator actually gave people," check `description` as well as the transcript segments. 2,881 of 3,059 videos have one.
+Each video record includes the full YouTube `description`, which for many creators contains material that is **not spoken in the video** — verbatim prompts, tool links, timestamps/chapters, and resource lists. If you are grounding an answer in "what this creator actually gave people," check `description` as well as the transcript segments. The large majority of videos (roughly 19 in 20) have one.
 
 ### Operational facts
 
@@ -64,7 +64,8 @@ Each video record includes the full YouTube `description`, which for many creato
 | Availability | Best-effort only, no uptime guarantee. Runs on a shared dev host and can go down for deploys/maintenance without notice |
 | Cost / quota | Free for internal use; no server-side rate limiting. Per this project's standing courtesy rule: 2s+ delay between calls if you're batching more than 5 requests |
 | Data persistence | **Resolved 2026-08-05.** SurrealDB ran on the in-memory storage backend, so it discarded every write and the `knowledge` namespace did not exist. It now runs on persistent disk storage (rocksdb), verified by restarting the container and confirming both the namespace and a canary record survived. The corpus was rebuilt from the transcript files on disk, which were never affected |
-| Corpus size | 4,205 videos · 310,860 timestamped segments · 58 channels (measured 2026-08-14 from `GET /api/v1/status`) |
+| Corpus size | Thousands of videos · hundreds of thousands of timestamped segments · 50+ channels, and growing daily. These are live figures — get current counts from `GET /api/v1/status` rather than trusting any number printed in a document |
+| Data retention | Indefinite. Nothing is expired or deleted on a schedule — once a video is in the corpus it stays queryable. The transcript source files on disk are the rebuild source of record for the search index |
 | Breaking-change policy | Not yet formalized — this is a pre-1.0 API with no consumer-facing versioning contract. This guide document is itself versioned (frontmatter `version:`); re-read on any bump |
 
 ### Example integration
@@ -116,6 +117,8 @@ An older host-routed domain, `https://knowledge-admin.nextlevelguild.com/...`, c
 
 **Auth: none.** There is no API key or token check anywhere in this service. `CORS_ORIGINS` is set to allow any origin. Treat this as an internal-network-trust model, not a public API — don't expose it to end users, and don't rely on it being gated by anything but obscurity.
 
+**Access scope: read-only.** Everything offered to you in this guide is a read. Write/admin endpoints exist (create a channel, retry a pipeline item, and so on) but are intentionally not offered to consumers — this is a single-maintainer service with no auth layer to protect writes, so the write surface stays internal. Direct database access is also intentionally not offered: the API is the only supported read path, which lets the underlying schema change without breaking consumers. If you need something the read surface doesn't give you, ask for it (§4) rather than reaching around the API.
+
 ### Operations
 
 Status & metadata (Postgres-backed):
@@ -137,7 +140,7 @@ Transcript content (SurrealDB-backed) — **all working as of 2.0.0**:
 ```
 GET /videos/api/<youtube_video_id>   # single video + description + ordered segments
 GET /videos/api/list                 # ?q= title search, ?domain=, ?limit=, ?offset=
-GET /videos/api/search               # ?q= full-text search across 203k segments
+GET /videos/api/search               # ?q= full-text search across all transcript segments
 GET /videos/api/stats
 GET /videos/api/domains
 ```
@@ -169,7 +172,67 @@ Returns the aggregate verdict plus per-component detail. **Alert on `status != "
 
 **Not live yet.** The `downloader` component and its `problems[]` entry ship with the next rebuild of the transcript-service container, which is deliberately deferred while a long backfill runs. Until then `components.downloader` is absent from responses. Documented here now so the contract change and the code land together, not so you can rely on it today — check for the key before reading it.
 
-Write endpoints under `/api/v1/*` (create channel, retry pipeline item, etc.) exist but are for internal/admin use — not documented here as a consumer surface.
+### Response fields
+
+Everything below is documented as the API returns it (not as it is stored), verified against the live service on this guide's `verified:` date. Derivation column: *passed through* = comes from YouTube unmodified · *assigned at ingest* = set from this project's channel configuration · *computed* = calculated by this service · *measured* = counted live from the datastore on every call.
+
+**The list envelope.** List endpoints wrap their rows in a consistent envelope: a payload-specific items key, a count, and — where paging applies — echoes of `limit`/`offset`:
+
+| Endpoint | Envelope |
+|---|---|
+| `GET /videos/api/list` | `{videos: [...], total, limit, offset}` — `total` is the measured count of ALL matching videos, not the page size. `limit` defaults to 50, caps at 100 |
+| `GET /videos/api/search` | `{results: [...], count, query}` — `count` is only the number of rows returned (≤ `limit`), NOT the total matches, and search has no `offset`/paging. `limit` defaults to 20, caps at 50 |
+| `GET /videos/api/<id>` | `{video: {...}, segments: [...]}` — no counts; `segments` is the complete ordered list |
+
+**Video record** — as returned by `/videos/api/list`; `/videos/api/<id>` returns the same fields plus every stored field (it selects the whole record):
+
+| Field | Type | Meaning | Derivation |
+|---|---|---|---|
+| `youtube_id` | string | YouTube's video ID — the lookup key for `/videos/api/<id>` | passed through |
+| `title` | string | Video title | passed through |
+| `description` | string | Full YouTube description — often carries links/prompts not spoken in the video (§2) | passed through |
+| `published_at` | ISO 8601 | YouTube publish date | passed through |
+| `duration_seconds` | number | Video length in seconds; `0.0` where YouTube didn't supply it | passed through |
+| `url` | string | Canonical `youtube.com/watch` link | computed from `youtube_id` |
+| `channel_handle` / `channel_name` | string | The monitored channel this came from | assigned at ingest |
+| `domain` | string | Topic area (`ai-tech`, `mindset`, …) | assigned at ingest |
+| `segment_count` | int or null | Number of transcript segments | computed at ingest; `null` on records the newer ingest path wrote without computing it |
+| `has_timestamps` | bool or null | Whether this video's segments carry real timings (§3 Data model) | computed at ingest; `null` = never computed — check the segments' `start_time` directly before deep-linking |
+| `ingested_at` | ISO 8601 | When this service indexed the video | computed by the service |
+| `transcript_path`, `embedding` | — | Internal bookkeeping that leaks into `/videos/api/<id>` responses; ignore both. `embedding` is never populated (§3 Data model) | — |
+
+**Segment record** — `/videos/api/<id>` returns these in `segments[]`; `/videos/api/search` returns the same shape in `results[]` plus `video_youtube_id` and `video_title`:
+
+| Field | Type | Meaning | Derivation |
+|---|---|---|---|
+| `text` | string | The transcript text of this chunk | passed through from YouTube captions |
+| `chunk_index` | int | 0-based position within the video — the sort key | computed at chunking |
+| `start_time` / `end_time` / `duration` | number (seconds) | Where the chunk sits in the video. All `0.0` on plain-prose transcripts | derived from caption timings |
+| `requires_visual` | bool | Heuristic: the speaker is referring to something shown on screen | computed at ingest |
+| `domain` | string | Copy of the parent video's domain, so search can filter without a join | assigned at ingest |
+| `video_youtube_id` | string | The parent video's YouTube ID | assigned at ingest |
+| `video_title` | string | The parent video's title — enrichment the search endpoint adds per request, not stored on the segment | computed per request |
+
+**`GET /api/v1/status`** — every field is computed at request time; nothing is cached:
+
+| Field | Type | Meaning | Derivation |
+|---|---|---|---|
+| `status` | `ok` / `degraded` / `down` | The aggregate verdict — alert on anything but `ok` | computed from the component checks |
+| `problems[]` | string[] | Plain-English description of each failing check; empty when `ok` | computed |
+| `checked_at` | ISO 8601 | When these checks ran | computed |
+| `components.postgres` | object | `ok`, `pipeline_items`, `marked_indexed`, `newest_completed_at`, `hours_since_newest` — what the pipeline *claims* to have done | measured from Postgres |
+| `components.surrealdb` | object | `ok`, `videos`, `segments`, `newest_ingested_at`, `hours_since_newest`, `detail` — what the search index *actually holds*. This is where live corpus counts come from | measured from SurrealDB |
+| `components.transcript_files` | object | `ok`, `files`, `newest_file_at`, `hours_since_newest` — the on-disk rebuild source of record | measured from disk |
+| `thresholds` | object | `stale_ingest_hours`, `consistency_tolerance` — what the freshness and consistency checks compare against | service configuration |
+
+**`GET /api/v1/channels/stats`**:
+
+| Field | Type | Meaning | Derivation |
+|---|---|---|---|
+| `total` | int | Number of monitored channels | measured from Postgres |
+| `by_domain[]` | `{domain, count, active_count}` | Channels per topic area; `active_count` counts only channels currently active for ingestion | measured |
+| `by_ingestion_mode[]` | `{ingestion_mode, count}` | How each channel is ingested (currently all `auto`) | measured |
+| `health` | `{healthy, warning, error, exceptions}` | Ingestion-health rollup by consecutive fetch failures: `healthy` = 0, `warning` = 1–2, `error` = 3+, `exceptions` = channels flagged as known exceptions | measured |
 
 ### Rate limits & quotas
 
@@ -226,6 +289,12 @@ Two fields deserve attention:
 
 **Historical note.** Between roughly 2026-07-16 and 2026-08-05 this entire surface was unusable: SurrealDB ran in memory-only mode, so the corpus was empty, while every health check reported "healthy" and the pipeline recorded 1,086 videos as successfully indexed. If you integrated during that window and concluded content didn't exist, re-check — it does. See the Changelog.
 
+### Staying current
+
+- **How this guide was last checked:** every call in the Quickstart was re-run against the live service on the `verified:` date in the frontmatter, and the responses matched what this guide documents.
+- **What the provider owes you:** any change to an endpoint, payload, limit, or error shape updates this guide in the same unit of work as the change — a shipped change with a stale guide is a broken contract. Independently of changes, the Quickstart and the health check are re-run weekly against the live service and `verified:` is bumped when they still behave as documented.
+- **What you owe yourself as a consumer:** check your delivered bundle at least weekly and compare this guide's `version` against the one you integrated with. A `major` bump means read the Changelog before your next call; `minor` means a new capability is available; `patch` means wording only. A `verified:` date weeks in the past is a yellow flag, not a red one — the guide may be fine, but nobody has confirmed it recently. Run `GET /api/v1/status` before building anything expensive on it.
+
 <!-- internal -->
 Internal-only reference (ops use, not for consumers): the Admin API container is `knowledge-admin-api`, reachable directly at `10.0.0.33:5020` on Banner. Postgres is `knowledge-postgres:5019` and SurrealDB is `knowledgestack-surrealdb:5040` on the same host, namespace `knowledge`, database `transcripts`. Source: `src/admin/api/{videos,tags,status}.py`. Bug tracking: `.claude/BUGS.md`.
 
@@ -240,9 +309,26 @@ Deployment source of truth is this repo's `docker-compose.yml`. A stale March-20
 
 ## 4. How to Submit Requests
 
-Report bugs, request new capabilities (for example: semantic search, an aggregate health endpoint, an authentication layer), or ask questions through {{REQUEST_CHANNEL}}.
+All requests go through {{REQUEST_CHANNEL}}. The canonical request kinds:
 
-A complete, actionable request includes: which endpoint or capability you need, why your project can't proceed without it, and — for bug reports — the exact request you made and the response you got back, since (per §3) a 200 status here doesn't always mean success.
+- **clarification** — this guide is ambiguous or doesn't answer your question.
+- **bug** — the service contradicts what this guide promises (evidence format below).
+- **feature** — a capability you need that doesn't exist yet: semantic search, an on-demand "transcribe this video" endpoint, an auth layer, a new monitored channel.
+- **feedback** — something works, but badly; or a suggestion short of a feature.
+- **integration** — you are starting (or stopping) to call this API. Declare which endpoints you call and what breaks on your side if they change — it is the only way the provider knows to warn you before a breaking change ships. One message, filed once.
+- **access** — you need a guide or capability delivered to you that wasn't.
+- **standard-change** — a proposed change to the consumer-guide standard itself, not to this service.
+
+**Before filing a problem report, run `GET /enroll/api/v1/status` and include its result.** If it reports `degraded` or `down`, that IS the report — the service is unwell, which is triaged differently from "my integration is broken."
+
+**A bug report carries all six pieces of evidence.** A report without them becomes a conversation, and the conversation costs more than the fix:
+
+1. What you were trying to do.
+2. The exact command you ran (credentials removed — though this API has none).
+3. The full response: status code AND body.
+4. What you expected, and which line of this guide promised it.
+5. When it started, and whether it ever worked.
+6. Intermittent or consistent (X of Y attempts).
 
 ---
 
@@ -250,7 +336,10 @@ A complete, actionable request includes: which endpoint or capability you need, 
 
 | Version | Date | Notes |
 |---|---|---|
+| 2.3.0 | 2026-08-14 | **Standard-compliance pass — no endpoint, payload, or behavior changes.** **NEW (§3): Response fields** — the documented payload contract for the list envelope, the video record, the segment record, `GET /api/v1/status` and `GET /api/v1/channels/stats`, each field with its type, meaning and derivation, including `has_timestamps` and `segment_count` returning `null` on records the newer ingest path wrote. **NEW (§3): Staying current**, and an explicit **read-only access scope** with the rationale for not offering writes or direct database access. **NEW (§2): a data-retention row.** §4 rebuilt to the standard's request kinds and 6-part bug-evidence format, with a pre-report status check. Corpus and channel figures throughout §1–§3 generalized to approximate scope — exact counts change daily and belong to `GET /api/v1/status`, not to a document; Changelog rows keep their point-in-time numbers as historical record. Two removals: a stale §4 claim that a 200 response "doesn't always mean success" (that failure mode was fixed in 2.0.0), and a paragraph that appeared twice in §3. **If you integrated at 2.2.0, this row is your diff.** This work was authored against 2.1.0 while 2.2.0 was in flight and is recorded in detail in the 2.1.2 and 2.1.1 rows below; those sit beneath 2.2.0 by version order and are easy to miss, but their content reaches consumers for the first time here. |
 | 2.2.0 | 2026-08-14 | **New `downloader` component in `GET /api/v1/status`**, plus a matching `problems[]` entry. Nothing previously checked yt-dlp — the tool that actually fetches from YouTube — so a downloader that went missing, broke, or fell behind YouTube's changes would leave every check reporting healthy, and would eventually surface 72 hours later as a freshness warning blaming "ingestion" rather than naming the cause. It reports presence, version, whether a newer release is available, whether a JavaScript runtime is present, and the result of a real (hourly-cached) call to YouTube. A downloader problem degrades but never marks the stack `down`: the corpus stays complete and queryable, it has just stopped growing. **Additive and not live yet** — it ships with the next transcript-service rebuild, deliberately deferred while a long backfill runs, so `components.downloader` is absent from responses until then. No existing field, endpoint or status code changed. |
+| 2.1.2 | 2026-08-13 | Guide brought into full compliance with the consumer-guide standard — no endpoint, payload, or behavior changes. Added **Staying current** (§3), **Response fields** (§3, verified against the live API — including `has_timestamps`/`segment_count` returning `null` on newer-path records), a data-retention row (§2), and an explicit read-only access scope with the rationale for not offering writes or direct database access (§3 Endpoint & auth). §4 rebuilt to the standard's request kinds and 6-part bug-evidence format, with a pre-report status check. Removed a stale §4 claim that a 200 "doesn't always mean success" (that failure mode was fixed in 2.0.0) and a paragraph duplicated in §3. |
+| 2.1.1 | 2026-08-13 | Live corpus figures (channel/video/segment counts) generalized to approximate scope — exact numbers change daily and belong to `GET /api/v1/status`, not a document. Changelog rows keep their point-in-time numbers as historical record. Frontmatter dates corrected (were timestamped a day ahead, UTC vs local). No endpoint, payload or behavior changes. |
 | 2.1.0 | 2026-08-14 | **New monitored channel: Pastor Chris Durkin** (`faith`), bringing the watch list to 51 — its full archive of 609 videos is being ingested on request. Corpus figures in §2 refreshed to the measured 4,205 videos / 310,860 segments. **NEW (§2):** documents what happens when YouTube rate-limits our caption requests, which pauses ingestion without failing anything — the corpus stays readable, freshness lags. No endpoint, payload or error-shape changes. |
 | 2.0.0 | 2026-08-07 | **The SurrealDB-backed read surface works.** Root cause of the 2026-07/08 outage: SurrealDB ran on the in-memory storage backend, discarding every write, so the `knowledge` namespace never existed — the "does not exist" payloads in v1.0.0 were the symptom, not the cause. Now on persistent disk storage, verified across a restart. Corpus rebuilt from the 3,102 transcript files on disk (never affected): **3,059 videos / 203,488 segments**. Four further defects fixed: (1) the indexer reported success without checking any write result, which is why 1,086 videos were recorded as indexed while the store was empty; (2) the `video` table was missing 10 fields the indexer wrote, so SCHEMAFULL rejected every video write; (3) `/videos/api/*` returned 500s and `/tags/api/*` returned 200-with-an-error-inside — datastore failures are now 503; (4) user input was interpolated unescaped into queries, including a `tag_id` that could append statements. **BREAKING:** `/tags/*` now returns **501** — tagging was never implemented and the tag data model described in v1.0.0 does not exist; it has been removed from §3 rather than left as an aspiration. **NEW:** `GET /api/v1/status` aggregate health check, including a consistency check that compares claimed-vs-actual indexed videos. `GET /videos/api/list` now returns `description`, `channel_name`, `url` and `has_timestamps`. `GET /videos/api/domains` returns real domains (it used invalid `SELECT DISTINCT` and always returned empty). |
 | 1.0.0 | 2026-07-29 | First guide written to the `guides.ucontrolnetwork.com` Consumer Guide standard (`type: api`). Supersedes the prior ad hoc `v0.1.0-draft` version of this file — this is now the single Consumer Guide for this project. Scoped to the Admin API only; Embedding/Transcript services noted as non-consumer-facing in §1. Stability set to `alpha`: the SurrealDB-backed read surface (video lookup, tag browsing/hierarchy/graph, search) is non-functional. Part of that was already known (clean HTTP 500s, tracked since 2026-07-21); part was newly discovered while writing this guide (HTTP 200 responses carrying corrupted "namespace does not exist" payloads, root cause not yet confirmed). Only the Postgres-backed channel/pipeline endpoints and `/health` are confirmed reliable today. |
