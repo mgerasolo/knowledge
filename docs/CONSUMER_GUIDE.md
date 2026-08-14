@@ -2,7 +2,7 @@
 guide: knowledge
 type: api
 provider: knowledge
-audience: [internal-apps, agents]
+audience: [nai-dev, app]
 stability: beta
 version: 2.4.0
 updated: 2026-08-14
@@ -175,7 +175,9 @@ GET /tags/api/list · /tags/api/<id> · /tags/api/hierarchy · /tags/api/graph �
 
 Write endpoints under `/api/v1/*` (create channel, retry pipeline item, etc.) exist but are for internal/admin use — not documented here as a consumer surface.
 
-#### `GET /api/v1/status` — the health check to build against
+### Health check
+
+`GET /api/v1/status` is the health check to build against.
 
 Returns the aggregate verdict plus per-component detail. **Alert on `status != "ok"`**, not on the HTTP code alone.
 
@@ -360,6 +362,7 @@ All requests go through {{REQUEST_CHANNEL}}. The canonical request kinds:
 | Version | Date | Notes |
 |---|---|---|
 | 2.4.0 | 2026-08-14 | **NEW: single-video enrollment** (`POST /api/v1/videos/enroll`, #46) — ingest ONE video (a guest appearance) through the normal pipeline without enrolling its channel; accepts any YouTube URL shape or a bare video ID; looks up title/channel/date from the video itself. **NEW: video-level corpus tags** — optional `tags` (lowercase slugs, e.g. `personality:myron-golden`) are stored on the video record, merged never replaced, and returned by both video read endpoints; **NEW: `?tag=` filter on `GET /videos/api/list`** to pull a whole corpus (videos without tags simply drop out of a filtered list). Access scope in §3 amended from "read-only" to "read-only with one write". §2's "no on-demand transcription" limitation row updated — it is now channel-level only. The never-implemented `/tags/*` entity graph is unchanged and still 501; corpus tags are a different, live mechanism. |
+| 2.3.1 | 2026-08-14 | Central-registry intake fixes, wording only: `audience` frontmatter now uses the registry's controlled vocabulary (`nai-dev`, `app` — was two tags the validator doesn't recognize), and the health-check documentation now sits under its own `### Health check` heading as the `api` template requires (content unchanged). Quickstart re-run against the live service on today's `verified:` date. No endpoint, payload, or behavior changes. |
 | 2.3.0 | 2026-08-14 | **Standard-compliance pass — no endpoint, payload, or behavior changes.** **NEW (§3): Response fields** — the documented payload contract for the list envelope, the video record, the segment record, `GET /api/v1/status` and `GET /api/v1/channels/stats`, each field with its type, meaning and derivation, including `has_timestamps` and `segment_count` returning `null` on records the newer ingest path wrote. **NEW (§3): Staying current**, and an explicit **read-only access scope** with the rationale for not offering writes or direct database access. **NEW (§2): a data-retention row.** §4 rebuilt to the standard's request kinds and 6-part bug-evidence format, with a pre-report status check. Corpus and channel figures throughout §1–§3 generalized to approximate scope — exact counts change daily and belong to `GET /api/v1/status`, not to a document; Changelog rows keep their point-in-time numbers as historical record. Two removals: a stale §4 claim that a 200 response "doesn't always mean success" (that failure mode was fixed in 2.0.0), and a paragraph that appeared twice in §3. **If you integrated at 2.2.0, this row is your diff.** This work was authored against 2.1.0 while 2.2.0 was in flight and is recorded in detail in the 2.1.2 and 2.1.1 rows below; those sit beneath 2.2.0 by version order and are easy to miss, but their content reaches consumers for the first time here. |
 | 2.2.0 | 2026-08-14 | **New `downloader` component in `GET /api/v1/status`**, plus a matching `problems[]` entry. Nothing previously checked yt-dlp — the tool that actually fetches from YouTube — so a downloader that went missing, broke, or fell behind YouTube's changes would leave every check reporting healthy, and would eventually surface 72 hours later as a freshness warning blaming "ingestion" rather than naming the cause. It reports presence, version, whether a newer release is available, whether a JavaScript runtime is present, and the result of a real (hourly-cached) call to YouTube. A downloader problem degrades but never marks the stack `down`: the corpus stays complete and queryable, it has just stopped growing. **Additive and not live yet** — it ships with the next transcript-service rebuild, deliberately deferred while a long backfill runs, so `components.downloader` is absent from responses until then. No existing field, endpoint or status code changed. |
 | 2.1.2 | 2026-08-13 | Guide brought into full compliance with the consumer-guide standard — no endpoint, payload, or behavior changes. Added **Staying current** (§3), **Response fields** (§3, verified against the live API — including `has_timestamps`/`segment_count` returning `null` on newer-path records), a data-retention row (§2), and an explicit read-only access scope with the rationale for not offering writes or direct database access (§3 Endpoint & auth). §4 rebuilt to the standard's request kinds and 6-part bug-evidence format, with a pre-report status check. Removed a stale §4 claim that a 200 "doesn't always mean success" (that failure mode was fixed in 2.0.0) and a paragraph duplicated in §3. |
