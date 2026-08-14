@@ -16,6 +16,7 @@ from fetcher import (
     proxy_status,
 )
 from backfill_worker import start_backfill_thread, worker_status
+from tooling import tooling_status, tooling_summary
 
 app = Flask(__name__)
 CORS(app)
@@ -52,6 +53,12 @@ def health():
     Returns 503 when the backfill worker is enabled but not alive, so the
     container healthcheck surfaces a dead/never-started worker instead of
     reporting healthy while ingestion is silently stalled.
+
+    Tooling facts are REPORTED here but never fail this endpoint. A stale or
+    broken yt-dlp is a real problem, and it is named in GET /api/tooling and in
+    the admin API's aggregate status — but failing the container healthcheck
+    over it would hand the problem to the restart pipeline, which cannot fix a
+    downloader and would only interrupt the backfill queue.
     """
     ws = worker_status()
     if _BACKFILL_ENABLED and not ws['alive']:
@@ -69,7 +76,25 @@ def health():
         # thing you need to know when ingestion stalls, and it is invisible
         # otherwise. Never includes the credential — mode and scope only.
         'proxy': proxy_status(),
+        'tooling': tooling_summary(),
     }), 200
+
+
+@app.route('/api/tooling')
+def tooling():
+    """Is the downloader itself present, current, and able to make a real call?
+
+    Lives on this service because yt-dlp is installed in THIS container and
+    nowhere else. The admin API reads it across the container boundary to build
+    the `downloader` component of GET /api/v1/status.
+
+    The live YouTube calls behind this are cached for an hour; `?force=true`
+    re-runs them, which is what you want when you have just changed something
+    and do not want to wait out the cache.
+    """
+    force = request.args.get('force', '').lower() in ('1', 'true', 'yes')
+    document = tooling_status(force_probe=force)
+    return jsonify(document), 200
 
 
 @app.route('/')
@@ -80,6 +105,7 @@ def index():
         'version': '1.0.0',
         'endpoints': {
             'health': 'GET /health',
+            'tooling': 'GET /api/tooling',
             'status': 'GET /api/status',
             'channels': 'GET /api/channels',
             'pending': 'GET /api/pending?limit=8',
