@@ -31,6 +31,7 @@ services:
       SURREAL_NS: knowledge
       SURREAL_DB: transcripts
       TRANSCRIPT_DIR: /data/transcripts
+      EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
     ports:
       - "5020:5020"
     volumes:
@@ -70,6 +71,13 @@ services:
       SURREAL_DB: transcripts
       LITELLM_URL: ${LITELLM_URL:-http://10.0.0.27:2764/v1/embeddings}
       LITELLM_API_KEY: ${LITELLM_API_KEY:-}
+      # Model-specific trio — MUST move together (see src/embedding/config.py).
+      # jarvis-embed: dim 768, prefixes 'search_document: '/'search_query: '.
+      # embeddings (OpenAI): dim 1536, no prefixes.
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-embeddings}
+      EMBEDDING_DIM: ${EMBEDDING_DIM:-1536}
+      EMBEDDING_DOC_PREFIX: ${EMBEDDING_DOC_PREFIX:-}
+      EMBEDDING_QUERY_PREFIX: ${EMBEDDING_QUERY_PREFIX:-}
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
     ports:
       - "5030:5030"
@@ -103,6 +111,7 @@ services:
       STATE_DIR: /data/state
       SERVICE_PORT: "5025"
       EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
+      EMBED_ON_INGEST: ${EMBED_ON_INGEST:-true}
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
       # Empty by default: YouTube calls go out over our own connection, which is
       # residential and normally fine. Set via scripts/set-youtube-proxy.sh when
