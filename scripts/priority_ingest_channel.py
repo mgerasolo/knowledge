@@ -293,10 +293,9 @@ def main() -> int:
                 "channel_name": args.name,
                 "domain": args.domain,
                 "upload_date": meta.get("upload_date") or "NA",
-                # Extra fields ride along in the file's frontmatter only. They
-                # are deliberately NOT added to the indexer payload yet: the
-                # search datastore is SCHEMAFULL and silently rejected every
-                # write the last time it was handed fields it did not declare.
+                # Extra fields ride along into BOTH the file's frontmatter and
+                # the indexer payload — fetcher.index_metadata() reads them
+                # straight off this dict, so the keys here are load-bearing.
                 "extra_metadata": {
                     k: meta.get(k, "") for k in
                     ("duration", "view_count", "like_count", "live_status", "chapters")

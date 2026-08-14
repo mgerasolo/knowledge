@@ -78,12 +78,23 @@ DEFINE FIELD segment_count ON video TYPE option<int>;
 DEFINE FIELD channel_name ON video TYPE option<string>;
 DEFINE FIELD uploader ON video TYPE option<string>;
 DEFINE FIELD category ON video TYPE option<string>;
-DEFINE FIELD chapters ON video TYPE option<array>;           -- [{title, start_time}, ...]
+DEFINE FIELD chapters ON video TYPE option<array>;           -- [{title, start_time, end_time}, ...]
+-- Without this the array can only ever hold NOTHING. SCHEMAFULL applies inside
+-- the array too, so a chapter object was rejected key by key — "Found field
+-- 'chapters[0].title', but no such field exists" — while an empty array wrote
+-- fine. Every video therefore stored [] and the field looked merely unused
+-- rather than broken, right up until the first video with real chapters was
+-- indexed on 2026-08-14. FLEXIBLE is what lets yt-dlp's chapter objects in
+-- without pinning their exact keys.
+DEFINE FIELD chapters[*] ON video TYPE object FLEXIBLE;
 DEFINE FIELD hashtags ON video TYPE option<array<string>>;
 DEFINE FIELD youtube_tags ON video TYPE option<array<string>>;
 DEFINE FIELD view_count ON video TYPE option<int>;
 DEFINE FIELD like_count ON video TYPE option<int>;
 DEFINE FIELD comment_count ON video TYPE option<int>;
+-- yt-dlp's live_status: "was_live", "is_live", "is_upcoming", "not_live".
+-- Separates a recorded livestream from an uploaded episode of the same length.
+DEFINE FIELD live_status ON video TYPE option<string>;
 DEFINE FIELD metadata_fetched_at ON video TYPE option<datetime>;
 -- False for the ~200 older transcripts stored as plain prose with no [M:SS]
 -- markers. Their text is complete; only segment start/end times are meaningless

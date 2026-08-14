@@ -9,9 +9,9 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-14 00:20 EDT from 24 issues.
+> Generated 2026-08-14 00:24 EDT from 24 issues.
 
-**24 open · 2 in flight · 3 awaiting your decision · 0 closed**
+**24 open · 3 in flight · 3 awaiting your decision · 0 closed**
 
 <!-- HAND-WRITTEN:START -->
 
@@ -39,7 +39,7 @@ Three themes run through the work currently on the board:
 
 ## Where everything stands
 
-⚓ **KnowledgeStack** — IN PROGRESS · 3 decisions waiting on you · 2 in flight  
+⚓ **KnowledgeStack** — IN PROGRESS · 3 decisions waiting on you · 3 in flight  
 ├─❓ **Capabilities the product assumes but does not have** — 6 open  
 │  ├─❓ Generate embeddings for the corpus so meaning-based search becomes possible ([#29](https://github.com/mgerasolo/knowledge/issues/29)) — _high_  
 │  ├─❓ Decide whether topic and entity tagging stays on the roadmap - it was never built ([#31](https://github.com/mgerasolo/knowledge/issues/31)) — _medium_  
@@ -55,11 +55,11 @@ Three themes run through the work currently on the board:
 │  ├─⬜ A YouTube rate-limit block should stop the whole batch, not just pause one worker ([#21](https://github.com/mgerasolo/knowledge/issues/21)) — _medium_  
 │  ├─📌 A non-US proxy exit would hit YouTube's consent page and look like a mystery outage ([#25](https://github.com/mgerasolo/knowledge/issues/25)) — _low_  
 │  └─📌 The one-queue-at-a-time guard does not cover the backfill queue running right now ([#34](https://github.com/mgerasolo/knowledge/issues/34)) — _low_  
-├─❓ **Corpus quality — trusting what is already stored** — 8 open  
+├─🔄 **Corpus quality — trusting what is already stored** — 8 open  
 │  ├─❓ Four places each track what we have ingested, and they drift apart unnoticed ([#18](https://github.com/mgerasolo/knowledge/issues/18)) — _high_  
+│  ├─🔄 Video length, view counts and chapters are captured but never reach the search library ([#17](https://github.com/mgerasolo/knowledge/issues/17)) — _medium_  
 │  ├─⬜ 3 Myron Golden transcripts on disk are missing from the search library; 44 videos are stored under two channel folder names ([#4](https://github.com/mgerasolo/knowledge/issues/4)) — _high_  
 │  ├─⬜ All 4,458 videos have empty uploader — video metadata backfill not applied ([#45](https://github.com/mgerasolo/knowledge/issues/45)) — _high_  
-│  ├─⬜ Video length, view counts and chapters are captured but never reach the search library ([#17](https://github.com/mgerasolo/knowledge/issues/17)) — _medium_  
 │  ├─⬜ We never notice when a video in the library is deleted, made private or age-restricted ([#24](https://github.com/mgerasolo/knowledge/issues/24)) — _medium_  
 │  ├─⬜ Backfill the publish dates and descriptions lost while metadata fetching was silently failing ([#27](https://github.com/mgerasolo/knowledge/issues/27)) — _medium_  
 │  ├─⬜ Confirm the 14 quarantined date-less transcripts were re-fetched, then clear the quarantine ([#28](https://github.com/mgerasolo/knowledge/issues/28)) — _medium_  
