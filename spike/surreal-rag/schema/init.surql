@@ -89,6 +89,10 @@ DEFINE FIELD chapters ON video TYPE option<array>;           -- [{title, start_t
 DEFINE FIELD chapters[*] ON video TYPE object FLEXIBLE;
 DEFINE FIELD hashtags ON video TYPE option<array<string>>;
 DEFINE FIELD youtube_tags ON video TYPE option<array<string>>;
+-- Corpus tags from single-video enrollment (#46), e.g. personality:myron-golden.
+-- Distinct from youtube_tags (the creator's own upload tags): these are OUR
+-- curation markers, written by the embedding service's tag-merge endpoint.
+DEFINE FIELD tags ON video TYPE option<array<string>>;
 DEFINE FIELD view_count ON video TYPE option<int>;
 DEFINE FIELD like_count ON video TYPE option<int>;
 DEFINE FIELD comment_count ON video TYPE option<int>;
