@@ -28,6 +28,9 @@ resolved or worked around.
 | Date | Problem | Resolution / workaround |
 |------|---------|------------------------|
 | 2026-08-14 | **Codex Phase-1 build attempt produced zero code.** Background job `task-msshsw3n-1nabi2` was launched from the main KnowledgeStack checkout, so Codex's writable sandbox did not include the `~/wt/professor-spike` worktree; its skill renderer halted on `[Errno 30] Read-only file system` after 21s and it (correctly) did no work rather than claiming any. | Relaunch the Codex task with the worktree as the working directory / writable root (or build directly). Process lesson: when delegating to a sandboxed builder, the target worktree must be inside its writable root — verify with a touch-test before dispatch. |
+| 2026-08-14 | **Incremental commits were blocked even though spike files were writable.** This worktree's Git administrative directory resolves into the parent checkout, which remained read-only to the managed workspace; `git commit` could not create `index.lock`. | Completed and verified the implementation in the authorized worktree without pretending commits succeeded. The supervisor must commit the finished tree from a session that can write the parent repository's `.git/worktrees/professor-spike/` metadata. |
+| 2026-08-14 | **The isolated dependency install could not reach PyPI.** The requested local `spike/professor/.venv` was created, but the sandbox had no package-index network access. | Kept the venv local and reused packages from the repository's existing test environment through a local path file; no global packages were installed. The requirements file remains the reproducible container install source. |
+| 2026-08-14 | **One corpus video uses `duration_seconds: 0` as an unknown-metadata sentinel.** Treating every non-positive duration as corrupt prevented the full 298-video corpus from loading. | Normalize zero to unknown while still rejecting negative/non-finite durations. The live test refuses unknown-duration citations, so acceptance is not weakened. |
 
 ## 3. Core-System Changes (lessons for the main pipeline)
 
@@ -70,3 +73,24 @@ Raw discoveries as they happen, newest last.
 - Independent verification of the worktree confirmed no `spike/professor/api/`
   files, clean working tree, no new commits — so no partial/untested state to
   clean up. All 4 acceptance criteria remain unmet; Phase 1 build not started.
+
+### 2026-08-14 — Phase-1 implementation
+- Built an isolated Flask shell plus Flask-free corpus, retrieval, composition,
+  and orchestration modules. The Myron manifest loads as 298 unique videos.
+- Partial embedding coverage is measured over all corpus segments on every ask;
+  retrieval searches only embedded, in-corpus segments and applies a configurable
+  cosine relevance floor before recency reranking.
+- SurrealDB bind data travels in the JSON-RPC request body. Putting the
+  768-dimensional vector, 298 IDs, or full audit record into HTTP headers/URLs is
+  size-fragile and inconsistent with the RPC query contract.
+- Model output is an untrusted boundary: JSON shape, non-empty tier content,
+  retrieved citation numbers, corpus membership, and finite timestamp bounds are
+  checked before returning an answer. Transcript text is explicitly marked as
+  untrusted evidence in the prompt.
+- Logging is required behavior: valid, failed, and validation-rejected
+  orchestration attempts write `professor_log`; a successful answer is not returned
+  when its log write fails. Rewrite failures fall back to the original question and
+  are retained in the audit record.
+- Offline verification reached 39 passing pytest tests with network sockets blocked.
+  The credentialed three-question live run and database record inspection remain for
+  the supervisor container, as planned in the brief.
