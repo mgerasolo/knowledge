@@ -29,6 +29,11 @@ except ImportError:  # pragma: no cover
     _BLOCKED_ERRORS = ()
 
 from config import Config
+from channel_feed import (
+    BLOCK_PHRASES,
+    FeedUnavailable,
+    feed_videos_for_handle,
+)
 
 
 class TranscriptBlocked(Exception):
@@ -167,10 +172,81 @@ def discover_channel(handle: str, lookback_months: int) -> list[dict]:
         return []
 
 
+def _ytdlp_tab_listing(handle: str, tab: str, listing_cap: int, date_after: str) -> list[dict]:
+    """List one channel tab with yt-dlp. Raises on failure; caller records it.
+
+    This is the fallback path now — the RSS feed is tried first — but it stays
+    the only DEPENDABLE way to see /streams. The feed does carry livestreams,
+    but only the newest handful of a channel's uploads of any kind, and it
+    answers barely a quarter of the time.
+    """
+    url = f"https://www.youtube.com/@{handle}/{tab}"
+    cmd = ytdlp_base_cmd() + [
+        "--flat-playlist",
+        "--playlist-end",
+        str(listing_cap),
+        "--dateafter",
+        date_after,   # inert in flat mode; kept only for when that changes
+        "--print",
+        "%(id)s|%(title)s|%(upload_date)s",
+        url,
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    if result.returncode != 0:
+        raise RuntimeError(
+            (result.stderr or "yt-dlp exited non-zero").strip().splitlines()[-1][:200]
+        )
+
+    entries = []
+    for line in result.stdout.strip().split("\n"):
+        if not line or "|" not in line:
+            continue
+        # Split from BOTH ends, not left-to-right. A pipe is a normal character
+        # in a YouTube title ("Optimize Female Hormone Health | Dr. Sara
+        # Gottfried") and a plain split("|", 2) hands that tail to upload_date,
+        # which then fails the 8-digit check in save_transcript_file and files
+        # the transcript under <channel>/unknown/ with no date at all. Ten of
+        # the first ten Huberman uploads listed on 2026-08-14 hit this. The ID
+        # never contains a pipe and neither does the date, so anchoring on the
+        # first and last separators is exact.
+        video_id, _, rest = line.partition("|")
+        title, _, upload_date = rest.rpartition("|")
+        if not title:
+            continue
+        entries.append(
+            {
+                "id": video_id,
+                "title": title,
+                "upload_date": upload_date.strip(),
+            }
+        )
+    return entries
+
+
 def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
     """Check all channels for new videos not yet in our state.
 
     Returns dict with new_videos list and per-channel stats.
+
+    DISCOVERY PATHS — the feed first, the scraper wherever the feed can't be
+    trusted:
+
+    Each channel's recent uploads are read from its static RSS feed, which costs
+    one small XML request and no scraping. yt-dlp is the fallback, used when the
+    handle cannot be resolved to a channel ID, when the feed request fails or
+    comes back empty, or for any tab beyond the feed's shallow window.
+
+    /streams is always one of those tabs. Every channel configured with it —
+    roughly a third of the list — gets its yt-dlp pass no matter how well the
+    feed worked. Not because the feed omits livestreams; it includes them. It is
+    that the feed holds only ~15 items of any kind and answers a minority of the
+    time, so making livestream discovery depend on it would re-create the blind
+    spot fixed on 2026-08-13, where a channel with hundreds of missing sermons
+    looked exactly like a channel that had nothing new.
+
+    Every channel records which path it took, so "is RSS actually working?" is a
+    question the logs answer rather than one you infer from video counts.
 
     `on_progress(index, total, handle)` is called before each channel so a
     long-running discovery can keep a liveness heartbeat fresh — a full sweep of
@@ -209,10 +285,33 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
     # runs, with generous headroom.
     listing_cap = int(os.getenv("DISCOVERY_PLAYLIST_END", "25"))
 
+    # RSS is the primary path. It can be forced off, and it switches itself off
+    # for the rest of a sweep after a run of failures: when YouTube stops
+    # serving feeds at all — which it does, see the module docstring in
+    # channel_feed.py — there is no point paying a doomed request on every one
+    # of fifty-two channels before falling back each time. The counter resets
+    # every sweep, so a recovered endpoint is picked up within one cycle with no
+    # deploy and no human noticing.
+    rss_enabled = os.getenv("DISCOVERY_USE_RSS", "true").lower() not in (
+        "false", "0", "no"
+    )
+    rss_failure_budget = int(os.getenv("DISCOVERY_RSS_MAX_FAILURES", "3"))
+    consecutive_feed_failures = 0
+
+    # One shared pacer across BOTH paths. Every outbound YouTube call in a sweep
+    # — feed, channel-page resolution, yt-dlp listing — is spaced by it, so
+    # swapping a yt-dlp call for a feed call cannot quietly raise our request
+    # rate. Nothing sleeps before the very first call of the sweep.
+    requested_any = False
+
+    def _space_request():
+        nonlocal requested_any
+        if requested_any:
+            time.sleep(discovery_delay)
+        requested_any = True
+
     total_channels = len(Config.CHANNELS)
     for index, channel in enumerate(Config.CHANNELS):
-        if index > 0:
-            time.sleep(discovery_delay)
         handle = channel["handle"]
         if on_progress:
             on_progress(index + 1, total_channels, handle)
@@ -226,73 +325,104 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
         # costs exactly one request.
         tabs = channel.get("tabs") or ["videos"]
 
-        found = 0
-        new_count = 0
+        candidates = []      # {id, title, upload_date, extra_metadata?}
+        paths = []           # which mechanism actually produced the listing
         errors = []
+        blocked = False
+        # Tabs yt-dlp still has to cover. The feed can only ever retire
+        # "videos"; "streams" stays on this list unconditionally.
+        pending_tabs = list(tabs)
 
-        for tab_index, tab in enumerate(tabs):
-            if tab_index > 0:
-                time.sleep(discovery_delay)
-
-            # Use yt-dlp with date filter for efficiency
-            url = f"https://www.youtube.com/@{handle}/{tab}"
-            cmd = ytdlp_base_cmd() + [
-                "--flat-playlist",
-                "--playlist-end",
-                str(listing_cap),
-                "--dateafter",
-                date_after,   # inert in flat mode; kept only for when that changes
-                "--print",
-                "%(id)s|%(title)s|%(upload_date)s",
-                url,
-            ]
-
+        if (
+            rss_enabled
+            and "videos" in tabs
+            and consecutive_feed_failures < rss_failure_budget
+        ):
+            _space_request()
             try:
-                result = subprocess.run(
-                    cmd, capture_output=True, text=True, timeout=120
+                feed = feed_videos_for_handle(handle, limit=listing_cap)
+            except FeedUnavailable as e:
+                consecutive_feed_failures += 1
+                errors.append(f"rss: {e}")
+                blocked = blocked or e.blocked
+                if consecutive_feed_failures == rss_failure_budget:
+                    print(
+                        f"[discovery] RSS disabled for the rest of this sweep "
+                        f"after {rss_failure_budget} consecutive feed failures "
+                        f"(last: {handle} — {e}). Falling back to yt-dlp.",
+                        flush=True,
+                    )
+            except Exception as e:  # never let discovery die on the new path
+                consecutive_feed_failures += 1
+                errors.append(f"rss: unexpected {type(e).__name__}: {e}")
+            else:
+                consecutive_feed_failures = 0
+                pending_tabs.remove("videos")
+                paths.append("rss")
+                for entry in feed["videos"]:
+                    # View and like counts ride along free — the feed already
+                    # carries them, so they cost no extra request.
+                    extra = {
+                        key: value
+                        for key, value in (
+                            ("view_count", entry.get("view_count")),
+                            ("like_count", entry.get("like_count")),
+                        )
+                        if value is not None
+                    }
+                    candidates.append(
+                        {
+                            "id": entry["id"],
+                            "title": entry["title"],
+                            "upload_date": entry["upload_date"],
+                            "extra_metadata": extra or None,
+                        }
+                    )
+
+        for tab in pending_tabs:
+            _space_request()
+            try:
+                candidates.extend(
+                    _ytdlp_tab_listing(handle, tab, listing_cap, date_after)
                 )
-
-                if result.returncode == 0:
-                    for line in result.stdout.strip().split("\n"):
-                        if not line or "|" not in line:
-                            continue
-
-                        parts = line.split("|", 2)
-                        if len(parts) >= 3:
-                            video_id, title, upload_date = (
-                                parts[0],
-                                parts[1],
-                                parts[2],
-                            )
-                            found += 1
-
-                            if (
-                                video_id not in processed_ids
-                                and video_id not in known_ids
-                            ):
-                                video = {
-                                    "id": video_id,
-                                    "title": title,
-                                    "upload_date": upload_date,
-                                    "channel_handle": handle,
-                                    "channel_name": channel["name"],
-                                    "domain": channel["domain"],
-                                }
-                                new_videos.append(video)
-                                known_ids.add(video_id)  # tabs can overlap
-                                new_count += 1
-
+                paths.append(f"yt-dlp:{tab}")
             except (subprocess.TimeoutExpired, Exception) as e:
                 errors.append(f"{tab}: {e}")
+
+        found = 0
+        new_count = 0
+        for entry in candidates:
+            found += 1
+            video_id = entry["id"]
+            if video_id in processed_ids or video_id in known_ids:
+                continue
+            video = {
+                "id": video_id,
+                "title": entry["title"],
+                "upload_date": entry["upload_date"],
+                "channel_handle": handle,
+                "channel_name": channel["name"],
+                "domain": channel["domain"],
+            }
+            if entry.get("extra_metadata"):
+                video["extra_metadata"] = entry["extra_metadata"]
+            new_videos.append(video)
+            known_ids.add(video_id)  # tabs and the feed overlap
+            new_count += 1
 
         stat = {
             "handle": handle,
             "name": channel["name"],
             "recent_videos": found,
             "new_videos": new_count,
+            # "rss", "rss+yt-dlp:streams", "yt-dlp:videos" — the answer to
+            # "did RSS actually work?" without inferring it from counts.
+            "path": "+".join(paths) if paths else "none",
         }
         if errors:
             stat["error"] = "; ".join(errors)
+        if blocked:
+            stat["blocked"] = True
         channel_stats.append(stat)
 
     # Safety valve. A single sweep should surface tens of new uploads, not
@@ -487,16 +617,7 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
         # matching on 429 therefore misses it entirely, and the video would be
         # written to the permanent failed list — the exact outcome
         # TranscriptBlocked exists to prevent.
-        bot_challenge = any(
-            phrase in lowered
-            for phrase in (
-                "confirm you're not a bot",
-                "confirm you are not a bot",
-                "unusual traffic",
-                "automated queries",
-                "sorry...",
-            )
-        )
+        bot_challenge = any(phrase in lowered for phrase in BLOCK_PHRASES)
         retryable = (
             bot_challenge
             or "429" in text
