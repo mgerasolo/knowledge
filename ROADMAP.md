@@ -9,7 +9,7 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-13 23:49 EDT from 21 issues.
+> Generated 2026-08-13 23:58 EDT from 21 issues.
 
 **21 open · 2 in flight · 3 awaiting your decision · 0 closed**
 
@@ -55,11 +55,11 @@ Three themes run through the work currently on the board:
 │  └─📌 The one-queue-at-a-time guard does not cover the backfill queue running right now ([#34](https://github.com/mgerasolo/knowledge/issues/34)) — _low_  
 ├─❓ **Corpus quality — trusting what is already stored** — 7 open  
 │  ├─❓ Four places each track what we have ingested, and they drift apart unnoticed ([#18](https://github.com/mgerasolo/knowledge/issues/18)) — _high_  
+│  ├─⬜ 3 Myron Golden transcripts on disk are missing from the search library; 44 videos are stored under two channel folder names ([#4](https://github.com/mgerasolo/knowledge/issues/4)) — _high_  
 │  ├─⬜ Video length, view counts and chapters are captured but never reach the search library ([#17](https://github.com/mgerasolo/knowledge/issues/17)) — _medium_  
 │  ├─⬜ We never notice when a video in the library is deleted, made private or age-restricted ([#24](https://github.com/mgerasolo/knowledge/issues/24)) — _medium_  
 │  ├─⬜ Backfill the publish dates and descriptions lost while metadata fetching was silently failing ([#27](https://github.com/mgerasolo/knowledge/issues/27)) — _medium_  
 │  ├─⬜ Confirm the 14 quarantined date-less transcripts were re-fetched, then clear the quarantine ([#28](https://github.com/mgerasolo/knowledge/issues/28)) — _medium_  
-│  ├─⬜ 3 Myron Golden transcripts on disk are missing from the search library; 44 videos are stored under two channel folder names ([#4](https://github.com/mgerasolo/knowledge/issues/4)) — _unset_  
 │  └─📌 Shorts are ingested indiscriminately and dilute search results ([#26](https://github.com/mgerasolo/knowledge/issues/26)) — _low_  
 ├─🔄 **The backfill programme — how deep we go** — 2 open  
 │  ├─🔄 Ingest Jordan B Peterson's 18 livestreams ([#33](https://github.com/mgerasolo/knowledge/issues/33)) — _low_  
