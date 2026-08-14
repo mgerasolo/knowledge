@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -263,6 +264,40 @@ def normalize_date(value: str) -> str:
     return "1970-01-01"
 
 
+def as_number(value, cast):
+    """A frontmatter value read as a number, or None when there isn't one.
+
+    None is not zero: a video with no recorded view count and a video with zero
+    views are different facts, and only the caller knows which to store.
+    """
+    if value in (None, "", "NA", "unknown"):
+        return None
+    try:
+        return cast(float(value))
+    except (TypeError, ValueError):
+        return None
+
+
+def parse_chapters(value) -> list:
+    """Chapter markers out of a frontmatter line.
+
+    Files written from 2026-08-14 carry them as the JSON yt-dlp produced. The
+    13 written before that had every double quote swapped for a single one on
+    the way in, which is Python literal syntax rather than JSON, so both are
+    read here. Anything else yields no chapters rather than a half-read one.
+    """
+    if not value:
+        return []
+    for load in (json.loads, ast.literal_eval):
+        try:
+            parsed = load(value)
+        except (TypeError, ValueError, SyntaxError):
+            continue
+        if isinstance(parsed, list):
+            return parsed
+    return []
+
+
 # --------------------------------------------------------------------------
 # Indexing
 # --------------------------------------------------------------------------
@@ -284,10 +319,17 @@ def index_file(path: Path) -> tuple[bool, str | None, int]:
     published = normalize_date(meta.get("published", ""))
     url = meta.get("url", f"https://youtube.com/watch?v={video_id}")
     description = meta.get("description", "")
-    try:
-        duration = float(meta.get("duration_seconds", 0) or 0)
-    except ValueError:
-        duration = 0.0
+    # `duration` is yt-dlp's true video length; `duration_seconds` is where the
+    # last caption lands, which is a floor on it. Prefer the real one.
+    duration = as_number(meta.get("duration"), float)
+    if duration is None:
+        duration = as_number(meta.get("duration_seconds"), float) or 0.0
+    # A replay has to restore these too, or re-running it over the whole corpus
+    # would overwrite every real count with a zero (#17).
+    view_count = as_number(meta.get("view_count"), int) or 0
+    like_count = as_number(meta.get("like_count"), int) or 0
+    live_status = meta.get("live_status", "")
+    chapters_json = json.dumps(parse_chapters(meta.get("chapters")))
 
     segments = parse_segments(body)
     has_timestamps = bool(segments)
@@ -319,6 +361,10 @@ def index_file(path: Path) -> tuple[bool, str | None, int]:
         channel_handle = '{esc(channel_handle)}',
         channel_name = '{esc(channel_name)}',
         domain = '{esc(domain)}',
+        view_count = {view_count},
+        like_count = {like_count},
+        live_status = '{esc(live_status)}',
+        chapters = {chapters_json},
         transcript_path = '{esc(str(path))}',
         segment_count = {len(chunks)},
         has_timestamps = {str(has_timestamps).lower()},

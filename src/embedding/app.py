@@ -35,8 +35,12 @@ def embed():
         "channel_handle": "channelname",
         "channel_name": "Channel Display Name",
         "domain": "ai-tech",
-        "published_at": "2026-01-15",
+        "published_at": "2026-01-15",   // real date; omitting it stores 1970-01-01
         "duration_seconds": 3600,
+        "view_count": 12345,
+        "like_count": 678,
+        "chapters": [{"start_time": 0, "title": "Intro"}],
+        "live_status": "was_live",
         "transcript": "...",  // optional - fetched via MCP Gateway if missing
         "segments": [...],    // optional - fetched via MCP Gateway if missing
         "skip_embeddings": false

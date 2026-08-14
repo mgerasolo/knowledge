@@ -5,6 +5,7 @@ Extracted and adapted from spike/surreal-rag/scripts/batch_transcript_fetcher.py
 for use as a service rather than CLI tool.
 """
 
+import ast
 import json
 import os
 import re
@@ -652,6 +653,107 @@ def fetch_description(video_id: str) -> Optional[str]:
     return None
 
 
+# The publication date written when YouTube did not tell us when a video went
+# out. Deliberately the epoch rather than anything plausible: the indexer used
+# to substitute 2026-01-01 for a missing date, which reads as a real January
+# publication and quietly corrupted every date-sorted query instead of
+# announcing itself. An unknown date should look unknown. Same sentinel
+# scripts/reindex_from_files.py already uses, so a replay agrees with a fetch.
+UNKNOWN_PUBLISHED = "1970-01-01"
+
+
+def published_date(upload_date) -> str:
+    """The YYYYMMDD yt-dlp and the RSS feed report -> the date the index wants."""
+    text = str(upload_date or "").strip()
+    if len(text) == 8 and text.isdigit():
+        return f"{text[:4]}-{text[4:6]}-{text[6:8]}"
+    return UNKNOWN_PUBLISHED
+
+
+def transcript_duration(segments: list[dict]) -> float:
+    """How long the captions run, in seconds."""
+    if not segments:
+        return 0.0
+    last = segments[-1]
+    return last["start"] + last.get("duration", 0)
+
+
+def _as_number(value, cast):
+    """Coerce a metadata value, tolerating however its collector spelled it.
+
+    The RSS feed hands over real numbers, yt-dlp hands over strings, and both
+    use "NA" and "" for absent. Returns None when there is genuinely no value,
+    which is not the same as zero and must not be stored as zero.
+    """
+    if value in (None, "", "NA"):
+        return None
+    try:
+        return cast(float(value))
+    except (TypeError, ValueError):
+        return None
+
+
+def parse_chapters(value) -> list:
+    """Chapter markers, however the collecting path happened to store them.
+
+    yt-dlp is asked for chapters as JSON (`%(chapters)j`), so the priority
+    ingest path holds them as a string; anything reading them back off a
+    transcript file may find the older single-quoted form that predates this
+    being written as JSON. Both parse; anything else yields no chapters rather
+    than a half-read one.
+    """
+    if not value:
+        return []
+    if isinstance(value, list):
+        return value
+    for load in (json.loads, ast.literal_eval):
+        try:
+            parsed = load(value)
+        except (TypeError, ValueError, SyntaxError):
+            continue
+        if isinstance(parsed, list):
+            return parsed
+    return []
+
+
+def index_metadata(video: dict, segments: list[dict]) -> dict:
+    """The metadata half of the indexer payload.
+
+    Every field here was already being collected and written to the transcript
+    file, and none of it was being sent. The indexer therefore applied its own
+    defaults and stored a zero view count, no chapters and a made-up
+    publication date for every video that came through here (#17).
+
+    Normalising happens once, here, because the two ingest paths disagree about
+    spelling: the feed supplies counts as numbers, yt-dlp supplies everything as
+    strings and calls the video's length `duration`.
+    """
+    extra = video.get("extra_metadata") or {}
+
+    # yt-dlp's duration is the video's true length. The last caption timestamp
+    # is only a floor on it — captions routinely stop before the video does —
+    # so it is the fallback, not the preference.
+    duration = _as_number(extra.get("duration"), float)
+    if duration is None:
+        duration = transcript_duration(segments)
+
+    meta = {
+        "published_at": published_date(video.get("upload_date")),
+        "duration_seconds": duration,
+        "chapters": parse_chapters(extra.get("chapters")),
+    }
+    for key in ("view_count", "like_count"):
+        count = _as_number(extra.get(key), int)
+        if count is not None:
+            meta[key] = count
+
+    live_status = str(extra.get("live_status") or "").strip()
+    if live_status and live_status != "NA":
+        meta["live_status"] = live_status
+
+    return meta
+
+
 def save_transcript_file(video: dict, segments: list[dict], description: Optional[str] = None) -> str:
     """Save transcript as markdown file. Returns the file path."""
     transcript_dir = Path(Config.TRANSCRIPT_DIR)
@@ -704,23 +806,26 @@ def save_transcript_file(video: dict, segments: list[dict], description: Optiona
     channel_name = video.get("channel_name", channel_handle)
 
     # Duration
-    duration = 0.0
-    if segments:
-        last = segments[-1]
-        duration = last["start"] + last.get("duration", 0)
+    duration = transcript_duration(segments)
 
     escaped_title = title.replace('"', "'")
 
     # Extras (duration, view/like counts, live status, chapters) come free with
-    # the metadata call we already make. Written to the file only — the search
-    # datastore is SCHEMAFULL and rejects undeclared fields silently, so adding
-    # them to the index needs its own schema change.
+    # the metadata call we already make. They go into the file AND into the
+    # index — see index_metadata().
+    #
+    # Chapters are written as the JSON they arrive as. Putting them through the
+    # quote-swap below instead turned '{"title": "x"}' into "{'title': 'x'}",
+    # which is unreadable the moment a chapter title contains an apostrophe,
+    # and this file is the only copy if the index ever has to be replayed.
     extra_yaml = ""
     for key, value in (video.get("extra_metadata") or {}).items():
         if value in ("", None):
             continue
-        text = str(value).replace('"', "'")
-        extra_yaml += f'\n{key}: "{text}"' if not text.isdigit() else f"\n{key}: {text}"
+        text = str(value)
+        if key != "chapters" and not text.isdigit():
+            text = '"' + text.replace('"', "'") + '"'
+        extra_yaml += f"\n{key}: {text}"
 
     content = f"""---
 title: "{escaped_title}"
@@ -844,6 +949,10 @@ def _index_video(video: dict, segments: list, description) -> tuple:
         "description": description or "",
         "segments": segments,
         "skip_embeddings": True,   # no semantic search consumes embeddings yet
+        # Length, view/like counts, chapters, live status and the real
+        # publication date. Omitting these is what made the indexer fall back
+        # to its own defaults and store zeros against every video (#17).
+        **index_metadata(video, segments),
     }
 
     try:
