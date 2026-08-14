@@ -278,6 +278,10 @@ def parse_feed(xml_text: str) -> dict:
                 "like_count": _int_attr(rating, "count"),
                 "channel_id": channel_id,
                 "channel_title": channel_title,
+                # Atom's canonical entry link is always /watch, including for
+                # Shorts and completed lives. It cannot classify content type;
+                # discovery documents and handles that best-effort limitation.
+                "url": f"https://www.youtube.com/watch?v={video_id}",
             }
         )
 

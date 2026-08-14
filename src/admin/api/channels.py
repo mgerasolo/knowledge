@@ -2,41 +2,92 @@
 import subprocess
 import json
 import re
+from datetime import datetime, timedelta, timezone
+from html import unescape
+from urllib.parse import quote
+
+import requests
 from flask import Blueprint, jsonify, request
 from db import get_db_cursor
 
 channels_bp = Blueprint('channels', __name__)
 
+INGESTION_MODES = {'new_only', 'last_3_months', 'last_year', 'all', 'selected'}
+def _validate_ingestion_mode(data):
+    mode = data.get('ingestion_mode')
+    if mode is not None and mode not in INGESTION_MODES:
+        return jsonify({'error': 'Invalid ingestion_mode', 'allowed': sorted(INGESTION_MODES)}), 400
+    return None
+
+
+def _published_at(upload_date):
+    if isinstance(upload_date, (int, float)):
+        return datetime.fromtimestamp(upload_date, tz=timezone.utc)
+    try:
+        return datetime.strptime(str(upload_date), '%Y%m%d').replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+
+def _within_mode_cutoff(video, mode):
+    days = {'last_3_months': 90, 'last_year': 365}.get(mode)
+    if not days:
+        return True
+    published = _published_at(video.get('upload_date'))
+    return published is not None and published >= datetime.now(timezone.utc) - timedelta(days=days)
+
+
+def _included_content(video, channel):
+    url = str(video.get('webpage_url') or video.get('url') or '')
+    is_short = '/shorts/' in url or video.get('url_kind') == 'short'
+    live_status = str(video.get('live_status') or '').lower()
+    is_live = bool(video.get('was_live')) or live_status in {'is_live', 'was_live', 'post_live'}
+    if is_short:
+        return channel['include_shorts']
+    if is_live:
+        return channel['include_lives']
+    return channel['include_videos']
+
 
 def fetch_channel_videos_from_youtube(channel_id, limit=50):
-    """Fetch video list from YouTube using yt-dlp."""
+    """Fetch video, live, and Shorts listings from YouTube using yt-dlp."""
     try:
-        # Use yt-dlp to get video list (metadata only, no download)
-        cmd = [
-            'yt-dlp',
-            '--flat-playlist',
-            '--dump-json',
-            '--playlist-end', str(limit),
-            f'https://www.youtube.com/channel/{channel_id}/videos'
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-
         videos = []
-        for line in result.stdout.strip().split('\n'):
-            if line:
+        seen = set()
+        for tab in ('videos', 'streams', 'shorts'):
+            cmd = [
+                'yt-dlp', '--flat-playlist', '--dump-json',
+                '--playlist-end', str(limit),
+                f'https://www.youtube.com/channel/{channel_id}/{tab}'
+            ]
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+            for line in result.stdout.strip().split('\n'):
+                if not line:
+                    continue
                 try:
                     data = json.loads(line)
-                    videos.append({
-                        'youtube_video_id': data.get('id'),
-                        'title': data.get('title'),
-                        'duration': data.get('duration'),
-                        'view_count': data.get('view_count'),
-                        'upload_date': data.get('upload_date'),
-                        'thumbnail': data.get('thumbnail') or f"https://i.ytimg.com/vi/{data.get('id')}/hqdefault.jpg"
-                    })
                 except json.JSONDecodeError:
                     continue
-        return videos
+                video_id = data.get('id')
+                if not video_id or video_id in seen:
+                    continue
+                seen.add(video_id)
+                videos.append({
+                    'youtube_video_id': video_id,
+                    'title': data.get('title'),
+                    'duration': data.get('duration'),
+                    'view_count': data.get('view_count'),
+                    'upload_date': data.get('upload_date') or data.get('timestamp') or data.get('release_timestamp'),
+                    'webpage_url': data.get('webpage_url') or (
+                        f'https://www.youtube.com/shorts/{video_id}' if tab == 'shorts'
+                        else f'https://www.youtube.com/watch?v={video_id}'
+                    ),
+                    'url_kind': 'short' if tab == 'shorts' else 'video',
+                    'live_status': data.get('live_status'),
+                    'was_live': data.get('was_live') or tab == 'streams',
+                    'thumbnail': data.get('thumbnail') or f'https://i.ytimg.com/vi/{video_id}/hqdefault.jpg'
+                })
+        return videos[:limit]
     except subprocess.TimeoutExpired:
         return []
     except Exception as e:
@@ -58,6 +109,7 @@ def list_channels():
         SELECT id, youtube_handle, youtube_channel_id, name, description,
                thumbnail_url, subscriber_count, video_count,
                domain, authority_score, relevance_score, ingestion_mode,
+               include_videos, include_lives, include_shorts,
                is_active, last_checked_at, last_video_at, consecutive_failures,
                created_at, updated_at
         FROM channels
@@ -104,6 +156,7 @@ def get_channel(channel_id):
             SELECT id, youtube_handle, youtube_channel_id, name, description,
                    thumbnail_url, subscriber_count, video_count,
                    domain, authority_score, relevance_score, ingestion_mode,
+                   include_videos, include_lives, include_shorts,
                    check_interval_minutes, backlog_depth_days, backlog_max_videos,
                    rss_url, last_checked_at, last_video_at, last_error,
                    consecutive_failures, is_active, is_known_exception,
@@ -122,7 +175,10 @@ def get_channel(channel_id):
 @channels_bp.route('/channels', methods=['POST'])
 def create_channel():
     """Create a new channel."""
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
+    validation_error = _validate_ingestion_mode(data or {})
+    if validation_error:
+        return validation_error
 
     # Required fields
     required = ['youtube_handle', 'name']
@@ -141,7 +197,8 @@ def create_channel():
         'subscriber_count', 'video_count', 'domain',
         'authority_score', 'relevance_score', 'ingestion_mode',
         'check_interval_minutes', 'backlog_depth_days', 'backlog_max_videos',
-        'is_active', 'is_known_exception', 'created_by'
+        'is_active', 'is_known_exception', 'created_by',
+        'include_videos', 'include_lives', 'include_shorts'
     ]
 
     for field in optional_fields:
@@ -174,6 +231,9 @@ def update_channel(channel_id):
 
     if not data:
         return jsonify({'error': 'No data provided'}), 400
+    validation_error = _validate_ingestion_mode(data)
+    if validation_error:
+        return validation_error
 
     # Build update query
     allowed_fields = [
@@ -181,7 +241,8 @@ def update_channel(channel_id):
         'thumbnail_url', 'subscriber_count', 'video_count', 'domain',
         'authority_score', 'relevance_score', 'ingestion_mode',
         'check_interval_minutes', 'backlog_depth_days', 'backlog_max_videos',
-        'is_active', 'is_known_exception'
+        'is_active', 'is_known_exception',
+        'include_videos', 'include_lives', 'include_shorts'
     ]
 
     updates = []
@@ -266,6 +327,10 @@ def bulk_create_channels():
         if 'youtube_handle' not in channel_data or 'name' not in channel_data:
             errors.append({'index': i, 'error': 'Missing required fields'})
             continue
+        validation_error = _validate_ingestion_mode(channel_data)
+        if validation_error:
+            errors.append({'index': i, 'error': 'Invalid ingestion_mode'})
+            continue
 
         # Build insert
         fields = ['youtube_handle', 'name']
@@ -302,6 +367,55 @@ def bulk_create_channels():
         'errors': errors,
         'error_count': len(errors)
     })
+
+
+@channels_bp.route('/channels/resolve', methods=['GET'])
+def resolve_channel():
+    """Resolve a YouTube handle/custom URL to public channel metadata."""
+    raw = request.args.get('handle', '').strip()
+    if not raw:
+        return jsonify({'error': 'handle is required'}), 400
+    if raw.startswith(('http://', 'https://')):
+        match = re.search(r'youtube\.com/((?:@|c/)[^/?#]+)', raw, re.I)
+        if not match:
+            return jsonify({'error': 'Only YouTube handle or /c/ URLs are supported'}), 400
+        path = match.group(1)
+    elif raw.startswith('/c/'):
+        path = raw.lstrip('/')
+    else:
+        path = '@' + raw.lstrip('@')
+    try:
+        response = requests.get(
+            'https://www.youtube.com/' + quote(path, safe='@/'),
+            headers={'User-Agent': 'Mozilla/5.0', 'Accept-Language': 'en-US,en;q=0.9'},
+            timeout=5,
+        )
+    except requests.RequestException:
+        return jsonify({'error': 'YouTube could not be reached'}), 404
+    if not response.ok:
+        return jsonify({'error': 'Channel not found'}), 404
+
+    html = response.text[:8 * 1024 * 1024]
+    title_match = re.search(
+        r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)', html, re.I
+    ) or re.search(
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title["\']', html, re.I
+    )
+    channel_match = re.search(
+        r'itemprop=["\']channelId["\'][^>]+content=["\'](UC[A-Za-z0-9_-]{22})', html, re.I
+    ) or re.search(r'"(?:externalId|channelId)":"(UC[A-Za-z0-9_-]{22})"', html)
+    thumb_match = re.search(
+        r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', html, re.I
+    )
+    if not title_match or not channel_match:
+        return jsonify({'error': 'Channel metadata not found'}), 404
+    result = {
+        'name': unescape(title_match.group(1)),
+        'youtube_channel_id': channel_match.group(1),
+    }
+    if thumb_match:
+        result['thumbnail_url'] = unescape(thumb_match.group(1))
+    return jsonify(result)
 
 
 @channels_bp.route('/channels/stats', methods=['GET'])
@@ -432,6 +546,9 @@ def update_channel_settings(channel_id):
     if not data:
         return jsonify({'error': 'No data provided'}), 400
 
+    validation_error = _validate_ingestion_mode(data)
+    if validation_error:
+        return validation_error
     allowed_fields = ['ingestion_mode', 'backfill_limit', 'backlog_max_videos', 'backlog_depth_days']
     updates = []
     values = []
@@ -474,7 +591,8 @@ def trigger_backfill(channel_id):
 
     with get_db_cursor() as cursor:
         cursor.execute("""
-            SELECT youtube_channel_id, youtube_handle, name, ingestion_mode
+            SELECT youtube_channel_id, youtube_handle, name, ingestion_mode,
+                   include_videos, include_lives, include_shorts
             FROM channels WHERE id = %s
         """, (str(channel_id),))
         channel = cursor.fetchone()
@@ -494,7 +612,9 @@ def trigger_backfill(channel_id):
     # Determine status based on ingestion mode
     # 'all' or 'new_only' = auto-queue for processing
     # 'selected' = discovered, waiting for user to select
-    initial_status = 'queued' if channel['ingestion_mode'] in ('all', 'new_only') else 'discovered'
+    initial_status = 'queued' if channel['ingestion_mode'] in (
+        'all', 'new_only', 'last_3_months', 'last_year'
+    ) else 'discovered'
 
     # Insert into pipeline_items
     inserted = 0
@@ -502,10 +622,13 @@ def trigger_backfill(channel_id):
 
     with get_db_cursor(commit=True) as cursor:
         for video in videos:
+            if not _within_mode_cutoff(video, channel['ingestion_mode']) or not _included_content(video, channel):
+                skipped += 1
+                continue
             try:
                 cursor.execute("""
-                    INSERT INTO pipeline_items (youtube_video_id, youtube_url, title, channel_id, status, discovered_at)
-                    VALUES (%s, %s, %s, %s, %s, NOW())
+                    INSERT INTO pipeline_items (youtube_video_id, youtube_url, title, channel_id, status, published_at, discovered_at, queued_at)
+                    VALUES (%s, %s, %s, %s, %s, %s, NOW(), CASE WHEN %s = 'queued' THEN NOW() ELSE NULL END)
                     ON CONFLICT (youtube_video_id) DO NOTHING
                     RETURNING id
                 """, (
@@ -513,7 +636,9 @@ def trigger_backfill(channel_id):
                     f"https://www.youtube.com/watch?v={video['youtube_video_id']}",
                     video['title'],
                     str(channel_id),
-                    initial_status
+                    initial_status,
+                    _published_at(video.get('upload_date')),
+                    initial_status,
                 ))
                 if cursor.fetchone():
                     inserted += 1

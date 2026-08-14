@@ -108,7 +108,8 @@
 
             <div class="form-group">
                 <label class="form-label">Domain</label>
-                <input type="text" id="channel-domain" class="form-input" value="{{ channel.domain or '' }}">
+                <div id="channel-domain-tags" class="flex gap-10" style="flex-wrap:wrap;margin-bottom:8px"></div>
+                <input type="text" id="channel-domain" class="form-input" value="" placeholder="New domain…">
             </div>
 
             <div class="form-group">
@@ -118,10 +119,17 @@
             <div class="form-group">
                 <label class="form-label">Ingestion Mode</label>
                 <select id="ingestion-mode" class="form-select">
-                    <option value="all" {% if channel.ingestion_mode == 'all' %}selected{% endif %}>Ingest All - Auto-import all videos</option>
-                    <option value="new_only" {% if channel.ingestion_mode == 'new_only' or not channel.ingestion_mode %}selected{% endif %}>New Only - RSS discovered videos</option>
-                    <option value="selected" {% if channel.ingestion_mode == 'selected' %}selected{% endif %}>Selected - Manual curation only</option>
+                    <option value="new_only" {% if channel.ingestion_mode == 'new_only' or not channel.ingestion_mode %}selected{% endif %}>New Only</option>
+                    <option value="last_3_months" {% if channel.ingestion_mode == 'last_3_months' %}selected{% endif %}>Last 3 Months</option>
+                    <option value="last_year" {% if channel.ingestion_mode == 'last_year' %}selected{% endif %}>Last Year</option>
+                    <option value="all" {% if channel.ingestion_mode == 'all' %}selected{% endif %}>All</option>
+                    <option value="selected" {% if channel.ingestion_mode == 'selected' %}selected{% endif %}>Selected</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Content Types</label>
+                <div class="flex gap-10" style="flex-wrap:wrap"><label><input id="channel-include-videos" type="checkbox" {% if channel.include_videos is not sameas false %}checked{% endif %}> Videos</label><label><input id="channel-include-lives" type="checkbox" {% if channel.include_lives is not sameas false %}checked{% endif %}> Lives</label><label><input id="channel-include-shorts" type="checkbox" {% if channel.include_shorts is not sameas false %}checked{% endif %}> Shorts</label></div>
             </div>
 
             <div class="form-group">
@@ -169,6 +177,8 @@ const channelId = '{{ channel.id }}';
 let videos = [];
 let selectedIds = new Set();
 let videoLimit = 50;
+let selectedDomain = {{ (channel.domain or 'general')|tojson }};
+let knownDomains = ['ai-tech', 'mindset', 'business', 'general', 'faith', 'political', 'health'];
 
 function escapeHtml(text) {
     if (!text) return '';
@@ -400,7 +410,7 @@ async function skipSelected() {
 
 async function updateSettings() {
     const name = document.getElementById('channel-name').value.trim();
-    const domain = document.getElementById('channel-domain').value.trim();
+    const domain = document.getElementById('channel-domain').value.trim() || selectedDomain;
     const isActive = document.getElementById('channel-active').checked;
     const mode = document.getElementById('ingestion-mode').value;
     const limit = parseInt(document.getElementById('backfill-limit').value) || 100;
@@ -414,7 +424,7 @@ async function updateSettings() {
         const channelResponse = await fetch(urlPrefix + '/api/v1/channels/' + channelId, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({name: name, domain: domain || null, is_active: isActive, ingestion_mode: mode})
+            body: JSON.stringify({name: name, domain: domain || 'general', is_active: isActive, ingestion_mode: mode, include_videos: document.getElementById('channel-include-videos').checked, include_lives: document.getElementById('channel-include-lives').checked, include_shorts: document.getElementById('channel-include-shorts').checked})
         });
         const channelData = await channelResponse.json();
         if (!channelResponse.ok) throw new Error(channelData.error || 'Could not update channel');
@@ -432,6 +442,28 @@ async function updateSettings() {
         alert('Error saving settings: ' + err.message);
     }
 }
+
+function renderDomainTags() {
+    const container = document.getElementById('channel-domain-tags');
+    container.replaceChildren();
+    knownDomains.forEach(domain => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-sm ' + (domain === selectedDomain ? '' : 'btn-secondary');
+        button.textContent = domain;
+        button.onclick = function() { selectedDomain = domain; document.getElementById('channel-domain').value = ''; renderDomainTags(); };
+        container.appendChild(button);
+    });
+}
+
+async function loadDomainTags() {
+    try {
+        const stats = await fetch(urlPrefix + '/api/v1/channels/stats').then(r => r.json());
+        (stats.by_domain || []).forEach(d => { if (d.domain && !knownDomains.includes(d.domain)) knownDomains.push(d.domain); });
+    } finally { renderDomainTags(); }
+}
+
+document.getElementById('channel-domain').addEventListener('input', function() { if (this.value.trim()) { selectedDomain = ''; renderDomainTags(); } });
 
 async function triggerBackfill() {
     const count = parseInt(document.getElementById('import-count').value) || 20;
@@ -467,6 +499,7 @@ function loadMoreVideos() {
 }
 
 // Load videos on page load
+loadDomainTags();
 loadVideos();
 </script>
 {% endblock %}
