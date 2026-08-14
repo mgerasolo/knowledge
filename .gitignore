@@ -56,3 +56,7 @@ src/admin/static/vendor/
 
 # Timestamped hand-made backups (docker-compose.yml.bak.20260808 and friends)
 *.bak.*
+.bmad-loop/runs/
+.bmad-loop/cache/
+.bmad-loop/policy.toml
+_bmad/render/
