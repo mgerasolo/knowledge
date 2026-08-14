@@ -72,9 +72,14 @@ def get_embeddings(texts: list[str], kind: str = "document") -> list[Optional[li
             )
             if response.ok:
                 data = sorted(response.json()["data"], key=lambda d: d["index"])
-                out.extend(d["embedding"] for d in data)
-                continue
-            print(f"Embedding batch error: HTTP not ok")
+                # Indices must be exactly 0..n-1 — anything else risks pairing
+                # a vector with the wrong text, which is silent corruption.
+                if [d["index"] for d in data] == list(range(len(batch))):
+                    out.extend(d["embedding"] for d in data)
+                    continue
+                print("Embedding batch error: malformed indices")
+            else:
+                print("Embedding batch error: HTTP not ok")
         except Exception as e:
             print(f"Embedding batch error: {e}")
         out.extend([None] * len(batch))

@@ -179,6 +179,30 @@ def with_retries(fn, tries: int = 5, base_delay: float = 2.0):
     return None
 
 
+def write_updates(statements: list, per_request: int = UPDATES_PER_REQUEST,
+                  surreal_fn=None):
+    """Write update statements, halving the request size on a body-limit
+    rejection (HTTP 413 surfaces as a transport-level None here) instead of
+    retrying the same size forever. Returns (ok, error)."""
+    do = surreal_fn or surreal
+    for req in chunked_requests(statements, per_request):
+        payload = do(req)
+        if payload is not None and not statement_errors(payload):
+            continue
+        if payload is None and per_request > 1:
+            # Could be a size limit — split this bundle and recurse.
+            sub = [s for s in req.splitlines() if s.strip()]
+            ok, err = write_updates(sub, per_request=max(1, per_request // 2),
+                                    surreal_fn=surreal_fn)
+            if not ok:
+                return False, err
+            continue
+        errs = statement_errors(payload) if payload is not None else \
+            ["SurrealDB unreachable or rejected the request"]
+        return False, errs[0]
+    return True, None
+
+
 # --------------------------------------------------------------------------
 # Gateway
 # --------------------------------------------------------------------------
@@ -196,10 +220,12 @@ def gateway_embed(texts: list) -> list | None:
         )
         if r.ok:
             data = sorted(r.json()["data"], key=lambda d: d["index"])
-            vecs = [d["embedding"] for d in data]
-            if len(vecs) == len(texts):
-                return vecs
-            print(f"  gateway returned {len(vecs)} vectors for {len(texts)} texts",
+            # Indices must be EXACTLY 0..n-1. A duplicate/missing/out-of-range
+            # index with the right total count would silently pair vectors
+            # with the wrong segments — permanent corpus corruption.
+            if [d["index"] for d in data] == list(range(len(texts))):
+                return [d["embedding"] for d in data]
+            print(f"  gateway returned malformed indices for {len(texts)} texts",
                   flush=True)
             return None
         print(f"  gateway HTTP {r.status_code}: {r.text[:200]}", flush=True)
@@ -341,11 +367,10 @@ def main() -> int:
 
         updates = update_statements(
             [{"id": r["id"], "embedding": v} for r, v in zip(rows, vectors)])
-        for req in chunked_requests(updates):
-            err = statement_errors(surreal(req))
-            if err:
-                print(f"FATAL: segment update rejected: {err[0]} (exit 2)")
-                return 2
+        ok, err = write_updates(updates)
+        if not ok:
+            print(f"FATAL: segment update rejected: {err} (exit 2)")
+            return 2
 
         done += len(rows)
         rate = done / max(1e-9, time.time() - started)

@@ -102,6 +102,76 @@ def test_backoff_stops_early_on_success(monkeypatch):
     assert sleeps == [1, 2]
 
 
+def test_gateway_rejects_malformed_indices(monkeypatch):
+    """Duplicate/missing indices with the RIGHT total count must be refused —
+    zip-pairing them would silently attach vectors to the wrong segments."""
+    class Resp:
+        ok = True
+
+        def json(self):
+            return {'data': [{'index': 0, 'embedding': [0.1]},
+                             {'index': 0, 'embedding': [0.2]}]}  # dup index
+
+    class FakeReq:
+        exceptions = bf.requests.exceptions
+
+        @staticmethod
+        def post(*a, **k):
+            return Resp()
+
+    monkeypatch.setattr(bf, 'requests', FakeReq)
+    assert bf.gateway_embed(['a', 'b']) is None
+
+
+def test_gateway_accepts_exact_indices(monkeypatch):
+    class Resp:
+        ok = True
+
+        def json(self):
+            return {'data': [{'index': 1, 'embedding': [0.2]},
+                             {'index': 0, 'embedding': [0.1]}]}
+
+    class FakeReq:
+        exceptions = bf.requests.exceptions
+
+        @staticmethod
+        def post(*a, **k):
+            return Resp()
+
+    monkeypatch.setattr(bf, 'requests', FakeReq)
+    assert bf.gateway_embed(['a', 'b']) == [[0.1], [0.2]]
+
+
+def test_write_updates_halves_on_body_limit():
+    """A size-rejected bundle splits and retries smaller instead of retrying
+    the identical request forever (the live 413 failure mode)."""
+    sizes = []
+
+    def fake_surreal(req):
+        n = len([l for l in req.splitlines() if l.strip()])
+        sizes.append(n)
+        if n > 5:
+            return None            # simulated body-limit rejection
+        return [{'status': 'OK', 'result': []}]
+
+    stmts = bf.update_statements(
+        [{'id': f'segment:{i}', 'embedding': [0.1]} for i in range(20)])
+    ok, err = bf.write_updates(stmts, per_request=20, surreal_fn=fake_surreal)
+    assert ok, err
+    assert max(sizes) == 20 and max(s for s in sizes if s <= 5) <= 5
+    assert sum(s for s in sizes if s <= 5) == 20    # every statement landed
+
+
+def test_write_updates_reports_statement_errors():
+    def fake_surreal(req):
+        return [{'status': 'ERR', 'result': 'schema rejection'}]
+
+    ok, err = bf.write_updates(['UPDATE segment:a SET embedding = [0.1];'],
+                               per_request=10, surreal_fn=fake_surreal)
+    assert ok is False
+    assert 'schema rejection' in err
+
+
 def test_remaining_count_parser():
     payload = [{'status': 'OK', 'result': [{'count': 42}]}]
     assert bf.count_from_payload(payload) == 42

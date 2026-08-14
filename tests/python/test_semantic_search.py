@@ -107,8 +107,9 @@ def test_domain_filter_escaped_and_anded_before_knn(srch, monkeypatch):
 
 def test_results_scored_titled_and_ordered(srch, monkeypatch):
     rows = real_rows()
-    vids = [{'youtube_id': s['video_youtube_id'], 'title': f"title-{i}"}
-            for i, s in enumerate(FIXTURE['segments'])]
+    title_of = {s['video_youtube_id']: f"title-for-{s['video_youtube_id']}"
+                for s in FIXTURE['segments']}
+    vids = [{'youtube_id': vid, 'title': t} for vid, t in title_of.items()]
     fake = FakeSurreal(seg_rows=rows, video_rows=vids)
     monkeypatch.setattr(srch, 'surreal_query', fake)
 
@@ -118,7 +119,8 @@ def test_results_scored_titled_and_ordered(srch, monkeypatch):
     for r, row in zip(out['results'], rows):
         assert r['score'] == round(1.0 - row['dist'], 4)
         assert r['text'] == row['text']
-        assert r['video_title'].startswith('title-')
+        # each result must carry the title of ITS OWN video, not just any title
+        assert r['video_title'] == title_of[r['video_youtube_id']]
     scores = [r['score'] for r in out['results']]
     assert scores == sorted(scores, reverse=True)
     assert out['model']  # the configured model alias travels with results

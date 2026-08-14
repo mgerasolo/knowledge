@@ -111,7 +111,9 @@ def search_route():
     """
     data = request.get_json(silent=True)
 
-    if not data or not str(data.get('query', '')).strip():
+    # A JSON array/string/number is valid JSON but not a valid request —
+    # without this check it would 500 on .get() instead of the promised 400.
+    if not isinstance(data, dict) or not str(data.get('query', '')).strip():
         return jsonify({'error': 'Missing query', 'success': False}), 400
 
     query = str(data['query']).strip()

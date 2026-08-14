@@ -129,6 +129,27 @@ def test_batch_gateway_failure_returns_none_per_text(emb, monkeypatch):
     assert emb.get_embeddings(['a', 'b', 'c']) == [None, None, None]
 
 
+def test_batch_malformed_indices_rejected(emb, monkeypatch):
+    """Right count, wrong indices — must yield Nones, never mispair."""
+    class BadIndexRequests(FakeRequests):
+        def post(self, url, headers=None, json=None, timeout=None):
+            self.calls.append({'url': url, 'json': json})
+
+            class Resp:
+                ok = True
+
+                def json(_self):
+                    return {'data': [
+                        {'index': 0, 'embedding': [0.1] * 4},
+                        {'index': 0, 'embedding': [0.2] * 4},  # duplicate
+                    ]}
+
+            return Resp()
+
+    monkeypatch.setattr(emb, 'requests', BadIndexRequests())
+    assert emb.get_embeddings(['a', 'b']) == [None, None]
+
+
 def _real_video_payload():
     """A payload built from the frozen REAL fixture segments."""
     segs = FIXTURE['segments'][:3]

@@ -36,6 +36,15 @@ def test_no_body_is_400(stack):
     assert resp.status_code == 400
 
 
+@pytest.mark.parametrize('body', ['[]', '"just a string"', '1', '[1,2,3]'])
+def test_non_object_json_is_400_not_500(stack, body):
+    """Valid JSON that isn't an object must hit the 400 contract, not crash."""
+    _, _, client = stack
+    resp = client.post('/api/search', data=body,
+                       content_type='application/json')
+    assert resp.status_code == 400
+
+
 def test_gateway_down_is_retryable_503(stack, monkeypatch):
     srch, appm, client = stack
 
