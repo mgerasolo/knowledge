@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?channel_id=UC_x5XG1OV2P6uZZ5FSM9Ttw"/>
+ <id>yt:channel:_x5XG1OV2P6uZZ5FSM9Ttw</id>
+ <yt:channelId>_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+ <title>Google for Developers</title>
+ <link rel="alternate" href="https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw"/>
+ <author>
+  <name>Google for Developers</name>
+  <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+ </author>
+ <published>2007-08-23T00:34:43+00:00</published>
+ <entry>
+  <id>yt:video:AcZINTsuIWI</id>
+  <yt:videoId>AcZINTsuIWI</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Can you predict if this code will compile in C#? Go!</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=AcZINTsuIWI"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-23T22:00:08+00:00</published>
+  <updated>2024-12-25T08:42:09+00:00</updated>
+  <media:group>
+   <media:title>Can you predict if this code will compile in C#? Go!</media:title>
+   <media:content url="https://www.youtube.com/v/AcZINTsuIWI?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i2.ytimg.com/vi/AcZINTsuIWI/hqdefault.jpg" width="480" height="360"/>
+   <media:description>C# devs, we've got a new challenge for you! Can you predict the output of this code snippet involving interfaces and default implementations? Share your thoughts in the comments!
+
+Subscribe to Google for Developers → https://goo.gle/developers 
+
+Speaker: M.E Francis</media:description>
+   <media:community>
+    <media:starRating count="70" average="5.00" min="1" max="5"/>
+    <media:statistics views="3406"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:gbObKqfqdlM</id>
+  <yt:videoId>gbObKqfqdlM</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Multimodal Live API demo: GenList</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=gbObKqfqdlM"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-19T19:23:20+00:00</published>
+  <updated>2024-12-22T03:20:30+00:00</updated>
+  <media:group>
+   <media:title>Multimodal Live API demo: GenList</media:title>
+   <media:content url="https://www.youtube.com/v/gbObKqfqdlM?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/gbObKqfqdlM/hqdefault.jpg" width="480" height="360"/>
+   <media:description>The Multimodal Live API lets developers build real-time multimodal applications using Gemini 2.0 Flash Experimental. This is a starter demo that shows how you can call external APIs as part of your streaming application. Start building with Gemini 2.0 at ai.google.dev. 
+
+Resources:
+Read our Gemini 2.0 developer blog post→https://goo.gle/3Bl23dQ 
+Get the code for this demo at →https://goo.gle/3ZOoUbd
+
+Subscribe to Google for Developers → https://goo.gle/developers  
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="159" average="5.00" min="1" max="5"/>
+    <media:statistics views="3692"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:5ssUg1dk1r0</id>
+  <yt:videoId>5ssUg1dk1r0</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Vite Vere - Empowering independence with Gemini Flash</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=5ssUg1dk1r0"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-18T22:53:21+00:00</published>
+  <updated>2024-12-20T07:50:47+00:00</updated>
+  <media:group>
+   <media:title>Vite Vere - Empowering independence with Gemini Flash</media:title>
+   <media:content url="https://www.youtube.com/v/5ssUg1dk1r0?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i2.ytimg.com/vi/5ssUg1dk1r0/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Vite Vere is a generative AI app that harness the power of cutting-edge multimodal capabilities to help users with cognitive disabilities become more independent. See how Guido, the creator, took personal inspiration and made it come to life with Gemini Flash and Flutter.
+
+Resources:
+Start building with Gemini API → https://goo.gle/4fcV2cV 
+Check out more stories of developers building with Gemini models → https://goo.gle/49INT2O 
+
+Subscribe to Google for Developers → https://goo.gle/developers 
+
+#GoogleAI #BuildwithGemini #FlutterinProduction
+
+Products Mentioned: Gemini, Gemini 1.5 Flash,</media:description>
+   <media:community>
+    <media:starRating count="142" average="5.00" min="1" max="5"/>
+    <media:statistics views="3820"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:Mot-JEU26GQ</id>
+  <yt:videoId>Mot-JEU26GQ</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Building with Gemini 2.0: Video understanding</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=Mot-JEU26GQ"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-16T20:54:16+00:00</published>
+  <updated>2024-12-21T13:33:00+00:00</updated>
+  <media:group>
+   <media:title>Building with Gemini 2.0: Video understanding</media:title>
+   <media:content url="https://www.youtube.com/v/Mot-JEU26GQ?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i2.ytimg.com/vi/Mot-JEU26GQ/hqdefault.jpg" width="480" height="360"/>
+   <media:description>We’ve introduced an interactive video player in AI Studio that makes it easier to test prompts and explore results. Watch this demo of how you can use it to search within your videos. Start building with Gemini 2.0 at aistudio.google.com. 
+
+Resources: 
+Learn more about Gemini 2.0 → https://goo.gle/4gwHlq3 
+Read our Gemini 2.0 launch blog post → https://goo.gle/4g6G6OD 
+Read our Developer blog post →https://goo.gle/3Bl23dQ 
+Get the code → https://goo.gle/4gCRWQr 
+
+Subscribe to Google for Developers → https://goo.gle/developers 
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="564" average="5.00" min="1" max="5"/>
+    <media:statistics views="14891"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:btFVpfCa4HQ</id>
+  <yt:videoId>btFVpfCa4HQ</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Relive DevFest Lleida!</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=btFVpfCa4HQ"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-14T00:00:32+00:00</published>
+  <updated>2024-12-16T22:49:42+00:00</updated>
+  <media:group>
+   <media:title>Relive DevFest Lleida!</media:title>
+   <media:content url="https://www.youtube.com/v/btFVpfCa4HQ?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/btFVpfCa4HQ/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Join us as we relive the excitement of DevFest Lleida! Packed with inspiring talks, hands-on workshops, and incredible networking opportunities, this recap takes you through all the highlights. Get a glimpse into the energy and innovation that defined DevFest Lleida.
+
+Resources: 
+Register for DevFest 2024  https://goo.gle/devfest
+
+Subscribe to Google for Developers → https://goo.gle/developers</media:description>
+   <media:community>
+    <media:starRating count="36" average="5.00" min="1" max="5"/>
+    <media:statistics views="1173"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:LAI2PY1ktVo</id>
+  <yt:videoId>LAI2PY1ktVo</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>So, what is DevFest?</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=LAI2PY1ktVo"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-13T20:00:10+00:00</published>
+  <updated>2024-12-16T22:36:50+00:00</updated>
+  <media:group>
+   <media:title>So, what is DevFest?</media:title>
+   <media:content url="https://www.youtube.com/v/LAI2PY1ktVo?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i1.ytimg.com/vi/LAI2PY1ktVo/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Ever wondered what DevFest is like in real life? Check out this video for a brief yet comprehensive overview of the activities and opportunities this event provides. 
+
+Resources: 
+Register for DevFest 2024  https://goo.gle/devfest
+
+Subscribe to Google for Developers → https://goo.gle/developers</media:description>
+   <media:community>
+    <media:starRating count="79" average="5.00" min="1" max="5"/>
+    <media:statistics views="1945"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:vU3sSCYawQ4</id>
+  <yt:videoId>vU3sSCYawQ4</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>We’ve all been here, right?</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=vU3sSCYawQ4"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-13T17:01:05+00:00</published>
+  <updated>2024-12-22T08:17:57+00:00</updated>
+  <media:group>
+   <media:title>We’ve all been here, right?</media:title>
+   <media:content url="https://www.youtube.com/v/vU3sSCYawQ4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/vU3sSCYawQ4/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Hello world = hello, new language.
+
+Subscribe to Google for Developers → https://goo.gle/developers</media:description>
+   <media:community>
+    <media:starRating count="209" average="5.00" min="1" max="5"/>
+    <media:statistics views="3915"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:37ZPM_5fyWc</id>
+  <yt:videoId>37ZPM_5fyWc</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Gemini 2.0 for developers</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=37ZPM_5fyWc"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-12T20:03:43+00:00</published>
+  <updated>2024-12-20T00:18:11+00:00</updated>
+  <media:group>
+   <media:title>Gemini 2.0 for developers</media:title>
+   <media:content url="https://www.youtube.com/v/37ZPM_5fyWc?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/37ZPM_5fyWc/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Discover Gemini 2.0, the latest of Google’s multimodal AI models. This model is capable of generating native image and audio output and includes enhanced spatial understanding, and tool usage (Google Search, code execution and function calling). Explore the new Multimodal Live API allowing developers to build real-time, multimodal applications with audio and video-streaming inputs from cameras or screens. Try Gemini 2.0 Flash (experimental) in Gemini API, Google AI Studio and VertexAI. 
+
+Chapters:
+0:00 - Gemini 2.0 Developer Announcement 
+0:41 - Multimodal Live API 
+3:58 - Multilingual native audio out 
+5:25 - Gemini 2.0 features 
+6:11 - Start building with Gemini 2.0
+
+Resources:
+Try Gemini 2.0 Flash (experimental)
+        Google AI Studio → https://goo.gle/3Zq1oQ4 
+        Gemini API → https://goo.gle/3VBOqhg 
+        VertexAI → https://goo.gle/3ONYf82 
+
+Try code examples for Gemini 2.0 Flash
+       Gemini 2.0 Flash (experimental) docs → https://goo.gle/4fdeoi2 
+       Gemini 2.0 cookbook → https://goo.gle/3VBOEVE 
+       Multimodal Live API - Quickstart → https://goo.gle/3ZQkwZ2 
+       Multimodal Live API: Streaming in Colab → https://goo.gle/3Zq2jQw 
+       Multimodal Live API - Web console → https://goo.gle/3ZOeKqT 
+
+Watch videos on Gemini 2.0:
+     Building with Gemini 2.0:
+Multimodal Live API → https://goo.gle/49ATto3 
+Spatial understanding → https://goo.gle/3OPqIKL 
+Native tool use → https://goo.gle/3VyOZIF 
+Native audio out → https://goo.gle/3Zz7Vbf 
+Native image out → https://goo.gle/4ivB7c2 
+      Multimodal Live API: 
+React.js console → https://goo.gle/4gxaUYQ 
+GenExplainer → https://goo.gle/3VwhKG0 
+GenWeather → https://goo.gle/3ORAig1 
+     Behind the Scenes: Gemini 2.0 → https://goo.gle/3ZwGGOH 
+
+Follow the new “Google AI for Developers” social channels
+        X → https://goo.gle/4fhJx3T 
+        LinkedIn → https://goo.gle/4iySvfV 
+
+Subscribe to Google for Developers → https://goo.gle/developers 
+
+
+#GoogleAI #Gemini
+
+
+Products Mentioned: Gemini 2.0, Google AI Studio, Gemini API, Vertex AI</media:description>
+   <media:community>
+    <media:starRating count="1602" average="5.00" min="1" max="5"/>
+    <media:statistics views="57024"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:J_q7JY1XxFE</id>
+  <yt:videoId>J_q7JY1XxFE</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Multimodal Live API demo: React.js console</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=J_q7JY1XxFE"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T18:36:35+00:00</published>
+  <updated>2024-12-19T12:52:52+00:00</updated>
+  <media:group>
+   <media:title>Multimodal Live API demo: React.js console</media:title>
+   <media:content url="https://www.youtube.com/v/J_q7JY1XxFE?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/J_q7JY1XxFE/hqdefault.jpg" width="480" height="360"/>
+   <media:description>The Multimodal Live API lets developers build real-time multimodal applications powered by Gemini 2.0 Flash. This is a demo of an open-source React.js boilerplate for web developers to get started building their own real-time applications. Start building with Gemini 2.0 at ai.google.dev.
+
+Read our Gemini 2.0 developer blog post → https://goo.gle/3Bl23dQ 
+Get the code for this demo at → https://goo.gle/3ZOoUbd
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="143" average="5.00" min="1" max="5"/>
+    <media:statistics views="6702"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:J62TUCRapR8</id>
+  <yt:videoId>J62TUCRapR8</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Multimodal Live API demo: GenExplainer</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=J62TUCRapR8"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T18:35:53+00:00</published>
+  <updated>2024-12-20T08:23:56+00:00</updated>
+  <media:group>
+   <media:title>Multimodal Live API demo: GenExplainer</media:title>
+   <media:content url="https://www.youtube.com/v/J62TUCRapR8?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/J62TUCRapR8/hqdefault.jpg" width="480" height="360"/>
+   <media:description>The Multimodal Live API lets developers build real-time multimodal applications powered by Gemini 2.0 Flash. In this starter demo, you can pick any topic, then have it explained to you in a variety of fun styles through real-time conversation. Start building with Gemini 2.0 at ai.google.dev. 
+
+Read our Gemini 2.0 developer blog post→https://goo.gle/3Bl23dQ 
+Get the code for this demo at → https://goo.gle/3ZOoUbd
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="114" average="5.00" min="1" max="5"/>
+    <media:statistics views="4709"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:n8Dz2GA2hDc</id>
+  <yt:videoId>n8Dz2GA2hDc</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Multimodal Live API demo: GenWeather</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=n8Dz2GA2hDc"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T18:35:27+00:00</published>
+  <updated>2024-12-22T07:06:58+00:00</updated>
+  <media:group>
+   <media:title>Multimodal Live API demo: GenWeather</media:title>
+   <media:content url="https://www.youtube.com/v/n8Dz2GA2hDc?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i3.ytimg.com/vi/n8Dz2GA2hDc/hqdefault.jpg" width="480" height="360"/>
+   <media:description>The Multimodal Live API lets developers build real-time multimodal applications powered by Gemini 2.0 Flash. This is a starter demo that shows how you can call external APIs as part of your streaming application. Start building with Gemini 2.0 at ai.google.dev. 
+
+Read our Gemini 2.0 developer blog post → https://goo.gle/3Bl23dQ 
+Get the code for this demo at → https://goo.gle/3ZOoUbd
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="142" average="5.00" min="1" max="5"/>
+    <media:statistics views="5980"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:L7dw799vu5o</id>
+  <yt:videoId>L7dw799vu5o</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Behind the Scenes of Gemini 2.0</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=L7dw799vu5o"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T15:59:04+00:00</published>
+  <updated>2024-12-20T05:47:23+00:00</updated>
+  <media:group>
+   <media:title>Behind the Scenes of Gemini 2.0</media:title>
+   <media:content url="https://www.youtube.com/v/L7dw799vu5o?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i1.ytimg.com/vi/L7dw799vu5o/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Tulsee Doshi, Gemini model product lead, joins host Logan Kilpatrick to go behind the scenes of Gemini 2.0, taking a deep dive into the model's multimodal capabilities and native tool use, and Google's approach to shipping experimental models.
+
+Read more in the blog → https://goo.gle/3OR4Y16 
+
+Test and explore an experimental version of Gemini 2.0 Flash via:
+Gemini API→https://goo.gle/4fcV2cV 
+Google AI Studio → https://goo.gle/3QwNgkD 
+Vertex AI → https://goo.gle/4g8rM8t 
+
+Listen to this podcast: 
+Apple Podcasts → https://goo.gle/3Bm7QzQ 
+Spotify → https://goo.gle/3ZL3ADl 
+
+Chapters: 
+0:00 - Intro
+1:01- Meet Tulsee Doshi
+1:14 - Gemini's Progress Over the Past Year
+4:59 - Introducing Gemini 2.0
+7:47 - Shipping Experimental Models
+12:32 - Gemini 2.0’s Native Tool Use
+18:58 - Function Calling
+25:58 - Multimodal Agents
+31:40 - Rapid Fire Questions
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Product: Gemini</media:description>
+   <media:community>
+    <media:starRating count="511" average="5.00" min="1" max="5"/>
+    <media:statistics views="15261"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:9hE5-98ZeCg</id>
+  <yt:videoId>9hE5-98ZeCg</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Building with Gemini 2.0: Multimodal live streaming</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=9hE5-98ZeCg"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T15:27:27+00:00</published>
+  <updated>2024-12-19T19:08:42+00:00</updated>
+  <media:group>
+   <media:title>Building with Gemini 2.0: Multimodal live streaming</media:title>
+   <media:content url="https://www.youtube.com/v/9hE5-98ZeCg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i2.ytimg.com/vi/9hE5-98ZeCg/hqdefault.jpg" width="480" height="360"/>
+   <media:description>The Multimodal Live API lets you build real-time multimodal applications using Gemini 2.0 Flash Experimental. Watch this demo to see how this new capability can help developers build AI agents, and start building with Gemini 2.0 at aistudio.google.com. 
+
+Resources:
+Learn more about Gemini 2.0 → https://goo.gle/4gwHlq3
+Read our Gemini 2.0 launch blog post →https://goo.gle/4g6G6OD 
+Read our Developer blog post →https://goo.gle/3Bl23dQ 
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="493" average="5.00" min="1" max="5"/>
+    <media:statistics views="26944"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:7RqFLp0TqV0</id>
+  <yt:videoId>7RqFLp0TqV0</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Building with Gemini 2.0: Native image output</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=7RqFLp0TqV0"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T15:27:01+00:00</published>
+  <updated>2024-12-19T16:48:48+00:00</updated>
+  <media:group>
+   <media:title>Building with Gemini 2.0: Native image output</media:title>
+   <media:content url="https://www.youtube.com/v/7RqFLp0TqV0?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/7RqFLp0TqV0/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Gemini 2.0 can now natively generate images as part of your conversation. Watch this demo to see how this new capability can help developers build multimodal AI agents. These new output modalities are available to early testers, with wider rollout expected next year. Start building with Gemini 2.0 at aistudio.google.com. 
+
+Resources:
+Learn more about Gemini 2.0 →https://goo.gle/4gwHlq3 
+Read our Gemini 2.0 launch blog post → https://goo.gle/4g6G6OD 
+Read our Developer blog post →https://goo.gle/3Bl23dQ
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="1988" average="5.00" min="1" max="5"/>
+    <media:statistics views="71687"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:EVzeutiojWs</id>
+  <yt:videoId>EVzeutiojWs</yt:videoId>
+  <yt:channelId>UC_x5XG1OV2P6uZZ5FSM9Ttw</yt:channelId>
+  <title>Building with Gemini 2.0: Native tool use</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=EVzeutiojWs"/>
+  <author>
+   <name>Google for Developers</name>
+   <uri>https://www.youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw</uri>
+  </author>
+  <published>2024-12-11T15:26:37+00:00</published>
+  <updated>2024-12-19T07:18:43+00:00</updated>
+  <media:group>
+   <media:title>Building with Gemini 2.0: Native tool use</media:title>
+   <media:content url="https://www.youtube.com/v/EVzeutiojWs?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i2.ytimg.com/vi/EVzeutiojWs/hqdefault.jpg" width="480" height="360"/>
+   <media:description>Gemini 2.0 is natively built to use tools like Google Search and code execution. Watch this demo to see how this new capability can help developers build multimodal AI agents. Start building with Gemini 2.0 at aistudio.google.com. 
+
+Learn more about Gemini 2.0 → https://goo.gle/4gwHlq3
+Read our Gemini 2.0 launch blog post →https://goo.gle/4g6G6OD 
+Read our Developer blog post → https://goo.gle/3Bl23dQ 
+Get the code for this demo at → https://goo.gle/3ZOoUbd
+
+Subscribe to Google for Developers → https://goo.gle/developers
+
+Products Mentioned: Gemini</media:description>
+   <media:community>
+    <media:starRating count="449" average="5.00" min="1" max="5"/>
+    <media:statistics views="26860"/>
+   </media:community>
+  </media:group>
+ </entry>
+</feed>
