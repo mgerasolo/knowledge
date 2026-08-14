@@ -37,7 +37,9 @@ the main pipeline.
 
 | Date | Lesson | Suggested core change | Filed as |
 |------|--------|----------------------|----------|
-| _(none yet — build not started)_ | | | |
+| 2026-08-14 | Pre-build audit: **0 of 327,402 segments have embeddings** — entire library semantically unsearchable; silent failure (embedder writes NONE and continues) | Fix embedding config, backfill (Myron channels first), add embedding-coverage metric to status API, then vector index | [#44](https://github.com/mgerasolo/knowledge/issues/44) |
+| 2026-08-14 | Pre-build audit: **all 4,458 videos have empty uploader** — metadata backfill never landed | Run/repair metadata backfill; add metadata-coverage metric | [#45](https://github.com/mgerasolo/knowledge/issues/45) |
+| 2026-08-14 | Personality corpus needs guest appearances, but pipeline is channel-only | Single-video enrollment endpoint + per-video personality tagging | [#46](https://github.com/mgerasolo/knowledge/issues/46) |
 
 ## 4. Chronological Findings
 
@@ -52,3 +54,11 @@ Raw discoveries as they happen, newest last.
   fallback on the same API.
 - grok-4 confirmed on the LiteLLM gateway during the January spike — re-verify at
   build time for the Tier-C ("AI extension") escalation model.
+
+### 2026-08-14 — Pre-build audit (before any spike code)
+- Probed the live store to verify spike prerequisites. Found the two silent gaps
+  above (#44, #45) — the spike would have returned zero search results on day one.
+  Lesson for the core system: quality coverage (embeddings %, metadata %) must be
+  first-class health metrics; "ingested" is not "usable".
+- Handed to the parallel semantic-search/embeddings workstream via #44 (embedding
+  backfill + vector index are its domain; spike blocks on Myron-channel backfill only).
