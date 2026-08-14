@@ -36,6 +36,7 @@ sys.path.insert(0, "/app")
 
 from fetcher import (  # noqa: E402
     TranscriptBlocked,
+    ytdlp_base_cmd,
     _index_video,
     fetch_transcript,
     load_state,
@@ -63,8 +64,8 @@ def discover(handle: str, tabs=TABS) -> list[dict]:
     seen: dict[str, dict] = {}
     for tab in tabs:
         url = f"https://www.youtube.com/@{handle}/{tab}"
-        cmd = [
-            "yt-dlp", "--flat-playlist",
+        cmd = ytdlp_base_cmd() + [
+            "--flat-playlist",
             "--print", "%(id)s|%(title)s",
             url,
         ]
@@ -89,8 +90,8 @@ def discover(handle: str, tabs=TABS) -> list[dict]:
 
 def fetch_metadata(video_id: str) -> tuple[str, str]:
     """One yt-dlp call -> (upload_date, description). Empty strings on failure."""
-    cmd = [
-        "yt-dlp", "--skip-download",
+    cmd = ytdlp_base_cmd() + [
+        "--skip-download",
         "--print", "%(upload_date)s",
         "--print", "%(description)s",
         f"https://www.youtube.com/watch?v={video_id}",

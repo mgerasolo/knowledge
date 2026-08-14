@@ -21,6 +21,15 @@ class Config:
         'EMBEDDING_SERVICE_URL', 'http://knowledge-embedding:5030'
     )
 
+    # Outbound proxy for YouTube calls only (transcript API + yt-dlp).
+    # Set when YouTube rate-limits our own address; leave empty to go direct.
+    # Vendor-neutral: any http(s) proxy URL works, including a Webshare
+    # rotating-residential endpoint. Format: http://user:pass@host:port
+    # Deliberately NOT the standard HTTP_PROXY/HTTPS_PROXY vars, which would
+    # also send our internal SurrealDB and embedding-service traffic through a
+    # paid, metered, third-party hop.
+    YOUTUBE_PROXY_URL = os.getenv('YOUTUBE_PROXY_URL', '').strip()
+
     # Rate limiting (backfill worker)
     MIN_DELAY_SECONDS = int(os.getenv('MIN_DELAY_SECONDS', '30'))
     MAX_DELAY_SECONDS = int(os.getenv('MAX_DELAY_SECONDS', '600'))

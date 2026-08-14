@@ -10,6 +10,10 @@ services:
   # Admin API (Flask)
   # Connects to external PostgreSQL (knowledge-postgres on 5019)
   admin-api:
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     build: ./src/admin
     container_name: knowledge-admin-api
     restart: unless-stopped
@@ -51,6 +55,10 @@ services:
   # Embedding Service (Flask)
   # Connects to external SurrealDB (knowledgestack-surrealdb on 5040)
   embedding:
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     build: ./src/embedding
     container_name: knowledge-embedding
     restart: unless-stopped
@@ -83,6 +91,10 @@ services:
   # Transcript Service (Flask)
   # Fetches YouTube transcripts and discovers new videos for n8n workflows
   transcript-service:
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     build: ./src/transcript-service
     container_name: knowledge-transcript-service
     restart: unless-stopped
@@ -92,6 +104,12 @@ services:
       SERVICE_PORT: "5025"
       EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
+      # Empty by default: YouTube calls go out over our own connection, which is
+      # residential and normally fine. Set via scripts/set-youtube-proxy.sh when
+      # YouTube rate-limits us. Scoped to YouTube traffic only — deliberately not
+      # HTTP_PROXY, which would push internal SurrealDB and embedding-service
+      # calls through a metered third party too.
+      YOUTUBE_PROXY_URL: ${YOUTUBE_PROXY_URL:-}
       # Discovery had not run since 2026-03-22, leaving a real ~4.5-month
       # backlog of roughly 1,076 uploads across 51 channels (~4.7/channel/month,
       # which checks out). The default abort threshold of 500 is tuned to catch
@@ -122,6 +140,10 @@ services:
   # Landing Page (nginx)
   # Root page at knowledge.nextlevelfoundry.com/
   landing:
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     build: ./src/landing
     container_name: knowledge-landing
     restart: unless-stopped
