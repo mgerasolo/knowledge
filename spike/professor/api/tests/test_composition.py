@@ -33,17 +33,49 @@ def test_tier_parser_accepts_plain_fenced_and_wrapped_json(text):
     "text",
     [
         "not json",
-        '{"tiers":{"said":"bad","might_say":"x","extension":"y"}}',
-        '{"tiers":{"said":[{"text":"x","citations":[true]}],"might_say":"x","extension":"y"}}',
-        '{"tiers":{"said":[{"text":"x","citations":[]}],"might_say":"x","extension":"y"}}',
-        '{"tiers":{"said":[{"text":"   ","citations":[1]}],"might_say":"x","extension":"y"}}',
-        '{"tiers":{"said":[],"might_say":"x","extension":"   "}}',
-        '{"tiers":{"said":[],"might_say":[],"extension":"y"}}',
+        '["tiers"]',
+        '{"tiers":"not an object"}',
     ],
 )
 def test_tier_parser_rejects_invalid_contract(text):
     with pytest.raises(TierParseError):
         parse_tier_json(text)
+
+
+def test_tier_parser_degrades_shape_drift_without_failing_the_ask():
+    """Live 2026-08-14 hotfix contract: drifted shapes degrade, never 502.
+
+    Citation integrity is preserved — an uncited claim NEVER stays in Tier A;
+    it demotes to might_say.
+    """
+    # said as a bare string → demoted into might_say, said empty
+    tiers = parse_tier_json(
+        '{"tiers":{"said":"bad","might_say":"x","extension":"y"}}'
+    )
+    assert tiers["said"] == []
+    assert "bad" in tiers["might_say"]
+
+    # boolean/absent citations filter to none → claim demotes to might_say
+    for text in (
+        '{"tiers":{"said":[{"text":"claim","citations":[true]}],"might_say":"x","extension":"y"}}',
+        '{"tiers":{"said":[{"text":"claim","citations":[]}],"might_say":"x","extension":"y"}}',
+    ):
+        tiers = parse_tier_json(text)
+        assert tiers["said"] == []
+        assert "claim" in tiers["might_say"]
+
+    # blank claim text is dropped entirely
+    tiers = parse_tier_json(
+        '{"tiers":{"said":[{"text":"   ","citations":[1]}],"might_say":"x","extension":"y"}}'
+    )
+    assert tiers["said"] == []
+
+    # blank extension gets the default sentence; non-string might_say coerces
+    tiers = parse_tier_json(
+        '{"tiers":{"said":[],"might_say":[],"extension":"   "}}'
+    )
+    assert tiers["might_say"] == ""
+    assert tiers["extension"] == "No AI extension was generated for this answer."
 
 
 def test_citation_integrity_accepts_only_retrieved_numbers():
