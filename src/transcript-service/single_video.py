@@ -53,6 +53,12 @@ _URL_PATTERNS = [
 # will eventually be escaped wrong somewhere.
 TAG_RE = re.compile(r"^[a-z0-9][a-z0-9:._-]{0,79}$")
 
+# Domains are short slugs (business, faith, ai-tech). Validated for the same
+# reason tags are: the caller controls this value and it flows into SurrealQL
+# statements downstream — a domain that needs escaping is an attack, not a
+# domain (Codex review finding 1, 2026-08-14).
+DOMAIN_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,31}$")
+
 # Streams that have not finished have no captions YET. Enrolling one must say
 # "come back later", never "this video has no transcript" — the second gets
 # written to the permanent failed list and blacklists the video forever.
@@ -111,7 +117,7 @@ def normalize_tags(tags) -> list[str]:
     return cleaned
 
 
-def fetch_video_metadata(video_id: str) -> dict:
+def fetch_video_metadata(video_id: str) -> dict | None:
     """One yt-dlp call → everything the pipeline wants to know about the video.
 
     Unlike the channel path, a single enrollment has no channel config to lean
@@ -132,13 +138,26 @@ def fetch_video_metadata(video_id: str) -> dict:
               for f in fields), []),
         f"https://www.youtube.com/watch?v={video_id}",
     ]
+    # None means the LOOKUP failed (timeout, dead binary, network) — a
+    # retryable condition. An empty-title dict means yt-dlp ran fine and the
+    # VIDEO is unreadable. Collapsing the two turned every transient yt-dlp
+    # hiccup into a permanent-sounding 404 (Codex review finding 5).
     empty = {f: "" for f in fields}
     try:
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     except subprocess.TimeoutExpired:
-        return empty
+        return None
     if res.returncode != 0:
-        return empty
+        # yt-dlp exits non-zero for both "video is private/removed" and its
+        # own failures; its stderr names the first kind. Treat recognizably
+        # video-level errors as "unreadable", everything else as retryable.
+        stderr = (res.stderr or "").lower()
+        video_level = any(phrase in stderr for phrase in (
+            "private video", "video unavailable", "this video has been removed",
+            "account associated with this video has been terminated",
+            "video is not available",
+        ))
+        return empty if video_level else None
 
     lines = res.stdout.split("\n")
     out = dict(empty)
@@ -177,6 +196,26 @@ def _register_in_video_list(video: dict) -> None:
     save_video_list(video_list)
 
 
+def video_in_index(video_id: str):
+    """Is the video actually in the search index? True / False / None (can't tell).
+
+    The already-fetched path used to assume file-on-disk meant searchable.
+    Those are different stores: if the original indexing call failed, the
+    transcript exists only on disk and every future enrollment would have
+    reported success while search kept coming up empty (Codex review
+    finding 3). This check makes that state visible instead of silent.
+    """
+    try:
+        r = requests.get(
+            f"{Config.EMBEDDING_SERVICE_URL}/api/video/{video_id}", timeout=15
+        )
+    except Exception:
+        return None
+    if r.status_code == 404:
+        return False
+    return True if r.ok else None
+
+
 def push_tags(video_id: str, tags: list[str]) -> tuple[bool, str | None]:
     """Merge corpus tags onto the video's search-index record.
 
@@ -207,25 +246,41 @@ def enroll_video(video_ref: str, tags=None, domain: str = None) -> tuple[dict, i
 
     Outcomes a caller must be able to tell apart:
       200 — ingested (or already held; tags still applied)
-      404 — yt-dlp could not read the video at all (bad id, private, deleted)
+      404 — the video itself is unreadable (bad id, private, deleted)
       409 — a stream that has not finished; retry after it ends
       422 — readable video, but no captions exist
       429 — YouTube is rate-limiting caption requests; retry later
+      503 — the metadata lookup failed (our side / transient); retry later
     """
     video_id = extract_video_id(video_ref)
     tags = normalize_tags(tags)
-    domain = (domain or "general").strip() or "general"
+    domain = (domain or "general").strip().lower() or "general"
+    if not DOMAIN_RE.match(domain):
+        raise EnrollError(
+            f"invalid domain (want a short slug like business or ai-tech): {domain[:40]}"
+        )
 
     # Already in the library: don't re-fetch (caption requests are the
-    # rate-limited resource), just make sure the tags land.
+    # rate-limited resource), just make sure the tags land — and say honestly
+    # whether the search index actually holds the video, because "file on
+    # disk" and "searchable" are different stores that can disagree.
     state = load_state()
     if video_id in state.get("fetched", []):
+        indexed = video_in_index(video_id)
         result = {
             "success": True,
             "video_id": video_id,
             "already_fetched": True,
-            "message": "Already in the library — tags applied to the index",
         }
+        if indexed is False:
+            result["indexed"] = False
+            result["index_error"] = (
+                "held on disk but missing from the search index — replay it "
+                "with scripts/reindex_from_files.py"
+            )
+            result["message"] = "Already fetched, but NOT searchable — see index_error"
+        else:
+            result["message"] = "Already in the library — tags applied to the index"
         if tags:
             applied, err = push_tags(video_id, tags)
             result["tags_applied"] = applied
@@ -234,6 +289,14 @@ def enroll_video(video_ref: str, tags=None, domain: str = None) -> tuple[dict, i
         return result, 200
 
     metadata = fetch_video_metadata(video_id)
+    if metadata is None:
+        return {
+            "success": False,
+            "video_id": video_id,
+            "retryable": True,
+            "error": "metadata lookup failed (yt-dlp timeout or transient "
+                     "failure) — not a verdict on the video; retry later",
+        }, 503
     if not metadata.get("title"):
         return {
             "success": False,
