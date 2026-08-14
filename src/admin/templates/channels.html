@@ -6,13 +6,16 @@
     <h1>Channels</h1>
     <div class="flex gap-10">
         <button class="btn" onclick="openAddChannel()">Add Channel</button>
+        <button class="btn btn-secondary" onclick="openEnrollVideo()">Enroll Video</button>
         <select id="filter-domain" class="form-select" style="width:150px" onchange="loadChannels()">
             <option value="">All Domains</option>
         </select>
         <select id="filter-mode" class="form-select" style="width:150px" onchange="loadChannels()">
             <option value="">All Modes</option>
-            <option value="all">Ingest All</option>
             <option value="new_only">New Only</option>
+            <option value="last_3_months">Last 3 Months</option>
+            <option value="last_year">Last Year</option>
+            <option value="all">All</option>
             <option value="selected">Selected</option>
         </select>
         <input type="text" id="search" class="form-input" placeholder="Search channels..." style="width:200px" oninput="debounceSearch()">
@@ -26,12 +29,20 @@
         <form id="add-channel-form" onsubmit="createChannel(event)">
             <div class="form-group"><label class="form-label" for="new-handle">YouTube Handle</label><input id="new-handle" class="form-input" required placeholder="@channel"></div>
             <div class="form-group"><label class="form-label" for="new-name">Name</label><input id="new-name" class="form-input" required></div>
-            <div class="form-group"><label class="form-label" for="new-domain">Domain</label><input id="new-domain" class="form-input" placeholder="e.g. ai"></div>
-            <div class="form-group"><label class="form-label" for="new-mode">Ingestion Mode</label><select id="new-mode" class="form-select"><option value="all">Ingest All</option><option value="new_only" selected>New Only</option><option value="selected">Selected</option></select></div>
+            <div class="form-group"><label class="form-label">Domain</label><div id="new-domain-tags" class="flex gap-10" style="flex-wrap:wrap;margin-bottom:8px"></div><input id="new-domain" class="form-input" placeholder="New domain…" aria-label="New domain"></div>
+            <div class="form-group"><label class="form-label" for="new-mode">Ingestion Mode</label><select id="new-mode" class="form-select"><option value="new_only" selected>New Only</option><option value="last_3_months">Last 3 Months</option><option value="last_year">Last Year</option><option value="all">All</option><option value="selected">Selected</option></select></div>
+            <div class="form-group"><label class="form-label">Content Types</label><div class="flex gap-10" style="flex-wrap:wrap"><label><input id="new-include-videos" type="checkbox" checked> Videos</label><label><input id="new-include-lives" type="checkbox" checked> Lives</label><label><input id="new-include-shorts" type="checkbox" checked> Shorts</label></div></div>
             <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input id="new-active" type="checkbox" class="checkbox" checked> Active</label></div>
             <div id="add-channel-error" class="status-error" style="display:none;margin-bottom:12px"></div>
             <div class="flex gap-10"><button id="add-channel-submit" class="btn" type="submit">Add Channel</button><button class="btn btn-secondary" type="button" onclick="closeAddChannel()">Cancel</button></div>
         </form>
+    </div>
+</div>
+
+<div id="enroll-video-modal" role="dialog" aria-modal="true" aria-labelledby="enroll-video-title" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;padding:40px">
+    <div style="max-width:500px;margin:0 auto;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:28px">
+        <h2 id="enroll-video-title">Enroll Video</h2>
+        <form onsubmit="enrollVideo(event)"><div class="form-group"><label class="form-label" for="enroll-video-url">YouTube URL</label><input id="enroll-video-url" class="form-input" required placeholder="https://youtube.com/watch?v=…"></div><div id="enroll-video-status" style="display:none;margin-bottom:12px"></div><div class="flex gap-10"><button class="btn" type="submit">Enroll</button><button class="btn btn-secondary" type="button" onclick="closeEnrollVideo()">Cancel</button></div></form>
     </div>
 </div>
 
@@ -68,6 +79,10 @@ const urlPrefix = '{{ url_prefix }}';
 let currentOffset = 0;
 const limit = 25;
 let searchTimeout;
+let knownDomains = ['ai-tech', 'mindset', 'business', 'general', 'faith', 'political', 'health'];
+let selectedNewDomain = '';
+let resolvedChannelId = '';
+let resolvedThumbnail = '';
 
 function escapeHtml(text) {
     if (!text) return '';
@@ -132,10 +147,25 @@ async function loadDomains() {
     const stats = await fetch(urlPrefix + '/api/v1/channels/stats').then(r => r.json());
     const select = document.getElementById('filter-domain');
     stats.by_domain.forEach(d => {
+        if (d.domain && !knownDomains.includes(d.domain)) knownDomains.push(d.domain);
         const opt = document.createElement('option');
         opt.value = d.domain || '';
         opt.textContent = (d.domain || 'Uncategorized') + ' (' + d.count + ')';
         select.appendChild(opt);
+    });
+    renderDomainTags('new-domain-tags', selectedNewDomain, function(domain) { selectedNewDomain = domain; document.getElementById('new-domain').value = ''; });
+}
+
+function renderDomainTags(containerId, selected, onSelect) {
+    const container = document.getElementById(containerId);
+    container.replaceChildren();
+    knownDomains.forEach(domain => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-sm ' + (domain === selected ? '' : 'btn-secondary');
+        button.textContent = domain;
+        button.onclick = function() { onSelect(domain); renderDomainTags(containerId, domain, onSelect); };
+        container.appendChild(button);
     });
 }
 
@@ -153,6 +183,22 @@ function closeAddChannel() {
     document.getElementById('add-channel-error').style.display = 'none';
 }
 
+function openEnrollVideo() { document.getElementById('enroll-video-modal').style.display = 'block'; document.getElementById('enroll-video-url').focus(); }
+function closeEnrollVideo() { document.getElementById('enroll-video-modal').style.display = 'none'; document.getElementById('enroll-video-status').style.display = 'none'; }
+
+async function enrollVideo(event) {
+    event.preventDefault();
+    const status = document.getElementById('enroll-video-status');
+    status.style.display = 'block'; status.className = ''; status.textContent = 'Queueing…';
+    try {
+        const response = await fetch(urlPrefix + '/api/v1/videos/enroll', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:document.getElementById('enroll-video-url').value.trim()})});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not enroll video');
+        status.className = 'status-success'; status.textContent = data.created ? 'Video queued.' : 'Video is already enrolled (' + data.status + ').';
+        document.getElementById('enroll-video-url').value = '';
+    } catch (err) { status.className = 'status-error'; status.textContent = err.message; }
+}
+
 async function createChannel(event) {
     event.preventDefault();
     const submit = document.getElementById('add-channel-submit');
@@ -162,16 +208,22 @@ async function createChannel(event) {
     const payload = {
         youtube_handle: document.getElementById('new-handle').value.trim().replace(/^@/, ''),
         name: document.getElementById('new-name').value.trim(),
-        domain: document.getElementById('new-domain').value.trim() || null,
+        domain: document.getElementById('new-domain').value.trim() || selectedNewDomain || 'general',
         ingestion_mode: document.getElementById('new-mode').value,
-        is_active: document.getElementById('new-active').checked
+        is_active: document.getElementById('new-active').checked,
+        include_videos: document.getElementById('new-include-videos').checked,
+        include_lives: document.getElementById('new-include-lives').checked,
+        include_shorts: document.getElementById('new-include-shorts').checked
     };
+    if (resolvedChannelId) payload.youtube_channel_id = resolvedChannelId;
+    if (resolvedThumbnail) payload.thumbnail_url = resolvedThumbnail;
     try {
         const response = await fetch(urlPrefix + '/api/v1/channels', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)});
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Could not add channel');
         document.getElementById('add-channel-form').reset();
         document.getElementById('new-active').checked = true;
+        selectedNewDomain = ''; resolvedChannelId = ''; resolvedThumbnail = '';
         closeAddChannel();
         currentOffset = 0;
         await loadChannels();
@@ -198,6 +250,20 @@ async function toggleChannel(channelId, button) {
 
 document.getElementById('add-channel-modal').addEventListener('click', function(event) {
     if (event.target === this) closeAddChannel();
+});
+document.getElementById('new-domain').addEventListener('input', function() { if (this.value.trim()) { selectedNewDomain = ''; renderDomainTags('new-domain-tags', '', function(domain) { selectedNewDomain = domain; document.getElementById('new-domain').value = ''; }); } });
+document.getElementById('new-handle').addEventListener('blur', async function() {
+    const handle = this.value.trim();
+    if (!handle) return;
+    try {
+        const response = await fetch(urlPrefix + '/api/v1/channels/resolve?handle=' + encodeURIComponent(handle));
+        if (!response.ok) return;
+        const data = await response.json();
+        const name = document.getElementById('new-name');
+        if (!name.value.trim()) name.value = data.name || '';
+        resolvedChannelId = data.youtube_channel_id || '';
+        resolvedThumbnail = data.thumbnail_url || '';
+    } catch (_) { /* Resolution is a convenience; manual entry remains available. */ }
 });
 
 loadDomains();

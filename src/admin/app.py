@@ -107,6 +107,7 @@ def channel_detail(channel_id):
             SELECT id, youtube_handle, youtube_channel_id, name, description,
                    thumbnail_url, subscriber_count, video_count, domain,
                    ingestion_mode, backfill_limit, backlog_max_videos,
+                   include_videos, include_lives, include_shorts,
                    is_active, last_checked_at, last_backfill_at,
                    created_at, updated_at
             FROM channels WHERE id = %s

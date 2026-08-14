@@ -120,7 +120,8 @@ def get_pending(limit: int = 8) -> list[dict]:
     )
 
     pending = [
-        v for v in video_list.get("videos", []) if v["id"] not in processed_ids
+        v for v in video_list.get("videos", [])
+        if v["id"] not in processed_ids and v.get("pipeline_status", "queued") == "queued"
     ]
 
     return pending[:limit]
@@ -220,9 +221,42 @@ def _ytdlp_tab_listing(handle: str, tab: str, listing_cap: int, date_after: str)
                 "id": video_id,
                 "title": title,
                 "upload_date": upload_date.strip(),
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                # Flat listings do not consistently expose live_status, but the
+                # channel tab itself is reliable enough to identify streams.
+                "was_live": tab == "streams",
             }
         )
     return entries
+
+
+def _mode_allows_date(entry: dict, mode: str) -> bool:
+    days = {"last_3_months": 90, "last_year": 365}.get(mode)
+    if not days:
+        return True
+    try:
+        published = datetime.strptime(str(entry.get("upload_date")), "%Y%m%d")
+    except (TypeError, ValueError):
+        # A bounded mode must not accidentally admit an undated back-catalogue.
+        return False
+    return published >= datetime.now() - timedelta(days=days)
+
+
+def _content_allowed(entry: dict, channel: dict) -> bool:
+    url = str(entry.get("url") or entry.get("webpage_url") or "")
+    is_short = "/shorts/" in url or entry.get("url_kind") == "short"
+    live_status = str(entry.get("live_status") or "").lower()
+    is_live = bool(entry.get("was_live")) or live_status in {
+        "is_live", "was_live", "post_live"
+    }
+    if is_short:
+        return channel.get("include_shorts", True)
+    if is_live:
+        return channel.get("include_lives", True)
+    # RSS exposes neither the Shorts surface nor reliable live_status. Feed
+    # entries therefore fall back to ordinary videos; yt-dlp/tab metadata can
+    # classify those types accurately when that discovery path is used.
+    return channel.get("include_videos", True)
 
 
 def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
@@ -314,6 +348,9 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
     total_channels = len(Config.CHANNELS)
     for index, channel in enumerate(Config.CHANNELS):
         handle = channel["handle"]
+        mode = channel.get("ingestion_mode", "new_only")
+        if mode in ("paused", "guest_monitor"):
+            continue
         if on_progress:
             on_progress(index + 1, total_channels, handle)
         date_after = (
@@ -376,6 +413,7 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
                             "id": entry["id"],
                             "title": entry["title"],
                             "upload_date": entry["upload_date"],
+                            "url": entry.get("url"),
                             "extra_metadata": extra or None,
                         }
                     )
@@ -394,6 +432,8 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
         new_count = 0
         for entry in candidates:
             found += 1
+            if not _mode_allows_date(entry, mode) or not _content_allowed(entry, channel):
+                continue
             video_id = entry["id"]
             if video_id in processed_ids or video_id in known_ids:
                 continue
@@ -404,6 +444,7 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
                 "channel_handle": handle,
                 "channel_name": channel["name"],
                 "domain": channel["domain"],
+                "pipeline_status": "discovered" if mode == "selected" else "queued",
             }
             if entry.get("extra_metadata"):
                 video["extra_metadata"] = entry["extra_metadata"]
