@@ -9,6 +9,9 @@ from pathlib import Path
 EMB = Path(__file__).resolve().parents[2] / 'src' / 'embedding'
 TRANSCRIPT = Path(__file__).resolve().parents[2] / 'src' / 'transcript-service'
 
+_EMB_NAMES = ('config', 'surreal_client', 'mcp_transcript', 'embedder',
+              'search', 'emb_app')
+
 
 def _exec(modname, path):
     spec = importlib.util.spec_from_file_location(modname, path)
@@ -30,13 +33,36 @@ def _isolated(names, loader):
                 sys.modules.pop(k, None)
 
 
-def load():
-    """Returns (config, embedder, search, app) embedding-service modules.
+def load_embedder():
+    """Returns (config, embedder) embedding-service modules.
 
     Modules keep references to THEIR OWN Config object — tests monkeypatch
     attributes on the returned modules (e.g. emb.Config.EMBEDDING_DOC_PREFIX),
     never os.environ-then-reimport.
     """
+    def _load():
+        cfg = _exec('config', EMB / 'config.py')
+        _exec('surreal_client', EMB / 'surreal_client.py')
+        emb = _exec('embedder', EMB / 'embedder.py')
+        return cfg, emb
+
+    return _isolated(_EMB_NAMES, _load)
+
+
+def load_search():
+    """Returns (config, embedder, search) modules, isolated."""
+    def _load():
+        cfg = _exec('config', EMB / 'config.py')
+        _exec('surreal_client', EMB / 'surreal_client.py')
+        emb = _exec('embedder', EMB / 'embedder.py')
+        srch = _exec('search', EMB / 'search.py')
+        return cfg, emb, srch
+
+    return _isolated(_EMB_NAMES, _load)
+
+
+def load_app():
+    """Returns (config, embedder, search, app) modules, isolated."""
     def _load():
         cfg = _exec('config', EMB / 'config.py')
         _exec('surreal_client', EMB / 'surreal_client.py')
@@ -46,9 +72,7 @@ def load():
         appm = _exec('emb_app', EMB / 'app.py')
         return cfg, emb, srch, appm
 
-    return _isolated(
-        ('config', 'surreal_client', 'mcp_transcript', 'embedder', 'search'),
-        _load)
+    return _isolated(_EMB_NAMES, _load)
 
 
 def load_transcript_service():
