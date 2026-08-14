@@ -13,7 +13,7 @@ import urllib.request
 import uuid
 
 BASE = "http://localhost:5060"
-MODEL = "professor_myron"
+MODEL = "professor_myron.myron-golden"
 QUESTION = "How do I handle price objections?"
 
 creds = {}

@@ -41,6 +41,13 @@ services:
       CHAT_MODEL: claude-sonnet
       EXTENSION_MODEL: grok-4
       PROFESSOR_PORT: "5050"
+      # The unindexed cosine scan runs 50-60s warm and worse cold (post-OOM
+      # restart, backfill load). 60s default timeout turned those into 502s
+      # (2026-08-14); until the vector index (#44) lands, wait instead of fail.
+      PROFESSOR_REQUEST_TIMEOUT: "240"
+      # Bearer key required on /api/ask; generated value-safely into the
+      # root-only .env (never printed, never committed).
+      PROFESSOR_API_KEY: ${PROFESSOR_API_KEY:?set in root-only .env}
 
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
@@ -64,6 +71,9 @@ services:
       ENABLE_RETRIEVAL_QUERY_GENERATION: "false"
       # Local auth; first account (created by deploy/setup_openwebui.sh) is admin.
       WEBUI_AUTH: "true"
+      # The pipe function reads this as its valve default so the key value
+      # never lives in the function code or the OpenWebUI database.
+      PROFESSOR_API_KEY: ${PROFESSOR_API_KEY:?set in root-only .env}
     volumes:
       - openwebui_data:/app/backend/data
     depends_on:

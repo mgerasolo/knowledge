@@ -21,9 +21,16 @@ class Config:
 
     SURREAL_URL = os.getenv("SURREAL_URL", "http://10.0.0.33:5040")
     SURREAL_USER = os.getenv("SURREAL_USER", "root")
-    SURREAL_PASS = os.getenv("SURREAL_PASS", "changeme")
+    # No fallback value: a missing password must never silently become a guess.
+    SURREAL_PASS = os.getenv("SURREAL_PASS", "")
     SURREAL_NS = os.getenv("SURREAL_NS", "knowledge")
     SURREAL_DB = os.getenv("SURREAL_DB", "transcripts")
+
+    # Bearer key required on /api/ask when set (deployment always sets it).
+    PROFESSOR_API_KEY = os.getenv("PROFESSOR_API_KEY", "")
+    # True in the container image: abort startup instead of running on
+    # missing/default secrets. Unit tests run without it and stay hermetic.
+    REQUIRE_SECRETS = os.getenv("PROFESSOR_REQUIRE_SECRETS", "false").lower() == "true"
 
     LITELLM_URL = os.getenv(
         "LITELLM_URL", "http://10.0.0.27:2764/v1/embeddings"
@@ -58,6 +65,21 @@ class Config:
             str(Path(__file__).resolve().parents[1] / "personalities" / "myron-golden.json"),
         )
     )
+
+    @classmethod
+    def validate_secrets(cls) -> None:
+        """Fail closed: refuse to start without the secrets the service needs."""
+        missing = [
+            name
+            for name in ("SURREAL_PASS", "LITELLM_API_KEY", "PROFESSOR_API_KEY")
+            if not getattr(cls, name)
+        ]
+        if missing:
+            raise SystemExit(
+                "FATAL: required secrets missing from environment: "
+                + ", ".join(missing)
+                + " — refusing to start (set them in the root-only deploy/.env)"
+            )
 
     @classmethod
     def chat_url(cls) -> str:
