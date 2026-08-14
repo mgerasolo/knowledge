@@ -53,3 +53,18 @@ Track architectural and technical decisions, tagged with conversation ID.
 **Date:** 2026-08-14
 **Decision:** When YouTube 429s our caption requests for the whole IP, both the standing worker and the priority script park and retry with backoff rather than failing videos, switching tools, or routing around it. No proxy service was adopted — that is new third-party spend and a new egress path, which is Matt's call, not one to make mid-task.
 **Impact:** Ingestion throughput is capped by whatever YouTube allows from our single WAN address. A paid residential-proxy tier (`youtube_transcript_api` supports proxies natively) is the known lever if this becomes a recurring blocker; it stays unbought until asked for.
+
+## [638c0809] "Ready to start" is the existing `status:ai-ready` label, not a new phase
+**Date:** 2026-08-14
+**Decision:** `phase:0-backlog` was carrying two different meanings at once — "nobody has looked at this yet" and "decided, unclaimed, go ahead and take it" — with no way to tell them apart from the label. Work that is ready to be picked up now carries the existing `status:ai-ready` label, which already means exactly that. Rejected adding a new `phase:` value because the taxonomy already had a label for the concept, and the standing direction on this project is to stop stacking layers on top of layers.
+**Impact:** Six issues — #17, #22, #23, #24, #25, #26 — carry `status:ai-ready` and are the current dispatch queue. Anyone picking up work reads that label; `phase:0-backlog` now means only "untriaged".
+
+## [638c0809] No `blocked-by:` label — the one real dependency is a comment
+**Date:** 2026-08-14
+**Decision:** Exactly one cross-issue dependency exists today — #30 cannot ship before #29 — and it is recorded as a comment on #30. Rejected adding a `blocked-by:` label for it, because a label has to be kept accurate by everyone, forever, and a single relationship does not earn that maintenance cost.
+**Impact:** Dependencies are stated in the blocked issue's own comments. Reconsider the label if cross-issue dependencies stop being exceptional and become routine.
+
+## [638c0809] Adaptive per-channel scheduling (#20) is parked, not approved work
+**Date:** 2026-08-14
+**Decision:** Adaptive per-channel polling cadence is a future enhancement that nobody has approved. `phase:0-backlog` is the correct label for #20 and it stays there. This is written down because an agent reading the tracker later took the issue's rewritten acceptance criteria as evidence of approval and reported the issue as mislabelled — the label alone could not tell it otherwise.
+**Impact:** The general rule this proves: a decision recorded only as a label is not recoverable by whoever comes next. Put the decision in the issue body, where the next reader will actually find it, and let the label follow it.
