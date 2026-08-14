@@ -42,11 +42,15 @@ def _extract_json(text: str) -> Any:
     try:
         return json.loads(stripped)
     except json.JSONDecodeError:
-        start, end = stripped.find("{"), stripped.rfind("}")
-        if start < 0 or end <= start:
+        start = stripped.find("{")
+        if start < 0:
             raise TierParseError("model response contains no JSON object")
         try:
-            return json.loads(stripped[start : end + 1])
+            # raw_decode takes the FIRST balanced object and ignores trailing
+            # text — models sometimes append commentary after the JSON, which
+            # a rfind("}")-slice cannot survive (seen live 2026-08-14).
+            parsed, _ = json.JSONDecoder().raw_decode(stripped[start:])
+            return parsed
         except json.JSONDecodeError as exc:
             raise TierParseError("model response contains invalid JSON") from exc
 
@@ -142,7 +146,12 @@ class Composer:
             max_tokens=160,
         )
         rewritten = str(result["content"]).strip()
-        return rewritten or question, result.get("usage", {})
+        # Filter usage to the three integer keys exactly like compose() does —
+        # LiteLLM responses carry nested *_tokens_details dicts that crash the
+        # caller's int() conversion (seen live 2026-08-14, multi-turn only).
+        usage: dict[str, int] = {}
+        _merge_usage(usage, result.get("usage", {}))
+        return rewritten or question, usage
 
     def compose(
         self,

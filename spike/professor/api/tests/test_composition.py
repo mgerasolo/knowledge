@@ -98,3 +98,42 @@ def test_composer_returns_tier_c_only_when_retrieval_is_silent():
     assert tiers["might_say"] == ""
     assert "corpus is silent" in tiers["extension"].lower()
     assert "hasn't directly addressed" in tiers["extension"].lower()
+
+
+def test_tier_parser_takes_first_object_when_trailing_braces_follow():
+    # Live failure 2026-08-14: model appended commentary containing braces
+    # after the tier object; an rfind("}")-slice produced "Extra data".
+    text = (
+        '{"tiers":{"said":[{"text":"I teach value.","citations":[1]}],'
+        '"might_say":"Inference: x.","extension":"He hasn\'t directly addressed this."}}'
+        ' Note: {"unrelated": "object"}'
+    )
+    tiers = parse_tier_json(text)
+    assert tiers["said"][0]["citations"] == [1]
+
+
+def test_rewrite_filters_usage_to_integer_token_keys():
+    # Live failure 2026-08-14: LiteLLM usage carries nested *_tokens_details
+    # dicts; the service's int() conversion must never see them.
+    from composition import Composer
+
+    class UsageLLM:
+        def chat(self, model, messages, **options):
+            return {
+                "content": "standalone query",
+                "usage": {
+                    "prompt_tokens": 100,
+                    "completion_tokens": 8,
+                    "total_tokens": 108,
+                    "prompt_tokens_details": {"cached_tokens": 0},
+                    "completion_tokens_details": {"reasoning_tokens": 0},
+                },
+                "model": model,
+            }
+
+    query, usage = Composer(UsageLLM(), ComposerConfig).rewrite(
+        "what about pricing?", [{"role": "user", "content": "offers"}]
+    )
+    assert query == "standalone query"
+    assert usage == {"prompt_tokens": 100, "completion_tokens": 8, "total_tokens": 108}
+    assert all(isinstance(value, int) for value in usage.values())
