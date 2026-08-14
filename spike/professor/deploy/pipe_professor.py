@@ -1,17 +1,29 @@
 """
-title: Professor: Myron Golden
+title: Professor
 author: KnowledgeStack Professor spike
-version: 0.2.0
-description: Personality-grounded RAG over Myron Golden's videos. Three-tier answers (said / might say / AI extension) with timestamped YouTube citations and an embedded player artifact.
+version: 0.3.0
+description: Personality-grounded RAG professors (manifold). Three-tier answers (said / might say / AI extension) with timestamped YouTube citations and an embedded player artifact.
 requirements: requests
 """
 
 import asyncio
 import html
 import json
+import os
 
 import requests
 from pydantic import BaseModel, Field
+
+# One entry per personality manifest served by the Professor API.
+# "short" is the name used inside tier headers and status lines.
+PERSONALITIES = [
+    {"id": "myron-golden", "name": "Professor: Myron Golden", "short": "Myron"},
+    {
+        "id": "chris-durkin",
+        "name": "Professor: Pastor Chris Durkin",
+        "short": "Pastor Chris",
+    },
+]
 
 
 def _fmt_ts(seconds: float) -> str:
@@ -27,14 +39,31 @@ class Pipe:
             default="http://professor-api:5050",
             description="Base URL of the Professor API (same compose network).",
         )
-        PERSONALITY_ID: str = Field(default="myron-golden")
         TIMEOUT_SECONDS: int = Field(default=280)
         MAX_HISTORY_TURNS: int = Field(
             default=20, description="History turns forwarded to /api/ask (API caps at 50)."
         )
+        PROFESSOR_API_KEY: str = Field(
+            default_factory=lambda: os.getenv("PROFESSOR_API_KEY", ""),
+            description="Bearer key for /api/ask (defaults from the container env).",
+        )
 
     def __init__(self):
         self.valves = self.Valves()
+
+    def pipes(self):
+        """Manifold: expose one OpenWebUI model per personality."""
+        return [{"id": p["id"], "name": p["name"]} for p in PERSONALITIES]
+
+    @staticmethod
+    def _personality(body: dict) -> dict:
+        """Resolve the personality from the model id (function_id.personality_id)."""
+        model = str(body.get("model") or "")
+        pipe_id = model.rsplit(".", 1)[-1]
+        for p in PERSONALITIES:
+            if p["id"] == pipe_id:
+                return p
+        return PERSONALITIES[0]
 
     # ------------------------------------------------------------------ helpers
 
@@ -57,10 +86,10 @@ class Pipe:
             history = []
         return question, history[-self.valves.MAX_HISTORY_TURNS :]
 
-    def _render_markdown(self, data: dict) -> str:
+    def _render_markdown(self, data: dict, short: str) -> str:
         tiers = data.get("tiers", {})
         disclaimer = data.get("disclaimer", "AI recreation from public videos")
-        parts = ["## 📖 What Myron has said"]
+        parts = [f"## 📖 What {short} has said"]
         said = tiers.get("said") or []
         if said:
             for claim in said:
@@ -68,9 +97,9 @@ class Pipe:
                 parts.append(f"- {claim.get('text', '').strip()} {refs}".rstrip())
         else:
             parts.append("_The corpus is silent here — no directly-supported claims._")
-        parts.append("\n## 💭 What Myron might say")
+        parts.append(f"\n## 💭 What {short} might say")
         parts.append(tiers.get("might_say") or "_No inference offered for this question._")
-        parts.append("\n## 🤖 Beyond Myron — AI extension")
+        parts.append(f"\n## 🤖 Beyond {short} — AI extension")
         parts.append(tiers.get("extension") or "_(empty)_")
         parts.append(f"\n---\n> ⚠️ {disclaimer}")
         return "\n".join(parts)
@@ -149,23 +178,30 @@ h4 {{ margin: 10px 0 4px; }} li {{ margin: 3px 0; }}
     # --------------------------------------------------------------------- pipe
 
     async def pipe(self, body: dict, __event_emitter__=None) -> str:
+        personality = self._personality(body)
+        short = personality["short"]
         question, history = self._split_messages(body.get("messages") or [])
         if not question:
-            return "Ask a question to consult Professor Myron."
+            return f"Ask a question to consult {personality['name']}."
 
         await self._status(
-            __event_emitter__, "Consulting Professor Myron (retrieval + composition)…"
+            __event_emitter__,
+            f"Consulting {personality['name']} (retrieval + composition)…",
         )
         payload = {
-            "personality_id": self.valves.PERSONALITY_ID,
+            "personality_id": personality["id"],
             "question": question,
             "history": history,
         }
+        headers = {}
+        if self.valves.PROFESSOR_API_KEY:
+            headers["Authorization"] = f"Bearer {self.valves.PROFESSOR_API_KEY}"
         try:
             response = await asyncio.to_thread(
                 requests.post,
                 f"{self.valves.PROFESSOR_API_URL.rstrip('/')}/api/ask",
                 json=payload,
+                headers=headers,
                 timeout=self.valves.TIMEOUT_SECONDS,
             )
         except requests.RequestException as exc:
@@ -198,4 +234,4 @@ h4 {{ margin: 10px 0 4px; }} li {{ margin: 3px 0; }}
             done=True,
         )
 
-        return self._render_markdown(data) + self._render_artifact(citations)
+        return self._render_markdown(data, short) + self._render_artifact(citations)

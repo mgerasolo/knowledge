@@ -5,12 +5,16 @@
 #
 # Idempotent: creates the admin account on first run (credentials stored root-only
 # at /root/professor-openwebui-admin.env), signs in on later runs, then installs
-# or updates + activates the "Professor: Myron Golden" pipe function.
+# or updates + activates the "Professor" manifold pipe function (one model per
+# personality: Myron Golden, Pastor Chris Durkin).
 # Prints status codes, lengths, and model ids only — never credential values.
 set -euo pipefail
 
 BASE="${OPENWEBUI_URL:-http://localhost:5060}"
+# Prefer the dedicated service-admin account: Matt owns (and may change the
+# password of) the original admin login, which must never break automation.
 CRED_FILE=/root/professor-openwebui-admin.env
+[ -f /root/professor-openwebui-service.env ] && CRED_FILE=/root/professor-openwebui-service.env
 PIPE_FILE="$(dirname "$0")/pipe_professor.py"
 FUNCTION_ID=professor_myron
 ADMIN_EMAIL="matt@gerasolo.com"
@@ -40,6 +44,7 @@ fi
 # shellcheck disable=SC1090
 . "$CRED_FILE"
 PW="$OPENWEBUI_ADMIN_PASSWORD"
+ADMIN_EMAIL="$OPENWEBUI_ADMIN_EMAIL"   # the cred file's account, not the default
 
 signup_code=$(curl -s -o /tmp/.owui-auth.json -w '%{http_code}' \
   -X POST "$BASE/api/v1/auths/signup" -H 'Content-Type: application/json' \
@@ -61,10 +66,10 @@ echo "token acquired (length: ${#TOKEN})"
 AUTH=(-H "Authorization: Bearer $TOKEN")
 
 # ---- pipe function ---------------------------------------------------------
-BODY=$(jq -n --arg id "$FUNCTION_ID" --arg name "Professor: Myron Golden" \
+BODY=$(jq -n --arg id "$FUNCTION_ID" --arg name "Professor" \
   --rawfile content "$PIPE_FILE" \
   '{id:$id, name:$name, content:$content,
-    meta:{description:"Three-tier personality-grounded RAG over Myron Golden videos with timestamped YouTube citations", manifest:{}}}')
+    meta:{description:"Three-tier personality-grounded RAG professors (Myron Golden, Pastor Chris Durkin) with timestamped YouTube citations", manifest:{}}}')
 
 create_code=$(curl -s -o /tmp/.owui-fn.json -w '%{http_code}' \
   -X POST "$BASE/api/v1/functions/create" "${AUTH[@]}" \

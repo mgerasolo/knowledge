@@ -1,0 +1,2080 @@
+{
+  "personality_id": "chris-durkin",
+  "display_name": "Pastor Chris Durkin",
+  "description": "Sermons, Bible teaching, and church services from Pastor Chris Durkin of Colts Neck Community Church (CNCC), including Sunday-service livestreams",
+  "sources": [
+    {
+      "type": "channel",
+      "slug": "pastorchrisdurkin",
+      "speaker_purity": "mixed",
+      "note": "his own channel, including full church-service livestreams; services contain worship, announcements, and readings by other speakers, so not every transcript segment is Pastor Chris speaking",
+      "videos": [
+        {
+          "video_id": "LGvuHjle4SM",
+          "title": "'Is There Life After Life' - Pastor Chris Durkin",
+          "published": null,
+          "duration_seconds": 1949
+        },
+        {
+          "video_id": "SZdimsvpkmE",
+          "title": "10 COMMANDMENTS *Part 10* Pastor Chris Durkin",
+          "published": null,
+          "duration_seconds": 1530
+        },
+        {
+          "video_id": "G8TB_cs3uUo",
+          "title": "ROMANS Part7 - The Path Out of Hypocrisy - Pastor Chris Durkin",
+          "published": null,
+          "duration_seconds": 1772
+        },
+        {
+          "video_id": "7rb15F1npQo",
+          "title": "ROMANS PART 19 * Pastor Chris Durkin",
+          "published": null,
+          "duration_seconds": 1560
+        },
+        {
+          "video_id": "mZWfO0hB_8I",
+          "title": "THE SEVEN SAYINGS - Part 3 * Pastor Chris Durkin *",
+          "published": null,
+          "duration_seconds": 1547
+        },
+        {
+          "video_id": "E127_zHQ9kg",
+          "title": "Parenting Through The Ages with Pastors Rodney & Jacob Navey",
+          "published": null,
+          "duration_seconds": 3274
+        },
+        {
+          "video_id": "frL8Gqplz9g",
+          "title": "Youth & Social Media with Pastor Kerris Ackley",
+          "published": null,
+          "duration_seconds": 2869
+        },
+        {
+          "video_id": "QUk48V9jseE",
+          "title": "Join us this Sunday to hear the best news the world has ever heard! Resurrection Sunday 2026!",
+          "published": null,
+          "duration_seconds": 76
+        },
+        {
+          "video_id": "v_9JYtLvwEg",
+          "title": "The Grand Conclusion of 2 Chronicles is this Sunday!",
+          "published": null,
+          "duration_seconds": 72
+        },
+        {
+          "video_id": "KyKOqCVKqB8",
+          "title": "This Sunday! Our 50th Church Anniversary Celebration 11:00am at the Great Auditorium in Ocean Grove!",
+          "published": null,
+          "duration_seconds": 49
+        },
+        {
+          "video_id": "bhZ0ZGLTzO0",
+          "title": "A Psalm of Giving Thanks - Psalm 100",
+          "published": "2026-08-10",
+          "duration_seconds": 4877
+        },
+        {
+          "video_id": "tF_k_Nk01-Q",
+          "title": "The Prayer of Protection - Psalm 91",
+          "published": "2026-08-03",
+          "duration_seconds": 4580
+        },
+        {
+          "video_id": "bjqLDTAzInQ",
+          "title": "Better is One Day - Psalm 84",
+          "published": "2026-07-27",
+          "duration_seconds": 4449
+        },
+        {
+          "video_id": "3ZSN4xmLqCs",
+          "title": "The Lord is My Shepherd - Psalm 23",
+          "published": "2026-07-13",
+          "duration_seconds": 4750
+        },
+        {
+          "video_id": "7x0SeJ2s2ps",
+          "title": "Introduction to Believer’s Baptism: A Brief Bible Study on Romans 6:1-4",
+          "published": "2026-07-12",
+          "duration_seconds": 593
+        },
+        {
+          "video_id": "Qjh_tX5-ybo",
+          "title": "Blessed is the Nation whose God is the Lord - Psalm 33",
+          "published": "2026-07-06",
+          "duration_seconds": 4666
+        },
+        {
+          "video_id": "TaXUEgRr1VY",
+          "title": "Resisting the Devil and Living for God’s Glory!",
+          "published": "2026-06-29",
+          "duration_seconds": 4611
+        },
+        {
+          "video_id": "QlLRnUC9Wy4",
+          "title": "Look Up and Live!",
+          "published": "2026-06-01",
+          "duration_seconds": 4378
+        },
+        {
+          "video_id": "A0bZf3CAZaE",
+          "title": "How God Uses Fiery Trials to Grow Our Faith",
+          "published": "2026-05-25",
+          "duration_seconds": 4458
+        },
+        {
+          "video_id": "tK2aYtuftLs",
+          "title": "50th Anniversary Celebration Service at the Great Auditorium",
+          "published": "2026-05-24",
+          "duration_seconds": 5225
+        },
+        {
+          "video_id": "68Bi9d1rYXg",
+          "title": "Bring Your Families this Sunday May 17th to Ocean Grove!",
+          "published": "2026-05-13",
+          "duration_seconds": 66
+        },
+        {
+          "video_id": "7Tv7BPoPt3w",
+          "title": "Our 50th Church Anniversary Celebration is this Sunday!",
+          "published": "2026-05-13",
+          "duration_seconds": 68
+        },
+        {
+          "video_id": "UvSAH9fkaRk",
+          "title": "Mother’s Day Message: Changing the Trajectory of Our Families.",
+          "published": "2026-05-11",
+          "duration_seconds": 4651
+        },
+        {
+          "video_id": "gSVAxQXMm_g",
+          "title": "Living for God’s Glory with Urgency",
+          "published": "2026-05-04",
+          "duration_seconds": 4661
+        },
+        {
+          "video_id": "oe4ahwqJNRs",
+          "title": "The Judge of the Living and the Dead",
+          "published": "2026-04-27",
+          "duration_seconds": 4438
+        },
+        {
+          "video_id": "GcLKagvaWII",
+          "title": "The Triumph of the Cross",
+          "published": "2026-04-20",
+          "duration_seconds": 4472
+        },
+        {
+          "video_id": "00hi-7XYuYw",
+          "title": "Resurrection Sunday 2026: He is Risen Indeed!",
+          "published": "2026-04-13",
+          "duration_seconds": 5116
+        },
+        {
+          "video_id": "q4eUkvvRcJw",
+          "title": "Palm Sunday: Behold Your Humble King!",
+          "published": "2026-03-30",
+          "duration_seconds": 4360
+        },
+        {
+          "video_id": "5fFfhf_CEqs",
+          "title": "“Who Do You Say That I Am?”",
+          "published": "2026-03-16",
+          "duration_seconds": 4062
+        },
+        {
+          "video_id": "aR1C68m_mL4",
+          "title": "The Garden of Gethsemane",
+          "published": "2026-03-09",
+          "duration_seconds": 4460
+        },
+        {
+          "video_id": "AOWwYbQOjHA",
+          "title": "The Passover Lamb and the Last Supper",
+          "published": "2026-03-02",
+          "duration_seconds": 4202
+        },
+        {
+          "video_id": "Rdw0qkIbcbs",
+          "title": "“From Dating to Marriage,” with Pastor Kerris Ackley.",
+          "published": "2026-02-24",
+          "duration_seconds": 3055
+        },
+        {
+          "video_id": "ywO1WfZjmyA",
+          "title": "Communicating With Purpose with Paul and Joyce Ciotta",
+          "published": "2026-02-23",
+          "duration_seconds": 2584
+        },
+        {
+          "video_id": "nFuMbPivuCc",
+          "title": "Family Matters",
+          "published": "2026-02-23",
+          "duration_seconds": 4607
+        },
+        {
+          "video_id": "L2c2aWBN_SA",
+          "title": "'Four Eternal Principles of Financial Management,' with Keith Johnson.",
+          "published": "2026-02-23",
+          "duration_seconds": 2704
+        },
+        {
+          "video_id": "i7ZnryJIs9A",
+          "title": "“How Husbands Want to Be Treated,” with Pastor Randy Smith.",
+          "published": "2026-02-23",
+          "duration_seconds": 2144
+        },
+        {
+          "video_id": "n3SOuxn6l3g",
+          "title": "“How Wives Want to Be Treated,” with Pastor Randy Smith.",
+          "published": "2026-02-23",
+          "duration_seconds": 2271
+        },
+        {
+          "video_id": "2S8U9xX3ZBE",
+          "title": "“One Flesh: The Gift of Sexual Union in the Covenant of Marriage,” with Pastor Chris Durkin.",
+          "published": "2026-02-23",
+          "duration_seconds": 2539
+        },
+        {
+          "video_id": "siW8AiuoWIg",
+          "title": "“Overcoming the Behaviors that Destroy Marriage,” with Dr. David Riley.",
+          "published": "2026-02-23",
+          "duration_seconds": 2096
+        },
+        {
+          "video_id": "bYf2GnrB_sk",
+          "title": "'Why Did God Create Marriage?' with Pastor Randy Smith.",
+          "published": "2026-02-23",
+          "duration_seconds": 2886
+        },
+        {
+          "video_id": "qzDKkWrZuOU",
+          "title": "Turn from Evil and Do Good",
+          "published": "2026-02-16",
+          "duration_seconds": 4230
+        },
+        {
+          "video_id": "zqOF8xETItk",
+          "title": "Beauty that is Precious in God’s Sight",
+          "published": "2026-02-02",
+          "duration_seconds": 4095
+        },
+        {
+          "video_id": "QEzwJrqsOWs",
+          "title": "By His Wounds We Are Healed",
+          "published": "2026-01-25",
+          "duration_seconds": 3502
+        },
+        {
+          "video_id": "PbaZe3GIb5M",
+          "title": "Enduring Hardship in Our Work",
+          "published": "2026-01-19",
+          "duration_seconds": 4644
+        },
+        {
+          "video_id": "J8REUb68q7o",
+          "title": "Live As People Who Are Free",
+          "published": "2026-01-12",
+          "duration_seconds": 4330
+        },
+        {
+          "video_id": "kLkZ0BxfnUM",
+          "title": "My Father’s Will",
+          "published": "2025-12-29",
+          "duration_seconds": 4163
+        },
+        {
+          "video_id": "Y03UZYEDGEs",
+          "title": "Christmas Eve Service 2025",
+          "published": "2025-12-25",
+          "duration_seconds": 4092
+        },
+        {
+          "video_id": "Y4kZVMiyBrc",
+          "title": "Simeon, Anna, and Persevering in Your Calling",
+          "published": "2025-12-22",
+          "duration_seconds": 4064
+        },
+        {
+          "video_id": "JtU60jHE-8E",
+          "title": "Good News of Great Joy!",
+          "published": "2025-12-15",
+          "duration_seconds": 3847
+        },
+        {
+          "video_id": "VyWkWCLpo90",
+          "title": "The Providence of Christmas",
+          "published": "2025-12-08",
+          "duration_seconds": 4355
+        },
+        {
+          "video_id": "IFYhQxArwrg",
+          "title": "Dr. Jason Lisle of Biblical Science Institute: “Logic and the Christian Worldview.”",
+          "published": "2025-12-02",
+          "duration_seconds": 3089
+        },
+        {
+          "video_id": "5V32zvukA9o",
+          "title": "Dr. Jason Lisle of Biblical Science Institute: “Worlds of Creation.”",
+          "published": "2025-12-02",
+          "duration_seconds": 3783
+        },
+        {
+          "video_id": "noGSFssvM5I",
+          "title": "Dr. Jason Lisle of Biblical Science Institute: The Star of Bethlehem and Q&A.",
+          "published": "2025-12-01",
+          "duration_seconds": 7020
+        },
+        {
+          "video_id": "EqOJm4TOrmY",
+          "title": "Dr. Jason Lisle of the Biblical Science Institute: “The Importance of Genesis.”",
+          "published": "2025-12-01",
+          "duration_seconds": 3921
+        },
+        {
+          "video_id": "A4rpQtQuMok",
+          "title": "Abounding in Thanksgiving",
+          "published": "2025-11-24",
+          "duration_seconds": 4375
+        },
+        {
+          "video_id": "LbHTYYs3GCc",
+          "title": "The King and Priest",
+          "published": "2025-11-17",
+          "duration_seconds": 3700
+        },
+        {
+          "video_id": "MgurDxDsOxs",
+          "title": "Repairing Broken Foundations",
+          "published": "2025-11-10",
+          "duration_seconds": 4021
+        },
+        {
+          "video_id": "XmvR4xhQI90",
+          "title": "Hunger for God’s Word",
+          "published": "2025-11-03",
+          "duration_seconds": 4197
+        },
+        {
+          "video_id": "5aRhlJ4LhWQ",
+          "title": "How Scripture Connects to Culture in N.J.’s Public Square: A Q&A with Pastor Chris & Shawn Hyland.",
+          "published": "2025-10-30",
+          "duration_seconds": 4242
+        },
+        {
+          "video_id": "5sY4L0V3aFw",
+          "title": "The Word of the Lord Remains Forever",
+          "published": "2025-10-27",
+          "duration_seconds": 4180
+        },
+        {
+          "video_id": "bhn9MYs7SCU",
+          "title": "Ransomed by the Precious Blood of Jesus Christ",
+          "published": "2025-10-20",
+          "duration_seconds": 4262
+        },
+        {
+          "video_id": "9CbgUGmqgXk",
+          "title": "Lillian Gurley Funeral",
+          "published": "2025-10-19",
+          "duration_seconds": 3753
+        },
+        {
+          "video_id": "FNTRa4GNvnE",
+          "title": "“You Shall Be Holy For I Am Holy.”",
+          "published": "2025-10-13",
+          "duration_seconds": 4177
+        },
+        {
+          "video_id": "E7jCqmVZbVM",
+          "title": "Rooted Career Adults Q & A part 2",
+          "published": "2025-10-10",
+          "duration_seconds": 2993
+        },
+        {
+          "video_id": "STIdrnA3aAU",
+          "title": "Rooted Career Adults Q & A",
+          "published": "2025-10-10",
+          "duration_seconds": 2321
+        },
+        {
+          "video_id": "4uwyZG0zkXA",
+          "title": "An Inheritance More Precious Than Gold",
+          "published": "2025-09-29",
+          "duration_seconds": 4391
+        },
+        {
+          "video_id": "OV3du0D53_c",
+          "title": "Born Again to a Living Hope",
+          "published": "2025-09-22",
+          "duration_seconds": 2668
+        },
+        {
+          "video_id": "eHkq4ege6Ow",
+          "title": "1 Peter Introduction: Grace and Peace Be Multiplied to You",
+          "published": "2025-09-08",
+          "duration_seconds": 4290
+        },
+        {
+          "video_id": "tQW1UwOByUA",
+          "title": "Praising God for His Word!",
+          "published": "2025-09-01",
+          "duration_seconds": 4231
+        },
+        {
+          "video_id": "OB9LW-_wVxU",
+          "title": "Generations of Faith",
+          "published": "2025-08-25",
+          "duration_seconds": 3874
+        },
+        {
+          "video_id": "3ECISYE08bU",
+          "title": "Restore To Me the Joy of Your Salvation",
+          "published": "2025-08-18",
+          "duration_seconds": 4239
+        },
+        {
+          "video_id": "7Q5W65dOObA",
+          "title": "Why So Downcast Within Me? Hope in God!",
+          "published": "2025-08-11",
+          "duration_seconds": 4464
+        },
+        {
+          "video_id": "dJ2OfQ7Td5M",
+          "title": "Taste and See the Lord is Good!",
+          "published": "2025-08-04",
+          "duration_seconds": 4232
+        },
+        {
+          "video_id": "tKesMQz4fDk",
+          "title": "One Desire: Gods Presence",
+          "published": "2025-07-28",
+          "duration_seconds": 4545
+        },
+        {
+          "video_id": "KOQWB-_nEFQ",
+          "title": "The Heavens Declare the Glory of God",
+          "published": "2025-07-21",
+          "duration_seconds": 4317
+        },
+        {
+          "video_id": "_sQ6hAi6mCw",
+          "title": "Worship and the Way of Blessedness",
+          "published": "2025-07-07",
+          "duration_seconds": 4308
+        },
+        {
+          "video_id": "NBFjw9Bc1BM",
+          "title": "The Seven Churches of Revelation, Part 7: The Lukewarm Church.",
+          "published": "2025-06-30",
+          "duration_seconds": 4312
+        },
+        {
+          "video_id": "LnPueeASB74",
+          "title": "The Seven Churches of Revelation, Part 6: “A Door No One Can Shut.”",
+          "published": "2025-06-23",
+          "duration_seconds": 4199
+        },
+        {
+          "video_id": "sR-pU4YCawU",
+          "title": "Happy Fathers Day 2025",
+          "published": "2025-06-20",
+          "duration_seconds": 136
+        },
+        {
+          "video_id": "R7aZJ-IqWzI",
+          "title": "The Greatest Joy for Fathers",
+          "published": "2025-06-16",
+          "duration_seconds": 4059
+        },
+        {
+          "video_id": "49yp20EIqUE",
+          "title": "The Seven Churches of Revelation, Part 5: “Autopsy of a Dead Church.”",
+          "published": "2025-06-09",
+          "duration_seconds": 4065
+        },
+        {
+          "video_id": "jut8tDHr6Kw",
+          "title": "The Seven Churches of Revelation, Part 4: “Intolerant of Jezebel.”",
+          "published": "2025-06-02",
+          "duration_seconds": 4123
+        },
+        {
+          "video_id": "EORQ6-ieTIQ",
+          "title": "The Seven Churches of Revelation, Part 3: “The Sword of My Mouth.”",
+          "published": "2025-05-26",
+          "duration_seconds": 3997
+        },
+        {
+          "video_id": "a5Xo27EcwD4",
+          "title": "CNCC Children Memorizing Scripture! Family Memory Box Verses (Feb-April)",
+          "published": "2025-05-23",
+          "duration_seconds": 62
+        },
+        {
+          "video_id": "UVZnuzX4-0s",
+          "title": "The Church and Israel: An Exposition of Romans 11",
+          "published": "2025-05-22",
+          "duration_seconds": 2906
+        },
+        {
+          "video_id": "Kjtab6L5Pmo",
+          "title": "Fanning the Flame of Generational Faith",
+          "published": "2025-05-12",
+          "duration_seconds": 4036
+        },
+        {
+          "video_id": "EFCPhk9muk0",
+          "title": "The Seven Churches of Revelation, Part 1: “When a Church Abandons Its First Love.”",
+          "published": "2025-05-05",
+          "duration_seconds": 4171
+        },
+        {
+          "video_id": "0J1gNFERV8k",
+          "title": "Doubting Thomas Becomes Declaring Thomas!",
+          "published": "2025-04-28",
+          "duration_seconds": 3938
+        },
+        {
+          "video_id": "pgfLR-FQnNg",
+          "title": "Good Friday Service 2025",
+          "published": "2025-04-27",
+          "duration_seconds": 4022
+        },
+        {
+          "video_id": "qEs27vOYMDM",
+          "title": "Our Triumphant Savior - Palm Sunday",
+          "published": "2025-04-14",
+          "duration_seconds": 3876
+        },
+        {
+          "video_id": "SclYkU3YPt4",
+          "title": "The True Last Supper",
+          "published": "2025-04-07",
+          "duration_seconds": 3431
+        },
+        {
+          "video_id": "wZbXStyWQfg",
+          "title": "The Unshakable Kingdom of Jesus Christ",
+          "published": "2025-03-17",
+          "duration_seconds": 3924
+        },
+        {
+          "video_id": "IeGmegNZ8yo",
+          "title": "The Heart’s Proper Posture for Worship",
+          "published": "2025-03-10",
+          "duration_seconds": 3929
+        },
+        {
+          "video_id": "rG93fnK-xH0",
+          "title": "There is Always Hope!",
+          "published": "2025-03-03",
+          "duration_seconds": 4019
+        },
+        {
+          "video_id": "igjAdAXH1bc",
+          "title": "A Biblical Analysis of Roman Catholicism, Pt 7: Transubstantiation.",
+          "published": "2025-02-27",
+          "duration_seconds": 3539
+        },
+        {
+          "video_id": "VVp7OUwcLZY",
+          "title": "From Joshua to Josiah: The Centrality of Holy Scripture",
+          "published": "2025-02-24",
+          "duration_seconds": 3990
+        },
+        {
+          "video_id": "RjPBFQiG0Yg",
+          "title": "A Biblical Analysis of Roman Catholicism, Part 6: Mary.",
+          "published": "2025-02-20",
+          "duration_seconds": 3959
+        },
+        {
+          "video_id": "u1zACtSBJS8",
+          "title": "Breaking Down Idols and Their Ideologies",
+          "published": "2025-02-17",
+          "duration_seconds": 4293
+        },
+        {
+          "video_id": "PAUWAHZFYgw",
+          "title": "The Josiah Generation",
+          "published": "2025-02-10",
+          "duration_seconds": 3989
+        },
+        {
+          "video_id": "7n1diYQxeZs",
+          "title": "A Biblical Analysis of Roman Catholicism, Part 5: Should Christians Pray to Saints?",
+          "published": "2025-02-06",
+          "duration_seconds": 3569
+        },
+        {
+          "video_id": "khh-Zi3HaSk",
+          "title": "A Biblical Analysis of Roman Catholicism, Part 4: Purgatory and Indulgences.",
+          "published": "2025-01-30",
+          "duration_seconds": 3629
+        },
+        {
+          "video_id": "DqdgldcVaIA",
+          "title": "Pride Brings Destruction, Humility Brings Blessing",
+          "published": "2025-01-27",
+          "duration_seconds": 3732
+        },
+        {
+          "video_id": "YZkh-xHqJ9I",
+          "title": "Part 3: Are the Catholic Church, Baptism, Sacraments, Confession & Penance Necessary for Salvation?",
+          "published": "2025-01-23",
+          "duration_seconds": 3989
+        },
+        {
+          "video_id": "V8G6DoxVizE",
+          "title": "The Lord is Fighting Our Battles!",
+          "published": "2025-01-20",
+          "duration_seconds": 3946
+        },
+        {
+          "video_id": "2E7Yog7GtoE",
+          "title": "A Biblical Analysis of Roman Catholicism, Part 2: The Papacy.",
+          "published": "2025-01-16",
+          "duration_seconds": 3419
+        },
+        {
+          "video_id": "kRDW4RLoMkM",
+          "title": "God’s Provision in the Midst of Fear",
+          "published": "2025-01-13",
+          "duration_seconds": 4016
+        },
+        {
+          "video_id": "SAa4hZ6uttw",
+          "title": "A Biblical Analysis of Roman Catholicism. Part 1: Is the Bible Sufficient and the Final Authority?",
+          "published": "2025-01-09",
+          "duration_seconds": 3809
+        },
+        {
+          "video_id": "Q7lJvOMf3J0",
+          "title": "Renewal in the New Year",
+          "published": "2025-01-06",
+          "duration_seconds": 4077
+        },
+        {
+          "video_id": "4FcvrLDIvek",
+          "title": "The Obedient Eyes that See Salvation",
+          "published": "2024-12-30",
+          "duration_seconds": 4348
+        },
+        {
+          "video_id": "UuB5Al0VcJY",
+          "title": "Christmas Eve: The Promise of Peace",
+          "published": "2024-12-25",
+          "duration_seconds": 4084
+        },
+        {
+          "video_id": "3og7b9AW-Ts",
+          "title": "The King of Christmas",
+          "published": "2024-12-23",
+          "duration_seconds": 4198
+        },
+        {
+          "video_id": "vbgWHN6f70w",
+          "title": "The Sign of Immanuel",
+          "published": "2024-12-16",
+          "duration_seconds": 3968
+        },
+        {
+          "video_id": "HgFTtjReGBs",
+          "title": "The Ruler Born in Bethlehem",
+          "published": "2024-12-09",
+          "duration_seconds": 3899
+        },
+        {
+          "video_id": "2Y1pnJmRaK8",
+          "title": "National Revival and the Passover",
+          "published": "2024-12-02",
+          "duration_seconds": 3884
+        },
+        {
+          "video_id": "0vmkAy_DWpM",
+          "title": "Clear Vision and Grateful Hearts",
+          "published": "2024-11-25",
+          "duration_seconds": 3908
+        },
+        {
+          "video_id": "1__vmFcER8o",
+          "title": "True Reformation Puts the Lord First",
+          "published": "2024-11-18",
+          "duration_seconds": 4228
+        },
+        {
+          "video_id": "UpLAoU2CWaE",
+          "title": "Pride Comes Before the Fall",
+          "published": "2024-10-28",
+          "duration_seconds": 4048
+        },
+        {
+          "video_id": "emP1EqDiZKc",
+          "title": "Fall Fest ‘24 Message: “The Mercy of Our Heavenly Father.”",
+          "published": "2024-10-21",
+          "duration_seconds": 4376
+        },
+        {
+          "video_id": "P356Cr9-ROc",
+          "title": "Warrior Priests in Service of our King",
+          "published": "2024-09-30",
+          "duration_seconds": 2994
+        },
+        {
+          "video_id": "SY8mjGbkrzU",
+          "title": "King Jesus is Coming!",
+          "published": "2024-09-23",
+          "duration_seconds": 5008
+        },
+        {
+          "video_id": "gb-9IZl4rYg",
+          "title": "God’s Lamp in the Darkness",
+          "published": "2024-09-16",
+          "duration_seconds": 4834
+        },
+        {
+          "video_id": "4sxfpwDXN7Y",
+          "title": "Small Groups - Russ & Laurel Cline",
+          "published": "2024-09-09",
+          "duration_seconds": 190
+        },
+        {
+          "video_id": "mHWtOz6Lssk",
+          "title": "Stuck in a Dark Chapter? Turn the Page",
+          "published": "2024-09-09",
+          "duration_seconds": 4978
+        },
+        {
+          "video_id": "bOMhDbf2Ojc",
+          "title": "Small Groups - Lisa Keller & Meg Mehorter",
+          "published": "2024-08-25",
+          "duration_seconds": 175
+        },
+        {
+          "video_id": "LXACL2W5uzQ",
+          "title": "Small Groups - John & Joanie Kralyvich",
+          "published": "2024-08-21",
+          "duration_seconds": 186
+        },
+        {
+          "video_id": "C9klrrAQuhI",
+          "title": "Small Groups - Joe & Bekah Kneipp",
+          "published": "2024-08-20",
+          "duration_seconds": 173
+        },
+        {
+          "video_id": "i3e2SnkvmmI",
+          "title": "When God Judges Wicked Kings",
+          "published": "2024-08-19",
+          "duration_seconds": 4888
+        },
+        {
+          "video_id": "NiNWw92UHws",
+          "title": "Finishing the Race Well",
+          "published": "2024-08-05",
+          "duration_seconds": 5187
+        },
+        {
+          "video_id": "cU2Z2-nqQq8",
+          "title": "Knowing and Obeying the Will of God",
+          "published": "2024-07-29",
+          "duration_seconds": 5008
+        },
+        {
+          "video_id": "7P_XOWJDTGo",
+          "title": "When the King Tears Down Idols",
+          "published": "2024-07-22",
+          "duration_seconds": 5307
+        },
+        {
+          "video_id": "f6r_fwDR_1o",
+          "title": "The Futility of Fighting Against God",
+          "published": "2024-07-15",
+          "duration_seconds": 4976
+        },
+        {
+          "video_id": "JSrK-SkjktQ",
+          "title": "The Blessing of Obedience",
+          "published": "2024-07-01",
+          "duration_seconds": 4948
+        },
+        {
+          "video_id": "b89C7kjUcHg",
+          "title": "The Words of Life",
+          "published": "2024-06-24",
+          "duration_seconds": 3322
+        },
+        {
+          "video_id": "7f-u_xe4IP0",
+          "title": "A Divided Kingdom",
+          "published": "2024-06-10",
+          "duration_seconds": 4483
+        },
+        {
+          "video_id": "lM96QDW-sww",
+          "title": "A Reason For the Hope That is in You",
+          "published": "2024-06-03",
+          "duration_seconds": 5367
+        },
+        {
+          "video_id": "8178saINZ1Q",
+          "title": "Christ is the Power and Wisdom of God",
+          "published": "2024-05-27",
+          "duration_seconds": 5307
+        },
+        {
+          "video_id": "GgZh3QxTU3c",
+          "title": "Men's Workshop: 'Being a Godly Knight in this Age of Darkness'  Pastor Randy Smith",
+          "published": "2024-05-24",
+          "duration_seconds": 2800
+        },
+        {
+          "video_id": "tFf9XOAEl14",
+          "title": "“As For Me and My House” Conference Opener! Worship, Message, Q & A",
+          "published": "2024-05-23",
+          "duration_seconds": 9583
+        },
+        {
+          "video_id": "O-88LttXU0M",
+          "title": "'Five Ways Christian Families Are Under Attack' Pastor Chris Durkin",
+          "published": "2024-05-23",
+          "duration_seconds": 2497
+        },
+        {
+          "video_id": "bzztDFfyNEc",
+          "title": "'How You Can Advocate for Change' Shawn Hyland",
+          "published": "2024-05-23",
+          "duration_seconds": 2586
+        },
+        {
+          "video_id": "CLYwdtyF0E4",
+          "title": "Marriage Workshop: 'This is Not What I Signed Up For' Pastor Rodney Navey",
+          "published": "2024-05-23",
+          "duration_seconds": 2598
+        },
+        {
+          "video_id": "TFL0nWxSsX0",
+          "title": "'Redeemed! Overcoming Depression and Addiction'  Arman Kaymakcian",
+          "published": "2024-05-23",
+          "duration_seconds": 2566
+        },
+        {
+          "video_id": "tbhh6g9vFqo",
+          "title": "'Singleness, Dating and Marriage in Light of the Gospel' Pastor Kerris Ackley",
+          "published": "2024-05-23",
+          "duration_seconds": 3089
+        },
+        {
+          "video_id": "5nv4Wg9jLnk",
+          "title": "'The Truth About Unplanned Pregnancy' Melissa Stephens",
+          "published": "2024-05-23",
+          "duration_seconds": 2942
+        },
+        {
+          "video_id": "luukCZccozg",
+          "title": "Women's Workshop: 'The Sacred Message of Marriage'  Dr. Donna Navey",
+          "published": "2024-05-23",
+          "duration_seconds": 2599
+        },
+        {
+          "video_id": "kMiRYVFENt0",
+          "title": "If My People Humble Themselves and Pray",
+          "published": "2024-05-20",
+          "duration_seconds": 4763
+        },
+        {
+          "video_id": "S9Dq1R2wsQA",
+          "title": "Biblical Discernment for Christian Families",
+          "published": "2024-05-13",
+          "duration_seconds": 10012
+        },
+        {
+          "video_id": "czaq9_RgIXc",
+          "title": "The Goodness of God",
+          "published": "2024-05-06",
+          "duration_seconds": 4948
+        },
+        {
+          "video_id": "hk01qhf9rJc",
+          "title": "Be Strong and Courageous",
+          "published": "2024-04-29",
+          "duration_seconds": 5391
+        },
+        {
+          "video_id": "t1PWov3FyKU",
+          "title": "That All the Earth May Know",
+          "published": "2024-04-22",
+          "duration_seconds": 4951
+        },
+        {
+          "video_id": "ReuyV4b688A",
+          "title": "Hear from Heaven and Forgive",
+          "published": "2024-04-15",
+          "duration_seconds": 4888
+        },
+        {
+          "video_id": "auDPdQ9dJPU",
+          "title": "The Universal Mission of the Church",
+          "published": "2024-04-08",
+          "duration_seconds": 4727
+        },
+        {
+          "video_id": "n-Verc0DKo8",
+          "title": "Resurrection Sunday Service",
+          "published": "2024-04-01",
+          "duration_seconds": 3681
+        },
+        {
+          "video_id": "yqXNoSCVJMY",
+          "title": "Hosanna! The Lord Saves!",
+          "published": "2024-03-25",
+          "duration_seconds": 5006
+        },
+        {
+          "video_id": "MzKH2bIU7G4",
+          "title": "Palm Sunday Invite! The Week that Changed the World Forever",
+          "published": "2024-03-22",
+          "duration_seconds": 105
+        },
+        {
+          "video_id": "1-J9tLYXKq8",
+          "title": "The Gardens of Eden, Gethsemane and the Resurrection!",
+          "published": "2024-03-11",
+          "duration_seconds": 4675
+        },
+        {
+          "video_id": "1L631WYpPrs",
+          "title": "The CROSS: The Purpose for which Jesus Came",
+          "published": "2024-03-04",
+          "duration_seconds": 5064
+        },
+        {
+          "video_id": "rnq8DP9nPLw",
+          "title": "The Promise of Forgiveness",
+          "published": "2024-02-26",
+          "duration_seconds": 5064
+        },
+        {
+          "video_id": "cU_j-B83TVs",
+          "title": "Worship in Truth, Worship for Eternity",
+          "published": "2024-02-19",
+          "duration_seconds": 4938
+        },
+        {
+          "video_id": "d3AyIsqAx_8",
+          "title": "Grounds for Glory",
+          "published": "2024-02-12",
+          "duration_seconds": 4966
+        },
+        {
+          "video_id": "ParTaFR5baM",
+          "title": "Enter Into the Most Holy Place",
+          "published": "2024-02-05",
+          "duration_seconds": 4765
+        },
+        {
+          "video_id": "nrmBFbEu7Ik",
+          "title": "The Wisdom to Build for Eternity",
+          "published": "2024-01-29",
+          "duration_seconds": 5107
+        },
+        {
+          "video_id": "qQ7NRBqUlz0",
+          "title": "Choose Life!",
+          "published": "2024-01-22",
+          "duration_seconds": 4945
+        },
+        {
+          "video_id": "AO1H_3ZeyY4",
+          "title": "Biblical Wisdom on Worship and Wealth",
+          "published": "2024-01-01",
+          "duration_seconds": 4405
+        },
+        {
+          "video_id": "jrpu5gllR_0",
+          "title": "4 PM Christmas Eve Service: Wonderful Savior",
+          "published": "2023-12-25",
+          "duration_seconds": 3926
+        },
+        {
+          "video_id": "ToQ6LdF0nHg",
+          "title": "The Message of Christmas: Jesus is Savior AND Lord!",
+          "published": "2023-12-18",
+          "duration_seconds": 4360
+        },
+        {
+          "video_id": "2O8_UHpZ6_U",
+          "title": "The Magi: “We Have Come to Worship Him.”",
+          "published": "2023-12-04",
+          "duration_seconds": 5064
+        },
+        {
+          "video_id": "jKvo9DQhXtg",
+          "title": "The Carpenter’s Dream",
+          "published": "2023-11-27",
+          "duration_seconds": 4645
+        },
+        {
+          "video_id": "LDNcOf5GdJk",
+          "title": "The Acts of Jesus Continue!",
+          "published": "2023-11-20",
+          "duration_seconds": 3926
+        },
+        {
+          "video_id": "WNfPljx5GY8",
+          "title": "By the Sovereign Hand of God Go I",
+          "published": "2023-11-11",
+          "duration_seconds": 4903
+        },
+        {
+          "video_id": "lvLAeWg2_Ro",
+          "title": "Take Heart, God's Promises Will Not Fail",
+          "published": "2023-10-30",
+          "duration_seconds": 3642
+        },
+        {
+          "video_id": "a_n5IcTlYIw",
+          "title": "Our Great Savior",
+          "published": "2023-10-16",
+          "duration_seconds": 4166
+        },
+        {
+          "video_id": "7rIOVBzyVl0",
+          "title": "Kingdoms Colliding",
+          "published": "2023-10-09",
+          "duration_seconds": 5003
+        },
+        {
+          "video_id": "XoGZRLVAbFQ",
+          "title": "Eternal Life Through Jesus Christ",
+          "published": "2023-10-02",
+          "duration_seconds": 4859
+        },
+        {
+          "video_id": "BjZbnLJtKF0",
+          "title": "Fall Fest This Sunday 10:30am!",
+          "published": "2023-09-29",
+          "duration_seconds": 96
+        },
+        {
+          "video_id": "nHE54ansboI",
+          "title": "Do Not Wait for the Convenient Time, Follow Christ Today!",
+          "published": "2023-09-25",
+          "duration_seconds": 4765
+        },
+        {
+          "video_id": "3pTCIxHZn3Y",
+          "title": "The Resurrection on Trial",
+          "published": "2023-09-18",
+          "duration_seconds": 5425
+        },
+        {
+          "video_id": "MIeGPz_YLX8",
+          "title": "Confrontation, Consolation and a Good Conscience",
+          "published": "2023-09-11",
+          "duration_seconds": 4327
+        },
+        {
+          "video_id": "JefREkfSPQ0",
+          "title": "Christian Citizenship: Heaven and Earth",
+          "published": "2023-09-04",
+          "duration_seconds": 5088
+        },
+        {
+          "video_id": "iCQuPjUH4FI",
+          "title": "Obedience at Great Cost",
+          "published": "2023-08-28",
+          "duration_seconds": 5059
+        },
+        {
+          "video_id": "f7F470K1EDM",
+          "title": "Understanding God’s Will",
+          "published": "2023-08-21",
+          "duration_seconds": 4801
+        },
+        {
+          "video_id": "_g0iCQNwpxA",
+          "title": "Faithful Shepherds and False Teachers",
+          "published": "2023-08-14",
+          "duration_seconds": 4815
+        },
+        {
+          "video_id": "4O8gYNSM7b0",
+          "title": "From Riots to Resurrection",
+          "published": "2023-08-07",
+          "duration_seconds": 4992
+        },
+        {
+          "video_id": "SRSDW3g9qYA",
+          "title": "The Riot in Ephesus",
+          "published": "2023-08-03",
+          "duration_seconds": 4554
+        },
+        {
+          "video_id": "Wlm_dhCGry0",
+          "title": "The Only Name Evil Fears",
+          "published": "2023-07-24",
+          "duration_seconds": 34141
+        },
+        {
+          "video_id": "Tk6eDRZKMSc",
+          "title": "Holy Spirit Powered Mission",
+          "published": "2023-07-17",
+          "duration_seconds": 5172
+        },
+        {
+          "video_id": "7ptjnbr7Si4",
+          "title": "It’s Not About You",
+          "published": "2023-07-10",
+          "duration_seconds": 4781
+        },
+        {
+          "video_id": "xteoTBm868o",
+          "title": "Fearless in Corinth",
+          "published": "2023-07-03",
+          "duration_seconds": 5290
+        },
+        {
+          "video_id": "wQa3SYpzXlQ",
+          "title": "Let the Little Children Come to Me",
+          "published": "2023-06-19",
+          "duration_seconds": 4628
+        },
+        {
+          "video_id": "36CADk6hra0",
+          "title": "Idolatry and its Ideologies",
+          "published": "2023-06-12",
+          "duration_seconds": 5166
+        },
+        {
+          "video_id": "0c93Am6z-1g",
+          "title": "Eagerly Examining the Scriptures",
+          "published": "2023-06-05",
+          "duration_seconds": 5304
+        },
+        {
+          "video_id": "PGBHxGON7PA",
+          "title": "From Slaves to Sons!",
+          "published": "2023-05-29",
+          "duration_seconds": 4539
+        },
+        {
+          "video_id": "iEZk6i9ecB8",
+          "title": "Mission and Demonic Oppression",
+          "published": "2023-05-22",
+          "duration_seconds": 4369
+        },
+        {
+          "video_id": "Yu3agsSU-Lo",
+          "title": "As For Me and My House We Will Serve the Lord",
+          "published": "2023-05-15",
+          "duration_seconds": 4684
+        },
+        {
+          "video_id": "abT6zJTxJOc",
+          "title": "Follow, Trust, Be Amazed",
+          "published": "2023-05-09",
+          "duration_seconds": 5047
+        },
+        {
+          "video_id": "6A3SZjPNy1c",
+          "title": "Father, Son and Spirit Leading Us in Mission!",
+          "published": "2023-05-01",
+          "duration_seconds": 4844
+        },
+        {
+          "video_id": "UdBk03e-zcg",
+          "title": "Discipleship: How God Builds Strong Churches",
+          "published": "2023-04-24",
+          "duration_seconds": 4806
+        },
+        {
+          "video_id": "F5OFjKOtfvU",
+          "title": "Life of Jesus Documentary!",
+          "published": "2023-04-05",
+          "duration_seconds": 91
+        },
+        {
+          "video_id": "m1CqgXviD1s",
+          "title": "The Great Exchange",
+          "published": "2023-04-02",
+          "duration_seconds": 5543
+        },
+        {
+          "video_id": "Scm73qDbm2U",
+          "title": "The Trial of Jesus",
+          "published": "2023-03-26",
+          "duration_seconds": 4764
+        },
+        {
+          "video_id": "lVYcFsoXkGQ",
+          "title": "Only Two Sundays Left Until THE Sunday!",
+          "published": "2023-03-24",
+          "duration_seconds": 77
+        },
+        {
+          "video_id": "nfwdkrMKqcE",
+          "title": "Oh the Woeful Cup",
+          "published": "2023-03-21",
+          "duration_seconds": 3997
+        },
+        {
+          "video_id": "Di2iVGa4IKs",
+          "title": "Becoming a Titus 2 Woman with Dr. Donna Navey",
+          "published": "2023-03-15",
+          "duration_seconds": 2753
+        },
+        {
+          "video_id": "nz_A08BRrZc",
+          "title": "God’s Design for our Health with Dr.  James Proodian",
+          "published": "2023-03-15",
+          "duration_seconds": 3599
+        },
+        {
+          "video_id": "1Gl3GsqYIKc",
+          "title": "Life Begins in the Womb with Dr  Margaret Lambert",
+          "published": "2023-03-15",
+          "duration_seconds": 3343
+        },
+        {
+          "video_id": "07Funu7gDXc",
+          "title": "Praying with Power with Pastor Ethan Graves",
+          "published": "2023-03-15",
+          "duration_seconds": 2700
+        },
+        {
+          "video_id": "NyL-eFir54E",
+          "title": "Purity in an Age of Sexual Insanity with Pastor Chris Durkin",
+          "published": "2023-03-15",
+          "duration_seconds": 2368
+        },
+        {
+          "video_id": "-TIkoFItoRE",
+          "title": "The Cross and the Alabaster Jar",
+          "published": "2023-03-12",
+          "duration_seconds": 5079
+        },
+        {
+          "video_id": "ZV3OtlWCOIo",
+          "title": "Turning from Idols to the One True God",
+          "published": "2023-02-13",
+          "duration_seconds": 5190
+        },
+        {
+          "video_id": "Dxt_jXbo9Fw",
+          "title": "Anchored In Christ",
+          "published": "2023-01-27",
+          "duration_seconds": 263
+        },
+        {
+          "video_id": "Wj3a2Emze9M",
+          "title": "Paul's FIRST Sermon: Forgiveness and Freedom!",
+          "published": "2023-01-23",
+          "duration_seconds": 4681
+        },
+        {
+          "video_id": "XtIWnjiAqM8",
+          "title": "What is a Small Group?",
+          "published": "2023-01-23",
+          "duration_seconds": 183
+        },
+        {
+          "video_id": "cZU5FhN1thU",
+          "title": "Why Should I Join A Small Group?",
+          "published": "2023-01-23",
+          "duration_seconds": 47
+        },
+        {
+          "video_id": "J91dUb8ZK6g",
+          "title": "Small Groups Spring Signup",
+          "published": "2023-01-16",
+          "duration_seconds": 74
+        },
+        {
+          "video_id": "jSYNPeRuUiM",
+          "title": "Spirit-fueled Mission and Demonic Opposition",
+          "published": "2023-01-15",
+          "duration_seconds": 4705
+        },
+        {
+          "video_id": "SChJTYxYQtk",
+          "title": "Finding True Meaning in Your Life",
+          "published": "2023-01-01",
+          "duration_seconds": 4459
+        },
+        {
+          "video_id": "OLeZgReEX8Q",
+          "title": "He is Christ the Lord",
+          "published": "2022-12-24",
+          "duration_seconds": 3840
+        },
+        {
+          "video_id": "afdlLucx4jw",
+          "title": "Christmas Eve Invite! 3pm & 5pm",
+          "published": "2022-12-23",
+          "duration_seconds": 58
+        },
+        {
+          "video_id": "ACdHQ9Kcd54",
+          "title": "Living Nativity",
+          "published": "2022-12-19",
+          "duration_seconds": 1476
+        },
+        {
+          "video_id": "R6_egYJnf4o",
+          "title": "Little Town of Bethlehem",
+          "published": "2022-12-12",
+          "duration_seconds": 5086
+        },
+        {
+          "video_id": "UDeKE4SlAE8",
+          "title": "The True Treasure of Christmas",
+          "published": "2022-11-27",
+          "duration_seconds": 5467
+        },
+        {
+          "video_id": "5CpopQt4Bng",
+          "title": "Growing in Christ and Giving Thanks",
+          "published": "2022-11-20",
+          "duration_seconds": 4549
+        },
+        {
+          "video_id": "A3NhpRM85iA",
+          "title": "Jesus, Lord of All",
+          "published": "2022-11-14",
+          "duration_seconds": 4868
+        },
+        {
+          "video_id": "f3QHxqdcYpM",
+          "title": "A Wonderful Weekend of Worship and Ministry Ahead!",
+          "published": "2022-11-04",
+          "duration_seconds": 79
+        },
+        {
+          "video_id": "TGE06i-ZE98",
+          "title": "Reformation Day Sunday and the Bible’s Remedy to Fear!",
+          "published": "2022-10-28",
+          "duration_seconds": 77
+        },
+        {
+          "video_id": "6zMepddl1z0",
+          "title": "Good News for ALL People",
+          "published": "2022-10-25",
+          "duration_seconds": 5054
+        },
+        {
+          "video_id": "aGdki1WyHTA",
+          "title": "Paralysis and Death Overcome by Jesus",
+          "published": "2022-10-16",
+          "duration_seconds": 5119
+        },
+        {
+          "video_id": "3GWm2TYq3Yw",
+          "title": "God’s Chosen Instrument",
+          "published": "2022-10-03",
+          "duration_seconds": 2938
+        },
+        {
+          "video_id": "slNq4FOjVzU",
+          "title": "Sunday Invite! Social Media and Scripture",
+          "published": "2022-09-23",
+          "duration_seconds": 113
+        },
+        {
+          "video_id": "Fqghq9Hz8XM",
+          "title": "We are the Body of Christ",
+          "published": "2022-09-20",
+          "duration_seconds": 4265
+        },
+        {
+          "video_id": "boCD6zTqQHE",
+          "title": "From Dust to Glory",
+          "published": "2022-09-11",
+          "duration_seconds": 5176
+        },
+        {
+          "video_id": "E-FbVdjhKvg",
+          "title": "Jesus Breaks the Curse in Broken Marriages",
+          "published": "2022-09-04",
+          "duration_seconds": 5445
+        },
+        {
+          "video_id": "hZ2p3HC0_HA",
+          "title": "The First Gospel Proclamation in the Bible",
+          "published": "2022-08-28",
+          "duration_seconds": 5382
+        },
+        {
+          "video_id": "SjzTYR-NNwY",
+          "title": "Genesis 3:8-13",
+          "published": "2022-08-21",
+          "duration_seconds": 3882
+        },
+        {
+          "video_id": "vdAdrLs9Dfg",
+          "title": "Sin and Shame Enter God’s Good World",
+          "published": "2022-08-15",
+          "duration_seconds": 4981
+        },
+        {
+          "video_id": "4GgtEiev92I",
+          "title": "Deception, Temptation and Redemption",
+          "published": "2022-08-07",
+          "duration_seconds": 5053
+        },
+        {
+          "video_id": "HQ8lniMCJ_4",
+          "title": "God’s Good Plan for Marriage",
+          "published": "2022-07-31",
+          "duration_seconds": 4854
+        },
+        {
+          "video_id": "gh8ajo7wbYE",
+          "title": "The Biblical Foundations for Truth, Work and Life",
+          "published": "2022-07-17",
+          "duration_seconds": 5278
+        },
+        {
+          "video_id": "ySH_xs8geH0",
+          "title": "The Garden of Eden",
+          "published": "2022-07-10",
+          "duration_seconds": 4722
+        },
+        {
+          "video_id": "SSDkfaBlaus",
+          "title": "Your Life is Linked to Jesus’s Life",
+          "published": "2022-06-26",
+          "duration_seconds": 4372
+        },
+        {
+          "video_id": "IR90rXA2lCA",
+          "title": "Man and Woman Made in God’s Image",
+          "published": "2022-06-19",
+          "duration_seconds": 4808
+        },
+        {
+          "video_id": "F3FMExYfrTE",
+          "title": "God Made Everything Good",
+          "published": "2022-06-12",
+          "duration_seconds": 5751
+        },
+        {
+          "video_id": "nClzoL60gIM",
+          "title": "In the Beginning, GOD!",
+          "published": "2022-06-05",
+          "duration_seconds": 4767
+        },
+        {
+          "video_id": "xz8958SpOG0",
+          "title": "New Summer Sermon Series! In the Beginning, GOD!",
+          "published": "2022-06-03",
+          "duration_seconds": 75
+        },
+        {
+          "video_id": "aYNwbUwGF8g",
+          "title": "Small Groups Promo",
+          "published": "2022-05-06",
+          "duration_seconds": 122
+        },
+        {
+          "video_id": "fXKwfkVGpJ0",
+          "title": "He is RISEN! Join us on Resurrection Sunday!",
+          "published": "2022-04-12",
+          "duration_seconds": 98
+        },
+        {
+          "video_id": "k3cquhTE0T8",
+          "title": "Palm Sunday Invitation!",
+          "published": "2022-04-03",
+          "duration_seconds": 92
+        },
+        {
+          "video_id": "PhGiJynhMtU",
+          "title": "The Definition of Church is Assemble! Let's Gather This Sunday!",
+          "published": "2022-03-18",
+          "duration_seconds": 61
+        },
+        {
+          "video_id": "d2T56m1TzwQ",
+          "title": "A Plea to Families",
+          "published": "2022-03-17",
+          "duration_seconds": 212
+        },
+        {
+          "video_id": "AjKWpUZvi7U",
+          "title": "The Definition of Church",
+          "published": "2022-03-17",
+          "duration_seconds": 61
+        },
+        {
+          "video_id": "SdZthemMWPc",
+          "title": "9/11 Remembrance and Invitation",
+          "published": "2021-09-11",
+          "duration_seconds": 130
+        },
+        {
+          "video_id": "hYNKjEx2ugY",
+          "title": "World Changers Update & The Battlefield of the Mind!",
+          "published": "2021-07-16",
+          "duration_seconds": 132
+        },
+        {
+          "video_id": "rAdiIOgiq68",
+          "title": "Follow Me",
+          "published": "2021-05-16",
+          "duration_seconds": 4761
+        },
+        {
+          "video_id": "wU0-Qe_mTBU",
+          "title": "He is Risen! Join us for Outdoor Resurrection Sunday Worship!",
+          "published": "2021-04-01",
+          "duration_seconds": 73
+        },
+        {
+          "video_id": "svhkyDj0uJA",
+          "title": "Set Apart to Be Sent Out",
+          "published": "2020-10-26",
+          "duration_seconds": 3960
+        },
+        {
+          "video_id": "VbRgvzxEcHU",
+          "title": "CNCC VBS DAY 2",
+          "published": "2020-07-28",
+          "duration_seconds": 1627
+        },
+        {
+          "video_id": "oWEUQF-XY9c",
+          "title": "CNCC LIVESTREAM SUN 6/21/2020",
+          "published": "2020-06-23",
+          "duration_seconds": 3710
+        },
+        {
+          "video_id": "PxPpCgjKPp4",
+          "title": "Gathering Gifts to Give Update",
+          "published": "2020-04-26",
+          "duration_seconds": 93
+        },
+        {
+          "video_id": "A5GrTzWLRmk",
+          "title": "Gathering Gifts to Give",
+          "published": "2020-04-14",
+          "duration_seconds": 150
+        },
+        {
+          "video_id": "l2Mj2wUe8mk",
+          "title": "Special Message from Pastor Chris on the Coronavirus",
+          "published": "2020-03-17",
+          "duration_seconds": 3017
+        },
+        {
+          "video_id": "C2GonVc15GI",
+          "title": "Video of Pastor Chris' introduction to the Gospel of John",
+          "published": "2019-02-09",
+          "duration_seconds": 333
+        },
+        {
+          "video_id": "RQ7HiQU-UQk",
+          "title": "God's Word Creates Genuine Worship!",
+          "published": "2018-10-08",
+          "duration_seconds": 363
+        },
+        {
+          "video_id": "NDFD2i0qzYA",
+          "title": "Pastor Chris @ Bridgefest",
+          "published": "2018-10-08",
+          "duration_seconds": 1089
+        },
+        {
+          "video_id": "wXUAhblgIRw",
+          "title": "Healing Though Humble Prayer *Pastor Chris Durkin*",
+          "published": "2018-06-01",
+          "duration_seconds": 1977
+        },
+        {
+          "video_id": "ys093DVDD6M",
+          "title": "Our God Is Greater - Shepherd Boy and Giant Slayer * Pastor Chris Durkin *",
+          "published": "2018-05-03",
+          "duration_seconds": 1907
+        },
+        {
+          "video_id": "6z--UeCOxZI",
+          "title": "CNCC EASTER PROMO",
+          "published": "2018-03-29",
+          "duration_seconds": 94
+        },
+        {
+          "video_id": "sMSsAkke1nU",
+          "title": "THE SEVEN SAYINGS - Part 7 * Pastor Chris Durkin *",
+          "published": "2018-03-26",
+          "duration_seconds": 1329
+        },
+        {
+          "video_id": "9l2mB0Eei60",
+          "title": "THE SEVEN SAYINGS - Part 6 * Pastor Chris Durkin *",
+          "published": "2018-03-24",
+          "duration_seconds": 1717
+        },
+        {
+          "video_id": "0_wL-diRpNY",
+          "title": "THE SEVEN SAYINGS - Part 5 * Pastor Chris Durkin *",
+          "published": "2018-03-12",
+          "duration_seconds": 1736
+        },
+        {
+          "video_id": "tWbgIALgg44",
+          "title": "THE SEVEN SAYINGS - Part 4 * Pastor Chris Durkin *",
+          "published": "2018-03-05",
+          "duration_seconds": 1469
+        },
+        {
+          "video_id": "t-IZmLHGsyU",
+          "title": "THE SEVEN SAYINGS - Part 2 * Pastor Chris Durkin *",
+          "published": "2018-02-28",
+          "duration_seconds": 1703
+        },
+        {
+          "video_id": "TowoyH9fKbA",
+          "title": "THE SEVEN SAYINGS - Part 1 * Pastor Chris Durkin *",
+          "published": "2018-02-27",
+          "duration_seconds": 1564
+        },
+        {
+          "video_id": "FEkXK8R_gVM",
+          "title": "RUTH PART 4 * Pastor Ryan Hawkins *",
+          "published": "2018-02-25",
+          "duration_seconds": 1941
+        },
+        {
+          "video_id": "5M_TBNtAtr8",
+          "title": "Seven Sayings of Jesus on the Cross: 2017 Easter Series Promo",
+          "published": "2018-02-15",
+          "duration_seconds": 105
+        },
+        {
+          "video_id": "rPQ4hil0T7s",
+          "title": "Ruth Chapter 2",
+          "published": "2018-02-01",
+          "duration_seconds": 252
+        },
+        {
+          "video_id": "v6vQsRCCG2w",
+          "title": "RUTH PART 3 * Pastor Chris Durkin *",
+          "published": "2018-01-22",
+          "duration_seconds": 1620
+        },
+        {
+          "video_id": "5KJ4F8I_Kck",
+          "title": "RUTH PART 2 * Pastor Chris Durkin *",
+          "published": "2018-01-15",
+          "duration_seconds": 1545
+        },
+        {
+          "video_id": "Nng8xAiKSZk",
+          "title": "RUTH PART 1 * Pastor Chris Durkin *",
+          "published": "2018-01-14",
+          "duration_seconds": 1795
+        },
+        {
+          "video_id": "28sZu23y_Fs",
+          "title": "LUKE CHAPTER 1 * Pastor Chris Durkin *",
+          "published": "2017-12-24",
+          "duration_seconds": 1534
+        },
+        {
+          "video_id": "5a46f66czWk",
+          "title": "LUKE Chapter 2 * Pastor Chris Durkin *",
+          "published": "2017-12-24",
+          "duration_seconds": 1345
+        },
+        {
+          "video_id": "Q8zl4wfwbaI",
+          "title": "MICAH 5  * Pastor Chris Durkin *",
+          "published": "2017-12-24",
+          "duration_seconds": 1491
+        },
+        {
+          "video_id": "BtYkObGa41M",
+          "title": "ROMANS PART 36 - Series Finale  * Pastor Chris Durkin *",
+          "published": "2017-12-23",
+          "duration_seconds": 1624
+        },
+        {
+          "video_id": "R3WlL7Mr6OQ",
+          "title": "ROMANS PART 35 * Pastor Jim Quigley *",
+          "published": "2017-11-27",
+          "duration_seconds": 1749
+        },
+        {
+          "video_id": "0u_AJEMll58",
+          "title": "ROMANS PART 32 * Pastor Chris Durkin *",
+          "published": "2017-11-19",
+          "duration_seconds": 1707
+        },
+        {
+          "video_id": "rVFlDa5KesY",
+          "title": "ROMANS PART 33 * Pastor Chris Durkin *",
+          "published": "2017-11-19",
+          "duration_seconds": 1548
+        },
+        {
+          "video_id": "LpZLJR6a6Eg",
+          "title": "ROMANS PART 34 * Pastor Chris Durkin *",
+          "published": "2017-11-19",
+          "duration_seconds": 1654
+        },
+        {
+          "video_id": "ZTeM-xs-J7Y",
+          "title": "ROMANS PART 31 * Pastor Ryan Hawkins *",
+          "published": "2017-10-30",
+          "duration_seconds": 1965
+        },
+        {
+          "video_id": "--mlhUDC_wE",
+          "title": "ROMANS PART 30 * Pastor Chris Durkin *",
+          "published": "2017-10-29",
+          "duration_seconds": 1508
+        },
+        {
+          "video_id": "p6JtnSkhK5M",
+          "title": "ROMANS PART 29 * Pastor Chris Durkin *",
+          "published": "2017-10-17",
+          "duration_seconds": 1613
+        },
+        {
+          "video_id": "M7IBYHOOtuo",
+          "title": "ROMANS PART 28 * Pastor Chris Durkin *",
+          "published": "2017-10-16",
+          "duration_seconds": 1490
+        },
+        {
+          "video_id": "GDC90HNuxsM",
+          "title": "ROMANS PART 27 * Pastor Chris Durkin *",
+          "published": "2017-09-04",
+          "duration_seconds": 1711
+        },
+        {
+          "video_id": "m56zOTO_MD0",
+          "title": "ROMANS PART 26 * Pastor Chris Durkin",
+          "published": "2017-09-02",
+          "duration_seconds": 1907
+        },
+        {
+          "video_id": "-9o_8IyZ1Lk",
+          "title": "ROMANS PART 25 * Pastor Chris Durkin",
+          "published": "2017-08-20",
+          "duration_seconds": 1690
+        },
+        {
+          "video_id": "3i0C96d5ymE",
+          "title": "ROMANS PART 24 * Pastor Chris Durkin",
+          "published": "2017-08-13",
+          "duration_seconds": 1693
+        },
+        {
+          "video_id": "cLfZSo4SXL4",
+          "title": "ROMANS PART 21 * Pastor Chris Durkin",
+          "published": "2017-08-08",
+          "duration_seconds": 1656
+        },
+        {
+          "video_id": "3vxGDTS71Vg",
+          "title": "ROMANS PART 22 * Pastor Chris Durkin",
+          "published": "2017-08-08",
+          "duration_seconds": 1470
+        },
+        {
+          "video_id": "hqnO1dF31FA",
+          "title": "ROMANS PART 23 * Pastor Chris Durkin",
+          "published": "2017-08-08",
+          "duration_seconds": 1835
+        },
+        {
+          "video_id": "sJ_eBLKIO9g",
+          "title": "ROMANS PART 18 * Pastor Chris Durkin",
+          "published": "2017-07-05",
+          "duration_seconds": 1583
+        },
+        {
+          "video_id": "AmdqXVEO2Bk",
+          "title": "ROMANS PART 20 * Pastor Chris Durkin",
+          "published": "2017-07-05",
+          "duration_seconds": 1626
+        },
+        {
+          "video_id": "UbE_JXUZonU",
+          "title": "ROMANS PART 16 * Pastor Chris Durkin *",
+          "published": "2017-05-29",
+          "duration_seconds": 1587
+        },
+        {
+          "video_id": "aAQ_2mw-YEY",
+          "title": "ROMANS PART 17 * Pastor Chris Durkin *",
+          "published": "2017-05-29",
+          "duration_seconds": 1755
+        },
+        {
+          "video_id": "UHI8ruTrShk",
+          "title": "HOPE FOR HURTING FAMILIES * Pastor Chris Durkin *",
+          "published": "2017-05-21",
+          "duration_seconds": 1928
+        },
+        {
+          "video_id": "tp3MLZazqLI",
+          "title": "ROMANS PART 15 * Pastor Chris Durkin *",
+          "published": "2017-05-09",
+          "duration_seconds": 1868
+        },
+        {
+          "video_id": "YbCcCWNNYiA",
+          "title": "ROMANS Part 13 * Pastor Jim Quigley *",
+          "published": "2017-05-06",
+          "duration_seconds": 1799
+        },
+        {
+          "video_id": "xuGNNSlvZs0",
+          "title": "ROMANS Part 14 * Pastor Chris Durkin *",
+          "published": "2017-05-06",
+          "duration_seconds": 1732
+        },
+        {
+          "video_id": "M1dDC04uCTA",
+          "title": "PALM SUNDAY * Pastor Chris Durkin",
+          "published": "2017-04-16",
+          "duration_seconds": 1328
+        },
+        {
+          "video_id": "zned31mrHII",
+          "title": "ROMANS Part 12 * Pastor Chris Durkin",
+          "published": "2017-04-16",
+          "duration_seconds": 2014
+        },
+        {
+          "video_id": "qrJL0lKQsOk",
+          "title": "ROMANS Part 10 * Pastor Chris Durkin",
+          "published": "2017-04-15",
+          "duration_seconds": 1524
+        },
+        {
+          "video_id": "a-_VIkyWK24",
+          "title": "ROMANS Part 9 * Pastor Chris Durkin",
+          "published": "2017-03-15",
+          "duration_seconds": 1660
+        },
+        {
+          "video_id": "0bjrGTWwjFs",
+          "title": "ROMANS Part8 * Pastor Chris Durkin & Patti Height",
+          "published": "2017-03-11",
+          "duration_seconds": 5987
+        },
+        {
+          "video_id": "96XB64OVzPo",
+          "title": "ROMANS 2:12-16 * Pastor Chris Durkin *",
+          "published": "2017-02-20",
+          "duration_seconds": 2054
+        },
+        {
+          "video_id": "60MH4yaeEKw",
+          "title": "ROMANS 2:1-11 * Pastor Chris Durkin *",
+          "published": "2017-02-19",
+          "duration_seconds": 1753
+        },
+        {
+          "video_id": "4R_2IgvJR74",
+          "title": "Romans 1:21-25 * Pastor Chris Durkin",
+          "published": "2017-02-06",
+          "duration_seconds": 1800
+        },
+        {
+          "video_id": "FLHO-KAkDR8",
+          "title": "Romans 1:18-20 * Pastor Chris Durkin",
+          "published": "2017-01-30",
+          "duration_seconds": 1711
+        },
+        {
+          "video_id": "uQXekM8EHJ8",
+          "title": "Romans 1:16-17 * Pastor Chris Durkin",
+          "published": "2017-01-23",
+          "duration_seconds": 1750
+        },
+        {
+          "video_id": "BGLdMMBWZPo",
+          "title": "ROMANS 1:1-15  * Pastor Chris Durkin *",
+          "published": "2017-01-16",
+          "duration_seconds": 1606
+        },
+        {
+          "video_id": "_sqdrAU4V0A",
+          "title": "10 COMMANDMENTS *Part 3* Pastor Chris Durkin",
+          "published": "2017-01-03",
+          "duration_seconds": 1803
+        },
+        {
+          "video_id": "vu92fap5hjw",
+          "title": "10 COMMANDMENTS *Part 7* Pastor Chris Durkin",
+          "published": "2017-01-03",
+          "duration_seconds": 2142
+        },
+        {
+          "video_id": "C7JtHrwh51E",
+          "title": "10 COMMANDMENTS *Part 9* Pastor Chris Durkin",
+          "published": "2017-01-03",
+          "duration_seconds": 1932
+        },
+        {
+          "video_id": "OlIWL4AXwCE",
+          "title": "EXODUS 32 - When The Idolatry Party Ends - Pastor Chris Durkin",
+          "published": "2017-01-03",
+          "duration_seconds": 2124
+        },
+        {
+          "video_id": "K7xVMKdZPsc",
+          "title": "10 COMMANDMENTS *Part 6* Pastor Chris Durkin",
+          "published": "2016-11-26",
+          "duration_seconds": 2216
+        },
+        {
+          "video_id": "CYJeKJImRUA",
+          "title": "CNCC Thanksgiving Service 2016",
+          "published": "2016-11-24",
+          "duration_seconds": 1646
+        },
+        {
+          "video_id": "heWotCk9yJ8",
+          "title": "10 COMMANDMENTS * Part2 * Pastor Chris Durkin",
+          "published": "2016-10-31",
+          "duration_seconds": 1990
+        },
+        {
+          "video_id": "myL1D4z8ACw",
+          "title": "10 COMMANDMENTS * Part1 * Pastor Chris Durkin",
+          "published": "2016-10-17",
+          "duration_seconds": 1836
+        },
+        {
+          "video_id": "_NdwXQt8F5c",
+          "title": "EXODUS Part 15 - Pastor Chris Durkin",
+          "published": "2016-09-26",
+          "duration_seconds": 1962
+        },
+        {
+          "video_id": "-eMrksP5rC4",
+          "title": "EXODUS Part 14 - Pastor Chris Durkin",
+          "published": "2016-09-18",
+          "duration_seconds": 1859
+        },
+        {
+          "video_id": "zypydum9qFs",
+          "title": "EXODUS Part 10 - Pastor Chris Durkin",
+          "published": "2016-09-13",
+          "duration_seconds": 2063
+        },
+        {
+          "video_id": "yv3gNs4I_7Y",
+          "title": "EXODUS Part 11 - Pastor Chris Durkin",
+          "published": "2016-09-13",
+          "duration_seconds": 1745
+        },
+        {
+          "video_id": "b4Lrv0hUadU",
+          "title": "EXODUS Part 13 - Pastor Chris Durkin",
+          "published": "2016-09-13",
+          "duration_seconds": 2305
+        },
+        {
+          "video_id": "bieilnCr39w",
+          "title": "EXODUS Part 9 - Pastor Chris Durkin",
+          "published": "2016-09-13",
+          "duration_seconds": 1821
+        },
+        {
+          "video_id": "8asi4NUEJ9Q",
+          "title": "EXODUS Part 8 - Pastor Chris Durkin",
+          "published": "2016-08-15",
+          "duration_seconds": 1776
+        },
+        {
+          "video_id": "ToONFlsrNUc",
+          "title": "EXODUS Part 7 - Pastor Steve Braun",
+          "published": "2016-07-25",
+          "duration_seconds": 2260
+        },
+        {
+          "video_id": "9t9PZLcj5Ws",
+          "title": "EXODUS Part 6 - Pastor Chris Durkin",
+          "published": "2016-07-23",
+          "duration_seconds": 2239
+        },
+        {
+          "video_id": "paAkwYtmiIM",
+          "title": "EXODUS Part 5 - Pastor Chris Durkin",
+          "published": "2016-07-15",
+          "duration_seconds": 1922
+        },
+        {
+          "video_id": "2e04lrTuCjY",
+          "title": "EXODUS Part 4 - Pastor Chris Durkin",
+          "published": "2016-07-04",
+          "duration_seconds": 1709
+        },
+        {
+          "video_id": "oPxt4qKsy6A",
+          "title": "EXODUS Part 3 - Pastor Chris Durkin",
+          "published": "2016-07-02",
+          "duration_seconds": 1688
+        },
+        {
+          "video_id": "IWukvjFDD1w",
+          "title": "EXODUS Part 1 - Pastor Chris Durkin",
+          "published": "2016-06-13",
+          "duration_seconds": 2059
+        },
+        {
+          "video_id": "MWU1ltMjC1s",
+          "title": "CNCC 40th Birthday Celebration",
+          "published": "2016-06-06",
+          "duration_seconds": 2358
+        },
+        {
+          "video_id": "11ha5GP7GgI",
+          "title": "CNCC Memorial Day Special 2016",
+          "published": "2016-05-30",
+          "duration_seconds": 871
+        },
+        {
+          "video_id": "BAmKbV9EyMs",
+          "title": "'GOD'S UNCHAINED PROVIDENCE' - The Life Of Joseph Part2",
+          "published": "2016-04-24",
+          "duration_seconds": 1891
+        },
+        {
+          "video_id": "iosKjBRZk6g",
+          "title": "'A Dreamer & A Dysfunctional Family' - The Life of Joseph Part1",
+          "published": "2016-04-13",
+          "duration_seconds": 2075
+        },
+        {
+          "video_id": "seGidRPmAHQ",
+          "title": "Easter Sunday 2016 - 'Running On Empty' - Pastor Chris Durkin",
+          "published": "2016-03-28",
+          "duration_seconds": 1943
+        },
+        {
+          "video_id": "r6_o4311Yyo",
+          "title": "'If God Is Good, Why Suffering?' - Pastor Chris Durkin",
+          "published": "2016-03-21",
+          "duration_seconds": 2078
+        },
+        {
+          "video_id": "XA_jSRgHRaU",
+          "title": "'Taking God At His Word' - Pastor Chris Durkin",
+          "published": "2016-03-11",
+          "duration_seconds": 1839
+        }
+      ]
+    }
+  ],
+  "guest_appearances": []
+}

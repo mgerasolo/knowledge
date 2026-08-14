@@ -9,8 +9,11 @@ RUN pip install --no-cache-dir -r /app/requirements.txt gunicorn
 COPY api /app/api
 COPY personalities /app/personalities
 
+# PROFESSOR_CORPUS_PATH's parent directory is scanned: every *.json in
+# /app/personalities becomes one professor.
 ENV PROFESSOR_CORPUS_PATH=/app/personalities/myron-golden.json \
     PROFESSOR_PORT=5050 \
+    PROFESSOR_REQUIRE_SECRETS=true \
     PYTHONUNBUFFERED=1
 
 EXPOSE 5050

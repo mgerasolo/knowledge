@@ -154,6 +154,41 @@ Raw discoveries as they happen, newest last.
   (#44) for latency, and a decision on task-model wiring (cheap non-RAG model
   for titles/tags instead of disabling).
 
+### 2026-08-14 — Durkin personality added (multi-professor manifold) + API auth
+- **Second professor live**: `personalities/chris-durkin.json` (344 videos, all
+  from the `pastorchrisdurkin` channel — the CNCC Sunday-service livestreams
+  live INSIDE that channel, no separate slug; `crosspointcity` is a different
+  church in Georgia and was excluded). `speaker_purity: mixed` — services
+  include worship/announcements by other speakers.
+- **Multi-personality is now structural**: the API loads every
+  `personalities/*.json` at startup and routes `personality_id` per request;
+  composition prompts derive the persona name from the corpus (no hardcoded
+  Myron). The OpenWebUI pipe is a **manifold** (`pipes()` → one model per
+  personality: `professor_myron.myron-golden`, `professor_myron.chris-durkin`);
+  adding professor #3 = drop a JSON file + add one registry line in the pipe.
+- **Coverage 100%** for BOTH corpora at verification (the CNCC-priority
+  backfill finished; Myron was 36.79% at 06:44Z and 100% by 16:25Z).
+- **Timestamps are REAL for the Durkin corpus**: sampled the 12 longest
+  (livestream-length) videos — 1618/1619 segments have `start_time > 0`, so
+  citations deep-link properly (the #72 all-zero-timestamp defect did not hit
+  this corpus). Demo question ("most recent baptisms during the church
+  service?") cited his 2025-09-01 service at 23:20 with a working embed.
+- **/api/ask now requires a bearer key** (`PROFESSOR_API_KEY`, generated
+  value-safely into the root-only deploy/.env; unauthenticated → 401), and
+  config **fails closed**: missing SURREAL_PASS / LITELLM_API_KEY /
+  PROFESSOR_API_KEY aborts container startup instead of running on defaults.
+  The pipe reads the key from the OpenWebUI container env via a valve default.
+- **Operational learnings**: (1) Matt changing the OpenWebUI admin password
+  broke automation mid-day — a dedicated service-admin account
+  (`/root/professor-openwebui-service.env`, created via in-container
+  open_webui model calls, no restart) now decouples automation from his
+  account. (2) SurrealDB remains the demo risk: two more memcg OOM kills
+  today, and cold-cache scans after a restart exceeded the 60s DB timeout →
+  502s; `PROFESSOR_REQUEST_TIMEOUT=240` now waits instead of failing, but the
+  #44 vector index and #73 memory headroom are still the real fixes. Direct
+  corpus-wide probe queries from outside the API's scan lock are what tipped
+  the DB over — probe through the API's audit log (`professor_log`) instead.
+
 ## 5. Spike Learning Report (2026-08-14)
 
 Close-out answers to the nine learning-agenda questions in issue #16, from the

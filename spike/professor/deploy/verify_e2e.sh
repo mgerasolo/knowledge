@@ -19,7 +19,7 @@ curl -s "$BASE/api/models" -H "Authorization: Bearer $TOKEN" \
 
 echo
 echo "== 2. non-stream chat completion (multi-turn) =="
-REQ='{"model":"professor_myron","stream":false,"messages":[
+REQ='{"model":"professor_myron.myron-golden","stream":false,"messages":[
   {"role":"user","content":"How do I make my offer irresistible?"},
   {"role":"assistant","content":"You make an offer irresistible by increasing its value until saying no feels like losing money."},
   {"role":"user","content":"What did he say about pricing it?"}]}'
@@ -52,7 +52,7 @@ rm -f /tmp/.owui-e2e.json
 
 echo
 echo "== 3. streamed completion — citation/source events =="
-REQ2='{"model":"professor_myron","stream":true,"messages":[{"role":"user","content":"What does the Bible say about wealth according to Myron?"}]}'
+REQ2='{"model":"professor_myron.myron-golden","stream":true,"messages":[{"role":"user","content":"What does the Bible say about wealth according to Myron?"}]}'
 curl -s -N -m 300 -X POST "$BASE/api/chat/completions" \
   -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d "$REQ2" \
   > /tmp/.owui-stream.txt
