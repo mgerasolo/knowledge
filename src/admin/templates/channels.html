@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Channels - Knowledge Admin{% endblock %}
+{% block title %}Channels - KnowledgeEnroll{% endblock %}
 
 {% block content %}
 <div class="flex flex-between flex-center mb-20">
@@ -268,5 +268,10 @@ document.getElementById('new-handle').addEventListener('blur', async function() 
 
 loadDomains();
 loadChannels();
+
+// Deep links from the tier-2 nav: /channels?add=1 and /channels?enroll=1
+const navParams = new URLSearchParams(window.location.search);
+if (navParams.get('add') === '1') openAddChannel();
+else if (navParams.get('enroll') === '1') openEnrollVideo();
 </script>
 {% endblock %}

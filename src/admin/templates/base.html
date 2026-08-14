@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Knowledge Admin{% endblock %}</title>
+    <title>{% block title %}KnowledgeEnroll{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
 
-        /* Navigation */
-        .nav { background: #1e293b; border-bottom: 1px solid #334155; padding: 0 20px; }
-        .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 60px; gap: 30px; }
-        .nav-brand { color: #38bdf8; font-size: 1.3rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        /* Two-tier navigation — header standard for all KnowledgeStack parts.
+           Tier 1: the app (KnowledgeStack) + its parts. Tier 2: pages within
+           the current part. Both tiers use Roboto Condensed. */
+        .nav-tier1 { background: rgb(7, 12, 24); border-bottom: 1px solid rgb(30, 41, 59); padding: 0 20px; font-family: 'Roboto Condensed', -apple-system, sans-serif; }
+        .nav-tier1-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 46px; gap: 26px; }
+        .nav-app { color: rgb(56, 189, 248); font-size: 1.35rem; font-weight: 700; text-decoration: none; letter-spacing: 0.02em; }
+        .nav-app:hover { text-decoration: none; color: rgb(125, 211, 252); }
+        .nav-parts { display: flex; gap: 4px; }
+        .nav-part { color: rgb(148, 163, 184); text-decoration: none; padding: 5px 14px; border-radius: 4px; font-size: 1.02rem; font-weight: 500; transition: all 0.2s; }
+        .nav-part:hover { color: rgb(226, 232, 240); background: rgb(30, 41, 59); text-decoration: none; }
+        .nav-part.current { color: rgb(241, 245, 249); background: rgb(30, 41, 59); border-bottom: 2px solid rgb(56, 189, 248); }
+        .nav { background: rgb(30, 41, 59); border-bottom: 1px solid rgb(51, 65, 85); padding: 0 20px; font-family: 'Roboto Condensed', -apple-system, sans-serif; }
+        .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 48px; gap: 30px; }
         .nav-links { display: flex; gap: 5px; }
-        .nav-link { color: #94a3b8; text-decoration: none; padding: 8px 16px; border-radius: 6px; transition: all 0.2s; }
-        .nav-link:hover { color: #e2e8f0; background: #334155; }
-        .nav-link.active { color: #38bdf8; background: #0f172a; }
+        .nav-link { color: rgb(148, 163, 184); text-decoration: none; padding: 7px 15px; border-radius: 6px; font-size: 1.02rem; font-weight: 500; transition: all 0.2s; }
+        .nav-link:hover { color: rgb(226, 232, 240); background: rgb(51, 65, 85); }
+        .nav-link.active { color: rgb(56, 189, 248); background: rgb(15, 23, 42); }
+        .nav-link.nav-action { color: rgb(74, 222, 128); }
+        .nav-link.nav-action:hover { background: rgb(51, 65, 85); }
 
         /* Main content */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
@@ -186,14 +200,25 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+    <nav class="nav-tier1">
+        <div class="nav-tier1-inner">
+            <a href="https://knowledge.nextlevelfoundry.com/" class="nav-app">KnowledgeStack</a>
+            <div class="nav-parts">
+                <a href="{{ url_prefix }}/" class="nav-part current">Enroll</a>
+                <a href="https://knowledge.nextlevelfoundry.com/lecture/" class="nav-part">Lecture</a>
+                <a href="https://knowledge.nextlevelfoundry.com/ingest/" class="nav-part">Ingest</a>
+                <a href="https://knowledge.nextlevelfoundry.com/transcript/" class="nav-part">Transcript</a>
+            </div>
+        </div>
+    </nav>
     <nav class="nav">
         <div class="nav-inner">
-            <a href="{{ url_prefix }}/" class="nav-brand">Knowledge Admin</a>
             <div class="nav-links">
-                <a href="https://knowledge.nextlevelfoundry.com/" class="nav-link" title="Back to the Knowledge launchpad">⌂ Hub</a>
                 <a href="{{ url_prefix }}/" class="nav-link {% if request.path == '/' %}active{% endif %}">Dashboard</a>
                 <a href="{{ url_prefix }}/control" class="nav-link {% if request.path == '/control' %}active{% endif %}">Control</a>
                 <a href="{{ url_prefix }}/channels" class="nav-link {% if '/channels' in request.path %}active{% endif %}">Channels</a>
+                <a href="{{ url_prefix }}/channels?add=1" class="nav-link nav-action">+ Add Channel</a>
+                <a href="{{ url_prefix }}/channels?enroll=1" class="nav-link nav-action">+ Enroll Video</a>
                 <a href="{{ url_prefix }}/pipeline" class="nav-link {% if request.path == '/pipeline' %}active{% endif %}">Pipeline</a>
                 <a href="{{ url_prefix }}/videos" class="nav-link {% if '/videos' in request.path %}active{% endif %}">Videos</a>
                 <a href="{{ url_prefix }}/tags" class="nav-link {% if '/tags' in request.path %}active{% endif %}">Tags</a>
