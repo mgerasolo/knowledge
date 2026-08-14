@@ -422,6 +422,14 @@ def _transcript_api() -> YouTubeTranscriptApi:
 #
 # Not applied to --flat-playlist listing calls, which work fine as-is and are
 # hit far more often.
+#
+# REMOVAL PENDING (issue #22): the Dockerfile now installs Deno, so the JS
+# runtime these flags compensate for exists once the image is rebuilt. They are
+# deliberately still here — deleting the working fallback in the same change
+# that adds the runtime is how a good change becomes an outage. Delete them
+# after the rebuild, once GET /api/tooling reports
+# `override_flags.still_needed: false`, which is measured by actually fetching a
+# publish date without them rather than by assuming.
 YTDLP_SINGLE_VIDEO_ARGS = [
     "--ignore-no-formats-error",
     "--extractor-args", "youtube:player_client=web",
