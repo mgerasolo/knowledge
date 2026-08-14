@@ -1,4 +1,6 @@
 """KnowledgeEnroll Embedding Service - HTTP API for n8n workflows."""
+import json
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from config import Config
@@ -142,6 +144,70 @@ def get_video(video_id):
     })
 
 
+@app.route('/api/video/<video_id>/tags', methods=['POST'])
+def add_video_tags(video_id):
+    """Merge corpus tags onto a video record (#46 — single-video enrollment).
+
+    MERGE, never replace: tagging a video into a second corpus must not strip
+    it out of the first, and re-running an enrollment must be harmless.
+
+    Expected payload: {"tags": ["personality:myron-golden", ...]}
+    Returns the video's full tag list after the merge.
+    """
+    import re as _re
+    from surreal_client import surreal_query, surreal_write, create_safe_id
+
+    data = request.get_json(silent=True) or {}
+    tags = data.get('tags')
+    if not isinstance(tags, list) or not tags:
+        return jsonify({'error': 'tags must be a non-empty list', 'success': False}), 400
+
+    # Same shape single_video.py enforces; re-checked here because this is the
+    # boundary where the values land in a SurrealQL statement.
+    tag_re = _re.compile(r"^[a-z0-9][a-z0-9:._-]{0,79}$")
+    cleaned = []
+    for tag in tags:
+        text = str(tag).strip().lower()
+        if not tag_re.match(text):
+            return jsonify({
+                'error': f'invalid tag: {str(tag)[:80]} (want lowercase slugs '
+                         'like personality:myron-golden)',
+                'success': False,
+            }), 400
+        if text not in cleaned:
+            cleaned.append(text)
+
+    video_db_id = create_safe_id(video_id)
+
+    # Refuse to tag a video the index does not hold — an UPSERT here would
+    # plant an empty stub record that looks like a real video to every query.
+    existing = surreal_query(f"SELECT youtube_id FROM video:{video_db_id};")
+    if (not existing or not isinstance(existing[0], dict)
+            or not existing[0].get('result')):
+        return jsonify({'error': 'Video not in the index', 'success': False}), 404
+
+    tags_json = json.dumps(cleaned)
+    # Two statements so this works on any SurrealDB version: normalize a
+    # missing field to [], then merge and dedupe.
+    ok, err = surreal_write(
+        f"UPDATE video:{video_db_id} SET tags = [] WHERE tags = NONE;"
+    )
+    if ok:
+        ok, err = surreal_write(
+            f"UPDATE video:{video_db_id} SET "
+            f"tags = array::distinct(array::concat(tags, {tags_json}));"
+        )
+    if not ok:
+        return jsonify({'error': f'tag write failed: {err}', 'success': False}), 503
+
+    final = surreal_query(f"SELECT tags FROM video:{video_db_id};")
+    final_tags = []
+    if final and isinstance(final[0], dict) and final[0].get('result'):
+        final_tags = final[0]['result'][0].get('tags') or []
+
+    return jsonify({'success': True, 'video_id': video_id, 'tags': final_tags}), 200
+
+
 @app.route('/api/stats')
 def stats():
     """Get embedding statistics."""
@@ -193,6 +259,7 @@ def index():
             'embed': 'POST /api/embed',
             'search': 'POST /api/search',
             'video': 'GET /api/video/<id>',
+            'video_tags': 'POST /api/video/<id>/tags',
             'stats': 'GET /api/stats'
         }
     })

@@ -110,6 +110,7 @@ def list_videos():
     """List all videos with optional search."""
     search = request.args.get('q', '').strip()
     domain = request.args.get('domain', '')
+    tag = request.args.get('tag', '').strip().lower()
     limit = min(int(request.args.get('limit', 50)), 100)
     offset = int(request.args.get('offset', 0))
 
@@ -120,13 +121,19 @@ def list_videos():
         conditions.append(f"string::lowercase(title) CONTAINS string::lowercase('{q(search)}')")
     if domain:
         conditions.append(f"domain = '{q(domain)}'")
+    if tag:
+        # Corpus tags from single-video enrollment (#46), e.g.
+        # personality:myron-golden. Records that predate tagging have no
+        # tags field at all; CONTAINS on NONE is simply false, so they drop
+        # out of a tag-filtered list without erroring.
+        conditions.append(f"tags CONTAINS '{q(tag)}'")
 
     where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 
     query = f"""
     SELECT youtube_id, title, channel_handle, channel_name, domain, segment_count,
            published_at, ingested_at, duration_seconds, url, has_timestamps,
-           description
+           description, tags
     FROM video
     {where_clause}
     ORDER BY ingested_at DESC
