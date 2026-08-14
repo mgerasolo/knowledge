@@ -818,6 +818,12 @@ def save_transcript_file(video: dict, segments: list[dict], description: Optiona
 
     escaped_title = title.replace('"', "'")
 
+    # Corpus tags (e.g. personality:myron-golden) from single-video enrollment
+    # (#46). Written as JSON, which is valid YAML flow style — the tag alphabet
+    # is validated upstream, so no character here ever needs escaping. The
+    # channel path passes no tags and keeps writing `tags: []` as before.
+    tags_yaml = json.dumps(video.get("tags") or [])
+
     # Extras (duration, view/like counts, live status, chapters) come free with
     # the metadata call we already make. They go into the file AND into the
     # index — see index_metadata().
@@ -845,7 +851,7 @@ fetched: "{datetime.now().strftime('%Y-%m-%d')}"
 domain: "{video.get('domain', 'unknown')}"
 segment_count: {len(segments)}
 duration_seconds: {duration:.1f}{extra_yaml}
-tags: []{desc_yaml}
+tags: {tags_yaml}{desc_yaml}
 ---
 
 ## Transcript

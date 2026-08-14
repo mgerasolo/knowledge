@@ -16,6 +16,7 @@ from fetcher import (
     proxy_status,
 )
 from backfill_worker import start_backfill_thread, worker_status
+from single_video import EnrollError, enroll_video
 from tooling import tooling_status, tooling_summary
 
 app = Flask(__name__)
@@ -110,6 +111,7 @@ def index():
             'channels': 'GET /api/channels',
             'pending': 'GET /api/pending?limit=8',
             'fetch': 'POST /api/fetch',
+            'enroll': 'POST /api/enroll',
             'discover': 'POST /api/discover',
         }
     })
@@ -208,6 +210,37 @@ def fetch():
     result = fetch_and_save(video)
 
     status_code = 200 if result.get('success') else 400
+    return jsonify(result), status_code
+
+
+@app.route('/api/enroll', methods=['POST'])
+def enroll():
+    """Enroll ONE video without enrolling its channel (#46).
+
+    The channel path needs the caller to supply channel metadata; this one
+    looks everything up from the video itself, so a guest appearance on a
+    show we don't follow can join a personality corpus.
+
+    Expected payload:
+    {
+        "video_id": "hiQW6FZkA9o",        // or "url": any YouTube URL shape
+        "tags": ["personality:myron-golden"],  // optional corpus tags
+        "domain": "business"               // optional, default "general"
+    }
+
+    Status codes: 200 ingested/already-held · 400 bad input · 404 unreadable
+    video · 409 stream not finished · 422 no captions · 429 rate-limited.
+    """
+    data = request.get_json(silent=True) or {}
+    video_ref = data.get('video_id') or data.get('url') or data.get('id')
+    try:
+        result, status_code = enroll_video(
+            video_ref,
+            tags=data.get('tags'),
+            domain=data.get('domain'),
+        )
+    except EnrollError as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
     return jsonify(result), status_code
 
 
