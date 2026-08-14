@@ -115,6 +115,7 @@ def pipeline(monkeypatch, tmp_path):
         calls["tagged"].append((video_id, tags))
         return True, None
     monkeypatch.setattr(single_video, "push_tags", fake_push)
+    monkeypatch.setattr(single_video, "video_in_index", lambda vid: True)
 
     return calls
 
@@ -189,3 +190,25 @@ class TestEnrollOrchestration:
         monkeypatch.setattr(single_video, "fetch_video_metadata", boom)
         with pytest.raises(EnrollError):
             enroll_video(SAMPLE_ID, tags=["not a valid tag!"])
+
+    def test_bad_domain_rejected(self, pipeline):
+        # domain flows into SurrealQL downstream — Codex review finding 1.
+        with pytest.raises(EnrollError):
+            enroll_video(SAMPLE_ID, domain="x'; DELETE video; --")
+
+    def test_metadata_lookup_failure_is_retryable_not_404(self, pipeline, monkeypatch):
+        # yt-dlp timing out is OUR problem, not a verdict on the video —
+        # Codex review finding 5.
+        monkeypatch.setattr(single_video, "fetch_video_metadata", lambda vid: None)
+        result, status = enroll_video(SAMPLE_ID)
+        assert status == 503 and result["retryable"]
+        assert SAMPLE_ID not in pipeline["state"]["failed"]
+
+    def test_already_fetched_but_unindexed_is_reported(self, pipeline, monkeypatch):
+        # File-on-disk and searchable are different stores — Codex finding 3.
+        pipeline["state"]["fetched"].append(SAMPLE_ID)
+        monkeypatch.setattr(single_video, "video_in_index", lambda vid: False)
+        result, status = enroll_video(SAMPLE_ID)
+        assert status == 200 and result["already_fetched"]
+        assert result["indexed"] is False
+        assert "reindex" in result["index_error"]

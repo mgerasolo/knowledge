@@ -224,7 +224,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
     UPSERT channel:{channel_id} SET
         youtube_handle = '{escape_string(channel_handle)}',
         name = '{escape_string(channel_name)}',
-        domain = '{domain}',
+        domain = '{escape_string(domain)}',
         ingested_at = time::now();
     """
     ok, err = surreal_write(channel_query)
@@ -249,7 +249,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
         url = '{escape_string(url)}',
         channel_handle = '{escape_string(channel_handle)}',
         channel_name = '{escape_string(channel_name)}',
-        domain = '{domain}',
+        domain = '{escape_string(domain)}',
         description = '{escape_string(description)}',
         chapters = {chapters_json},
         hashtags = {hashtags_json},
@@ -318,7 +318,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
             embedding = {embedding_str},
             requires_visual = {str(requires_visual).lower()},
             published_at = d'{published_at}',
-            domain = '{domain}',
+            domain = '{escape_string(domain)}',
             video_youtube_id = '{video_id}',
             ingested_at = time::now();
         """

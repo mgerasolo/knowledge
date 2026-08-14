@@ -42,3 +42,19 @@ Track bugs discovered during conversations, tagged with conversation ID.
 **Status:** Fixed (for opted-in channels)
 **Date:** 2026-08-14
 **Impact:** `discover_new_videos()` now reads an optional per-channel `tabs` list (default `["videos"]`, so unaffected channels still cost one request). @PastorChrisDurkin is set to `["videos", "streams"]`. The other 50 channels have NOT been audited for the same problem — if a monitored creator has moved to livestreaming, we are silently missing their recent output.
+
+---
+
+**Conv:** b928fd9a-29e9-42da-aeb8-f284f7c1a730
+**Bug:** `fetch_state.json` / `video_list.json` are read-modify-written by three uncoordinated writers (backfill worker, priority-ingest script, single-video enrollment) with no locking and non-atomic `write_text()`. An interleaving write can silently drop another writer's fetched/failed updates, and a concurrent reader can observe truncated JSON. Pre-existing pattern (the priority script documents "re-read immediately before writing" as its only mitigation); surfaced by the Codex adversarial review of #46.
+**Status:** Open
+**Date:** 2026-08-14
+**Impact:** Low frequency (window is milliseconds, writers are rare), but a lost "fetched" entry causes a duplicate fetch, and a lost "failed" entry causes an extra retry. Proper fix is one writer owning state (or fcntl locking + atomic rename across all three writers) — a deliberate refactor, not a patch.
+
+---
+
+**Conv:** b928fd9a-29e9-42da-aeb8-f284f7c1a730
+**Bug:** `fetcher.fetch_transcript()` still converts UNRECOGNIZED exceptions into `None` ("no transcript"), and both the channel path and single-video enrollment then record a permanent failure. The 2026-08-14 fix catches known block/network signatures, but a new parser regression in `youtube_transcript_api` or an unrecognized transient error would again blacklist good videos. Surfaced by the Codex adversarial review of #46.
+**Status:** Open
+**Date:** 2026-08-14
+**Impact:** Same failure class as the fixed whole-IP-block bug, narrower trigger. Safer design: default UNKNOWN exceptions to retryable (raise TranscriptBlocked) and only return None for the three explicit "video has no captions" exception types.
