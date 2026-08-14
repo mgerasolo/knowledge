@@ -31,6 +31,8 @@ resolved or worked around.
 | 2026-08-14 | **Incremental commits were blocked even though spike files were writable.** This worktree's Git administrative directory resolves into the parent checkout, which remained read-only to the managed workspace; `git commit` could not create `index.lock`. | Completed and verified the implementation in the authorized worktree without pretending commits succeeded. The supervisor must commit the finished tree from a session that can write the parent repository's `.git/worktrees/professor-spike/` metadata. |
 | 2026-08-14 | **The isolated dependency install could not reach PyPI.** The requested local `spike/professor/.venv` was created, but the sandbox had no package-index network access. | Kept the venv local and reused packages from the repository's existing test environment through a local path file; no global packages were installed. The requirements file remains the reproducible container install source. |
 | 2026-08-14 | **One corpus video uses `duration_seconds: 0` as an unknown-metadata sentinel.** Treating every non-positive duration as corrupt prevented the full 298-video corpus from loading. | Normalize zero to unknown while still rejecting negative/non-finite durations. The live test refuses unknown-duration citations, so acceptance is not weakened. |
+| 2026-08-14 | **Live test blocked by credential scope: the embedding container's LiteLLM key is embeddings-only** (`embeddings`, `jarvis-embed`) — every chat call for answer composition returned 403. The brief's assumption "creds are already in its env" held for SurrealDB + embeddings but not chat. | Supervisor minted a scoped 7-day virtual key on the gateway (chat + embedding models only, aliased to the spike) and injected it into the container for the run. Phase 2 needs a proper per-service chat-capable key provisioned for the Professor API. |
+| 2026-08-14 | **First live run failed citation validation: cited video `UzsiGvsFtpk` had no known duration.** 4 of 298 corpus videos (livestream VODs) were ingested with zero timing metadata — `duration_seconds: 0` in the manifest AND all segment `start_time`/`end_time` = 0.0 in SurrealDB. | Corpus durations backfilled with exact values via yt-dlp (commit `30e2e6b`). The deeper gap — segments without timestamps can never deep-link (`t=0s` always) — is a core-pipeline issue (see §3). |
 
 ## 3. Core-System Changes (lessons for the main pipeline)
 
@@ -43,6 +45,8 @@ the main pipeline.
 | 2026-08-14 | Pre-build audit: **0 of 327,402 segments have embeddings** — entire library semantically unsearchable; silent failure (embedder writes NONE and continues) | Fix embedding config, backfill (Myron channels first), add embedding-coverage metric to status API, then vector index | [#44](https://github.com/mgerasolo/knowledge/issues/44) |
 | 2026-08-14 | Pre-build audit: **all 4,458 videos have empty uploader** — metadata backfill never landed | Run/repair metadata backfill; add metadata-coverage metric | [#45](https://github.com/mgerasolo/knowledge/issues/45) |
 | 2026-08-14 | Personality corpus needs guest appearances, but pipeline is channel-only | Single-video enrollment endpoint + per-video personality tagging | [#46](https://github.com/mgerasolo/knowledge/issues/46) |
+| 2026-08-14 | **Livestream VODs ingest with zero timing data** — segments carry `start_time`/`end_time` = 0.0, so citations into them can never deep-link into the video | Ingest should capture per-segment timestamps for /streams content (or flag timing-less videos so retrieval can rank them lower for citation purposes) | not yet filed |
+| 2026-08-14 | **Corpus-scoped vector search is slow without an index**: cosine scan over the Myron corpus took ~16 s per question (SurrealDB `vector::similarity::cosine` full scan) | Vector index (HNSW/MTREE) once embedding backfill completes — already in #44's domain | [#44](https://github.com/mgerasolo/knowledge/issues/44) |
 
 ## 4. Chronological Findings
 
@@ -94,3 +98,21 @@ Raw discoveries as they happen, newest last.
 - Offline verification reached 39 passing pytest tests with network sockets blocked.
   The credentialed three-question live run and database record inspection remain for
   the supervisor container, as planned in the brief.
+
+### 2026-08-14 — Phase-1 live verification (supervisor, credentialed container)
+- **All 3 sample questions PASS end-to-end**: three-tier answers with grounded
+  citations, run inside the knowledge-embedding container on Banner. Independent
+  re-validation of all 25 citations across the 3 answers: every video_id ∈ Myron
+  corpus, every start_time within the video's duration; every Tier-A citation
+  index resolves in the citation map. 0 invalid.
+- **Coverage 25.79%** of corpus segments embedded (backfill still running) —
+  answers are already well-grounded at a quarter coverage.
+- **Latency ≈ 35–40 s/question**: retrieval ~16 s (unindexed cosine scan — see §3),
+  composition ~16–24 s (claude-sonnet). Tier-C extension model (grok-4) verified
+  available on the gateway.
+- **Cost estimate reads $0.00** because `INPUT/OUTPUT_COST_PER_MILLION` config
+  knobs default to 0 — real per-question cost not yet measured; wire actual rates
+  in Phase 2 if cost tracking matters.
+- **professor_log: 6 records visible in SurrealDB** after the runs (3 from the
+  first partial run, 3 from the passing run); log write is confirmed per-request
+  before an answer is returned.
