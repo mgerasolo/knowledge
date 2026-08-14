@@ -1,16 +1,24 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with the knowledge codebase.
+This file provides guidance to Claude Code when working with the KnowledgeStack codebase.
 
 ## Overview
 
-Application description here.
+**KnowledgeStack** - YouTube transcript ingestion and RAG platform built on Speakr.
 
 **Target Environment:** Banner (10.0.0.33)
-**Port Block:** {{PORT_BLOCK}} (web=3350)
+**Port Block:** 5000-5099 (web=5000, db=5010, api=5020, cache=5030)
 **Domain:** knowledge.nextlevelguild.com
 
 ## Critical Rules
+
+**External API Rate Limiting (MANDATORY):**
+- **Minimum 2 second delay** between calls to external APIs when making **more than 5 requests** in a batch
+- Applies to: YouTube, MCP Gateway, Exa, Brave, or any service outside our internal 10.0.0.x network
+- Prefer 3s+ delays for large batches (500+ calls)
+- This limit **can be overridden with prior human authorization** (e.g., real-time trading needs faster rates)
+- 5 or fewer requests: no delay required
+- Internal services (SurrealDB, PostgreSQL, LiteLLM proxy on 10.0.0.x) are exempt
 
 **Container Deployment:**
 - **NEVER deploy containers to Stark or localhost** - Stark is a coding workstation only
@@ -21,24 +29,24 @@ Application description here.
 **URLs - Never localhost:**
 - **NEVER use localhost or 127.0.0.1** - containers run on remote VMs
 - **Preferred:** Fully qualified domain (requires Traefik setup)
-- **Acceptable:** VM IP with port (e.g., `http://10.0.0.33:3350`)
+- **Acceptable:** VM IP with port (e.g., `http://10.0.0.33:5000`)
 
 ```bash
 # BEST - domain via Traefik
 https://knowledge.nextlevelguild.com
 
 # OK - direct IP to container host
-http://10.0.0.33:3350
+http://10.0.0.33:5000
 
 # WRONG - will not work (container not on your machine)
-http://localhost:3350
-http://127.0.0.1:3350
+http://localhost:5000
+http://127.0.0.1:5000
 ```
 
 **Domain/Traefik Setup:**
 - Traefik config: `~/Infrastructure/stacks/traefik/`
 - Domain registry: `~/Infrastructure/DEPLOYMENTS.md`
-- Standards: `/mnt/foundry_project/AppServices/Standards-v2/infrastructure/`
+- Standards: `./standards/` → `/mnt/foundry_resources/standards-shared/`
 
 **SSH Access:**
 - **ALWAYS use hostname, NEVER use IP address**
@@ -56,13 +64,16 @@ ssh 10.0.0.33
 
 | Purpose | Tool |
 |---------|------|
-| Frontend | React + Vite |
-| Backend | Node.js + Express |
-| Database | PostgreSQL (shared AppServices) |
+| Core Platform | Speakr (Python 3.11 / Flask 2.3.3 + Vue.js 3) — AGPL-3.0 |
+| Overlay Frontend | TBD (Speakr Vue.js 3 as-is; overlay UI framework open) |
+| Ingestion | n8n (YouTube RSS → Speakr REST API) |
+| Vector DB | Qdrant (self-hosted Docker) |
+| AI Routing | LiteLLM proxy (10.0.0.27:2764) |
+| Database | PostgreSQL (shared with Speakr) |
 | Auth | Authentik (via Helicarrier) |
 | Logging | Loki → Grafana (Coulson) |
 | Monitoring | Prometheus → Grafana (Coulson) |
-| Secrets | Shared .env files at `/mnt/foundry_project/AppServices/env/` |
+| Secrets | Shared .env files at `/mnt/foundry_devlab/secrets/env/` |
 
 ## Key Directories
 
@@ -72,9 +83,12 @@ knowledge/
 │   ├── CONVERSATION_HISTORY.md # All conversations TLDR
 │   ├── BUGS.md                 # Discovered bugs (tagged by conv-id)
 │   ├── DECISIONS.md            # Architecture decisions (tagged by conv-id)
-│   └── conversations/          # Per-conversation summaries
+│   ├── conversations/          # Per-conversation summaries
+│   └── herding/                # → /mnt/foundry_resources/herding/ (protocol feedback)
 ├── .github/
 │   └── ISSUE_TEMPLATE/         # GitHub issue templates
+├── standards/                  # → /mnt/foundry_resources/standards-shared/
+├── protocols/                  # → /mnt/foundry_resources/protocols/
 ├── src/                        # Application source code
 ├── docs/                       # Documentation
 └── scripts/                    # Utility scripts
@@ -96,6 +110,33 @@ ai_apps_get OPENAI_API_KEY      # If using AI features
 # Deployment (when ready)
 # Use /deployment banner knowledge
 ```
+
+## Secrets Management
+
+Secrets are managed via shared `.env` files (Infisical is the CANONICAL secrets home (corrected 2026-08-07; this line previously said the opposite)).
+
+**Location:** `/mnt/foundry_devlab/secrets/env/`
+
+```bash
+# Source helper functions
+source ~/Infrastructure/scripts/secrets.sh
+
+# Infrastructure secrets
+secret_get PORTAINER_PASSWORD
+
+# App services (PostgreSQL, Redis, etc.)
+appservices_get POSTGRES_PASSWORD
+
+# AI API keys
+ai_apps_get OPENAI_API_KEY
+```
+
+**Categories:**
+| File | Purpose |
+|------|---------|
+| `infrastructure.env` | Infrastructure admin credentials |
+| `appservices.env` | App-facing services (Postgres, Redis, SMTP) |
+| `appbrain.env` | AI service API keys |
 
 ## Claude Code Telemetry
 
@@ -130,40 +171,6 @@ This project uses structured context management for multi-conversation workflows
 - Read your conversation's SUMMARY.md
 - Resume work with context restored
 
-## Standardized Response Format
-
-**MANDATORY:** All responses must use this format:
-
-```markdown
-**Title:**
-- [Conversation title, max 60 chars]
-
-**Request:**
-- [Up to 120 char summary of request]
-
-**Tasks:**
-- ✅ [Owner] [Details...] Completed task
-- ⬜ [Owner] [Status] [Details...] Pending task
-
-**Summary:**
-- Portfolio manager perspective: features, branding, cost, big picture
-- Avoid deep technical specifics
-
-**Next:**
-- [Next immediate action or "None"]
-
-**USER ACTION NEEDED:**
-- [Actions requiring human decision]
-
-**Context:**
-- XX% used, YY% remaining
-```
-
-**Emoji Legend:**
-- **Owner:** 🤖 Claude | 👨‍🔧 Human | 👤 Other
-- **Status:** ⏳ Waiting | 🛑 Blocked | 🏳️ Ready | 💬 Discuss
-- **Details:** 🔸 Required | 🔹 Optional | ⚠️ Concern | ∥ Parallel
-
 ## GitHub Integration
 
 **Repository:** https://github.com/mgerasolo/knowledge
@@ -192,11 +199,20 @@ This project uses structured context management for multi-conversation workflows
 ## Security Notes
 
 - Never commit secrets or API keys
-- Use Infisical or .env files from shared location
+- Use shared .env files from `/mnt/foundry_devlab/secrets/env/`
 - All external API calls must go through authenticated endpoints
 
 ## Related Documentation
 
 - Infrastructure: `~/Infrastructure/CLAUDE.md`
-- AppServices Standards: `/mnt/foundry_project/AppServices/`
-- Deployment Docs: `/mnt/foundry_project/Forge/deployments/banner/knowledge/`
+- Standards: `./standards/` → `/mnt/foundry_resources/standards-shared/`
+- Protocols: `./protocols/` → `/mnt/foundry_resources/protocols/`
+- Herding: `./.claude/herding/` → `/mnt/foundry_resources/herding/`
+- Deployment Policy: `./standards/deployment-policy.md`
+- Port Standard: `./standards/ports.md`
+- Secrets Standard: `./standards/secrets.md`
+<!-- shepard:managed:begin -->
+## Standards (ShepardProtocol — auto-synced, do not edit locally)
+Read into every conversation:
+- .claude/rules/standards/codex-validation.md — Codex independent validation
+<!-- shepard:managed:end -->

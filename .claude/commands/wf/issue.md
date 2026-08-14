@@ -12,8 +12,8 @@ This command creates a new GitHub issue and drives it through the early workflow
 1. **Clarification Gate** - Ensure requirements are crystal clear (95%+ clarity)
 2. **Create Issue** - With proper labels and structure
 3. **Phase 1: Refining** - Analyze and document requirements
-4. **Phase 2: Designing** - Technical approach (if needed)
-5. **Phase 3: Tests Writing** - Write failing tests (TDD red phase)
+4. **Phase 2: Designing** - Technical approach + contract schemas
+5. **Phase 3: Tests Writing** - Write failing tests (TDD red phase) + VERIFY THEY FAIL
 6. **Ask User** - Continue to implementation or stop?
 
 ---
@@ -60,13 +60,28 @@ gh issue create \
 - **Current:** [what happens now]
 - **Expected:** [what should happen]
 
-## Success Criteria
-- [ ] [Testable AC 1]
-- [ ] [Testable AC 2]
-- [ ] [Testable AC 3]
+## Success Criteria (Gherkin-style)
+- [ ] Given [precondition], when [action], then [result]
+- [ ] Given [precondition], when [action], then [result]
+- [ ] Given [precondition], when [action], then [result]
 
 ## Constraints
 [What should NOT change]
+
+## Verification Commands
+\`\`\`bash
+# Commands to verify this issue is complete (run after deploy)
+curl -s http://TARGET_HOST:PORT/health | jq .status
+curl -s http://TARGET_HOST:PORT/version | jq .commit
+# Additional verification commands specific to this issue
+\`\`\`
+
+## Definition of Done
+- [ ] Tests written and verified failing (red phase)
+- [ ] Implementation passes all tests (green phase)
+- [ ] Deploy verification gate passes (health + version endpoint)
+- [ ] No regressions in existing tests
+- [ ] Human review approved
 
 ## Technical Notes
 [Any implementation hints]" \
@@ -87,9 +102,10 @@ gh issue edit [NUMBER] --remove-label "phase:0-backlog" --add-label "phase:1-ref
 ## Step 3: Phase 1 - Refining (Analyst)
 
 As the Analyst agent, review and refine the issue:
-- Ensure acceptance criteria are testable and specific
+- Ensure acceptance criteria are testable and in Gherkin format (Given/When/Then)
 - Add any missing edge cases
 - Clarify any ambiguous requirements
+- Add verification commands specific to this issue
 - Update the issue body if needed
 
 When complete:
@@ -103,6 +119,7 @@ gh issue edit [NUMBER] --remove-label "phase:1-refining" --add-label "phase:2-de
 
 As the Architect agent, determine technical approach:
 - Identify files that need changes
+- **Define contract schemas** (zod types for any API boundaries touched)
 - Note any architectural considerations
 - For simple changes, this phase can be brief
 
@@ -110,6 +127,7 @@ Add a comment with the technical approach:
 ```bash
 gh issue comment [NUMBER] --body "## Technical Approach
 - Files to modify: [list]
+- Contract schemas: [list any zod schemas to define/update]
 - Approach: [brief description]
 - Risks: [any concerns]"
 ```
@@ -127,10 +145,22 @@ As the TEA agent, write failing tests:
 - Create test file: `tests/issue-[NUMBER]-[slug].spec.ts`
 - Tests should fail (TDD red phase)
 - Cover all acceptance criteria
+- Include contract validation tests if API boundaries are involved
 
-When tests are written:
+**CRITICAL: Verify tests actually FAIL before advancing.**
+
+```bash
+# Run the tests and confirm they fail
+npm run test -- --run tests/issue-[NUMBER]-[slug].spec.ts 2>&1 | tail -20
+
+# If tests PASS, they are not testing anything real — fix them
+# Only advance to phase 4 when tests produce RED (failures)
+```
+
+When tests are written AND verified failing:
 ```bash
 gh issue edit [NUMBER] --remove-label "phase:3-tests-writing" --add-label "phase:4-developing"
+gh issue comment [NUMBER] --body "Tests written and verified failing (red phase). X tests, all failing as expected."
 ```
 
 ---
@@ -149,9 +179,9 @@ What would you like to do?"
 
 If user chooses to continue, proceed with:
 - Phase 4: Development (implement to make tests pass)
-- Phase 5: TEA Testing (run tests, verify)
-- Phase 6: Deployment (if tests pass)
-- Phase 7: Human Review (ask user to verify via web)
+- Phase 5: TEA Testing (run full test suite + deploy verification)
+- Phase 6: Deployment (deploy + run deploy verification gate)
+- Phase 7: Human Review (only if deploy verification passes)
 
 ---
 
@@ -160,4 +190,6 @@ If user chooses to continue, proceed with:
 For `workflow:quick` issues (typos, one-liners, CSS < 10 lines):
 - Skip phases 1-3
 - Go directly from creation to phase 4
-- Still require phases 5-7 (testing, deploy, review)
+- Still require phase 5 (testing) and phase 6 (deploy verification)
+- **Quick does NOT skip deploy verification** — still requires health + version check
+- Phase 7 (human review) only if deploy verification passes

@@ -33,13 +33,25 @@ gh issue edit $ISSUE --remove-label "needs:verification" 2>/dev/null
 # Return to development phase
 gh issue edit $ISSUE --add-label "phase:4-developing"
 
-# Add rejection comment
+# Add rejection comment with test gap analysis
 gh issue comment $ISSUE --body "**Rejected by human review:**
 
 $REASON
+
+**Test Gap Analysis:**
+This rejection indicates a gap in automated verification. Before re-implementing, evaluate:
+- [ ] Was this caught by any existing test? If not, why?
+- [ ] Should a new test be added to prevent this specific failure?
+- [ ] Was the deploy verification gate running? Did it pass?
+- [ ] Is the acceptance criteria specific enough to test automatically?
+
+**Action required:** Fix the issue, add a test that would have caught this, then re-run the development cycle.
 
 Returned to development phase for fixes."
 
 echo "Issue #$ISSUE rejected and returned to phase:4-developing"
 echo "Reason: $REASON"
+echo ""
+echo "NOTE: A test gap analysis has been added to the issue."
+echo "The developer should add a test that would have caught this before re-implementing."
 ```

@@ -18,7 +18,7 @@ from typing import Optional
 # Configuration
 SURREAL_URL = "http://10.0.0.33:5040"
 SURREAL_USER = "root"
-SURREAL_PASS = "knowledgespike123"
+SURREAL_PASS = "changeme"
 SURREAL_NS = "knowledgespike"
 SURREAL_DB = "transcripts"
 
@@ -29,6 +29,7 @@ EMBEDDING_MODEL = "embeddings"
 TRANSCRIPT_DIR = Path("/mnt/foundry_resources/transcripts")
 CHUNK_SIZE = 500  # Smaller chunks for finer granularity
 CHUNK_OVERLAP = 100
+SKIP_EMBEDDINGS = False  # Skip embeddings for faster import
 
 # Visual trigger phrases (lazy analysis pattern)
 VISUAL_TRIGGERS = [
@@ -395,9 +396,12 @@ def process_transcript(filepath: Path):
     for i, chunk in enumerate(chunks):
         chunk_id = f"{video_id}_{i}"
 
-        # Get embedding
-        embedding = get_embedding(chunk["text"])
-        embedding_str = json.dumps(embedding) if embedding else "NONE"
+        # Get embedding (skip if SKIP_EMBEDDINGS is True)
+        if SKIP_EMBEDDINGS:
+            embedding_str = "NONE"
+        else:
+            embedding = get_embedding(chunk["text"])
+            embedding_str = json.dumps(embedding) if embedding else "NONE"
 
         # Detect visual triggers
         requires_visual = detect_visual_triggers(chunk["text"])
