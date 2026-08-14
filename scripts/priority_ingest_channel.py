@@ -90,26 +90,57 @@ def discover(handle: str, tabs=TABS) -> list[dict]:
     return list(seen.values())
 
 
-def fetch_metadata(video_id: str) -> tuple[str, str]:
-    """One yt-dlp call -> (upload_date, description). Empty strings on failure."""
+def fetch_metadata(video_id: str) -> dict:
+    """One yt-dlp call -> everything that call already knows about the video.
+
+    We were paying for this request and keeping only the description. Duration,
+    view/like counts, live status and chapter markers all ride along in the same
+    response, so taking them costs nothing extra — which matters when request
+    volume is the thing that gets us blocked.
+    """
+    fields = ["upload_date", "duration", "view_count", "like_count",
+              "live_status", "chapters", "description"]
     cmd = ytdlp_base_cmd() + YTDLP_SINGLE_VIDEO_ARGS + [
         "--skip-download",
-        "--print", "%(upload_date)s",
-        "--print", "%(description)s",
+        # Description last and on its own line: it is multi-line free text, so
+        # anything printed after it could not be told apart from its body.
+        *sum(([("--print"), f"%({f})j" if f == "chapters" else f"%({f})s"]
+              for f in fields), []),
+        f"https://www.youtube.com/watch?v={video_id}",
+    ]
+    empty = {f: "" for f in fields}
+    try:
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+    except subprocess.TimeoutExpired:
+        return empty
+    if res.returncode != 0:
+        return empty
+
+    lines = res.stdout.split("\n")
+    out = dict(empty)
+    for i, f in enumerate(fields[:-1]):
+        val = lines[i].strip() if i < len(lines) else ""
+        out[f] = "" if val in ("NA", "None", "null") else val
+    out["description"] = "\n".join(lines[len(fields) - 1:]).strip()
+    return out
+
+
+def live_status_of(video_id: str) -> str:
+    """Cheap check for whether a video is a stream that hasn't finished.
+
+    Only called when a video has no transcript, to tell "this will never have
+    captions" apart from "this is broadcasting right now and will have captions
+    once it ends" — the second must not be recorded as a permanent failure.
+    """
+    cmd = ytdlp_base_cmd() + YTDLP_SINGLE_VIDEO_ARGS + [
+        "--skip-download", "--print", "%(live_status)s",
         f"https://www.youtube.com/watch?v={video_id}",
     ]
     try:
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     except subprocess.TimeoutExpired:
-        return "", ""
-    if res.returncode != 0:
-        return "", ""
-    out = res.stdout.split("\n", 1)
-    upload_date = out[0].strip() if out else ""
-    description = out[1].strip() if len(out) > 1 else ""
-    if upload_date in ("NA", "None"):
-        upload_date = ""
-    return upload_date, description
+        return ""
+    return res.stdout.strip().splitlines()[-1].strip() if res.returncode == 0 and res.stdout.strip() else ""
 
 
 def main() -> int:
@@ -148,7 +179,8 @@ def main() -> int:
         log(f"--limit {args.limit}: processing {len(todo)} of them this run")
 
     stats = {"ok": 0, "no_transcript": 0, "not_indexed": 0, "error": 0,
-             "skipped_deadline": 0, "block_waits": 0, "block_minutes": 0}
+             "skipped_deadline": 0, "block_waits": 0, "block_minutes": 0,
+             "live_deferred": 0}
     total = len(todo)
 
     stop = False
@@ -190,6 +222,16 @@ def main() -> int:
             if stop:
                 break
             if not segments:
+                # A stream that is upcoming or mid-broadcast has no captions
+                # YET. Recording that as a permanent failure would blacklist
+                # the sermon that is being preached as we look at it.
+                status = live_status_of(vid)
+                if status in ("is_live", "is_upcoming", "post_live"):
+                    stats["live_deferred"] += 1
+                    log(f"    still live ({status}) — leaving it for a later run")
+                    time.sleep(args.miss_delay)
+                    continue
+
                 # Record it so the standing worker doesn't retry forever.
                 state = load_state()
                 if vid not in state.setdefault("failed", []):
@@ -200,14 +242,24 @@ def main() -> int:
                 time.sleep(args.miss_delay)
                 continue
 
-            upload_date, description = fetch_metadata(vid)
+            meta = fetch_metadata(vid)
+            description = meta.get("description", "")
             video = {
                 "id": vid,
                 "title": v["title"],
                 "channel_handle": args.handle,
                 "channel_name": args.name,
                 "domain": args.domain,
-                "upload_date": upload_date or "NA",
+                "upload_date": meta.get("upload_date") or "NA",
+                # Extra fields ride along in the file's frontmatter only. They
+                # are deliberately NOT added to the indexer payload yet: the
+                # search datastore is SCHEMAFULL and silently rejected every
+                # write the last time it was handed fields it did not declare.
+                "extra_metadata": {
+                    k: meta.get(k, "") for k in
+                    ("duration", "view_count", "like_count", "live_status", "chapters")
+                    if meta.get(k)
+                },
             }
             path = save_transcript_file(video, segments, description or None)
 

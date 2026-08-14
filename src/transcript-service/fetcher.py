@@ -481,8 +481,25 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
         # bandwidth quota or a dead upstream would otherwise quietly convert
         # every video in the queue into "this one has no captions".
         text = str(e)
+        lowered = text.lower()
+        # YouTube serves its "prove you're not a bot" interstitial as a SUCCESS
+        # response with the challenge in the body, not as an error status. Only
+        # matching on 429 therefore misses it entirely, and the video would be
+        # written to the permanent failed list — the exact outcome
+        # TranscriptBlocked exists to prevent.
+        bot_challenge = any(
+            phrase in lowered
+            for phrase in (
+                "confirm you're not a bot",
+                "confirm you are not a bot",
+                "unusual traffic",
+                "automated queries",
+                "sorry...",
+            )
+        )
         retryable = (
-            "429" in text
+            bot_challenge
+            or "429" in text
             or "Too Many Requests" in text
             or "407" in text
             or "ProxyError" in type(e).__name__
@@ -573,6 +590,17 @@ def save_transcript_file(video: dict, segments: list[dict], description: Optiona
 
     escaped_title = title.replace('"', "'")
 
+    # Extras (duration, view/like counts, live status, chapters) come free with
+    # the metadata call we already make. Written to the file only — the search
+    # datastore is SCHEMAFULL and rejects undeclared fields silently, so adding
+    # them to the index needs its own schema change.
+    extra_yaml = ""
+    for key, value in (video.get("extra_metadata") or {}).items():
+        if value in ("", None):
+            continue
+        text = str(value).replace('"', "'")
+        extra_yaml += f'\n{key}: "{text}"' if not text.isdigit() else f"\n{key}: {text}"
+
     content = f"""---
 title: "{escaped_title}"
 channel: "{channel_name}"
@@ -582,7 +610,7 @@ url: "https://youtube.com/watch?v={video['id']}"
 fetched: "{datetime.now().strftime('%Y-%m-%d')}"
 domain: "{video.get('domain', 'unknown')}"
 segment_count: {len(segments)}
-duration_seconds: {duration:.1f}
+duration_seconds: {duration:.1f}{extra_yaml}
 tags: []{desc_yaml}
 ---
 
