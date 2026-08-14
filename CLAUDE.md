@@ -23,7 +23,7 @@ This file provides guidance to Claude Code when working with the KnowledgeStack 
 **Container Deployment:**
 - **NEVER deploy containers to Stark or localhost** - Stark is a coding workstation only
 - **Development containers → Banner (10.0.0.33)**
-- **Production containers → Hulk (10.0.0.32)**
+- **Production → the realm's NAI host when one exists; no general prod host.** (Hulk retired 2026-06-15 — never deploy there)
 - This project targets: **Banner**
 
 **URLs - Never localhost:**
