@@ -1,0 +1,192 @@
+# Oscar 10-Phase ATDD Workflow Definitions
+# Each phase defines: actor, entry gate, exit gate, and purpose
+
+phases:
+  0-backlog:
+    name: Backlog
+    actor: human
+    entry_gate: null
+    exit_gate: workflow_assigned
+    purpose: Triage, prioritize, assign workflow type (full/quick/bug-fix/spike)
+    description: |
+      Human reviews and prioritizes work. Assigns a workflow type that determines
+      which phases the issue will go through. AI cannot start until workflow assigned.
+    next_phase: 1-refining
+
+  1-refining:
+    name: Refining
+    actor: human+ai
+    entry_gate: workflow_assigned
+    exit_gate: criteria_testable
+    purpose: AI asks clarifying questions, human answers, refine acceptance criteria
+    description: |
+      Analyst/PM AI asks clarifying questions about the requirement.
+      Human answers questions. AI refines acceptance criteria until they are
+      specific, measurable, and testable. Exit when no blocking questions remain.
+    agents: [analyst, pm]
+    next_phase: 2-designing
+
+  2-designing:
+    name: Designing
+    actor: ai
+    entry_gate: questions_resolved
+    exit_gate: approach_documented
+    purpose: Design solution, identify components, document architecture decisions
+    description: |
+      Architect AI designs the technical approach. Documents components,
+      data flows, API contracts, and architectural decisions. Identifies risks
+      and dependencies. Exit when design is clear enough to write tests.
+    agents: [architect]
+    next_phase: 3-test-writing
+
+  3-test-writing:
+    name: Test Writing
+    actor: ai
+    entry_gate: design_approved
+    exit_gate: tests_fail
+    purpose: Write failing acceptance tests (TDD RED phase)
+    description: |
+      TEA/Dev AI writes acceptance tests based on refined criteria.
+      Tests MUST fail initially - this is the TDD RED phase.
+      Exit gate verifies tests exist AND fail. Cannot proceed if tests pass
+      (would indicate tests don't actually test new functionality).
+    agents: [tea, dev]
+    gate_script: verify-red-phase.sh
+    next_phase: 3.5-ready-to-dev
+
+  3.5-ready-to-dev:
+    name: Ready to Develop
+    actor: human
+    entry_gate: tests_fail
+    exit_gate: human_approved
+    purpose: STOP GATE - Human reviews tests and approves development to begin
+    description: |
+      CRITICAL STOP GATE. Human reviews the failing tests to ensure they
+      accurately capture requirements. Human says "go develop" to proceed.
+      This prevents AI from racing ahead without human buy-in on what will
+      be built.
+    human_action_required: true
+    next_phase: 4-developing
+
+  4-developing:
+    name: Developing
+    actor: ai
+    entry_gate: human_approved
+    exit_gate: tests_pass
+    purpose: Implementation to make tests pass (TDD GREEN phase)
+    description: |
+      Dev AI implements the minimum code necessary to make tests pass.
+      This is the TDD GREEN phase. No gold-plating, no extra features.
+      Exit when all acceptance tests pass.
+    agents: [dev]
+    gate_script: verify-green-phase.sh
+    next_phase: 5-audit
+
+  5-audit:
+    name: Audit
+    actor: ai
+    entry_gate: tests_pass
+    exit_gate: all_audits_pass
+    purpose: Security, compliance, CSS, guardrails, dependency checks
+    description: |
+      TEA/Dev AI runs compliance audits:
+      - Security: No exposed secrets, injection vulnerabilities
+      - CSS: Using design tokens, not custom values
+      - Module usage: Using existing modules vs custom code
+      - Guardrails: Project rules from .claude/rules/
+      - Dependencies: No unauthorized packages
+      Exit when all audits pass.
+    agents: [tea, dev]
+    next_phase: 6-testing
+
+  6-testing:
+    name: Testing
+    actor: ai
+    entry_gate: audits_pass
+    exit_gate: full_suite_passes
+    purpose: Full test suite including edge cases, E2E, visual
+    description: |
+      TEA AI runs comprehensive testing:
+      - Unit tests (Vitest)
+      - Integration tests
+      - E2E tests (Playwright/Cypress)
+      - Edge case coverage
+      Both fast (Vitest) and E2E tests must pass.
+    agents: [tea]
+    next_phase: 7-deployment
+
+  7-deployment:
+    name: Deployment
+    actor: ai
+    entry_gate: all_tests_pass
+    exit_gate: health_check_passes
+    purpose: Deploy to staging environment
+    description: |
+      Dev AI deploys to staging environment.
+      Runs health checks to verify deployment succeeded.
+      Exit when deployment is healthy and accessible.
+    agents: [dev]
+    next_phase: 8-human-review
+
+  8-human-review:
+    name: Human Review
+    actor: human
+    entry_gate: deployed
+    exit_gate: approval_or_denial
+    purpose: Human verifies implementation in staging
+    description: |
+      Human reviews the deployed implementation in staging.
+      Tests user flows, verifies acceptance criteria met.
+      Approves to proceed or denies with feedback.
+    human_action_required: true
+    next_phase: 9-docs-update
+
+  9-docs-update:
+    name: Documentation
+    actor: ai
+    entry_gate: human_approved
+    exit_gate: docs_updated
+    purpose: Update documentation to reflect changes
+    description: |
+      Tech Writer AI updates relevant documentation:
+      - README updates
+      - API documentation
+      - User guides
+      - Architecture docs (if architectural changes)
+      Exit when docs are current.
+    agents: [tech-writer]
+    next_phase: 10-done
+
+  10-done:
+    name: Done
+    actor: none
+    entry_gate: docs_complete
+    exit_gate: null
+    purpose: Work complete
+    description: |
+      Issue is complete. Oscar marks it done, closes the issue,
+      and removes it from active tracking.
+    next_phase: null
+
+# Quick mode phase sequence (skips design, audit phases)
+quick_sequence:
+  - 0-backlog
+  - 3-test-writing
+  - 3.5-ready-to-dev
+  - 4-developing
+  - 6-testing
+  - 10-done
+
+# Bug fix phase sequence
+bugfix_sequence:
+  - 0-backlog
+  - 3-test-writing  # Write failing test that reproduces bug
+  - 4-developing    # Fix the bug
+  - 6-testing       # Verify fix
+  - 10-done
+
+# Spike/research phase sequence
+spike_sequence:
+  - 0-backlog
+  - 2-designing     # Document findings
+  - 10-done

@@ -737,9 +737,10 @@ After completing First Principles Thinking, Matt proposed pausing formal brainst
 
 | Tier | Name | Responsibility |
 |---|---|---|
-| **1. Ingestion & Channel Mgmt** | n8n + Channel UI | RSS feed monitoring, channel subscriptions, episode selection/picking, data delivery to Speakr. Web interface on top of n8n for user-facing channel settings and subscription management. |
-| **2. Repository** | Speakr (as-is) | Transcript storage, basic search, basic tags, chat, multi-user. We feed it data, it catalogs it. Upstream maintained — free improvements over time. |
-| **3. Intelligence Overlay** | NextLevel AI Kbase | Expert authority profiles, advanced hierarchical tag taxonomy, entity graph (people/topics/sources), channel taxonomy & tiers, depth/coverage analysis, enrichment pipeline results, cross-references. Reads from Speakr via API, supplements with its own data. |
+| **1. Ingestion & Channel Mgmt** | **KnowledgeFeed** (n8n + Channel UI) | RSS feed monitoring, channel subscriptions, episode selection/picking, data delivery to Speakr. Web interface on top of n8n for user-facing channel settings and subscription management. |
+| **2. Repository** | **KnowledgeVault** (Speakr, as-is) | Transcript storage, basic search, basic tags, chat, multi-user. We feed it data, it catalogs it. Upstream maintained — free improvements over time. |
+| **3a. Intelligence & Enrichment** | **KnowledgeCollege** | Expert authority profiles, advanced hierarchical tag taxonomy, entity graph (people/topics/sources), channel taxonomy & tiers, depth/coverage analysis, enrichment pipeline results, cross-references. Qdrant + PostgreSQL. "Where your knowledge goes to learn." |
+| **3b. API & Connectivity** | **KnowledgeLink** | Virtual expert panels, personalized feeds, API connectivity to downstream platforms. Integration layer enabling third-party and custom AI apps to consume enriched knowledge. |
 
 **Known Gap — Video Playback:** Speakr is designed for audio transcripts, not YouTube video playback. Video playback (embedded YouTube player, timestamp deep-links) will be built into the NextLevel AI Kbase app later. Speakr remains the repository regardless.
 

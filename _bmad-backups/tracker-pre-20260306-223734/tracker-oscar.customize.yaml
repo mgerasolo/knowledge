@@ -1,0 +1,36 @@
+# Oscar Project Configuration
+# KnowledgeStack - Personal knowledge management system
+
+tracking:
+  type: github
+  config:
+    repo: "mgerasolo/knowledge"
+    project_board: ""  # Add when project board created
+
+phases:
+  mode: full  # full | quick
+
+gates:
+  strict: true
+
+observer:
+  enabled: true
+  auto_recovery: true
+
+marathon:
+  enabled: true
+  max_attempts_per_issue: 3
+
+# Project Resources
+resources:
+  project_claude_md: "~/Dev/KnowledgeStack/CLAUDE.md"
+
+# Agent Routing
+routing:
+  sherlock:
+    trigger: "Investigation needed, debugging required"
+    handoff: "/oscar:handoff sherlock"
+
+  augie:
+    trigger: "Audit needed, compliance check"
+    handoff: "/oscar:handoff augie"

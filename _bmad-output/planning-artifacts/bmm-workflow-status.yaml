@@ -16,27 +16,33 @@ workflow_status:
     workflows:
       - id: "brainstorm-project"
         name: "Brainstorm"
-        status: "pending"
+        status: "completed"
+        completed: "2026-01-30"
         agent: "analyst"
         command: "/bmad:bmm:workflows:brainstorming"
         optional: true
         included: true
+        output: "_bmad-output/analysis/brainstorming-session-2026-01-29.md"
 
       - id: "research"
         name: "Research"
-        status: "pending"
+        status: "completed"
+        completed: "2026-01-30"
         agent: "analyst"
         command: "/bmad:bmm:workflows:research"
         optional: true
         included: true
+        output: "_bmad-output/planning-artifacts/research/technical-knowledgestack-research-2026-01-30.md"
 
       - id: "product-brief"
         name: "Product Brief"
-        status: "pending"
+        status: "completed"
+        completed: "2026-01-30"
         agent: "analyst"
         command: "/bmad:bmm:workflows:create-product-brief"
         optional: true
         included: true
+        output: "_bmad-output/planning-artifacts/product-brief-knowledge-2026-01-30.md"
 
   # Phase 2: Planning (Required)
   - phase: 2
@@ -44,10 +50,22 @@ workflow_status:
     workflows:
       - id: "prd"
         name: "Product Requirements Document"
-        status: "pending"
+        status: "completed"
+        completed: "2026-01-31"
         agent: "pm"
         command: "/bmad:bmm:workflows:prd"
         required: true
+        output: "_bmad-output/planning-artifacts/prd.md"
+
+      - id: "generate-project-context"
+        name: "Project Context for AI Agents"
+        status: "completed"
+        completed: "2026-01-31"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:generate-project-context"
+        required: true
+        output: "_bmad-output/project-context.md"
+        notes: "87 rules across 7 categories. 10-round Party Mode for Categories 5-7."
 
       - id: "create-ux-design"
         name: "UX Design"

@@ -1,0 +1,25 @@
+# BMAD Session State - please
+# Auto-created: 2026-03-01T21:15:26-05:00
+# Session UUID: 12a95a58-8a22-4be9-9169-52aee739e093
+
+name: "please"
+session_id: "12a95a58-8a22-4be9-9169-52aee739e093"
+created: "2026-03-01T21:15:26-05:00"
+status: "active"
+
+# Tracking
+prompt_count: 228
+compaction_count: 0
+last_activity: "2026-08-07T05:08:47-04:00"
+parent_name: null
+tags: []
+
+# Workflow/Agent state - STARTS FRESH (no inheritance from other sessions!)
+current_workflow: null
+current_agent: null
+workflow_state: null
+phase: null
+
+context:
+  project_name: "knowledge"
+  first_message: "make all the updates, change all the paths, etc. Make sure we have all the mounts in this directory "
