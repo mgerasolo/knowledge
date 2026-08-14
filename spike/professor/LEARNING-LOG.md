@@ -27,7 +27,7 @@ resolved or worked around.
 
 | Date | Problem | Resolution / workaround |
 |------|---------|------------------------|
-| _(none yet — build not started)_ | | |
+| 2026-08-14 | **Codex Phase-1 build attempt produced zero code.** Background job `task-msshsw3n-1nabi2` was launched from the main KnowledgeStack checkout, so Codex's writable sandbox did not include the `~/wt/professor-spike` worktree; its skill renderer halted on `[Errno 30] Read-only file system` after 21s and it (correctly) did no work rather than claiming any. | Relaunch the Codex task with the worktree as the working directory / writable root (or build directly). Process lesson: when delegating to a sandboxed builder, the target worktree must be inside its writable root — verify with a touch-test before dispatch. |
 
 ## 3. Core-System Changes (lessons for the main pipeline)
 
@@ -62,3 +62,11 @@ Raw discoveries as they happen, newest last.
   first-class health metrics; "ingested" is not "usable".
 - Handed to the parallel semantic-search/embeddings workstream via #44 (embedding
   backfill + vector index are its domain; spike blocks on Myron-channel backfill only).
+
+### 2026-08-14 — Phase-1 build attempt #1 (Codex): blocked, no code
+- Codex background job `task-msshsw3n-1nabi2` completed in 21s with zero output:
+  launched from the main checkout, the spike worktree was outside its writable
+  sandbox and its workflow renderer halted immediately (see Problems Faced).
+- Independent verification of the worktree confirmed no `spike/professor/api/`
+  files, clean working tree, no new commits — so no partial/untested state to
+  clean up. All 4 acceptance criteria remain unmet; Phase 1 build not started.
