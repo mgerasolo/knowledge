@@ -1,0 +1,65 @@
+# Professor spike stack — Banner (10.0.0.33), deployed at /opt/stacks/professor
+#
+# Ports (KnowledgeStack block 5000-5099; checked free 2026-08-14):
+#   5050 → professor-api   (Flask/gunicorn, /health + /api/ask)
+#   5060 → OpenWebUI       (chat frontend; pipe function calls professor-api)
+#
+# Secrets: /opt/stacks/professor/.env, root-only (0600). Assembled on Banner from
+#   - SURREAL_PASS            ← same value the knowledge stack's .env provides
+#   - LITELLM_URL/API_KEY     ← /root/professor-spike.env (scoped spike key)
+# Run with: sudo docker compose up -d --build   (root so compose can read .env)
+#
+# SurrealDB + LiteLLM are reached via host IPs (external services), so this
+# stack needs no external docker network.
+
+name: professor
+
+services:
+  professor-api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: professor-api
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+    environment:
+      # Same source values as the knowledge-embedding container.
+      SURREAL_URL: http://10.0.0.33:5040
+      SURREAL_USER: root
+      SURREAL_PASS: ${SURREAL_PASS:?set in root-only .env}
+      SURREAL_NS: knowledge
+      SURREAL_DB: transcripts
+      # Spike-scoped LiteLLM key (claude-sonnet, grok-4, jarvis-embed, embeddings).
+      LITELLM_URL: ${LITELLM_URL:?set in root-only .env}
+      LITELLM_API_KEY: ${LITELLM_API_KEY:?set in root-only .env}
+      # Query embedding MUST match the ingest index: alias `embeddings`,
+      # 1536-dim, no prefixes (BRIEF's nomic/768 line was stale).
+      EMBEDDING_MODEL: embeddings
+      EMBEDDING_DIM: "1536"
+      EMBEDDING_QUERY_PREFIX: ""
+      CHAT_MODEL: claude-sonnet
+      EXTENSION_MODEL: grok-4
+      PROFESSOR_PORT: "5050"
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: professor-openwebui
+    restart: unless-stopped
+    ports:
+      - "5060:8080"
+    environment:
+      WEBUI_NAME: Professor
+      # The pipe function is the only model source; don't call external APIs.
+      ENABLE_OPENAI_API: "false"
+      ENABLE_OLLAMA_API: "false"
+      ENABLE_EVALUATION_ARENA_MODELS: "false"
+      # Local auth; first account (created by deploy/setup_openwebui.sh) is admin.
+      WEBUI_AUTH: "true"
+    volumes:
+      - openwebui_data:/app/backend/data
+    depends_on:
+      - professor-api
+
+volumes:
+  openwebui_data:
