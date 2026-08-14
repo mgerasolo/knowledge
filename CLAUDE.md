@@ -67,7 +67,8 @@ ssh 10.0.0.33
 | Core Platform | Speakr (Python 3.11 / Flask 2.3.3 + Vue.js 3) — AGPL-3.0 |
 | Overlay Frontend | TBD (Speakr Vue.js 3 as-is; overlay UI framework open) |
 | Ingestion | n8n (YouTube RSS → Speakr REST API) |
-| Vector DB | Qdrant (self-hosted Docker) |
+| Vector search | SurrealDB HNSW index — same store as the transcripts, no separate vector DB. (The original plan named Qdrant; it was never deployed — corrected 2026-08-14, GAPS.md #3) |
+| Embeddings | OpenAI text-embedding-3-small via the LiteLLM gateway alias `embeddings` (1536-dim; key scoped per-consumer) |
 | AI Routing | LiteLLM proxy (10.0.0.27:2764) |
 | Database | PostgreSQL (shared with Speakr) |
 | Auth | Authentik (via Helicarrier) |
