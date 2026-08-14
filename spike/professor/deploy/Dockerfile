@@ -19,7 +19,8 @@ EXPOSE 5050
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=20s \
   CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:5050/health', timeout=8).status==200 else 1)"
 
-# Threads keep /health responsive while a 35-40s /api/ask is in flight;
-# the long worker timeout survives unindexed-cosine-scan latency.
-CMD ["gunicorn", "--workers", "2", "--threads", "4", "--timeout", "300", \
+# ONE worker so retrieval's _SCAN_LOCK is globally effective (concurrent
+# unindexed cosine scans OOM-kill SurrealDB); threads keep /health responsive
+# while a 40-50s /api/ask is in flight; the long timeout survives scan latency.
+CMD ["gunicorn", "--workers", "1", "--threads", "4", "--timeout", "300", \
      "--bind", "0.0.0.0:5050", "api.app:app"]

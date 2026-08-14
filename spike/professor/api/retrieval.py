@@ -4,10 +4,18 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 import math
+import threading
 from time import perf_counter
 from typing import Any, Callable, Iterable
 
 import requests
+
+# Serialize the heavy SurrealDB work (corpus-wide coverage count + unindexed
+# cosine scan). Concurrent scans OOM-killed SurrealDB inside its container
+# memory limit on Banner (2026-08-14, dmesg CONSTRAINT_MEMCG kill) — until the
+# vector index lands (#44) only one scan may be in flight per process, and the
+# deployment runs a single gunicorn worker so this lock is effectively global.
+_SCAN_LOCK = threading.Lock()
 
 try:
     from .config import Config
@@ -171,6 +179,16 @@ class Retriever:
         vector = self.llm.embed(query)
         embedded_at = self.clock()
         variables = {"corpus": corpus.video_ids}
+        with _SCAN_LOCK:
+            return self._scan(vector, variables, start, embedded_at)
+
+    def _scan(
+        self,
+        vector: list[float],
+        variables: dict[str, Any],
+        start: float,
+        embedded_at: float,
+    ) -> RetrievalResult:
         coverage = self.db.result(
             """
             SELECT count() AS count, count(embedding) AS embedded
