@@ -12,8 +12,8 @@
 # Why capped: Scott Adams livestreamed daily for years — on the order of 3,000
 # hour-long episodes. Uncapped, one channel would monopolise the queue for days
 # and every other channel would wait behind it. Newest-N-first gets recent
-# material from ALL sixteen channels within a day, which is worth far more than
-# one exhaustive archive.
+# material from ALL seventeen channels within a day, which is worth far more
+# than one exhaustive archive.
 #
 # Order is deliberate and was set by Matt:
 #   1. CNCC (Colts Neck Community Church — the Pastor Chris Durkin channel).
@@ -23,7 +23,7 @@
 #   2. Myron Golden, both channels. Streams only, generous cap — priority
 #      content. Their /videos back catalogue is already covered by standing
 #      discovery, so pulling it again would be a scope expansion nobody asked for.
-#   3. The remaining 13, streams only, tighter cap and four times the spacing.
+#   3. The remaining 14, streams only, tighter cap and four times the spacing.
 #      No deadline on these, and the whole point is to not look like a scraper.
 #
 # Safe to re-run. Every channel skips what is already held, so an interrupted
@@ -109,6 +109,7 @@ run_channel RealCoffeewithScottAdams "Scott Adams"            political "streams
 run_channel VALUETAINMENT            "Valuetainment"          political "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
 run_channel RubinReport              "The Rubin Report"       political "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
 run_channel melrobbins               "Mel Robbins"            mindset   "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
+run_channel JordanBPeterson          "Jordan B Peterson"      mindset   "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
 run_channel ultimatehumanpodcast     "Ultimate Human Podcast" health    "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
 run_channel joerogan                 "Joe Rogan"              general   "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
 run_channel NetworkChuck             "NetworkChuck"           ai        "streams" "$TAIL_DELAY" "$TAIL_LIMIT"; sleep "$BETWEEN_CHANNELS"
