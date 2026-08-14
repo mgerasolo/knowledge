@@ -91,7 +91,7 @@ class Config:
         {"handle": "VALUETAINMENT", "name": "Valuetainment", "domain": "political", "tier": "leader", "lookback_months": 6, "tabs": ["videos", "streams"]},
         # ── Mindset & Health Leaders ─────────────────────────
         {"handle": "NapoleonHill_Wisdom", "name": "Napoleon Hill Wisdom", "domain": "mindset", "tier": "leader", "lookback_months": 6},
-        {"handle": "JordanBPeterson", "name": "Jordan B Peterson", "domain": "mindset", "tier": "leader", "lookback_months": 6},
+        {"handle": "JordanBPeterson", "name": "Jordan B Peterson", "domain": "mindset", "tier": "leader", "lookback_months": 6, "tabs": ["videos", "streams"]},
         {"handle": "pradipjamnadasmd", "name": "Dr. Pradip Jamnadas", "domain": "health", "tier": "leader", "lookback_months": 6},
         {"handle": "AfterSkool", "name": "After Skool", "domain": "mindset", "tier": "leader", "lookback_months": 6},
         {"handle": "ultimatehumanpodcast", "name": "Ultimate Human Podcast", "domain": "health", "tier": "leader", "lookback_months": 6, "tabs": ["videos", "streams"]},
