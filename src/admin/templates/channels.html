@@ -5,6 +5,7 @@
 <div class="flex flex-between flex-center mb-20">
     <h1>Channels</h1>
     <div class="flex gap-10">
+        <button class="btn" onclick="openAddChannel()">Add Channel</button>
         <select id="filter-domain" class="form-select" style="width:150px" onchange="loadChannels()">
             <option value="">All Domains</option>
         </select>
@@ -15,6 +16,22 @@
             <option value="selected">Selected</option>
         </select>
         <input type="text" id="search" class="form-input" placeholder="Search channels..." style="width:200px" oninput="debounceSearch()">
+    </div>
+</div>
+
+<div id="add-channel-modal" role="dialog" aria-modal="true" aria-labelledby="add-channel-title" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;padding:40px;overflow-y:auto">
+    <div style="max-width:560px;margin:0 auto;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:28px;position:relative">
+        <button type="button" aria-label="Close" onclick="closeAddChannel()" style="position:absolute;right:18px;top:14px;background:none;border:0;color:#94a3b8;font-size:1.6rem;cursor:pointer">&times;</button>
+        <h2 id="add-channel-title">Add Channel</h2>
+        <form id="add-channel-form" onsubmit="createChannel(event)">
+            <div class="form-group"><label class="form-label" for="new-handle">YouTube Handle</label><input id="new-handle" class="form-input" required placeholder="@channel"></div>
+            <div class="form-group"><label class="form-label" for="new-name">Name</label><input id="new-name" class="form-input" required></div>
+            <div class="form-group"><label class="form-label" for="new-domain">Domain</label><input id="new-domain" class="form-input" placeholder="e.g. ai"></div>
+            <div class="form-group"><label class="form-label" for="new-mode">Ingestion Mode</label><select id="new-mode" class="form-select"><option value="all">Ingest All</option><option value="new_only" selected>New Only</option><option value="selected">Selected</option></select></div>
+            <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input id="new-active" type="checkbox" class="checkbox" checked> Active</label></div>
+            <div id="add-channel-error" class="status-error" style="display:none;margin-bottom:12px"></div>
+            <div class="flex gap-10"><button id="add-channel-submit" class="btn" type="submit">Add Channel</button><button class="btn btn-secondary" type="button" onclick="closeAddChannel()">Cancel</button></div>
+        </form>
     </div>
 </div>
 
@@ -99,7 +116,7 @@ async function loadChannels() {
             const vcount = c.video_count || '-';
             const statusBadge = c.is_active ? 'active' : 'inactive';
             const statusText = c.is_active ? 'Active' : 'Inactive';
-            tr.innerHTML = '<td><div class="channel-row"><img src="' + thumbUrl + '" class="thumbnail" onerror="this.style.display=\'none\'"><div class="channel-info"><div class="channel-name">' + name + '</div><div class="channel-handle">@' + handle + '</div></div></div></td><td><span class="topic-tag">' + dom + '</span></td><td><span class="badge badge-' + ingMode + '">' + ingMode + '</span></td><td>' + vcount + '</td><td><span class="badge badge-' + statusBadge + '">' + statusText + '</span></td><td onclick="event.stopPropagation()"><a href="' + urlPrefix + '/channels/' + c.id + '" class="btn btn-sm btn-outline">View</a></td>';
+            tr.innerHTML = '<td><div class="channel-row"><img src="' + thumbUrl + '" class="thumbnail" onerror="this.style.display=\'none\'"><div class="channel-info"><div class="channel-name">' + name + '</div><div class="channel-handle">@' + handle + '</div></div></div></td><td><span class="topic-tag">' + dom + '</span></td><td><span class="badge badge-' + ingMode + '">' + ingMode + '</span></td><td>' + vcount + '</td><td><span class="badge badge-' + statusBadge + '">' + statusText + '</span></td><td onclick="event.stopPropagation()"><div class="flex gap-10"><button class="btn btn-sm btn-secondary" onclick="toggleChannel(\'' + c.id + '\', this)">' + (c.is_active ? 'Disable' : 'Enable') + '</button><a href="' + urlPrefix + '/channels/' + c.id + '" class="btn btn-sm btn-outline">View</a></div></td>';
             tbody.appendChild(tr);
         });
 
@@ -125,6 +142,63 @@ async function loadDomains() {
 function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(loadChannels, 300); }
 function prevPage() { currentOffset = Math.max(0, currentOffset - limit); loadChannels(); }
 function nextPage() { currentOffset += limit; loadChannels(); }
+
+function openAddChannel() {
+    document.getElementById('add-channel-modal').style.display = 'block';
+    document.getElementById('new-handle').focus();
+}
+
+function closeAddChannel() {
+    document.getElementById('add-channel-modal').style.display = 'none';
+    document.getElementById('add-channel-error').style.display = 'none';
+}
+
+async function createChannel(event) {
+    event.preventDefault();
+    const submit = document.getElementById('add-channel-submit');
+    const error = document.getElementById('add-channel-error');
+    submit.disabled = true;
+    error.style.display = 'none';
+    const payload = {
+        youtube_handle: document.getElementById('new-handle').value.trim().replace(/^@/, ''),
+        name: document.getElementById('new-name').value.trim(),
+        domain: document.getElementById('new-domain').value.trim() || null,
+        ingestion_mode: document.getElementById('new-mode').value,
+        is_active: document.getElementById('new-active').checked
+    };
+    try {
+        const response = await fetch(urlPrefix + '/api/v1/channels', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not add channel');
+        document.getElementById('add-channel-form').reset();
+        document.getElementById('new-active').checked = true;
+        closeAddChannel();
+        currentOffset = 0;
+        await loadChannels();
+    } catch (err) {
+        error.textContent = err.message;
+        error.style.display = 'block';
+    } finally {
+        submit.disabled = false;
+    }
+}
+
+async function toggleChannel(channelId, button) {
+    button.disabled = true;
+    try {
+        const response = await fetch(urlPrefix + '/api/v1/channels/' + channelId + '/toggle', {method: 'POST'});
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Could not update channel');
+        await loadChannels();
+    } catch (err) {
+        alert('Error: ' + err.message);
+        button.disabled = false;
+    }
+}
+
+document.getElementById('add-channel-modal').addEventListener('click', function(event) {
+    if (event.target === this) closeAddChannel();
+});
 
 loadDomains();
 loadChannels();

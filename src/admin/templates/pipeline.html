@@ -28,6 +28,8 @@
                 <option value="failed">Failed</option>
             </optgroup>
         </select>
+        <button class="btn btn-secondary" id="release-stale-btn" onclick="releaseStale()">Release Stale</button>
+        <button class="btn btn-secondary" id="retry-all-btn" onclick="retryAllFailed()">Retry All Failed</button>
         <button class="btn btn-secondary" onclick="loadPipeline()">Refresh</button>
     </div>
 </div>
@@ -122,6 +124,7 @@ async function loadPipeline() {
         const title = (item.title || item.youtube_video_id).substring(0, 60);
         const videoId = item.youtube_video_id;
         const canCancel = ['discovered', 'queued'].includes(item.status);
+        const canRetry = item.status === 'failed';
 
         // Build cells using DOM methods
         const td1 = document.createElement('td');
@@ -171,6 +174,14 @@ async function loadPipeline() {
             cancelBtn.onclick = function() { cancelItem(videoId); };
             td5.appendChild(cancelBtn);
         }
+        if (canRetry) {
+            const retryBtn = document.createElement('button');
+            retryBtn.className = 'btn btn-sm';
+            retryBtn.style.marginLeft = '5px';
+            retryBtn.textContent = 'Retry';
+            retryBtn.onclick = function() { retryItem(item.id); };
+            td5.appendChild(retryBtn);
+        }
 
         tr.appendChild(td1);
         tr.appendChild(td2);
@@ -211,6 +222,44 @@ async function cancelItem(videoId) {
     } catch (err) {
         alert('Error: ' + err.message);
     }
+}
+
+async function postAction(url, options) {
+    const response = await fetch(url, options || {method: 'POST'});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Action failed');
+    return data;
+}
+
+async function retryItem(itemId) {
+    try {
+        await postAction(urlPrefix + '/api/v1/pipeline/items/' + itemId + '/retry');
+        await loadPipeline();
+    } catch (err) { alert('Error: ' + err.message); }
+}
+
+async function retryAllFailed() {
+    if (!confirm('Retry every failed pipeline item?')) return;
+    const button = document.getElementById('retry-all-btn');
+    button.disabled = true;
+    try {
+        const data = await postAction(urlPrefix + '/api/v1/pipeline/bulk-retry', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{}'});
+        alert('Queued ' + data.retried + ' failed items for retry');
+        await loadPipeline();
+    } catch (err) { alert('Error: ' + err.message); }
+    finally { button.disabled = false; }
+}
+
+async function releaseStale() {
+    if (!confirm('Release pipeline claims older than 15 minutes?')) return;
+    const button = document.getElementById('release-stale-btn');
+    button.disabled = true;
+    try {
+        const data = await postAction(urlPrefix + '/api/v1/pipeline/release-stale');
+        alert('Released ' + data.released + ' stale claims');
+        await loadPipeline();
+    } catch (err) { alert('Error: ' + err.message); }
+    finally { button.disabled = false; }
 }
 
 loadPipeline();
