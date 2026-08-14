@@ -33,6 +33,11 @@ DISCOVERY_PAUSE_HOUR = 6  # Pause during 6:00-6:59 AM
 # idle indefinitely while new uploads were never picked up. It looked healthy
 # the whole time, because the thread was alive and looping.
 DISCOVERY_INTERVAL_HOURS = int(os.getenv("DISCOVERY_INTERVAL_HOURS", "12"))
+
+# How long to stand down when YouTube rate-limits caption requests for our whole
+# IP. Retrying through a block just extends it, and the heartbeat keeps ticking
+# so this reads as "waiting", not "dead".
+BLOCKED_COOLDOWN_SECONDS = int(os.getenv("BLOCKED_COOLDOWN_SECONDS", "1800"))
 DISCOVERY_LOOKBACK_DAYS = int(os.getenv("DISCOVERY_LOOKBACK_DAYS", "14"))
 
 _last_discovery = None  # epoch seconds of the last self-triggered discovery
@@ -167,6 +172,19 @@ def backfill_loop():
             _beat(f"fetching {video_id}")
 
             result = fetch_and_save(video)
+
+            if result.get("blocked"):
+                # Whole-IP rate limit: every other video would fail the same way,
+                # so stop hammering and let it cool off rather than marching the
+                # queue into a wall.
+                print(
+                    f"[backfill] BLOCKED by YouTube — pausing "
+                    f"{BLOCKED_COOLDOWN_SECONDS}s ({video_id} left queued)",
+                    flush=True,
+                )
+                _beat("blocked")
+                time.sleep(BLOCKED_COOLDOWN_SECONDS)
+                continue
 
             if result.get("success"):
                 seg_count = result.get("segment_count", "?")

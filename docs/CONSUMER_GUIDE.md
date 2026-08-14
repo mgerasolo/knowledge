@@ -4,15 +4,15 @@ type: api
 provider: knowledge
 audience: [internal-apps, agents]
 stability: beta
-version: 2.0.0
-updated: 2026-08-07
-verified: 2026-08-07
+version: 2.1.0
+updated: 2026-08-14
+verified: 2026-08-14
 owner: Matt Gerasolo <matt@gerasolo.com>
 ---
 
 # KnowledgeStack — YouTube Transcript & Knowledge API
 
-> Query timestamped YouTube transcripts, entity/topic tags, and ingestion status for 50 monitored channels, instead of re-scraping or re-transcribing content this project has already processed.
+> Query timestamped YouTube transcripts, entity/topic tags, and ingestion status for 51 monitored channels, instead of re-scraping or re-transcribing content this project has already processed.
 
 ---
 
@@ -36,15 +36,19 @@ KnowledgeStack watches a set of YouTube channels, transcribes and chunks their v
 
 ### When this helps
 
-- You need "what has creator X said about Y" and the channel is one of the 50 already monitored — the content is likely already transcribed and timestamped, so you avoid re-transcribing it yourself.
+- You need "what has creator X said about Y" and the channel is one of the 51 already monitored — the content is likely already transcribed and timestamped, so you avoid re-transcribing it yourself.
 - You want a timestamped segment, not just a full transcript wall of text, so you can deep-link to the moment in the video.
 - You want to scope a query to a topic area — content is pre-classified into `ai-tech`, `mindset`, `political`, `business`, `general`, `health`, `faith`.
 - You want to know whether "no results" means "doesn't exist" vs. "not ingested yet" — the ingestion pipeline's queue/failure state is queryable.
 
+### Ingestion can pause on a YouTube rate limit
+
+Transcripts are pulled from YouTube's caption endpoint, which rate-limits by IP and returns HTTP 429 with no retry hint. When that happens, ingestion stands down and waits — it does not fail videos, and nothing already in the corpus is affected. The practical consequence for a consumer is that a video published today may not appear for hours longer than usual. `GET /api/v1/status` still reports `ok` during a block (the corpus is readable); check `components.transcript_files.hours_since_newest` if freshness matters to you.
+
 ### When this doesn't help (use something else)
 
 - You need semantic ("meaning-based") search. It still does not exist. Only substring keyword search is built — it now works (§3), but it matches literal text, not meaning. Embeddings are not generated for the corpus. Use your own embedding search if you need semantic matching.
-- You need a channel that isn't one of the 50 currently monitored. There's no on-demand "transcribe this video for me" endpoint — only the standing channel watch list is ingested.
+- You need a channel that isn't one of the 51 currently monitored. There's no on-demand "transcribe this video for me" endpoint — only the standing channel watch list is ingested.
 - You need guaranteed uptime or a support SLA. See the operational table below — there is none.
 - You need entity/topic tags. The `/tags/*` endpoints return **HTTP 501** — tagging was never implemented and no tag data has ever been written. Ignore the tag graph described in older versions of this guide.
 
@@ -60,7 +64,7 @@ Each video record includes the full YouTube `description`, which for many creato
 | Availability | Best-effort only, no uptime guarantee. Runs on a shared dev host and can go down for deploys/maintenance without notice |
 | Cost / quota | Free for internal use; no server-side rate limiting. Per this project's standing courtesy rule: 2s+ delay between calls if you're batching more than 5 requests |
 | Data persistence | **Resolved 2026-08-05.** SurrealDB ran on the in-memory storage backend, so it discarded every write and the `knowledge` namespace did not exist. It now runs on persistent disk storage (rocksdb), verified by restarting the container and confirming both the namespace and a canary record survived. The corpus was rebuilt from the transcript files on disk, which were never affected |
-| Corpus size | 3,059 videos · 203,488 timestamped segments · 58 channels, rebuilt 2026-08-05 from 3,102 transcript files |
+| Corpus size | 4,205 videos · 310,860 timestamped segments · 58 channels (measured 2026-08-14 from `GET /api/v1/status`) |
 | Breaking-change policy | Not yet formalized — this is a pre-1.0 API with no consumer-facing versioning contract. This guide document is itself versioned (frontmatter `version:`); re-read on any bump |
 
 ### Example integration
@@ -242,5 +246,6 @@ A complete, actionable request includes: which endpoint or capability you need, 
 
 | Version | Date | Notes |
 |---|---|---|
+| 2.1.0 | 2026-08-14 | **New monitored channel: Pastor Chris Durkin** (`faith`), bringing the watch list to 51 — its full archive of 609 videos is being ingested on request. Corpus figures in §2 refreshed to the measured 4,205 videos / 310,860 segments. **NEW (§2):** documents what happens when YouTube rate-limits our caption requests, which pauses ingestion without failing anything — the corpus stays readable, freshness lags. No endpoint, payload or error-shape changes. |
 | 2.0.0 | 2026-08-07 | **The SurrealDB-backed read surface works.** Root cause of the 2026-07/08 outage: SurrealDB ran on the in-memory storage backend, discarding every write, so the `knowledge` namespace never existed — the "does not exist" payloads in v1.0.0 were the symptom, not the cause. Now on persistent disk storage, verified across a restart. Corpus rebuilt from the 3,102 transcript files on disk (never affected): **3,059 videos / 203,488 segments**. Four further defects fixed: (1) the indexer reported success without checking any write result, which is why 1,086 videos were recorded as indexed while the store was empty; (2) the `video` table was missing 10 fields the indexer wrote, so SCHEMAFULL rejected every video write; (3) `/videos/api/*` returned 500s and `/tags/api/*` returned 200-with-an-error-inside — datastore failures are now 503; (4) user input was interpolated unescaped into queries, including a `tag_id` that could append statements. **BREAKING:** `/tags/*` now returns **501** — tagging was never implemented and the tag data model described in v1.0.0 does not exist; it has been removed from §3 rather than left as an aspiration. **NEW:** `GET /api/v1/status` aggregate health check, including a consistency check that compares claimed-vs-actual indexed videos. `GET /videos/api/list` now returns `description`, `channel_name`, `url` and `has_timestamps`. `GET /videos/api/domains` returns real domains (it used invalid `SELECT DISTINCT` and always returned empty). |
 | 1.0.0 | 2026-07-29 | First guide written to the `guides.ucontrolnetwork.com` Consumer Guide standard (`type: api`). Supersedes the prior ad hoc `v0.1.0-draft` version of this file — this is now the single Consumer Guide for this project. Scoped to the Admin API only; Embedding/Transcript services noted as non-consumer-facing in §1. Stability set to `alpha`: the SurrealDB-backed read surface (video lookup, tag browsing/hierarchy/graph, search) is non-functional. Part of that was already known (clean HTTP 500s, tracked since 2026-07-21); part was newly discovered while writing this guide (HTTP 200 responses carrying corrupted "namespace does not exist" payloads, root cause not yet confirmed). Only the Postgres-backed channel/pipeline endpoints and `/health` are confirmed reliable today. |
