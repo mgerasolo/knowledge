@@ -21,6 +21,12 @@ class Config:
         'EMBEDDING_SERVICE_URL', 'http://knowledge-embedding:5030'
     )
 
+    # Generate embeddings at ingest time (semantic search consumes them).
+    # Turn off only for bulk replays where a separate backfill will follow —
+    # a False here is why the corpus once had zero vectors, so the default
+    # is deliberately ON.
+    EMBED_ON_INGEST = os.getenv('EMBED_ON_INGEST', 'true').lower() == 'true'
+
     # Outbound proxy for YouTube calls only (transcript API + yt-dlp).
     # Set when YouTube rate-limits our own address; leave empty to go direct.
     # Vendor-neutral: any http(s) proxy URL works, including a Webshare

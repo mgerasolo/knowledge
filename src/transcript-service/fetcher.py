@@ -722,7 +722,7 @@ def _index_video(video: dict, segments: list, description) -> tuple:
         "domain": video.get("domain", "general"),
         "description": description or "",
         "segments": segments,
-        "skip_embeddings": True,   # no semantic search consumes embeddings yet
+        "skip_embeddings": not Config.EMBED_ON_INGEST,
     }
 
     try:
