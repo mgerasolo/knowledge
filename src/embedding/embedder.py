@@ -14,8 +14,19 @@ VISUAL_TRIGGERS = [
 ]
 
 
-def get_embedding(text: str) -> Optional[list]:
-    """Get embedding from LiteLLM proxy."""
+EMBED_BATCH_SIZE = 64
+
+
+def _prefixed(text: str, kind: str) -> str:
+    """Apply the model's task prefix. Truncate the text first so the prefix
+    always survives the 8000-char cap."""
+    prefix = (Config.EMBEDDING_QUERY_PREFIX if kind == "query"
+              else Config.EMBEDDING_DOC_PREFIX)
+    return prefix + text[:8000]
+
+
+def get_embedding(text: str, kind: str = "document") -> Optional[list]:
+    """Get one embedding from the LiteLLM proxy."""
     if not Config.LITELLM_API_KEY:
         return None
 
@@ -28,7 +39,7 @@ def get_embedding(text: str) -> Optional[list]:
             },
             json={
                 "model": Config.EMBEDDING_MODEL,
-                "input": text[:8000]
+                "input": _prefixed(text, kind)
             },
             timeout=30
         )
@@ -38,6 +49,41 @@ def get_embedding(text: str) -> Optional[list]:
     except Exception as e:
         print(f"Embedding error: {e}")
     return None
+
+
+def get_embeddings(texts: list[str], kind: str = "document") -> list[Optional[list]]:
+    """Batch embeddings, order-preserving. A failed batch yields None per
+    text rather than raising — callers count the Nones and report them."""
+    if not Config.LITELLM_API_KEY:
+        return [None] * len(texts)
+
+    out: list[Optional[list]] = []
+    for i in range(0, len(texts), EMBED_BATCH_SIZE):
+        batch = [_prefixed(t, kind) for t in texts[i:i + EMBED_BATCH_SIZE]]
+        try:
+            response = requests.post(
+                Config.LITELLM_URL,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {Config.LITELLM_API_KEY}"
+                },
+                json={"model": Config.EMBEDDING_MODEL, "input": batch},
+                timeout=120
+            )
+            if response.ok:
+                data = sorted(response.json()["data"], key=lambda d: d["index"])
+                # Indices must be exactly 0..n-1 — anything else risks pairing
+                # a vector with the wrong text, which is silent corruption.
+                if [d["index"] for d in data] == list(range(len(batch))):
+                    out.extend(d["embedding"] for d in data)
+                    continue
+                print("Embedding batch error: malformed indices")
+            else:
+                print("Embedding batch error: HTTP not ok")
+        except Exception as e:
+            print(f"Embedding batch error: {e}")
+        out.extend([None] * len(batch))
+    return out
 
 
 def detect_visual_triggers(text: str) -> bool:
@@ -238,6 +284,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
     # Process each chunk
     segment_errors = []
     segments_written = 0
+    embeddings_failed = 0
     for chunk in chunks:
         chunk_id = f"{video_id}_{chunk['chunk_index']}"
         chunk_db_id = create_safe_id(chunk_id)
@@ -246,7 +293,11 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
         if skip_embeddings:
             embedding_str = "NONE"
         else:
-            embedding = get_embedding(chunk["text"])
+            embedding = get_embedding(chunk["text"], kind="document")
+            if embedding is None:
+                # Segment is still written (text search must not lose data),
+                # but the failure is COUNTED and reported — never hidden.
+                embeddings_failed += 1
             embedding_str = json.dumps(embedding) if embedding else "NONE"
 
         # Detect visual triggers
@@ -301,5 +352,11 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
         "video_id": video_id,
         "surreal_id": f"video:{video_db_id}",
         "segment_count": segments_written,
-        "embeddings_generated": not skip_embeddings
+        # True only when embedding was attempted AND every chunk got a vector.
+        # The old `not skip_embeddings` claimed success even when the gateway
+        # was unreachable and every chunk silently got NONE.
+        "embeddings_generated": (not skip_embeddings
+                                 and embeddings_failed == 0
+                                 and segments_written > 0),
+        "embeddings_failed": embeddings_failed,
     }

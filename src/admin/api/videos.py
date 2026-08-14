@@ -225,6 +225,66 @@ def search_segments():
     })
 
 
+@videos_bp.route('/api/semantic-search', methods=['GET'])
+def semantic_search_segments():
+    """Meaning-based segment search, proxied to the embedding service.
+
+    Params: ?q= (required, >= 3 chars) · ?domain= · ?limit= (default 20,
+    cap 50) · ?min_score= (default 0.4 similarity cutoff; 0 disables).
+
+    Consumers read the status code: 400 fix the request · 503 retryable
+    (embedding gateway or vector store is down) · 200 answer, where an
+    empty result list is a real answer, not an error.
+    """
+    query = request.args.get('q', '').strip()
+    if len(query) < 3:
+        return jsonify({'error': 'q is required (minimum 3 characters)',
+                        'results': []}), 400
+
+    domain = request.args.get('domain', '').strip()
+    try:
+        limit = min(int(request.args.get('limit', 20)), 50)
+        min_score = float(request.args.get('min_score', 0.4))
+    except ValueError:
+        return jsonify({'error': 'limit must be an integer and min_score a number',
+                        'results': []}), 400
+
+    payload = {'query': query, 'domain': domain or None,
+               'limit': limit, 'min_score': min_score}
+
+    try:
+        upstream = requests.post(
+            f"{Config.EMBEDDING_SERVICE_URL}/api/search",
+            json=payload, timeout=35)
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': f'embedding service unreachable: {e}',
+                        'source': 'embedding-service',
+                        'retryable': True}), 503
+
+    try:
+        body = upstream.json()
+    except ValueError:
+        return jsonify({'error': 'embedding service returned a non-JSON reply',
+                        'source': 'embedding-service',
+                        'retryable': True}), 503
+
+    if upstream.status_code == 400:
+        return jsonify({'error': body.get('error', 'bad request'),
+                        'results': []}), 400
+    if upstream.status_code != 200:
+        return jsonify({'error': body.get('error', 'embedding service error'),
+                        'source': 'embedding-service',
+                        'retryable': True}), 503
+
+    return jsonify({
+        'query': query,
+        'results': body.get('results', []),
+        'count': body.get('count', 0),
+        'model': body.get('model'),
+        'search_type': 'semantic',
+    })
+
+
 @videos_bp.route('/api/stats', methods=['GET'])
 def video_stats():
     """Get video/segment statistics."""

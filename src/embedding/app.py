@@ -7,6 +7,7 @@ from config import Config
 from surreal_client import test_connection
 from embedder import embed_video
 from mcp_transcript import fetch_transcript
+from search import EmbeddingUnavailable, semantic_search
 
 app = Flask(__name__)
 CORS(app)
@@ -102,28 +103,56 @@ def embed():
 
 
 @app.route('/api/search', methods=['POST'])
-def semantic_search():
+def search_route():
     """Search for relevant segments using vector similarity.
 
-    Expected payload:
-    {
-        "query": "search query text",
-        "domain": "ai-tech",  // optional filter
-        "limit": 10
-    }
-    """
-    data = request.get_json()
+    Payload: {"query": str (required, >= 3 chars),
+              "domain": str (optional filter),
+              "limit": int (default 10, max 100),
+              "min_score": float (default 0.4; 0 disables the cutoff)}
 
-    if not data or not data.get('query'):
+    Status codes carry the meaning: 400 bad request · 503 retryable
+    dependency failure (gateway or SurrealDB) · 200 success, INCLUDING an
+    empty result set.
+    """
+    data = request.get_json(silent=True)
+
+    # A JSON array/string/number is valid JSON but not a valid request —
+    # without this check it would 500 on .get() instead of the promised 400.
+    if not isinstance(data, dict) or not str(data.get('query', '')).strip():
         return jsonify({'error': 'Missing query', 'success': False}), 400
 
-    # TODO: Implement semantic search using SurrealDB vector functions
-    # This requires getting embedding for query and doing similarity search
+    query = str(data['query']).strip()
+    if len(query) < 3:
+        return jsonify({'error': 'Query too short (minimum 3 characters)',
+                        'success': False}), 400
+
+    domain = data.get('domain') or None
+    try:
+        limit = int(data.get('limit', 10))
+        min_score = float(data.get('min_score', 0.4))
+    except (TypeError, ValueError):
+        return jsonify({'error': 'limit must be an integer and min_score a number',
+                        'success': False}), 400
+    limit = max(1, min(limit, 100))
+
+    try:
+        found = semantic_search(query, domain=domain, limit=limit,
+                                min_score=min_score)
+    except EmbeddingUnavailable as e:
+        return jsonify({'error': str(e), 'success': False,
+                        'retryable': True}), 503
+    except RuntimeError as e:
+        return jsonify({'error': str(e), 'success': False,
+                        'retryable': True}), 503
 
     return jsonify({
-        'error': 'Semantic search not yet implemented',
-        'success': False
-    }), 501
+        'success': True,
+        'query': query,
+        'results': found['results'],
+        'count': len(found['results']),
+        'model': found['model'],
+    })
 
 
 @app.route('/api/video/<video_id>')
@@ -253,7 +282,7 @@ def index():
     """API info."""
     return jsonify({
         'name': 'KnowledgeEnroll Embedding Service',
-        'version': '1.0.0',
+        'version': '1.1.0',
         'endpoints': {
             'health': 'GET /health',
             'embed': 'POST /api/embed',

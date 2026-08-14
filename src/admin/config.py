@@ -38,6 +38,11 @@ class Config:
     SURREAL_USER = os.getenv('SURREAL_USER', 'root')
     SURREAL_PASS = os.getenv('SURREAL_PASS', 'changeme')
 
+    # Embedding service (semantic search is proxied to it — it owns the
+    # query-embedding call and the vector index)
+    EMBEDDING_SERVICE_URL = os.getenv('EMBEDDING_SERVICE_URL',
+                                      'http://knowledge-embedding:5030')
+
     # API Settings
     API_PREFIX = '/api/v1'
     DEBUG = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'

@@ -962,7 +962,7 @@ def _index_video(video: dict, segments: list, description) -> tuple:
         "domain": video.get("domain", "general"),
         "description": description or "",
         "segments": segments,
-        "skip_embeddings": True,   # no semantic search consumes embeddings yet
+        "skip_embeddings": not Config.EMBED_ON_INGEST,
         # Length, view/like counts, chapters, live status and the real
         # publication date. Omitting these is what made the indexer fall back
         # to its own defaults and store zeros against every video (#17).
