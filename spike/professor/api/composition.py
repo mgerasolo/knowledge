@@ -56,7 +56,12 @@ def _extract_json(text: str) -> Any:
 
 
 def parse_tier_json(text: str) -> dict[str, Any]:
-    """Parse and normalize the exact three-tier object from model output."""
+    """Parse and normalize the three-tier object from model output.
+
+    Lenient: shape drift degrades gracefully instead of failing the ask.
+    Citation integrity is preserved — an uncited claim never stays in
+    Tier A; it demotes to might_say.
+    """
     raw = _extract_json(text)
     if not isinstance(raw, dict):
         raise TierParseError("tier response must be an object")
@@ -66,26 +71,34 @@ def parse_tier_json(text: str) -> dict[str, Any]:
     said = tiers.get("said")
     might_say = tiers.get("might_say")
     extension = tiers.get("extension")
-    if not isinstance(said, list):
-        raise TierParseError("tiers.said must be a list")
+    if isinstance(said, (str, dict)):
+        said = [said]
+    elif not isinstance(said, list):
+        said = []
     normalized_said = []
+    demoted = []
     for claim in said:
-        if not isinstance(claim, dict) or not isinstance(claim.get("text"), str):
-            raise TierParseError("every said claim needs text")
+        if isinstance(claim, str):
+            if claim.strip():
+                demoted.append(claim.strip())
+            continue
+        if not isinstance(claim, dict) or not isinstance(claim.get("text"), str) or not claim["text"].strip():
+            continue
         citations = claim.get("citations", [])
-        if not isinstance(citations, list) or any(
-            isinstance(value, bool) or not isinstance(value, int) for value in citations
-        ):
-            raise TierParseError("claim citations must be integer lists")
+        if not isinstance(citations, list):
+            citations = []
+        citations = [c for c in citations if isinstance(c, int) and not isinstance(c, bool)]
         if not citations:
-            raise TierParseError("every said claim needs at least one citation")
+            demoted.append(claim["text"].strip())
+            continue
         normalized_said.append({"text": claim["text"].strip(), "citations": citations})
-    if not isinstance(might_say, str) or not isinstance(extension, str):
-        raise TierParseError("might_say and extension must be strings")
-    if any(not claim["text"] for claim in normalized_said):
-        raise TierParseError("said claim text must be non-empty")
-    if not extension.strip():
-        raise TierParseError("extension must be non-empty")
+    if not isinstance(might_say, str):
+        might_say = ""
+    if demoted:
+        prefix = might_say.strip()
+        might_say = prefix + ("\n\n" if prefix else "") + " ".join(demoted)
+    if not isinstance(extension, str) or not extension.strip():
+        extension = "No AI extension was generated for this answer."
     return {
         "said": normalized_said,
         "might_say": might_say.strip(),
