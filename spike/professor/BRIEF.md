@@ -37,7 +37,10 @@ Every answer separates:
 - Personality corpus: `spike/professor/personalities/myron-golden.json` → flat list of
   video_ids. Load at startup.
 - Embed the question via LiteLLM using the SAME embedding model as the ingest pipeline
-  (see `src/embedding/config.py` EMBEDDING_MODEL — nomic-embed-text-v1.5, 768-dim).
+  (see `src/embedding/config.py` EMBEDDING_MODEL — LiteLLM alias `embeddings` =
+  text-embedding-3-small, 1536-dim, no query/doc prefixes. NOTE: an earlier version
+  of this brief said nomic-embed-text-v1.5/768 — that was stale; the live index is
+  1536-dim `embeddings`).
 - SurrealDB query: `vector::similarity::cosine(embedding, $qvec)` over segments WHERE
   `video_youtube_id IN $corpus AND embedding IS NOT NONE`, top-k ≈ 12.
   NOTE: backfill is in progress — coverage grows daily; log coverage % per request.

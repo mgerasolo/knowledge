@@ -29,9 +29,13 @@ class Config:
         "LITELLM_URL", "http://10.0.0.27:2764/v1/embeddings"
     )
     LITELLM_API_KEY = os.getenv("LITELLM_API_KEY", "")
-    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "nomic-embed-text-v1.5")
-    EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "768"))
-    EMBEDDING_QUERY_PREFIX = os.getenv("EMBEDDING_QUERY_PREFIX", "search_query: ")
+    # MUST match the ingest index. The live index is embedded with the LiteLLM
+    # alias `embeddings` (text-embedding-3-small, 1536-dim, no prefixes) — the
+    # brief's original nomic/768 assumption was stale (see LEARNING-LOG §4).
+    # The model/dim/prefix trio moves together, as in src/embedding/config.py.
+    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "embeddings")
+    EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "1536"))
+    EMBEDDING_QUERY_PREFIX = os.getenv("EMBEDDING_QUERY_PREFIX", "")
 
     CHAT_MODEL = os.getenv("CHAT_MODEL", "claude-sonnet")
     EXTENSION_MODEL = os.getenv("EXTENSION_MODEL", "grok-4")
