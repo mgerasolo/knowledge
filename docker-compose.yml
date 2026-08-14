@@ -24,7 +24,10 @@ services:
       KNOWLEDGE_DB_USER: knowledge
       KNOWLEDGE_DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
-      URL_PREFIX: /enroll
+      # Fallback only — proxied routes report their prefix per-request via
+      # X-Forwarded-Prefix (set by the stripprefix middlewares below), so the
+      # same container serves /admin, /enroll, and direct port access.
+      URL_PREFIX: ""
       SURREAL_URL: http://10.0.0.33:5040
       SURREAL_USER: root
       SURREAL_PASS: ${SURREAL_PASS:-changeme}
@@ -44,17 +47,29 @@ services:
       - /mnt/foundry_resources/transcripts:/data/transcripts:ro
     labels:
       - "traefik.enable=true"
-      # Primary: knowledge.nextlevelfoundry.com/enroll/
+      # Canonical: knowledge.nextlevelfoundry.com/admin/
+      - "traefik.http.routers.knowledge-admin.rule=Host(`knowledge.nextlevelfoundry.com`) && PathPrefix(`/admin`)"
+      - "traefik.http.routers.knowledge-admin.entrypoints=websecure"
+      - "traefik.http.routers.knowledge-admin.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.knowledge-admin.middlewares=admin-stripprefix"
+      - "traefik.http.middlewares.admin-stripprefix.stripprefix.prefixes=/admin"
+      - "traefik.http.services.knowledge-admin.loadbalancer.server.port=5020"
+      # Alias: knowledge.nextlevelfoundry.com/enroll/ (same app; existing links,
+      # health checks and n8n calls keep working)
       - "traefik.http.routers.knowledge-enroll.rule=Host(`knowledge.nextlevelfoundry.com`) && PathPrefix(`/enroll`)"
       - "traefik.http.routers.knowledge-enroll.entrypoints=websecure"
       - "traefik.http.routers.knowledge-enroll.tls.certresolver=letsencrypt"
       - "traefik.http.routers.knowledge-enroll.middlewares=enroll-stripprefix"
       - "traefik.http.middlewares.enroll-stripprefix.stripprefix.prefixes=/enroll"
       - "traefik.http.services.knowledge-enroll.loadbalancer.server.port=5020"
-      # Legacy: keep old domain working during transition
+      # Legacy domain: permanent redirect to the canonical /admin path
       - "traefik.http.routers.knowledge-admin-legacy.rule=Host(`knowledge-admin.nextlevelguild.com`)"
       - "traefik.http.routers.knowledge-admin-legacy.entrypoints=websecure"
       - "traefik.http.routers.knowledge-admin-legacy.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.knowledge-admin-legacy.middlewares=admin-legacy-redirect"
+      - "traefik.http.middlewares.admin-legacy-redirect.redirectregex.regex=https://knowledge-admin\\.nextlevelguild\\.com/(.*)"
+      - "traefik.http.middlewares.admin-legacy-redirect.redirectregex.replacement=https://knowledge.nextlevelfoundry.com/admin/$${1}"
+      - "traefik.http.middlewares.admin-legacy-redirect.redirectregex.permanent=true"
       - "traefik.http.services.knowledge-admin-legacy.loadbalancer.server.port=5020"
 
   # Embedding Service (Flask)
@@ -175,7 +190,7 @@ services:
       - ./docs/CONSUMER_GUIDE.md:/usr/share/nginx/html/consumer-guide.md:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.knowledge-landing.rule=Host(`knowledge.nextlevelfoundry.com`) && !PathPrefix(`/enroll`) && !PathPrefix(`/ingest`) && !PathPrefix(`/transcript`) && !PathPrefix(`/lecture`) && !PathPrefix(`/college`)"
+      - "traefik.http.routers.knowledge-landing.rule=Host(`knowledge.nextlevelfoundry.com`) && !PathPrefix(`/admin`) && !PathPrefix(`/enroll`) && !PathPrefix(`/ingest`) && !PathPrefix(`/transcript`) && !PathPrefix(`/lecture`) && !PathPrefix(`/college`)"
       - "traefik.http.routers.knowledge-landing.entrypoints=websecure"
       - "traefik.http.routers.knowledge-landing.tls.certresolver=letsencrypt"
       - "traefik.http.services.knowledge-landing.loadbalancer.server.port=5000"
