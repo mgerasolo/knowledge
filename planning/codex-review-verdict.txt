@@ -1,0 +1,17 @@
+Found release-blocking issues.
+
+1. High — gateway response indices can silently attach embeddings to the wrong segments. [backfill_embeddings.py](/home/mgerasolo/Dev/KnowledgeStack-wt-semantic-search/scripts/backfill_embeddings.py:197) sorts by `index` and validates only the vector count. Duplicate, missing, negative, or out-of-range indices can still produce the expected count, after which `zip(rows, vectors)` permanently writes vectors to unrelated records at line 342. At 300k-segment scale this is silent corpus corruption. Require indices to equal exactly `range(len(texts))`.
+
+2. High — HTTP 413 handling does not adapt batch size. [backfill_embeddings.py](/home/mgerasolo/Dev/KnowledgeStack-wt-semantic-search/scripts/backfill_embeddings.py:186) retries the identical 64-text gateway request five times. A size-dependent 413 can never recover. SurrealDB writes similarly rely on a hard-coded 20-update estimate rather than splitting and retrying a rejected request. This makes the backfill unable to progress under a lower gateway/body limit, though already committed chunks remain resumable.
+
+3. Medium — JSON arrays and scalars can produce a 500 instead of the route’s bad-request contract. [app.py](/home/mgerasolo/Dev/KnowledgeStack-wt-semantic-search/src/embedding/app.py:112) assumes decoded JSON has `.get()`. Requests such as `[]`, `"query"`, or `1` raise before the guarded search call. The route should require a JSON object and return 400.
+
+4. Medium — backfill safety-critical behavior is largely untested. [test_backfill.py](/home/mgerasolo/Dev/KnowledgeStack-wt-semantic-search/tests/python/test_backfill.py:1) tests helpers but never runs `main()`. There are no tests for resume after a partially successful write cycle, dimension rejection/redefinition, malformed or reordered gateway indices, vector-dimension rejection, gateway/SurrealDB 413 behavior, or write failure handling. The record-ID test checks only a prefix and absence of the original literal, so it does not establish that the generated `type::thing()` expression resolves to the original ID.
+
+5. Low — semantic-search tests use real vector values but not real KNN execution. [test_semantic_search.py](/home/mgerasolo/Dev/KnowledgeStack-wt-semantic-search/tests/python/test_semantic_search.py:33) returns precomputed rows from a string-dispatch fake. Thus the tests do not verify that SurrealDB accepts the constructed KNN/filter query, uses the HNSW index, or returns the assumed distance field. The title test also checks only that titles begin with `"title-"`, not that each result receives the title belonging to its YouTube ID.
+
+Test-integrity review found no deleted, skipped, or xfail-marked tests in the requested diff, and no obvious weakening of existing assertions. The added route/search tests do invoke the new Python code, but significant database and backfill behavior remains mocked or uncovered. I could not execute the suite because `pytest` is unavailable in the environment.
+
+The explicit happy-path contracts are otherwise represented: queries shorter than three characters return 400; modeled gateway/database failures return 503 with `retryable: true`; empty and modeled unknown-domain results return 200. Domain and title query values use the existing SurrealQL string escaper, and the score conversion is consistent with cosine distance.
+
+VERDICT: FAIL

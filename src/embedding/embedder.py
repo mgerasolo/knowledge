@@ -193,7 +193,12 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
     channel_handle = video_data.get("channel_handle", "unknown")
     channel_name = video_data.get("channel_name", channel_handle)
     domain = video_data.get("domain", "general")
-    published_at = video_data.get("published_at", "2026-01-01")
+    # The epoch, not a plausible recent date. This defaulted to 2026-01-01 until
+    # 2026-08-14, so a caller that forgot to send a date got a video that looked
+    # genuinely published this January — 1,425 of them, silently wrong in every
+    # date-sorted query. A caller that forgets now produces something obviously
+    # unset instead. Callers should send the real date (see #17).
+    published_at = video_data.get("published_at") or "1970-01-01"
     duration_seconds = video_data.get("duration_seconds", 0)
     transcript = video_data.get("transcript", "")
     segments = video_data.get("segments", [])
@@ -209,6 +214,9 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
     comment_count = video_data.get("comment_count", 0)
     thumbnail_url = video_data.get("thumbnail_url", "")
     uploader = video_data.get("uploader", "")
+    # "was_live", "is_live", "is_upcoming", "not_live" — what separates a
+    # three-hour livestream recording from a three-hour uploaded episode.
+    live_status = video_data.get("live_status", "")
 
     # Create/update channel
     channel_id = create_safe_id(channel_handle.lower())
@@ -237,7 +245,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
         youtube_id = '{video_id}',
         title = '{escape_string(title)}',
         published_at = d'{published_at}',
-        duration_seconds = {duration_seconds},
+        duration_seconds = {duration_seconds or 0},
         url = '{escape_string(url)}',
         channel_handle = '{escape_string(channel_handle)}',
         channel_name = '{escape_string(channel_name)}',
@@ -252,6 +260,7 @@ def embed_video(video_data: dict, skip_embeddings: bool = False) -> dict:
         comment_count = {comment_count or 0},
         thumbnail_url = '{escape_string(thumbnail_url)}',
         uploader = '{escape_string(uploader)}',
+        live_status = '{escape_string(live_status)}',
         metadata_fetched_at = time::now(),
         fetched_at = time::now(),
         ingested_at = time::now();

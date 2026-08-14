@@ -23,6 +23,19 @@ status_bp = Blueprint('status', __name__)
 
 TRANSCRIPT_DIR = Path(os.getenv('TRANSCRIPT_DIR', '/mnt/foundry_resources/transcripts'))
 
+# yt-dlp — the tool that actually does the fetching — is installed in the
+# transcript-service container, not this one. So this check ASKS that service
+# rather than inspecting a filesystem that has no downloader on it and would
+# happily report a confident answer about nothing.
+TRANSCRIPT_SERVICE_URL = os.getenv(
+    'TRANSCRIPT_SERVICE_URL', 'http://knowledge-transcript-service:5025'
+).rstrip('/')
+
+# The tooling probe caches its YouTube calls, so this is a local read of an
+# already-computed document. Short timeout: a slow neighbour must not make the
+# status endpoint slow.
+TOOLING_TIMEOUT_SECONDS = int(os.getenv('TOOLING_TIMEOUT_SECONDS', '10'))
+
 # A corpus that hasn't grown in this long means discovery or fetching has stopped.
 STALE_INGEST_HOURS = int(os.getenv('STALE_INGEST_HOURS', '72'))
 
@@ -158,11 +171,85 @@ def check_transcript_files() -> dict:
     }
 
 
+def check_downloader() -> dict:
+    """yt-dlp itself: present, current, and able to make a real call?
+
+    Every other check here asks about our own services and our own data. None
+    of them ask about the tool doing the fetching — so if yt-dlp went missing,
+    broke, or fell far enough behind YouTube's changes to stop working, all of
+    them would still report healthy, and the eventual symptom would be a
+    72-hour freshness warning blaming "ingestion" rather than naming the cause.
+
+    Answered across the container boundary because that is where the truth is.
+    The alternative — checking this container's own filesystem — would be
+    checking a machine that has never had yt-dlp on it.
+    """
+    url = f"{TRANSCRIPT_SERVICE_URL}/api/tooling"
+    try:
+        r = requests.get(url, timeout=TOOLING_TIMEOUT_SECONDS)
+    except Exception as e:
+        return {
+            'ok': False,
+            'detail': f"transcript service unreachable at {url}: {e}",
+            'source': url,
+        }
+
+    if r.status_code == 404:
+        # Specific on purpose: this is what a transcript-service image built
+        # before the tool check existed looks like, and it reads very
+        # differently from "the downloader is broken".
+        return {
+            'ok': False,
+            'detail': (
+                f"the transcript service is running an image built before this "
+                f"check existed ({url} returned 404) — yt-dlp cannot be verified "
+                f"until that container is rebuilt"
+            ),
+            'source': url,
+        }
+
+    if not r.ok:
+        return {
+            'ok': False,
+            'detail': f"{url} returned HTTP {r.status_code}",
+            'source': url,
+        }
+
+    try:
+        payload = r.json()
+    except ValueError:
+        return {'ok': False, 'detail': f"{url} did not return JSON", 'source': url}
+
+    ytdlp = payload.get('yt_dlp') or {}
+    js = payload.get('js_runtime') or {}
+    probe = payload.get('live_probe') or {}
+    overrides = payload.get('override_flags') or {}
+
+    return {
+        'ok': bool(payload.get('ok')),
+        'detail': '; '.join(payload.get('problems') or []) or None,
+        'source': url,
+        'yt_dlp_version': ytdlp.get('version'),
+        'yt_dlp_age_days': ytdlp.get('age_days'),
+        'yt_dlp_latest_version': ytdlp.get('latest_version'),
+        'yt_dlp_update_available': ytdlp.get('update_available'),
+        'js_runtime': js.get('name'),
+        'js_runtime_available': js.get('available'),
+        'override_flags_still_needed': overrides.get('still_needed'),
+        'last_real_call': {
+            'ok': probe.get('ok'),
+            'checked_at': probe.get('checked_at'),
+            'cached': probe.get('cached'),
+        },
+    }
+
+
 def build_status() -> tuple[dict, int]:
     """Assemble the full status document and its HTTP code."""
     pg = check_postgres()
     surreal = check_surrealdb()
     disk = check_transcript_files()
+    downloader = check_downloader()
 
     problems: list[str] = []
 
@@ -172,6 +259,13 @@ def build_status() -> tuple[dict, int]:
         problems.append(f"SurrealDB: {surreal['detail']}")
     if not disk['ok']:
         problems.append(f"Transcript files: {disk['detail']}")
+
+    # Named as a downloader problem, never left to surface 72 hours later as a
+    # generic freshness warning. It does NOT contribute to the 503 below: the
+    # corpus stays complete and queryable with a broken downloader — it just
+    # stops growing — and "down" here means consumers cannot read.
+    if not downloader['ok']:
+        problems.append(f"downloader: {downloader['detail']}")
 
     # The check that would have caught the July-August 2026 outage on day one:
     # Postgres said 1,086 videos were indexed while SurrealDB held zero.
@@ -224,6 +318,7 @@ def build_status() -> tuple[dict, int]:
             'postgres': pg,
             'surrealdb': surreal,
             'transcript_files': disk,
+            'downloader': downloader,
         },
         'thresholds': {
             'stale_ingest_hours': STALE_INGEST_HOURS,

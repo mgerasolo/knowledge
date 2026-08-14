@@ -31,7 +31,14 @@ services:
       SURREAL_NS: knowledge
       SURREAL_DB: transcripts
       TRANSCRIPT_DIR: /data/transcripts
+<<<<<<< HEAD
       EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
+=======
+      # yt-dlp lives in the transcript-service container, so the downloader
+      # component of /api/v1/status is answered by asking that service rather
+      # than by inspecting this container, which has no downloader on it.
+      TRANSCRIPT_SERVICE_URL: http://knowledge-transcript-service:5025
+>>>>>>> origin/main
     ports:
       - "5020:5020"
     volumes:

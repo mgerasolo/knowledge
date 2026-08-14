@@ -4,7 +4,7 @@ type: api
 provider: knowledge
 audience: [nai-dev, app]
 stability: beta
-version: 2.4.0
+version: 2.5.0
 updated: 2026-08-14
 verified: 2026-08-14
 owner: Matt Gerasolo <matt@gerasolo.com>
@@ -37,7 +37,7 @@ KnowledgeStack watches a set of YouTube channels, transcribes and chunks their v
 ### When this helps
 
 - You need "what has creator X said about Y" and the channel is one of the 50+ already monitored — the content is likely already transcribed and timestamped, so you avoid re-transcribing it yourself.
-- You want **meaning-based search, not just literal text match** — `GET /videos/api/semantic-search` (new in 2.4.0) finds segments about an idea even when the creator phrased it differently. Ask for "handling price objections" and get the segment where the coach never says the word "objection".
+- You want **meaning-based search, not just literal text match** — `GET /videos/api/semantic-search` (new in 2.5.0) finds segments about an idea even when the creator phrased it differently. Ask for "handling price objections" and get the segment where the coach never says the word "objection".
 - You want a timestamped segment, not just a full transcript wall of text, so you can deep-link to the moment in the video.
 - You want to scope a query to a topic area — content is pre-classified into `ai-tech`, `mindset`, `political`, `business`, `general`, `health`, `faith`.
 - You want to know whether "no results" means "doesn't exist" vs. "not ingested yet" — the ingestion pipeline's queue/failure state is queryable.
@@ -48,7 +48,7 @@ Transcripts are pulled from YouTube's caption endpoint, which rate-limits by IP 
 
 ### When this doesn't help (use something else)
 
-- You need a channel that isn't one of the 50+ currently monitored. There's no on-demand "transcribe this video for me" endpoint — only the standing channel watch list is ingested.
+- You need a whole channel that isn't one of the 50+ currently monitored. Single videos CAN now be enrolled on demand (`POST /api/v1/videos/enroll`, new in 2.4.0) — but there is no on-demand "watch this whole channel" endpoint; adding a channel is a request (§4).
 - You need guaranteed uptime or a support SLA. See the operational table below — there is none.
 - You need entity/topic tags. The `/tags/*` endpoints return **HTTP 501** — tagging was never implemented and no tag data has ever been written. Ignore the tag graph described in older versions of this guide.
 
@@ -106,7 +106,7 @@ curl https://knowledge.nextlevelfoundry.com/enroll/api/v1/channels/stats
 # Search transcript text (literal substring)
 curl "https://knowledge.nextlevelfoundry.com/enroll/videos/api/search?q=second+brain&limit=5"
 
-# Search by MEANING (semantic — new in 2.4.0)
+# Search by MEANING (semantic — new in 2.5.0)
 curl "https://knowledge.nextlevelfoundry.com/enroll/videos/api/semantic-search?q=how+to+handle+price+objections&limit=5"
 ```
 
@@ -120,7 +120,7 @@ An older host-routed domain, `https://knowledge-admin.nextlevelguild.com/...`, c
 
 **Auth: none.** There is no API key or token check anywhere in this service. `CORS_ORIGINS` is set to allow any origin. Treat this as an internal-network-trust model, not a public API — don't expose it to end users, and don't rely on it being gated by anything but obscurity.
 
-**Access scope: read-only.** Everything offered to you in this guide is a read. Write/admin endpoints exist (create a channel, retry a pipeline item, and so on) but are intentionally not offered to consumers — this is a single-maintainer service with no auth layer to protect writes, so the write surface stays internal. Direct database access is also intentionally not offered: the API is the only supported read path, which lets the underlying schema change without breaking consumers. If you need something the read surface doesn't give you, ask for it (§4) rather than reaching around the API.
+**Access scope: read-only, with one write.** Everything offered to you in this guide is a read, with a single exception new in 2.4.0: `POST /api/v1/videos/enroll` (below), which adds one video to the corpus. Other write/admin endpoints exist (create a channel, retry a pipeline item, and so on) but are intentionally not offered to consumers — this is a single-maintainer service with no auth layer to protect writes, so the rest of the write surface stays internal. Direct database access is also intentionally not offered: the API is the only supported read path, which lets the underlying schema change without breaking consumers. If you need something this surface doesn't give you, ask for it (§4) rather than reaching around the API.
 
 ### Operations
 
@@ -144,7 +144,7 @@ Transcript content (SurrealDB-backed) — **all working as of 2.0.0**:
 GET /videos/api/<youtube_video_id>   # single video + description + ordered segments
 GET /videos/api/list                 # ?q= title search, ?domain=, ?limit=, ?offset=
 GET /videos/api/search               # ?q= literal substring search across all transcript segments
-GET /videos/api/semantic-search      # NEW 2.4.0 — meaning-based search; ?q=, ?domain=, ?limit=, ?min_score=
+GET /videos/api/semantic-search      # NEW 2.5.0 — meaning-based search; ?q=, ?domain=, ?limit=, ?min_score=
 GET /videos/api/stats
 GET /videos/api/domains
 ```
@@ -159,6 +159,28 @@ GET /videos/api/domains
 | `min_score` | 0.4 | Similarity floor, 0–1. Results under it are dropped — at the default, an off-topic query correctly returns nothing. Pass `0` to disable and see everything ranked |
 
 Under the hood the query is embedded by the same model that embedded the corpus (via the fleet model gateway) and matched against a vector index in the datastore. The response's `model` field names the embedding model alias; if it ever changes, that is a re-embed of the whole corpus and will be announced in this guide with a version bump.
+
+Single-video enrollment — **NEW in 2.4.0** (#46), the one consumer-facing write:
+
+```
+POST /api/v1/videos/enroll
+```
+
+Ingests ONE video through the normal pipeline without enrolling its channel — built for guest appearances: a monitored personality interviewed on a show this project doesn't (and shouldn't) watch wholesale. Synchronous — the response arrives when ingestion finishes, normally well under a minute.
+
+```bash
+curl -X POST https://knowledge.nextlevelfoundry.com/enroll/api/v1/videos/enroll \
+  -H 'Content-Type: application/json' \
+  -d '{"url": "https://youtu.be/hiQW6FZkA9o",
+       "tags": ["personality:myron-golden"],
+       "domain": "business"}'
+```
+
+- **Payload:** `video_id` (11-char ID) or `url` (any YouTube URL shape — share links, watch pages, shorts, live, embed). Optional `tags`: lowercase slugs like `personality:myron-golden` (letters/digits/`: . _ -`, max 80 chars). Optional `domain` (default `general`).
+- **Tags are corpus markers**, stored on the video record (`tags` field, visible in `/videos/api/<id>` and `/videos/api/list`) and merged, never replaced — re-enrolling with new tags adds them. Filter the video list by tag with `GET /videos/api/list?tag=personality:myron-golden`. These are distinct from the never-implemented `/tags/*` entity graph, which still returns 501.
+- **Enrolling a video that is already in the corpus is safe**: it returns 200 with `already_fetched: true`, does not re-fetch anything, and still applies the tags.
+- **Status codes:** `200` ingested (or already held) · `400` bad input (unparseable reference, invalid tags) · `404` yt-dlp could not read the video (bad ID, private, deleted) · `409` a stream that hasn't finished — captions don't exist yet, retry after it ends · `422` readable video with no captions · `429` YouTube is rate-limiting caption requests, retry later · `502/504` internal pipeline unreachable/timed out.
+- The response carries the receipt: `segment_count`, `file_path`, `indexed` (whether the search index took the write — `false` with `index_error` means the transcript is safely on disk but not yet searchable), and `tags_applied`.
 
 Not implemented — these return **HTTP 501**, and always have been empty:
 
@@ -214,6 +236,7 @@ Everything below is documented as the API returns it (not as it is stored), veri
 | `url` | string | Canonical `youtube.com/watch` link | computed from `youtube_id` |
 | `channel_handle` / `channel_name` | string | The monitored channel this came from | assigned at ingest |
 | `domain` | string | Topic area (`ai-tech`, `mindset`, …) | assigned at ingest |
+| `tags` | array of strings, or absent | Corpus tags (e.g. `personality:myron-golden`) from single-video enrollment; absent on videos never tagged. Filterable via `?tag=` on `/videos/api/list` | assigned at enrollment (2.4.0) |
 | `segment_count` | int or null | Number of transcript segments | computed at ingest; `null` on records the newer ingest path wrote without computing it |
 | `has_timestamps` | bool or null | Whether this video's segments carry real timings (§3 Data model) | computed at ingest; `null` = never computed — check the segments' `start_time` directly before deep-linking |
 | `ingested_at` | ISO 8601 | When this service indexed the video | computed by the service |
@@ -288,7 +311,7 @@ Records live in SurrealDB, reached only via the Admin API's `/videos/*` endpoint
 Two fields deserve attention:
 
 - **`has_timestamps`** — `false` for ~200 older videos stored as plain prose. Their transcript text is complete, but every segment's `start_time`/`end_time` is `0`. **Check this before building a timestamp deep-link**, or you will link everyone to 0:00.
-- **`embedding`** — populated as of 2.4.0 and indexed for vector search (this is what `/videos/api/semantic-search` queries). New ingests are embedded automatically; a re-runnable backfill sweeps up anything a gateway outage misses. Consumers never touch this field directly — use the semantic-search endpoint.
+- **`embedding`** — populated as of 2.5.0 and indexed for vector search (this is what `/videos/api/semantic-search` queries). New ingests are embedded automatically; a re-runnable backfill sweeps up anything a gateway outage misses. Consumers never touch this field directly — use the semantic-search endpoint.
 
 **`tag`** — described in guide v1.0.0 but never implemented; no such table exists and nothing writes one. Removed from this data model rather than left as an aspiration.
 
@@ -333,7 +356,7 @@ All requests go through {{REQUEST_CHANNEL}}. The canonical request kinds:
 
 - **clarification** — this guide is ambiguous or doesn't answer your question.
 - **bug** — the service contradicts what this guide promises (evidence format below).
-- **feature** — a capability you need that doesn't exist yet: an on-demand "transcribe this video" endpoint, an auth layer, a new monitored channel.
+- **feature** — a capability you need that doesn't exist yet: an auth layer, a new monitored channel, whole-channel on-demand transcription.
 - **feedback** — something works, but badly; or a suggestion short of a feature.
 - **integration** — you are starting (or stopping) to call this API. Declare which endpoints you call and what breaks on your side if they change — it is the only way the provider knows to warn you before a breaking change ships. One message, filed once.
 - **access** — you need a guide or capability delivered to you that wasn't.
@@ -356,7 +379,8 @@ All requests go through {{REQUEST_CHANNEL}}. The canonical request kinds:
 
 | Version | Date | Notes |
 |---|---|---|
-| 2.4.0 | 2026-08-14 | **Semantic (meaning-based) search ships: `GET /videos/api/semantic-search`** — the capability §1 has promised since v1.0.0 and every version until now disclaimed. Query with your own phrasing (`?q=`), optionally scope by `?domain=`, tune with `?limit=` (default 20, cap 50) and `?min_score=` (default 0.4). Same segment shape as keyword `/search` plus a per-result similarity `score` and a top-level `model` field naming the embedding model. Status codes: 400 bad request · 503 + `retryable: true` when the embedding gateway or vector store is down (keyword search keeps working) · 200 with an empty list when nothing relevant exists — at the default floor an off-topic query correctly returns nothing. Behind it: the corpus's segment embeddings are now real (OpenAI text-embedding-3-small via the fleet model gateway, chosen over a local model after a measured head-to-head on real corpus content), stored in a vector index in the datastore; the full pre-existing corpus was backfilled the same day, and new ingests embed automatically with failures counted and reported rather than silently swallowed — the silent-swallow path is how the corpus once ended up with zero vectors. The §2/§3/data-model claims that embeddings "are not populated" and semantic search "does not exist" are reversed. |
+| 2.5.0 | 2026-08-14 | **Semantic (meaning-based) search ships: `GET /videos/api/semantic-search`** — the capability §1 has promised since v1.0.0 and every version until now disclaimed. Query with your own phrasing (`?q=`), optionally scope by `?domain=`, tune with `?limit=` (default 20, cap 50) and `?min_score=` (default 0.4). Same segment shape as keyword `/search` plus a per-result similarity `score` and a top-level `model` field naming the embedding model. Status codes: 400 bad request · 503 + `retryable: true` when the embedding gateway or vector store is down (keyword search keeps working) · 200 with an empty list when nothing relevant exists — at the default floor an off-topic query correctly returns nothing. Behind it: the corpus's segment embeddings are now real (OpenAI text-embedding-3-small via the fleet model gateway, chosen over a local model after a measured head-to-head on real corpus content), stored in a vector index in the datastore; the full pre-existing corpus was backfilled the same day, and new ingests embed automatically with failures counted and reported rather than silently swallowed — the silent-swallow path is how the corpus once ended up with zero vectors. The §2/§3/data-model claims that embeddings "are not populated" and semantic search "does not exist" are reversed. (Authored as 2.4.0 in parallel with the single-video-enrollment 2.4.0 below; renumbered at merge.) |
+| 2.4.0 | 2026-08-14 | **NEW: single-video enrollment** (`POST /api/v1/videos/enroll`, #46) — ingest ONE video (a guest appearance) through the normal pipeline without enrolling its channel; accepts any YouTube URL shape or a bare video ID; looks up title/channel/date from the video itself. **NEW: video-level corpus tags** — optional `tags` (lowercase slugs, e.g. `personality:myron-golden`) are stored on the video record, merged never replaced, and returned by both video read endpoints; **NEW: `?tag=` filter on `GET /videos/api/list`** to pull a whole corpus (videos without tags simply drop out of a filtered list). Access scope in §3 amended from "read-only" to "read-only with one write". §2's "no on-demand transcription" limitation row updated — it is now channel-level only. The never-implemented `/tags/*` entity graph is unchanged and still 501; corpus tags are a different, live mechanism. |
 | 2.3.1 | 2026-08-14 | Central-registry intake fixes, wording only: `audience` frontmatter now uses the registry's controlled vocabulary (`nai-dev`, `app` — was two tags the validator doesn't recognize), and the health-check documentation now sits under its own `### Health check` heading as the `api` template requires (content unchanged). Quickstart re-run against the live service on today's `verified:` date. No endpoint, payload, or behavior changes. |
 | 2.3.0 | 2026-08-14 | **Standard-compliance pass — no endpoint, payload, or behavior changes.** **NEW (§3): Response fields** — the documented payload contract for the list envelope, the video record, the segment record, `GET /api/v1/status` and `GET /api/v1/channels/stats`, each field with its type, meaning and derivation, including `has_timestamps` and `segment_count` returning `null` on records the newer ingest path wrote. **NEW (§3): Staying current**, and an explicit **read-only access scope** with the rationale for not offering writes or direct database access. **NEW (§2): a data-retention row.** §4 rebuilt to the standard's request kinds and 6-part bug-evidence format, with a pre-report status check. Corpus and channel figures throughout §1–§3 generalized to approximate scope — exact counts change daily and belong to `GET /api/v1/status`, not to a document; Changelog rows keep their point-in-time numbers as historical record. Two removals: a stale §4 claim that a 200 response "doesn't always mean success" (that failure mode was fixed in 2.0.0), and a paragraph that appeared twice in §3. **If you integrated at 2.2.0, this row is your diff.** This work was authored against 2.1.0 while 2.2.0 was in flight and is recorded in detail in the 2.1.2 and 2.1.1 rows below; those sit beneath 2.2.0 by version order and are easy to miss, but their content reaches consumers for the first time here. |
 | 2.2.0 | 2026-08-14 | **New `downloader` component in `GET /api/v1/status`**, plus a matching `problems[]` entry. Nothing previously checked yt-dlp — the tool that actually fetches from YouTube — so a downloader that went missing, broke, or fell behind YouTube's changes would leave every check reporting healthy, and would eventually surface 72 hours later as a freshness warning blaming "ingestion" rather than naming the cause. It reports presence, version, whether a newer release is available, whether a JavaScript runtime is present, and the result of a real (hourly-cached) call to YouTube. A downloader problem degrades but never marks the stack `down`: the corpus stays complete and queryable, it has just stopped growing. **Additive and not live yet** — it ships with the next transcript-service rebuild, deliberately deferred while a long backfill runs, so `components.downloader` is absent from responses until then. No existing field, endpoint or status code changed. |

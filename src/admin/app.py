@@ -4,6 +4,7 @@ from flask_cors import CORS
 from config import Config
 from db import test_connection, get_db_cursor
 from api.channels import channels_bp
+from api.enroll import enroll_bp
 from api.pipeline import pipeline_bp
 from api.videos import videos_bp
 from api.tags import tags_bp
@@ -23,6 +24,7 @@ def inject_url_prefix():
 
 # Register blueprints
 app.register_blueprint(channels_bp, url_prefix=Config.API_PREFIX)
+app.register_blueprint(enroll_bp, url_prefix=Config.API_PREFIX)
 app.register_blueprint(pipeline_bp, url_prefix=Config.API_PREFIX)
 app.register_blueprint(videos_bp, url_prefix='/videos')
 app.register_blueprint(tags_bp, url_prefix='/tags')
@@ -67,6 +69,9 @@ def api_info():
                 'toggle': 'POST /api/v1/channels/<id>/toggle',
                 'bulk_create': 'POST /api/v1/channels/bulk',
                 'stats': 'GET /api/v1/channels/stats'
+            },
+            'videos': {
+                'enroll': 'POST /api/v1/videos/enroll'
             },
             'pipeline': {
                 'list': 'GET /api/v1/pipeline/items',

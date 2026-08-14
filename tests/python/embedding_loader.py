@@ -75,6 +75,21 @@ def load_app():
     return _isolated(_EMB_NAMES, _load)
 
 
+ADMIN = Path(__file__).resolve().parents[2] / 'src' / 'admin'
+
+
+def load_admin_videos():
+    """Returns (config, videos) admin-API modules, isolated. Needed because
+    other test files put src/transcript-service on sys.path and its `config`
+    gets cached under the same bare module name admin's code imports."""
+    def _load():
+        cfg = _exec('config', ADMIN / 'config.py')
+        videos = _exec('admin_videos', ADMIN / 'api' / 'videos.py')
+        return cfg, videos
+
+    return _isolated(('config', 'admin_videos'), _load)
+
+
 def load_transcript_service():
     """Returns (config, fetcher) transcript-service modules, isolated the
     same way (it also has a bare top-level `config`)."""

@@ -5,15 +5,12 @@ Thin proxy to the embedding service. The contract consumers rely on:
 (empty results included). The embedding service being down must never
 surface as a 200-with-error-inside or a bare 500.
 """
-import sys
-from pathlib import Path
-
 import pytest
+from flask import Flask
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'src' / 'admin'))
+from embedding_loader import load_admin_videos
 
-from api import videos  # noqa: E402
-from flask import Flask  # noqa: E402
+_cfg, videos = load_admin_videos()
 
 
 @pytest.fixture()
