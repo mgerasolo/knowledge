@@ -1,0 +1,1812 @@
+{
+ "personality_id": "myron-golden",
+ "display_name": "Myron Golden",
+ "description": "Business, sales, offers, wealth-building, faith-based teaching",
+ "sources": [
+  {
+   "type": "channel",
+   "slug": "myrongolden",
+   "speaker_purity": "primary",
+   "note": "his own channel; may include guests",
+   "videos": [
+    {
+     "video_id": "jxLdMhwKS6c",
+     "title": "How To Finally Have Success With Money Once And For All",
+     "published": "2026-03-02",
+     "duration_seconds": 1900
+    },
+    {
+     "video_id": "PDLnSFGo2bE",
+     "title": "The 3 Biggest Wealth Creation Opportunities In 2026",
+     "published": "2026-02-23",
+     "duration_seconds": 1869
+    },
+    {
+     "video_id": "eEaY5s8jztU",
+     "title": "There\u2019s More Than Enough For Everyone To Have More Than Enough",
+     "published": "2026-02-09",
+     "duration_seconds": 3370
+    },
+    {
+     "video_id": "lv2ryOFW6jc",
+     "title": "How To Make Millions From Social Media - Even With Zero Followers",
+     "published": "2025-12-24",
+     "duration_seconds": 3067
+    },
+    {
+     "video_id": "lmpv7CJz6so",
+     "title": "How To Turn What You Love Into Residual Income",
+     "published": "2025-12-17",
+     "duration_seconds": 2054
+    },
+    {
+     "video_id": "POKmnxoPosI",
+     "title": "How To Bounce Back After A Layoff",
+     "published": "2025-12-15",
+     "duration_seconds": 3645
+    },
+    {
+     "video_id": "ln3ESEgt8Pk",
+     "title": "The Secret Reason Your Business Is Losing Money (It's Not What You Think)",
+     "published": "2025-11-12",
+     "duration_seconds": 2168
+    },
+    {
+     "video_id": "i3r3Z0Tr89E",
+     "title": "Go From Excuse Maker To Action Taker And Get It Done Now",
+     "published": "2025-10-27",
+     "duration_seconds": 1036
+    },
+    {
+     "video_id": "aarS5GlsX3s",
+     "title": "Leveling Up Your Life = Leveling Up Your Communication",
+     "published": "2025-09-22",
+     "duration_seconds": 1360
+    },
+    {
+     "video_id": "nKo5DoVFzg0",
+     "title": "How to Borrow from Your Future to Create Success Now",
+     "published": "2025-09-15",
+     "duration_seconds": 1967
+    },
+    {
+     "video_id": "x3TbOrkbUR8",
+     "title": "Seven Mindset Shifts That Made Me Millions",
+     "published": "2025-09-08",
+     "duration_seconds": 3612
+    },
+    {
+     "video_id": "sFPiATBu47Q",
+     "title": "Learn The Secrets Of The Ultra Wealthy\u2026",
+     "published": "2025-09-01",
+     "duration_seconds": 2041
+    },
+    {
+     "video_id": "7RUHLBmq3ko",
+     "title": "The Ultimate Path for Middle Class to Wealth",
+     "published": "2025-08-25",
+     "duration_seconds": 1263
+    },
+    {
+     "video_id": "ZNUI4xj43Zg",
+     "title": "The Best Business Model for Beginner Coaches",
+     "published": "2025-08-20",
+     "duration_seconds": 2127
+    },
+    {
+     "video_id": "jy_YMCUNEks",
+     "title": "Your Biggest Problem Is Thinking Too Small",
+     "published": "2025-08-04",
+     "duration_seconds": 1921
+    },
+    {
+     "video_id": "EmkqLX0XAVA",
+     "title": "Business Models & Business Markets That Make Millions",
+     "published": "2025-06-09",
+     "duration_seconds": 1292
+    },
+    {
+     "video_id": "CTM8kRvq8Jw",
+     "title": "How To Go Viral Without Getting Lucky",
+     "published": "2025-06-06",
+     "duration_seconds": 3092
+    },
+    {
+     "video_id": "nuL38hanDjc",
+     "title": "How To Become The Best Of The Best",
+     "published": "2025-06-02",
+     "duration_seconds": 2710
+    },
+    {
+     "video_id": "-5HlhFImymk",
+     "title": "How To Make Content So Good You Can\u2019t STOP Going Viral",
+     "published": "2025-05-26",
+     "duration_seconds": 3374
+    },
+    {
+     "video_id": "TRGwZatPugM",
+     "title": "How To Get Unstuck In Life",
+     "published": "2025-05-05",
+     "duration_seconds": 3019
+    },
+    {
+     "video_id": "TjVdNgLT-tE",
+     "title": "Exciting News: Our Podcast Is On the Way!",
+     "published": "2025-04-17",
+     "duration_seconds": 54
+    },
+    {
+     "video_id": "RPUnaHmmOmA",
+     "title": "Why Personal Growth Is The Key To Professional Growth",
+     "published": "2025-04-14",
+     "duration_seconds": 2541
+    },
+    {
+     "video_id": "RGdzLlEak40",
+     "title": "Wealth Secrets From The Richest Man Alive",
+     "published": "2025-03-17",
+     "duration_seconds": 1682
+    },
+    {
+     "video_id": "-kApJF_OSx0",
+     "title": "Mother Nature Teaches AI How To Go Viral On Social",
+     "published": "2025-02-19",
+     "duration_seconds": 1422
+    },
+    {
+     "video_id": "Zhi61kz4_nM",
+     "title": "How To Attract A Great Team To Build A Great Dream",
+     "published": "2025-02-12",
+     "duration_seconds": 3237
+    },
+    {
+     "video_id": "wbHxf04RXZw",
+     "title": "Finding Your Family Fortune In Family Business",
+     "published": "2025-02-12",
+     "duration_seconds": 3905
+    },
+    {
+     "video_id": "yeKof49DR_E",
+     "title": "How I Got Started as an Entrepreneur",
+     "published": "2025-02-10",
+     "duration_seconds": 1614
+    },
+    {
+     "video_id": "x0_7Mxb5Gq0",
+     "title": "What's the State of Your Financial Estate?",
+     "published": "2024-11-11",
+     "duration_seconds": 986
+    },
+    {
+     "video_id": "3PvoH9bHGrQ",
+     "title": "A Systematic Formula To Make Your Videos Go Viral",
+     "published": "2024-10-30",
+     "duration_seconds": 2234
+    },
+    {
+     "video_id": "wNU0-pTS7z4",
+     "title": "The Academy Of Scholars - Empowering Students For Academic Excellence",
+     "published": "2024-10-23",
+     "duration_seconds": 2771
+    },
+    {
+     "video_id": "YOSjJ4LEHr0",
+     "title": "How To Be An Oversubscribed B O S S  Moves Millionaire",
+     "published": "2024-09-09",
+     "duration_seconds": 2250
+    },
+    {
+     "video_id": "f4Lqk0iBsUo",
+     "title": "How To Build Wealth For Beginners",
+     "published": "2024-09-02",
+     "duration_seconds": 1589
+    },
+    {
+     "video_id": "5U0PAutz6c8",
+     "title": "If You Want To Get Rich Follow These Rules",
+     "published": "2024-08-28",
+     "duration_seconds": 2682
+    },
+    {
+     "video_id": "VjpskylIXNw",
+     "title": "Fix One Thing And Make Millions",
+     "published": "2024-08-21",
+     "duration_seconds": 1008
+    },
+    {
+     "video_id": "ck6wzSS9rdk",
+     "title": "Fight For It Or Forget About It",
+     "published": "2024-08-14",
+     "duration_seconds": 1380
+    },
+    {
+     "video_id": "7NggQ06O-bU",
+     "title": "Wealth Secrets That Can Make You Rich In Your 20s",
+     "published": "2024-08-12",
+     "duration_seconds": 1782
+    },
+    {
+     "video_id": "fM94q2YWGjM",
+     "title": "How To Succeed In Anything Automatically",
+     "published": "2024-07-31",
+     "duration_seconds": 1265
+    },
+    {
+     "video_id": "qqvLMKm1FtA",
+     "title": "4 Levels OF Business",
+     "published": "2024-07-29",
+     "duration_seconds": 1584
+    },
+    {
+     "video_id": "gNhksSp-TfI",
+     "title": "7 Figure Social Media Secrets",
+     "published": "2024-07-24",
+     "duration_seconds": 962
+    },
+    {
+     "video_id": "xgVrRwFgaDM",
+     "title": "No Stress, Just Yes",
+     "published": "2024-07-22",
+     "duration_seconds": 1216
+    },
+    {
+     "video_id": "EXf96S9ISF0",
+     "title": "Sometimes You\u2019ve Got To Hurt Them To Help Them",
+     "published": "2024-07-17",
+     "duration_seconds": 731
+    },
+    {
+     "video_id": "Cd95H7nYt5o",
+     "title": "The Paradox Of Profits",
+     "published": "2024-07-15",
+     "duration_seconds": 1639
+    },
+    {
+     "video_id": "Spxzx7Z1Ikk",
+     "title": "Addicted To Learning  Here's Why",
+     "published": "2024-07-07",
+     "duration_seconds": 412
+    },
+    {
+     "video_id": "87sX8XLsBKU",
+     "title": "The Answer To, \u201cWhat Do You Do?\u201d",
+     "published": "2024-06-30",
+     "duration_seconds": 673
+    },
+    {
+     "video_id": "oTfYRaUkkoI",
+     "title": "The Hidden Reasons People Don't Buy From You",
+     "published": "2024-06-23",
+     "duration_seconds": 1025
+    },
+    {
+     "video_id": "GlJi3mMetJo",
+     "title": "Two Sentence Wealth Formula",
+     "published": "2024-06-16",
+     "duration_seconds": 2222
+    },
+    {
+     "video_id": "VsIbV-ahpoM",
+     "title": "How I Close Million Dollar Sales 1 On 1",
+     "published": "2024-06-08",
+     "duration_seconds": 1396
+    },
+    {
+     "video_id": "z6JM6UUKv9s",
+     "title": "How To Guarantee That You Always Win",
+     "published": "2024-06-03",
+     "duration_seconds": 1104
+    },
+    {
+     "video_id": "WiMNn9Qtppo",
+     "title": "No Doubt - Only Belief",
+     "published": "2024-06-02",
+     "duration_seconds": 1734
+    },
+    {
+     "video_id": "pBxSTCocHns",
+     "title": "How To Build A Dream Business",
+     "published": "2024-05-27",
+     "duration_seconds": 1848
+    },
+    {
+     "video_id": "XoBbqtkVHv0",
+     "title": "God's Ultimate Guide To Freedom",
+     "published": "2024-05-23",
+     "duration_seconds": 1856
+    },
+    {
+     "video_id": "O7XN_LSF3J8",
+     "title": "How To Get Rich Repping Somebody Else\u2019s Product",
+     "published": "2024-05-20",
+     "duration_seconds": 375
+    },
+    {
+     "video_id": "WRktjPdtLuM",
+     "title": "Kingdom Concepts Revealed",
+     "published": "2024-05-19",
+     "duration_seconds": 2598
+    },
+    {
+     "video_id": "SETf-H-5p84",
+     "title": "Youtube Channel Makes 6 Figures In 4 hours A Week",
+     "published": "2024-05-12",
+     "duration_seconds": 920
+    },
+    {
+     "video_id": "SyuC1GaOltY",
+     "title": "Questions Are The Answer",
+     "published": "2024-05-05",
+     "duration_seconds": 2167
+    },
+    {
+     "video_id": "yWC2YnJkPhs",
+     "title": "The 3 Biggest Road Blocks To Wealth Creation",
+     "published": "2024-04-28",
+     "duration_seconds": 975
+    },
+    {
+     "video_id": "H7zjr0QYzu0",
+     "title": "How To Make A Million Dollars Step By Step",
+     "published": "2024-04-21",
+     "duration_seconds": 1722
+    },
+    {
+     "video_id": "3sni274A9pE",
+     "title": "Make Offers - Make Millions",
+     "published": "2024-04-13",
+     "duration_seconds": 820
+    },
+    {
+     "video_id": "TmHVcDlMX-g",
+     "title": "Automatic Success Secrets Revealed",
+     "published": "2024-04-08",
+     "duration_seconds": 2062
+    },
+    {
+     "video_id": "Epsm6enVIlE",
+     "title": "The Art Of Selling Without Out Selling",
+     "published": "2024-04-07",
+     "duration_seconds": 856
+    },
+    {
+     "video_id": "Ibh1FhRAOK4",
+     "title": "Why You Can Win The Battle Within",
+     "published": "2024-04-04",
+     "duration_seconds": 2396
+    },
+    {
+     "video_id": "vJuQBKHwLT8",
+     "title": "The More You Learn The More You Earn",
+     "published": "2024-03-31",
+     "duration_seconds": 1084
+    },
+    {
+     "video_id": "MK1YtzY-3bw",
+     "title": "Success Is Failure, Turned Upside Down",
+     "published": "2024-03-25",
+     "duration_seconds": 1881
+    },
+    {
+     "video_id": "cRH4YGGW2Qo",
+     "title": "The Craziest Facts I Know",
+     "published": "2024-03-24",
+     "duration_seconds": 1951
+    },
+    {
+     "video_id": "YCFPyoBndKs",
+     "title": "How To Make Your Content More Appealing",
+     "published": "2024-03-18",
+     "duration_seconds": 1160
+    },
+    {
+     "video_id": "ukECPvhGIo4",
+     "title": "Seduced By Self Sabotage",
+     "published": "2024-03-11",
+     "duration_seconds": 1821
+    },
+    {
+     "video_id": "AxDXRVXqaYA",
+     "title": "The Righteousness Of Thinking Big",
+     "published": "2024-03-10",
+     "duration_seconds": 2336
+    },
+    {
+     "video_id": "kZqhlWy_Rvc",
+     "title": "The Success Easy Button = Hard To Push",
+     "published": "2024-03-04",
+     "duration_seconds": 2070
+    },
+    {
+     "video_id": "3M0LX4HDFuo",
+     "title": "The Scientific Success Formula Simplified",
+     "published": "2024-03-03",
+     "duration_seconds": 863
+    },
+    {
+     "video_id": "_hNzoXD1jwY",
+     "title": "Why Money Can\u2019t Buy Happiness",
+     "published": "2024-02-26",
+     "duration_seconds": 1319
+    },
+    {
+     "video_id": "j03Hyqw_ZUg",
+     "title": "How To Get The Most Out Of Your Gift",
+     "published": "2024-02-25",
+     "duration_seconds": 547
+    },
+    {
+     "video_id": "GWozTsb7qv4",
+     "title": "You Will Find Success When You Stop Looking For Status",
+     "published": "2024-02-19",
+     "duration_seconds": 1871
+    },
+    {
+     "video_id": "kBksl21vb3o",
+     "title": "Turn Your Articulation Into Compensation",
+     "published": "2024-02-18",
+     "duration_seconds": 1776
+    },
+    {
+     "video_id": "sLS05MjhPk4",
+     "title": "Manage Risk Don\u2019t Avoid It",
+     "published": "2024-02-11",
+     "duration_seconds": 1645
+    },
+    {
+     "video_id": "Xw_q4BCV1cc",
+     "title": "How To Increase Your Perceived Value With Offers",
+     "published": "2024-02-05",
+     "duration_seconds": 2239
+    },
+    {
+     "video_id": "PgHkIjzIynw",
+     "title": "Take Advantages Of Your Advantages",
+     "published": "unknown",
+     "duration_seconds": 1864
+    },
+    {
+     "video_id": "mJMXvbUPeXg",
+     "title": "Why You Can\u2019t See The Obvious\u2026\ud83e\udd14\ud83e\udd2f",
+     "published": "unknown",
+     "duration_seconds": 1232
+    },
+    {
+     "video_id": "rPjG6HZfSAw",
+     "title": "How To Build An 8 Figure Brand",
+     "published": "unknown",
+     "duration_seconds": 1132
+    },
+    {
+     "video_id": "IspNROzfNbM",
+     "title": "If You Want To Succeed In Business, Don't Make This Mistake",
+     "published": "unknown",
+     "duration_seconds": 1142
+    },
+    {
+     "video_id": "tFg_eXucF_U",
+     "title": "6 Lies That Will Keep You Broke And Stuck",
+     "published": "unknown",
+     "duration_seconds": 2324
+    },
+    {
+     "video_id": "uUlehoFh2tA",
+     "title": "Automatic Money Machine",
+     "published": "unknown",
+     "duration_seconds": 1385
+    },
+    {
+     "video_id": "4HU9hJfDMDU",
+     "title": "Myron\u2019s First Millionaire Mentor Teaches Generational Wealth",
+     "published": "unknown",
+     "duration_seconds": 1978
+    },
+    {
+     "video_id": "1gqyiFW7tgA",
+     "title": "Get Motivated For Millions In 2024",
+     "published": "unknown",
+     "duration_seconds": 1181
+    },
+    {
+     "video_id": "k9pbsQOBcIM",
+     "title": "How To Build A Million Dollar Brand In 2024",
+     "published": "unknown",
+     "duration_seconds": 2379
+    },
+    {
+     "video_id": "YRwFhMgO3Yo",
+     "title": "Profitable Answers To Content Creation Questions",
+     "published": "unknown",
+     "duration_seconds": 1967
+    },
+    {
+     "video_id": "cyrT2cJgf8Y",
+     "title": "The Message, Math, and Markets That Makes Millions",
+     "published": "unknown",
+     "duration_seconds": 1141
+    },
+    {
+     "video_id": "L2j_hYC6ph8",
+     "title": "Why Most YouTube Channels Fail",
+     "published": "unknown",
+     "duration_seconds": 1749
+    },
+    {
+     "video_id": "c626KEQqO7Q",
+     "title": "Homemade Millionaire Secrets",
+     "published": "unknown",
+     "duration_seconds": 2276
+    },
+    {
+     "video_id": "I-CdqQzbWqo",
+     "title": "Everything Must Match The Brand",
+     "published": "unknown",
+     "duration_seconds": 2598
+    },
+    {
+     "video_id": "_kdpDuoDjvA",
+     "title": "How To Get The Most Out Of 4 Levels Of Value",
+     "published": "unknown",
+     "duration_seconds": 1529
+    },
+    {
+     "video_id": "hgNNS0qgsGg",
+     "title": "Answers To Business And Financial Challenges",
+     "published": "unknown",
+     "duration_seconds": 2452
+    },
+    {
+     "video_id": "sS1KpeLNvts",
+     "title": "How To Get More Out Of The Books You Read",
+     "published": "unknown",
+     "duration_seconds": 1113
+    },
+    {
+     "video_id": "30FyHvaiS6A",
+     "title": "Million Dollar Answers For Hard Business Questions",
+     "published": "unknown",
+     "duration_seconds": 2452
+    },
+    {
+     "video_id": "qftarMUcry0",
+     "title": "When looking for wisdom remember, wisdom is also looking for you!",
+     "published": "unknown",
+     "duration_seconds": 1882
+    },
+    {
+     "video_id": "S3n5FRC2_4o",
+     "title": "Just Make Money Faster",
+     "published": "unknown",
+     "duration_seconds": 2020
+    },
+    {
+     "video_id": "oSAb9t6w_JA",
+     "title": "How To Build A Personal Brand",
+     "published": "unknown",
+     "duration_seconds": 1714
+    },
+    {
+     "video_id": "dm6XgOKBkf4",
+     "title": "Just Because You Can\u2019t See It Doesn\u2019t Mean It\u2019s Not There",
+     "published": "unknown",
+     "duration_seconds": 2570
+    },
+    {
+     "video_id": "HYWwsgwwwnA",
+     "title": "$$$ Isn\u2019t The Answer To Your $$$ Problems, You Can\u2019t Borrow Your Way Out Of A Hole.",
+     "published": "unknown",
+     "duration_seconds": 2500
+    },
+    {
+     "video_id": "vBp4xCud4WA",
+     "title": "You Will Never Be Able To Sell Until\u2026",
+     "published": "unknown",
+     "duration_seconds": 1411
+    },
+    {
+     "video_id": "j2aZW8F-v8I",
+     "title": "Business Skills That Make Millions",
+     "published": "unknown",
+     "duration_seconds": 1820
+    },
+    {
+     "video_id": "gCf6dKjmXcA",
+     "title": "How Words Can Make A Way For You",
+     "published": "unknown",
+     "duration_seconds": 1808
+    },
+    {
+     "video_id": "pVW-iO-UGRk",
+     "title": "People Skills That can Make You Millions",
+     "published": "unknown",
+     "duration_seconds": 1294
+    },
+    {
+     "video_id": "MULMdCpL0ZE",
+     "title": "You Don't Need To Look For Wisdom Because Wisdom Is Looking For You",
+     "published": "unknown",
+     "duration_seconds": 1903
+    },
+    {
+     "video_id": "qGKoTnei0DE",
+     "title": "3 Mistakes That Keep Your Business Stuck Pt .2",
+     "published": "unknown",
+     "duration_seconds": 2365
+    },
+    {
+     "video_id": "IcHwvyuUc8w",
+     "title": "3 Mistakes That Keep Your Business Stuck Pt. 1",
+     "published": "unknown",
+     "duration_seconds": 1644
+    },
+    {
+     "video_id": "NAkWOsKolPk",
+     "title": "The Money Game And How To Win It",
+     "published": "unknown",
+     "duration_seconds": 1641
+    },
+    {
+     "video_id": "4fgKG6aDfqM",
+     "title": "One Hour Of Myron Motivation Myron Golden",
+     "published": "unknown",
+     "duration_seconds": 3578
+    },
+    {
+     "video_id": "5p0cYbBd0yw",
+     "title": "The Windows Of Wealth And Cash Flow",
+     "published": "unknown",
+     "duration_seconds": 1886
+    },
+    {
+     "video_id": "lKLCUnjGfSk",
+     "title": "Think Like A Prodigy, Talk Like A Third Grader Pt 2",
+     "published": "unknown",
+     "duration_seconds": 2919
+    },
+    {
+     "video_id": "aijDqSUGogw",
+     "title": "Think  Like A Prodigy, Talk Like A Third Grader Part 1",
+     "published": "unknown",
+     "duration_seconds": 2242
+    },
+    {
+     "video_id": "VYY4KQ_SjeU",
+     "title": "Think And Grow Rich Or You Will Think And Grow Broke",
+     "published": "unknown",
+     "duration_seconds": 1635
+    },
+    {
+     "video_id": "PQPn5_0hvEY",
+     "title": "The Dangers Of Toxic Money Thoughts",
+     "published": "unknown",
+     "duration_seconds": 3341
+    },
+    {
+     "video_id": "J4KcTSOZZfg",
+     "title": "Why Financial Security Blocks Financial Freedom",
+     "published": "unknown",
+     "duration_seconds": 545
+    },
+    {
+     "video_id": "aSx5uC3UTLc",
+     "title": "Bible Success Secrets From Genesis 1",
+     "published": "unknown",
+     "duration_seconds": 2439
+    },
+    {
+     "video_id": "l__JOT9KLxU",
+     "title": "Savvy Finance And Business Insight",
+     "published": "unknown",
+     "duration_seconds": 3180
+    },
+    {
+     "video_id": "VWjRAMK4e6Y",
+     "title": "Walk Like A Wise Man Not Like A Fool",
+     "published": "unknown",
+     "duration_seconds": 1911
+    },
+    {
+     "video_id": "_IgCWIM6nrk",
+     "title": "Multiple Streams For Millionaire Dreams",
+     "published": "unknown",
+     "duration_seconds": 1624
+    },
+    {
+     "video_id": "NUeWNZtyBo0",
+     "title": "Set up your family for lifetime success",
+     "published": "unknown",
+     "duration_seconds": 1640
+    },
+    {
+     "video_id": "KY2bAlZIpXs",
+     "title": "How to Make, Manage, and Multiply Wealth",
+     "published": "unknown",
+     "duration_seconds": 1889
+    },
+    {
+     "video_id": "K7Jx8oYgbhE",
+     "title": "Myron Golden And Russell Brunson Reveal Secrets To Making Millions",
+     "published": "unknown",
+     "duration_seconds": 4244
+    },
+    {
+     "video_id": "IzaBiazHWIg",
+     "title": "How To Finally Be Free From Poverty",
+     "published": "unknown",
+     "duration_seconds": 1260
+    },
+    {
+     "video_id": "efDiLWrfgws",
+     "title": "Expectation vs  Choice Your Super Power Revealed",
+     "published": "unknown",
+     "duration_seconds": 1809
+    },
+    {
+     "video_id": "0UKpg7H3f5s",
+     "title": "Better Than Crypto, Trading & Real Estate\u2026",
+     "published": "unknown",
+     "duration_seconds": 1356
+    },
+    {
+     "video_id": "HOsvzZ25cvI",
+     "title": "You Can\u2019t Lose With The Stuff I Use",
+     "published": "unknown",
+     "duration_seconds": 1998
+    },
+    {
+     "video_id": "jIVQu8PXS64",
+     "title": "Time To Make The Money Honey \ud83d\udcb0\ud83c\udf6f",
+     "published": "unknown",
+     "duration_seconds": 963
+    },
+    {
+     "video_id": "27DASSbGpS0",
+     "title": "You Don't Lack Abundance You Lack Awareness",
+     "published": "unknown",
+     "duration_seconds": 1151
+    },
+    {
+     "video_id": "EJmWFTwZZsM",
+     "title": "You Can Win The Battle Within!",
+     "published": "unknown",
+     "duration_seconds": 1809
+    },
+    {
+     "video_id": "RiHFYuEBlO0",
+     "title": "$ix Figures My First Year As A YouTuber? True Or False? You Decide\u2026",
+     "published": "unknown",
+     "duration_seconds": 2425
+    },
+    {
+     "video_id": "vlv9dBwn2_I",
+     "title": "Not Under The Law But Under Grace",
+     "published": "unknown",
+     "duration_seconds": 1055
+    },
+    {
+     "video_id": "q-qj-r39uXA",
+     "title": "Don't Let Sin Win Again!",
+     "published": "unknown",
+     "duration_seconds": 1068
+    },
+    {
+     "video_id": "JRRHlRfe0dE",
+     "title": "What Wealth Is And How You Can Create It...",
+     "published": "unknown",
+     "duration_seconds": 2650
+    },
+    {
+     "video_id": "i_kQY5-DiNo",
+     "title": "For Profit Before Nonprofit. Why Charity Is Not Giving Back, It's Just Giving",
+     "published": "unknown",
+     "duration_seconds": 1072
+    },
+    {
+     "video_id": "jC5h3tQp54s",
+     "title": "The Greater The Risk The Greater The Return",
+     "published": "unknown",
+     "duration_seconds": 1410
+    },
+    {
+     "video_id": "QYrU0iwexd4",
+     "title": "GET RICH FAST AND SLOW, THEN STAY RICH FOR THE REST OF YOUR LIFE",
+     "published": "unknown",
+     "duration_seconds": 1479
+    },
+    {
+     "video_id": "eupzu4TFdXM",
+     "title": "One OFFER Can Change Everything...",
+     "published": "unknown",
+     "duration_seconds": 76
+    },
+    {
+     "video_id": "buuev-AfPdU",
+     "title": "You're Committing Adultery And Didn\u2019t Even Know It",
+     "published": "unknown",
+     "duration_seconds": 1499
+    },
+    {
+     "video_id": "ww7oXkF6KkQ",
+     "title": "You Don\u2019t Need a Good Idea You Need a God Idea",
+     "published": "unknown",
+     "duration_seconds": 2173
+    },
+    {
+     "video_id": "MwVmWmPwGro",
+     "title": "Time Is Money Is A Very Expensive Lie",
+     "published": "unknown",
+     "duration_seconds": 806
+    },
+    {
+     "video_id": "pJJLTg8Ru74",
+     "title": "The Poverty Programming Trap",
+     "published": "unknown",
+     "duration_seconds": 966
+    },
+    {
+     "video_id": "g04x-3uVD5s",
+     "title": "A Biblical View Of Marriage",
+     "published": "unknown",
+     "duration_seconds": 1714
+    },
+    {
+     "video_id": "oZKGihL-Wr0",
+     "title": "How To Become The Greatest Sales Person In The World",
+     "published": "unknown",
+     "duration_seconds": 714
+    },
+    {
+     "video_id": "SB4_TBUjoXI",
+     "title": "God Is In Trouble With You (Audio Fixed)",
+     "published": "unknown",
+     "duration_seconds": 1983
+    },
+    {
+     "video_id": "OIpgwR7hFuA",
+     "title": "How To Profit from Your Problem",
+     "published": "unknown",
+     "duration_seconds": 1718
+    },
+    {
+     "video_id": "h1txXB9v_EI",
+     "title": "Why I Do What I Do",
+     "published": "unknown",
+     "duration_seconds": 724
+    },
+    {
+     "video_id": "FfVpvWmQLlE",
+     "title": "WINNERS ALWAYS QUIT AND QUITTERS NEVER WIN",
+     "published": "unknown",
+     "duration_seconds": 2012
+    },
+    {
+     "video_id": "o98pTA02pDo",
+     "title": "The Tesla Model That Can Make You Rich",
+     "published": "unknown",
+     "duration_seconds": 1279
+    },
+    {
+     "video_id": "-H3jbeZWVBs",
+     "title": "Be Not Afraid Only Believe",
+     "published": "unknown",
+     "duration_seconds": 1832
+    },
+    {
+     "video_id": "1mSqrGJUeq8",
+     "title": "Myron Golden TEDx Talk  The Master Key To Influence mp4",
+     "published": "unknown",
+     "duration_seconds": 886
+    },
+    {
+     "video_id": "SYlr_9IJgAg",
+     "title": "\u2018You Just Lied\u2019: Elon Musk Slaughters BBC Reporter In Live Interview",
+     "published": "unknown",
+     "duration_seconds": 1150
+    },
+    {
+     "video_id": "YfI8sJRV7l4",
+     "title": "3 Fundamental of a Successful Business",
+     "published": "unknown",
+     "duration_seconds": 839
+    },
+    {
+     "video_id": "4LKZk1VAqio",
+     "title": "It\u2019s Time To Put Your Faith To Work",
+     "published": "unknown",
+     "duration_seconds": 1935
+    },
+    {
+     "video_id": "U58MQ48HkDw",
+     "title": "How To Get Ahead Of 99% Of People",
+     "published": "unknown",
+     "duration_seconds": 1880
+    },
+    {
+     "video_id": "oSzMAZ5URk0",
+     "title": "Business Mastery Secrets",
+     "published": "unknown",
+     "duration_seconds": 1565
+    },
+    {
+     "video_id": "QcMWuWodPPE",
+     "title": "The Faster You Learn The More You Earn",
+     "published": "unknown",
+     "duration_seconds": 1504
+    },
+    {
+     "video_id": "Mis576zG7bI",
+     "title": "How To Get Rich If You Hate Selling",
+     "published": "unknown",
+     "duration_seconds": 944
+    },
+    {
+     "video_id": "znDIDK9yYM8",
+     "title": "The Financial Statement Of Jesus Christ Pt 2",
+     "published": "unknown",
+     "duration_seconds": 2365
+    },
+    {
+     "video_id": "kt6P-gAygAc",
+     "title": "The Timeless Thesis of God ",
+     "published": "unknown",
+     "duration_seconds": 2374
+    },
+    {
+     "video_id": "gwqDXbCJE0Y",
+     "title": "Mistakes Coaches & influencers Make",
+     "published": "unknown",
+     "duration_seconds": 595
+    },
+    {
+     "video_id": "u3Q92DWv0W4",
+     "title": "The Financial Statement Of Jesus Christ Pt.1",
+     "published": "unknown",
+     "duration_seconds": 1512
+    },
+    {
+     "video_id": "KPy74V6D0ys",
+     "title": "Build Your Audience Like An Influencer",
+     "published": "unknown",
+     "duration_seconds": 659
+    },
+    {
+     "video_id": "KAnb_iSgHgc",
+     "title": "Business Bishop Full Video By Popular Demand",
+     "published": "unknown",
+     "duration_seconds": 5153
+    },
+    {
+     "video_id": "zDzpW24YM2g",
+     "title": "Biblical Leadership And Company Culture",
+     "published": "unknown",
+     "duration_seconds": 1859
+    },
+    {
+     "video_id": "lgpW3MVTzI8",
+     "title": "Why Wealth Is Easy For Some And Hard For Others",
+     "published": "unknown",
+     "duration_seconds": 1946
+    },
+    {
+     "video_id": "1Anei2l10Yc",
+     "title": "Black People In Jesus\u2019 Genealogy",
+     "published": "unknown",
+     "duration_seconds": 1779
+    },
+    {
+     "video_id": "ujPpIw7woEA",
+     "title": "2023 Business Model That Can Make You Rich",
+     "published": "unknown",
+     "duration_seconds": 1148
+    },
+    {
+     "video_id": "mKU-ChYI7Nc",
+     "title": "High Ticket Sales Price Justification",
+     "published": "unknown",
+     "duration_seconds": 665
+    },
+    {
+     "video_id": "OLZLDqGalNA",
+     "title": "How To Write A Best Selling Book",
+     "published": "unknown",
+     "duration_seconds": 634
+    },
+    {
+     "video_id": "PlmxvBzHPuA",
+     "title": "You Can\u2019t Stop Destiny, So Step Into It - The Business Bishop Pt. 8",
+     "published": "unknown",
+     "duration_seconds": 598
+    },
+    {
+     "video_id": "lhz1vIKKt50",
+     "title": "Meet The Best Version Of You - The Business Bishop Pt. 7",
+     "published": "unknown",
+     "duration_seconds": 723
+    },
+    {
+     "video_id": "yLbwQrvv93Y",
+     "title": "Identity Is The Master Key To Destiny - The Business Bishop Pt. 6",
+     "published": "unknown",
+     "duration_seconds": 700
+    },
+    {
+     "video_id": "3EeweqDbCJc",
+     "title": "Take A Stand Even If You Fall",
+     "published": "unknown",
+     "duration_seconds": 4355
+    },
+    {
+     "video_id": "YFYyKePYpQI",
+     "title": "How To Win The War In Your Mind - The Business Bishop Pt. 5",
+     "published": "unknown",
+     "duration_seconds": 619
+    },
+    {
+     "video_id": "dweYpQN5Fl8",
+     "title": "Your Purpose Is Waiting For You - The Business Bishop Pt. 4",
+     "published": "unknown",
+     "duration_seconds": 584
+    },
+    {
+     "video_id": "tMYU-zvtQ90",
+     "title": "It\u2019s Time To Elevate Your IQ! - The Business Bishop Pt. 3",
+     "published": "unknown",
+     "duration_seconds": 619
+    },
+    {
+     "video_id": "NC53KdrssEQ",
+     "title": "Get Your Plans In Line With God\u2019s Purpose - The Business Bishop Pt. 2",
+     "published": "unknown",
+     "duration_seconds": 554
+    },
+    {
+     "video_id": "N6Yy4RX2StY",
+     "title": "Personal Development Secrets From The Bible - The Business Bishop Pt. 1",
+     "published": "unknown",
+     "duration_seconds": 466
+    },
+    {
+     "video_id": "w_IRyhFmq7M",
+     "title": "2023 Millionaire Business Model",
+     "published": "unknown",
+     "duration_seconds": 1209
+    },
+    {
+     "video_id": "jVaecdRZ87I",
+     "title": "Kingdom Conversations With The Business Bishop Pt  5",
+     "published": "unknown",
+     "duration_seconds": 628
+    },
+    {
+     "video_id": "mViCxLCQzqk",
+     "title": "Kingdom Conversations With The Business Bishop Pt  4",
+     "published": "unknown",
+     "duration_seconds": 600
+    },
+    {
+     "video_id": "c56yPhJCfWU",
+     "title": "Kingdom Conversations With The Business Bishop Pt  3",
+     "published": "unknown",
+     "duration_seconds": 731
+    },
+    {
+     "video_id": "zL02TjQhW7I",
+     "title": "Kingdom Conversations With The Business Bishop Pt  2",
+     "published": "unknown",
+     "duration_seconds": 628
+    },
+    {
+     "video_id": "icOJI0BiDgE",
+     "title": "Kingdom Conversations With The Business Bishop",
+     "published": "unknown",
+     "duration_seconds": 597
+    },
+    {
+     "video_id": "Wnui9arB3GA",
+     "title": "The Dangers Of A Double Mind",
+     "published": "unknown",
+     "duration_seconds": 2239
+    },
+    {
+     "video_id": "mAJ9Q9-H9Qk",
+     "title": "Success Scams You Must Avoid!",
+     "published": "unknown",
+     "duration_seconds": 602
+    },
+    {
+     "video_id": "ybleZ6Tl1dg",
+     "title": "Better Branding For Your Business",
+     "published": "unknown",
+     "duration_seconds": 1213
+    },
+    {
+     "video_id": "nIkW3flsbz4",
+     "title": "How To Leverage Value In Your Business",
+     "published": "unknown",
+     "duration_seconds": 2253
+    },
+    {
+     "video_id": "B_NGlsdQXXY",
+     "title": "I Can\u2019t Believe My Eyes Because My Eyes Tell Lies",
+     "published": "unknown",
+     "duration_seconds": 1869
+    },
+    {
+     "video_id": "KhfRyz6MfKw",
+     "title": "Why Most Entrepreneurs Are Out Of Balance",
+     "published": "unknown",
+     "duration_seconds": 1142
+    },
+    {
+     "video_id": "phBSHhMF7cA",
+     "title": "Everything That Happens To You Happens For You",
+     "published": "unknown",
+     "duration_seconds": 2038
+    },
+    {
+     "video_id": "foJ8euhuZCY",
+     "title": "Why You Never Have To Be A Victim Of Your Circumstances",
+     "published": "unknown",
+     "duration_seconds": 817
+    },
+    {
+     "video_id": "pt5a_KuP3MA",
+     "title": "Time To Step Into Your Purpose",
+     "published": "unknown",
+     "duration_seconds": 2003
+    },
+    {
+     "video_id": "TpUDoeeg9I0",
+     "title": "Selling Is Easy When You Do It Like This!",
+     "published": "unknown",
+     "duration_seconds": 2037
+    },
+    {
+     "video_id": "jCM9aJZVis0",
+     "title": "Abraham's Journey To Fatherhood",
+     "published": "unknown",
+     "duration_seconds": 2970
+    },
+    {
+     "video_id": "RalHpjWYYCE",
+     "title": "Free Speech Is Dead",
+     "published": "unknown",
+     "duration_seconds": 1951
+    },
+    {
+     "video_id": "QSjYiDPNwSw",
+     "title": "An Artist's Look At The 23rd Psalm",
+     "published": "unknown",
+     "duration_seconds": 2187
+    },
+    {
+     "video_id": "40MiLAyx4Bo",
+     "title": "The Master Key To Influence (How To Overcome Procrastination) ",
+     "published": "unknown",
+     "duration_seconds": 101
+    },
+    {
+     "video_id": "vdK42qo1NAs",
+     "title": "If You Think Knowledge Is Expensive, Try Ignorance",
+     "published": "unknown",
+     "duration_seconds": 661
+    },
+    {
+     "video_id": "depftx7kGvw",
+     "title": "How To Make The Rest Of Your Life The Best Of Your Life",
+     "published": "unknown",
+     "duration_seconds": 2738
+    },
+    {
+     "video_id": "fF-RQ3-C6mE",
+     "title": "Financial Mistakes You Don't Want To Make",
+     "published": "unknown",
+     "duration_seconds": 1422
+    },
+    {
+     "video_id": "dG0nmmVDCJM",
+     "title": "Stop Loaning Your Money To The Bank For Free",
+     "published": "unknown",
+     "duration_seconds": 699
+    },
+    {
+     "video_id": "TsSISI82EZ8",
+     "title": "Live Like A Millionaire On Your Way To Becoming One",
+     "published": "unknown",
+     "duration_seconds": 1955
+    },
+    {
+     "video_id": "nLlf6hg4H0Q",
+     "title": "A Simple Formula To Make MILLIONS",
+     "published": "unknown",
+     "duration_seconds": 1441
+    },
+    {
+     "video_id": "B0mhOh2XYC8",
+     "title": "Now Is The Easiest Time In History For You To GET RICH",
+     "published": "unknown",
+     "duration_seconds": 1466
+    },
+    {
+     "video_id": "hyNeB7FcJ6g",
+     "title": "Gas Is Up Stocks Are Down",
+     "published": "unknown",
+     "duration_seconds": 894
+    },
+    {
+     "video_id": "vl8oyWb6bmk",
+     "title": "4 Moves To Scale Any Business",
+     "published": "unknown",
+     "duration_seconds": 750
+    },
+    {
+     "video_id": "HtTQKmtLnmY",
+     "title": "How To Avoid Crashing Your Financial Plane",
+     "published": "unknown",
+     "duration_seconds": 1132
+    },
+    {
+     "video_id": "KokKRwwuCLI",
+     "title": "Flight Principles That Cause Your Money To Soar",
+     "published": "unknown",
+     "duration_seconds": 661
+    },
+    {
+     "video_id": "jQywC-bI9Jg",
+     "title": "Secrets From Apple's Three Trillion Dollar Playbook",
+     "published": "unknown",
+     "duration_seconds": 1097
+    },
+    {
+     "video_id": "wATEwLfb5eA",
+     "title": "God's Original Design For Wealth",
+     "published": "unknown",
+     "duration_seconds": 1145
+    },
+    {
+     "video_id": "rdctz6zSMKw",
+     "title": "How Rich People Think About Money (Psychology of Money)",
+     "published": "unknown",
+     "duration_seconds": 734
+    },
+    {
+     "video_id": "ynSAx5Lanns",
+     "title": "Wise Beyond Your Size - Wisdom From Proverbs",
+     "published": "unknown",
+     "duration_seconds": 1028
+    },
+    {
+     "video_id": "NTCl4_BbTR4",
+     "title": "Selling Without Selling - Selling Simplified",
+     "published": "unknown",
+     "duration_seconds": 756
+    },
+    {
+     "video_id": "n-LY9mWyV9E",
+     "title": "The Secret To Finding People to Sell To Without Looking - Selling Simplified",
+     "published": "unknown",
+     "duration_seconds": 690
+    },
+    {
+     "video_id": "PmpN_ynPWYU",
+     "title": "The Real Reason People Buy - Selling Simplified",
+     "published": "unknown",
+     "duration_seconds": 568
+    },
+    {
+     "video_id": "7n2wARVKDDk",
+     "title": "Sin From Within - Why We Do The Things We Don't Want To",
+     "published": "unknown",
+     "duration_seconds": 1786
+    },
+    {
+     "video_id": "XeEmabpyzP8",
+     "title": "The Only Way To Get Better At Sales - Selling Simplified",
+     "published": "unknown",
+     "duration_seconds": 609
+    },
+    {
+     "video_id": "OmtZAEYiXm0",
+     "title": "What Does The Bible Say About Business?",
+     "published": "unknown",
+     "duration_seconds": 696
+    },
+    {
+     "video_id": "SnFlOwmtLNg",
+     "title": "Sell This Way & Have People Thanking You - Selling Simplified",
+     "published": "unknown",
+     "duration_seconds": 577
+    },
+    {
+     "video_id": "xKsGaiJpidk",
+     "title": "From $10,000 Per Month To $60,000 Per Month In 1 Month / Make More Offers Challenge W/Myron Golden",
+     "published": "unknown",
+     "duration_seconds": 903
+    },
+    {
+     "video_id": "4BgibpUZ6Rg",
+     "title": "First Six Figure Day From The Make More Offers Challenge",
+     "published": "unknown",
+     "duration_seconds": 111
+    },
+    {
+     "video_id": "19m6xoDi9us",
+     "title": "Make More Offers Challenge Helps A Woman Turn $297 Into $25K In 3 Days",
+     "published": "unknown",
+     "duration_seconds": 327
+    },
+    {
+     "video_id": "HzOS9RsMOKA",
+     "title": "1onONE Damon Davis: Myron Golden, Anyone Can Get Rich Starting From Anywhere - Trash Man To Cash Man",
+     "published": "unknown",
+     "duration_seconds": 4191
+    },
+    {
+     "video_id": "xR9pE2DVqWo",
+     "title": "Eileen Wilder Testimony About Myron Golden's Speaker Training",
+     "published": "unknown",
+     "duration_seconds": 106
+    },
+    {
+     "video_id": "_op79NLl9ak",
+     "title": "Meet Me In Riverside, California - EPIC EVENT!",
+     "published": "unknown",
+     "duration_seconds": 58
+    },
+    {
+     "video_id": "jm3Lb3PpD-g",
+     "title": "GUARD YOUR HEART - Every Thought Is A Seed",
+     "published": "unknown",
+     "duration_seconds": 43
+    },
+    {
+     "video_id": "rrZuB3a2ZwU",
+     "title": "Time is Money?  NO!! - Time Is More Valuable Than Money (PROOF)",
+     "published": "unknown",
+     "duration_seconds": 47
+    },
+    {
+     "video_id": "_cEC1cSay7o",
+     "title": "What Are Your Chances of Becoming Rich?",
+     "published": "unknown",
+     "duration_seconds": 681
+    },
+    {
+     "video_id": "NsPF63u95UQ",
+     "title": "The Power of One - Part 1",
+     "published": "unknown",
+     "duration_seconds": 606
+    },
+    {
+     "video_id": "EAtMk8l-IwE",
+     "title": "Why I Teach Business And Finance From A Biblical Perspective! -",
+     "published": "unknown",
+     "duration_seconds": 876
+    },
+    {
+     "video_id": "B3KKrmZYbsQ",
+     "title": "8 Steps To A Financial Turnaround - Myron Golden",
+     "published": "unknown",
+     "duration_seconds": 1513
+    },
+    {
+     "video_id": "CahqvGWR96I",
+     "title": "How To Be Joyful In Difficulty ",
+     "published": "unknown",
+     "duration_seconds": 804
+    },
+    {
+     "video_id": "LDfPFVtPC9U",
+     "title": "Law Of Attraction Video 3 - How It REALLY Works",
+     "published": "unknown",
+     "duration_seconds": 987
+    },
+    {
+     "video_id": "Eb6zw42absM",
+     "title": "Law Of Attraction Video 1",
+     "published": "unknown",
+     "duration_seconds": 640
+    },
+    {
+     "video_id": "Q6VcPVvAyIQ",
+     "title": "Myron Golden In Your Corner Interview",
+     "published": "unknown",
+     "duration_seconds": 1521
+    },
+    {
+     "video_id": "eKIFibYv7CM",
+     "title": "Hormone Replacement Therapy Tampa Fl",
+     "published": "unknown",
+     "duration_seconds": 124
+    },
+    {
+     "video_id": "HPSJBZLKtTo",
+     "title": "One Year Millionaire Live Trailer",
+     "published": "unknown",
+     "duration_seconds": 74
+    },
+    {
+     "video_id": "H_wvjZbm9WQ",
+     "title": "Tory Wiley OYML Testimonial",
+     "published": "unknown",
+     "duration_seconds": 40
+    },
+    {
+     "video_id": "9Ei2Yy1rpS0",
+     "title": "TMTCM Book For Site",
+     "published": "unknown",
+     "duration_seconds": 28
+    },
+    {
+     "video_id": "mPxx_7DKcFo",
+     "title": "'Income Inequality' How To Close The Income Gap (please comment)",
+     "published": "unknown",
+     "duration_seconds": 542
+    },
+    {
+     "video_id": "7T41BGcFh5c",
+     "title": "4 Secrets To Living The Good Life (Please Subscribe)",
+     "published": "unknown",
+     "duration_seconds": 579
+    },
+    {
+     "video_id": "ID5BT_bT7ho",
+     "title": "Law Of Attraction Video 2 - How It REALLY Works",
+     "published": "unknown",
+     "duration_seconds": 746
+    },
+    {
+     "video_id": "SXJSntWIxy8",
+     "title": "Happy Holidays",
+     "published": "unknown",
+     "duration_seconds": 78
+    },
+    {
+     "video_id": "65_4DQL2C_A",
+     "title": "Thank You Page Video For SYWTW",
+     "published": "unknown",
+     "duration_seconds": 51
+    },
+    {
+     "video_id": "Bfxh1T_ckHo",
+     "title": "10 Days To Wealth Promo",
+     "published": "unknown",
+     "duration_seconds": 74
+    },
+    {
+     "video_id": "QeldRIFI_Ak",
+     "title": "Business B O S S  Show 3 Seg 2 - The Power of One Part 2",
+     "published": "unknown",
+     "duration_seconds": 649
+    },
+    {
+     "video_id": "iuEuiiS3zCg",
+     "title": "How To Make Your Time More Valuable",
+     "published": "unknown",
+     "duration_seconds": 501
+    },
+    {
+     "video_id": "O2yIr3SNMek",
+     "title": "Creating Wealth Pt 2",
+     "published": "unknown",
+     "duration_seconds": 477
+    },
+    {
+     "video_id": "mpZ3RNlSjLI",
+     "title": "special offer",
+     "published": "unknown",
+     "duration_seconds": 248
+    },
+    {
+     "video_id": "tWi7WaCfiqc",
+     "title": "Katie Testimony",
+     "published": "unknown",
+     "duration_seconds": 46
+    },
+    {
+     "video_id": "60-MELjoVHM",
+     "title": "David Mitchell Testimony",
+     "published": "unknown",
+     "duration_seconds": 48
+    },
+    {
+     "video_id": "Hv_mXFjvRsU",
+     "title": "VID00013.MP4",
+     "published": "unknown",
+     "duration_seconds": 32
+    },
+    {
+     "video_id": "DjgtxZYtHnY",
+     "title": "VID00012",
+     "published": "unknown",
+     "duration_seconds": 51
+    },
+    {
+     "video_id": "GF-pwgEwECU",
+     "title": "Myron Golden teaches 2 more people how to make a fortune",
+     "published": "unknown",
+     "duration_seconds": 54
+    },
+    {
+     "video_id": "ZThebyc_vBk",
+     "title": "Myron Golden's Teachings Better Than An Oil Well?",
+     "published": "unknown",
+     "duration_seconds": 65
+    },
+    {
+     "video_id": "HPOlUGpjfQU",
+     "title": "Trashman To Cashman must really work",
+     "published": "unknown",
+     "duration_seconds": 27
+    },
+    {
+     "video_id": "6L9AvEkU9go",
+     "title": "Trash Man to Cash Man Marc Victor Hansen",
+     "published": "unknown",
+     "duration_seconds": 15
+    },
+    {
+     "video_id": "BdLxV1qNz70",
+     "title": "3 YouTube Million Subscriber Secrets",
+     "published": "unknown",
+     "duration_seconds": 555
+    }
+   ]
+  },
+  {
+   "type": "channel",
+   "slug": "biblestudywithmyrongolden",
+   "speaker_purity": "primary",
+   "note": "his own channel; may include guests",
+   "videos": [
+    {
+     "video_id": "cB0AlCFzlFs",
+     "title": "Why Personal Growth Is The Secret To Your Success",
+     "published": "2026-03-12",
+     "duration_seconds": 0
+    },
+    {
+     "video_id": "24AO6Mmr0oQ",
+     "title": "God\u2019s Ultimate Recovery Plan",
+     "published": "2026-01-01",
+     "duration_seconds": 0
+    },
+    {
+     "video_id": "AAI5gd5ileg",
+     "title": "Why Kingdom Principles Are Best For Business",
+     "published": "2025-12-25",
+     "duration_seconds": 0
+    },
+    {
+     "video_id": "UzsiGvsFtpk",
+     "title": "Biblical Truths About Wealth That Could Make You Rich",
+     "published": "2025-12-18",
+     "duration_seconds": 0
+    },
+    {
+     "video_id": "hGMZdkqclFY",
+     "title": "Where Real Confidence Really Comes From",
+     "published": "2025-11-27",
+     "duration_seconds": 2260
+    },
+    {
+     "video_id": "DuYYtWbkX3E",
+     "title": "The Truth About Jesus Like You\u2019ve Never Seen",
+     "published": "2025-11-06",
+     "duration_seconds": 1260
+    },
+    {
+     "video_id": "pAD12nLGmGQ",
+     "title": "How To Have The Best Answers To Hard Questions",
+     "published": "2025-10-23",
+     "duration_seconds": 1940
+    },
+    {
+     "video_id": "b8-hI5CE9jc",
+     "title": "Get Your Stuff Back And Step Into Greatness",
+     "published": "2025-10-16",
+     "duration_seconds": 3006
+    },
+    {
+     "video_id": "gMcp1g_MTZ0",
+     "title": "Why Jesus Has A Name Above Every Name",
+     "published": "2025-09-25",
+     "duration_seconds": 3198
+    },
+    {
+     "video_id": "PSDVFAm8kcE",
+     "title": "Bible Secrets That Made Me a Multimillionaire",
+     "published": "2025-09-18",
+     "duration_seconds": 4018
+    },
+    {
+     "video_id": "4GmgZVqqfFk",
+     "title": "The Struggle Is Not Real Even Though You Are Struggling",
+     "published": "2025-09-11",
+     "duration_seconds": 2271
+    },
+    {
+     "video_id": "qxDMxuKrPWQ",
+     "title": "The Role of America in Biblical Prophecy",
+     "published": "2025-09-09",
+     "duration_seconds": 5121
+    },
+    {
+     "video_id": "dCbvWMwka5A",
+     "title": "God Is Our Refuge and Our Strength",
+     "published": "2025-09-04",
+     "duration_seconds": 1438
+    },
+    {
+     "video_id": "7jNYFVbQFmg",
+     "title": "What It Really Means to Be a Christian",
+     "published": "2025-08-28",
+     "duration_seconds": 1197
+    },
+    {
+     "video_id": "ADWrhM04_TQ",
+     "title": "The Kingdom Of God Is More Than You Thought",
+     "published": "2025-08-21",
+     "duration_seconds": 2318
+    },
+    {
+     "video_id": "N2SZ707qfMg",
+     "title": "How To Live In Kingdom Abundance",
+     "published": "2025-06-12",
+     "duration_seconds": 3530
+    },
+    {
+     "video_id": "ixrrPwpZuzA",
+     "title": "A Formula For Success In Life",
+     "published": "2025-04-24",
+     "duration_seconds": 3530
+    },
+    {
+     "video_id": "XvMhaw864ZI",
+     "title": "Exciting News: Our Podcast Is On the Way!",
+     "published": "2025-04-21",
+     "duration_seconds": 54
+    },
+    {
+     "video_id": "KhZ_TiirOA4",
+     "title": "Why Religious People Go to Hell",
+     "published": "2025-02-13",
+     "duration_seconds": 1943
+    },
+    {
+     "video_id": "wBcgH2pb27w",
+     "title": "I Messed Up So Bad! Please Forgive Me!",
+     "published": "2025-01-30",
+     "duration_seconds": 39
+    },
+    {
+     "video_id": "m5WjKDyfuuo",
+     "title": "Special Announcement",
+     "published": "2025-01-08",
+     "duration_seconds": 27
+    },
+    {
+     "video_id": "pKadnHtkVrg",
+     "title": "God's Plan for Prosperity",
+     "published": "2024-12-26",
+     "duration_seconds": 1615
+    },
+    {
+     "video_id": "7r1fk_vddsw",
+     "title": "Things Are Seldom As Bad As They Seem",
+     "published": "2024-12-19",
+     "duration_seconds": 2000
+    },
+    {
+     "video_id": "b9Cmx1WVBlE",
+     "title": "Why an Attitude of Gratitude Will Elevate Your Altitude",
+     "published": "2024-11-28",
+     "duration_seconds": 1317
+    },
+    {
+     "video_id": "htSQvjfNslA",
+     "title": "Bible Reasons the Rich Get Richer and the Poor Get Poorer",
+     "published": "2024-11-21",
+     "duration_seconds": 2153
+    },
+    {
+     "video_id": "MK3J04bHc1k",
+     "title": "How To Seek The Kingdom Of God First",
+     "published": "2024-10-17",
+     "duration_seconds": 2330
+    },
+    {
+     "video_id": "bONX_3MfEi4",
+     "title": "The Greatest Joy From The Toughest Trials",
+     "published": "2024-10-10",
+     "duration_seconds": 3428
+    },
+    {
+     "video_id": "NQqdGV87Snw",
+     "title": "What God Says About Business",
+     "published": "2024-09-10",
+     "duration_seconds": 2228
+    },
+    {
+     "video_id": "ZlXDraVZYc8",
+     "title": "Why They Say Christians Shouldn\u2019t Be Life Coaches",
+     "published": "2024-09-05",
+     "duration_seconds": 1730
+    },
+    {
+     "video_id": "a5CwV6TN5hI",
+     "title": "God's Content Creation Secrets",
+     "published": "2024-09-03",
+     "duration_seconds": 1204
+    },
+    {
+     "video_id": "JQG5RHLX-5s",
+     "title": "You\u2019ve Got To Go Through The Valley To Get To The Vision",
+     "published": "2024-08-27",
+     "duration_seconds": 2790
+    },
+    {
+     "video_id": "Brxru1t9Q9c",
+     "title": "What Happens When You Seek The Kingdom Of God First",
+     "published": "2024-07-25",
+     "duration_seconds": 1801
+    },
+    {
+     "video_id": "DBA4LtbFnFU",
+     "title": "Abracadabra! Watch God Pull A Universe Out Of Nothing",
+     "published": "2024-07-18",
+     "duration_seconds": 2005
+    },
+    {
+     "video_id": "9eaR1hlLvK4",
+     "title": "Stop Floundering In The Land Of The Familiar",
+     "published": "2024-07-04",
+     "duration_seconds": 2060
+    },
+    {
+     "video_id": "MoTpxS0DHE0",
+     "title": "Welcome To Bible Study With Myron Golden",
+     "published": "2024-07-03",
+     "duration_seconds": 151
+    },
+    {
+     "video_id": "N3nAsqTUSjY",
+     "title": "Standing On Kingdom Business Principles",
+     "published": "unknown",
+     "duration_seconds": 2315
+    },
+    {
+     "video_id": "lCXPLtt7_OY",
+     "title": "How To Understand The Purpose And Meaning Of The Universe",
+     "published": "unknown",
+     "duration_seconds": 1571
+    },
+    {
+     "video_id": "yeidyaPf4ic",
+     "title": "Me Putting My Nephew On Blast (It\u2019s Going To Bless You)!",
+     "published": "unknown",
+     "duration_seconds": 722
+    },
+    {
+     "video_id": "byelN0hoo_U",
+     "title": "The Family Blessings Worth Fighting For",
+     "published": "unknown",
+     "duration_seconds": 3589
+    },
+    {
+     "video_id": "ZwXzS75f360",
+     "title": "A Biblical Model For Raising Exceptional Children",
+     "published": "unknown",
+     "duration_seconds": 1042
+    },
+    {
+     "video_id": "_SP-tYW2S_E",
+     "title": "How To Live A Life Of Productivity, Passion And Purpose",
+     "published": "unknown",
+     "duration_seconds": 3179
+    }
+   ]
+  }
+ ],
+ "guest_appearances": []
+}
