@@ -165,6 +165,8 @@ This project uses structured context management for multi-conversation workflows
 - Update SUMMARY.md after significant actions
 - Append to BUGS.md when discovering bugs (tag with conv-id)
 - Append to DECISIONS.md for architecture decisions (tag with conv-id)
+- **Append to MISTAKES.md the moment you identify a mistake, misstatement, or error YOU caused** — every entry needs a root cause + prevention rule; scan its Prevention column before starting similar work (3 repeats = escalate to a hook/rule)
+- **Append to GAPS.md the moment you discover something believed done that isn't** — stubbed, partial, or drifted from plan; review it during any sprint/next-work planning
 
 ### After Compaction
 - IMMEDIATELY read CONVERSATION_HISTORY.md
