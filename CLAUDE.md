@@ -23,7 +23,7 @@ This file provides guidance to Claude Code when working with the KnowledgeStack 
 **Container Deployment:**
 - **NEVER deploy containers to Stark or localhost** - Stark is a coding workstation only
 - **Development containers → Banner (10.0.0.33)**
-- **Production containers → Hulk (10.0.0.32)**
+- **Production → the realm's NAI host when one exists; no general prod host.** (Hulk retired 2026-06-15 — never deploy there)
 - This project targets: **Banner**
 
 **URLs - Never localhost:**
@@ -165,6 +165,8 @@ This project uses structured context management for multi-conversation workflows
 - Update SUMMARY.md after significant actions
 - Append to BUGS.md when discovering bugs (tag with conv-id)
 - Append to DECISIONS.md for architecture decisions (tag with conv-id)
+- **Append to MISTAKES.md the moment you identify a mistake, misstatement, or error YOU caused** — every entry needs a root cause + prevention rule; scan its Prevention column before starting similar work (3 repeats = escalate to a hook/rule)
+- **Append to GAPS.md the moment you discover something believed done that isn't** — stubbed, partial, or drifted from plan; review it during any sprint/next-work planning
 
 ### After Compaction
 - IMMEDIATELY read CONVERSATION_HISTORY.md
@@ -197,7 +199,11 @@ python3 scripts/roadmap-sync.py
 ```
 
 **Run it whenever you open, close, re-label or re-prioritise an issue**, and
-commit the result with that same work. Those are the only events that make the
+commit the regenerated file in the **same commit** as that work — never
+regenerate and walk away. An uncommitted `ROADMAP.md` sits dirty in a checkout
+several sessions share, one `git add -A` away from being swept into someone
+else's unrelated commit. Same rule as a provider updating its consumer guide in
+the commit that changes the API. Those are the only events that make the
 roadmap stale, which is why this is a step in issue work rather than a timer or
 a git hook — a commit hook fires when nobody changed an issue, and misses every
 change made in the GitHub web UI.
