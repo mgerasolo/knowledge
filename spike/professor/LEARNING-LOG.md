@@ -153,3 +153,90 @@ Raw discoveries as they happen, newest last.
   front of OpenWebUI (replacing the local-auth spike setup), vector index
   (#44) for latency, and a decision on task-model wiring (cheap non-RAG model
   for titles/tags instead of disabling).
+
+## 5. Spike Learning Report (2026-08-14)
+
+Close-out answers to the nine learning-agenda questions in issue #16, from the
+evidence in this log. Where the spike has not yet produced evidence, that is
+said plainly rather than guessed. The pass bar — Matt's ~10 real questions,
+7+ rated "sounds like him, correct citation, clip opens at the right moment" —
+**has not yet been run**; it is the single measurement most of the open
+questions are gated on.
+
+Live state at close-out (re-probed 2026-08-14): professor-api healthy on
+Banner :5050 (298 corpus videos, SurrealDB reachable), OpenWebUI serving on
+:5060, and https://professor.nextlevelguild.com routing through Traefik
+(public DNS record still pending — nlf-infrastructure#1169).
+
+**1. Retrieval quality — partially answered.** Three sample questions at
+25.79–36.79% embedding coverage produced well-grounded three-tier answers
+(8 persisted citation sources on the Phase-2 UI answer). Whether chunks land
+on the *right moments* for real questions — the re-chunking driver — is not
+yet measured; needs Matt's 10-question pass-bar run.
+
+**2. Search speed — answered: NO, not fast enough without a vector index.**
+Unindexed cosine scan: ~16 s/question at 25.79% coverage, ~30 s and climbing
+at 36.79% — the scan term grows with backfill. Total 35–55 s/question. The
+vector index (#44) is a prerequisite for demo-able latency. Bonus finding:
+concurrent scans OOM-kill SurrealDB (#73); professor-side scans are now
+serialized as a stopgap.
+
+**3. Voice quality — not yet measured.** claude-sonnet composes Tiers A/B
+first-person; grok-4 verified available for the Tier-C escalation. No model
+bake-off was run and no human has rated "sounds like him" — needs Matt's
+pass-bar run.
+
+**4. Tier discipline — answered: structurally YES, with a caveat.** The tier
+contract is enforced in code, not just requested in the prompt: strict
+tier-JSON parsing, every Tier-A claim must carry ≥1 citation from the
+retrieved set, and post-checks force inference/extension labeling. Two real
+model misbehaviors were caught live and fixed (trailing commentary after the
+JSON; raw nested usage dicts). Caveat: enforcement is citation-shaped, not
+semantic — nothing verifies a Tier-A claim's *text* is actually entailed by
+its cited chunk, so semantic leakage into "What Myron has said" remains
+possible; that is exactly what the human pass-bar run measures.
+
+**5. Citation accuracy — structurally answered: 25/25 valid, 0 invalid**
+(Phase-1 live run: every video_id ∈ corpus, every start_time inside the
+video's duration, every citation index resolves). Whether the clip *content*
+matches the claim — semantic accuracy and the error rate the agenda asks
+for — is not yet human-verified; pass-bar run. Known defect class: 4
+livestream VODs carry all-zero segment timestamps, so citations into them can
+never deep-link (#72).
+
+**6. Guest contamination — not yet measured.** The corpus is 298 videos from
+Myron's own two channels (channel-only). Single-video enrollment for guest
+appearances landed (#46, closed) but guest sources are not yet enrolled, and
+there is no diarization. The contamination rate should be counted during the
+pass-bar review.
+
+**7. OpenWebUI fit — answered: YES for Gen 1, with sharp edges.** Pipe +
+citation source events + Artifacts (embedded player + timestamped link list)
+verified end-to-end through the real UI, multi-turn included. Every sharp
+edge had a workaround: task generation would have DDoS'd the pipe (disabled),
+citation events silently drop on chat-less API calls, citation metadata must
+be string-only, chat-bound completions run as background tasks. The custom
+two-panel UI fallback is not needed for Gen 1.
+
+**8. Cost per conversation — not yet measured.** The cost knobs
+(`INPUT/OUTPUT_COST_PER_MILLION`) default to 0, so every answer reports
+$0.00. Token usage *is* logged per request in `professor_log`, so wiring real
+per-model rates makes cost computable — including retroactively over the
+logged runs.
+
+**9. Recency weighting — not yet measured (ON never compared to OFF).**
+Weighting ran ON throughout (REC_BOOST 0.15, 730-day horizon) and the math is
+unit-tested, but there was no A/B against unweighted retrieval, so whether it
+improves or distorts answers is unknown. It is a config knob — cheap to A/B
+during the pass-bar run.
+
+**Beyond the agenda** (all registered): embedding coverage was 0% at spike
+start (#44), video metadata empty (#45), single-video enrollment built (#46),
+timestamp-less livestream ingest (#72), SurrealDB memory headroom (#73), and
+the LiteLLM key-rotation follow-ups (nlf-infrastructure#1165) plus the public
+DNS record for professor.nextlevelguild.com (nlf-infrastructure#1169).
+
+**Bottom line:** the spike proved the architecture — three enforced tiers,
+validated citations, OpenWebUI pipe + artifacts — live on Banner behind a
+Traefik route. The remaining unknowns are human-judgment measurements gated
+on Matt's 10-question run, plus the #44 vector index for latency.
