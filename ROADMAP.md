@@ -9,9 +9,9 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-14 01:01 EDT from 25 issues.
+> Generated 2026-08-14 12:31 EDT from 34 issues.
 
-**21 open · 2 in flight · 3 awaiting your decision · 4 closed**
+**30 open · 2 in flight · 4 awaiting your decision · 4 closed**
 
 <!-- HAND-WRITTEN:START -->
 
@@ -39,13 +39,16 @@ Three themes run through the work currently on the board:
 
 ## Where everything stands
 
-⚓ **KnowledgeStack** — IN PROGRESS · 3 decisions waiting on you · 2 in flight  
-├─❓ **Capabilities the product assumes but does not have** — 5 open  
+⚓ **KnowledgeStack** — IN PROGRESS · 4 decisions waiting on you · 2 in flight  
+├─❓ **Capabilities the product assumes but does not have** — 8 open  
 │  ├─❓ Generate embeddings for the corpus so meaning-based search becomes possible ([#29](https://github.com/mgerasolo/knowledge/issues/29)) — _high_  
 │  ├─❓ Decide whether topic and entity tagging stays on the roadmap - it was never built ([#31](https://github.com/mgerasolo/knowledge/issues/31)) — _medium_  
 │  ├─⬜ CRITICAL: 0 of 327,402 segments have embeddings — semantic search has nothing to search ([#44](https://github.com/mgerasolo/knowledge/issues/44)) — _critical_  
 │  ├─⬜ Ship the meaning-based search endpoint - today it is a stub returning 501 ([#30](https://github.com/mgerasolo/knowledge/issues/30)) — _high_  
+│  ├─⬜ SurrealDB OOM-killed 3x on 2026-08-14 at ~4GB container limit during embedding backfill ([#73](https://github.com/mgerasolo/knowledge/issues/73)) — _high_  
+│  ├─⬜ Livestream VODs ingest with all-zero segment timestamps — citations cannot deep-link ([#72](https://github.com/mgerasolo/knowledge/issues/72)) — _medium_  
 │  ├─⬜ Professor spike (Gen 1) — talk-to-a-personality RAG chat with cited video clips ([#16](https://github.com/mgerasolo/knowledge/issues/16)) — _unset_  
+│  ├─⬜ Professor Gen 1 requirements: 8 adversarial-review findings logged from spike (not fixed in spike) ([#79](https://github.com/mgerasolo/knowledge/issues/79)) — _unset_  
 │  └─👍 Single-video enrollment — ingest one video (guest appearances) without enrolling the whole channel ([#46](https://github.com/mgerasolo/knowledge/issues/46)) — _medium · closed 2026-08-14_  
 ├─🔄 **Ingestion reliability — keeping transcripts arriving** — 6 open  
 │  ├─🔄 Make YouTube's per-channel feed the primary way we find new videos, with the scraper as fallback ([#19](https://github.com/mgerasolo/knowledge/issues/19)) — _medium_  
@@ -56,10 +59,11 @@ Three themes run through the work currently on the board:
 │  ├─📌 The one-queue-at-a-time guard does not cover the backfill queue running right now ([#34](https://github.com/mgerasolo/knowledge/issues/34)) — _low_  
 │  ├─👍 Install a JavaScript runtime so yt-dlp works normally, instead of our two override flags ([#22](https://github.com/mgerasolo/knowledge/issues/22)) — _medium · closed 2026-08-14_  
 │  └─👍 Nothing checks that yt-dlp itself is present and working ([#23](https://github.com/mgerasolo/knowledge/issues/23)) — _medium · closed 2026-08-14_  
-├─❓ **Corpus quality — trusting what is already stored** — 7 open  
+├─❓ **Corpus quality — trusting what is already stored** — 8 open  
 │  ├─❓ Four places each track what we have ingested, and they drift apart unnoticed ([#18](https://github.com/mgerasolo/knowledge/issues/18)) — _high_  
 │  ├─⬜ 3 Myron Golden transcripts on disk are missing from the search library; 44 videos are stored under two channel folder names ([#4](https://github.com/mgerasolo/knowledge/issues/4)) — _high_  
 │  ├─⬜ All 4,458 videos have empty uploader — video metadata backfill not applied ([#45](https://github.com/mgerasolo/knowledge/issues/45)) — _high_  
+│  ├─⬜ Repair and backfill incomplete video metadata ([#71](https://github.com/mgerasolo/knowledge/issues/71)) — _high_  
 │  ├─⬜ We never notice when a video in the library is deleted, made private or age-restricted ([#24](https://github.com/mgerasolo/knowledge/issues/24)) — _medium_  
 │  ├─⬜ Backfill the publish dates and descriptions lost while metadata fetching was silently failing ([#27](https://github.com/mgerasolo/knowledge/issues/27)) — _medium_  
 │  ├─⬜ Confirm the 14 quarantined date-less transcripts were re-fetched, then clear the quarantine ([#28](https://github.com/mgerasolo/knowledge/issues/28)) — _medium_  
@@ -68,7 +72,12 @@ Three themes run through the work currently on the board:
 ├─🔄 **The backfill programme — how deep we go** — 2 open  
 │  ├─🔄 Ingest Jordan B Peterson's 18 livestreams ([#33](https://github.com/mgerasolo/knowledge/issues/33)) — _low_  
 │  └─⬜ Plan stage 2 - the deep livestream archives that stage 1 deliberately capped ([#32](https://github.com/mgerasolo/knowledge/issues/32)) — _medium_  
-└─⬜ **Tooling and process — how we keep ourselves honest** — 1 open  
-   └─⬜ Nothing runs the consumer guide's weekly re-verification we promised ([#35](https://github.com/mgerasolo/knowledge/issues/35)) — _medium_  
+└─❓ **Tooling and process — how we keep ourselves honest** — 6 open  
+   ├─❓ Standing discovery ignores dashboard channel settings — engine runs off a hard-coded list in config.py ([#81](https://github.com/mgerasolo/knowledge/issues/81)) — _high_  
+   ├─⬜ Block conflict markers from commits and CI ([#67](https://github.com/mgerasolo/knowledge/issues/67)) — _high_  
+   ├─⬜ Test schema-writing changes against real SurrealDB schema ([#68](https://github.com/mgerasolo/knowledge/issues/68)) — _high_  
+   ├─⬜ Prevent secrets from appearing in diagnostic output ([#69](https://github.com/mgerasolo/knowledge/issues/69)) — _high_  
+   ├─⬜ Nothing runs the consumer guide's weekly re-verification we promised ([#35](https://github.com/mgerasolo/knowledge/issues/35)) — _medium_  
+   └─⬜ Formalize the consumer API compatibility contract ([#70](https://github.com/mgerasolo/knowledge/issues/70)) — _medium_  
 
 👍 done and verified · ✅ ran, not yet verified · 🔄 in progress · ⬜ not started · ❓ needs a decision from you · ⏳ waiting on an external system · 📌 future enhancement
