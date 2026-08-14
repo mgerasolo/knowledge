@@ -1,5 +1,5 @@
 """KnowledgeEnroll Admin API - Main Application."""
-from flask import Flask, jsonify, render_template, send_from_directory
+from flask import Flask, jsonify, render_template, request, send_from_directory
 from flask_cors import CORS
 from config import Config
 from db import test_connection, get_db_cursor
@@ -18,8 +18,14 @@ CORS(app, origins=Config.CORS_ORIGINS)
 
 @app.context_processor
 def inject_url_prefix():
-    """Make URL_PREFIX available in all templates."""
-    return {'url_prefix': Config.URL_PREFIX}
+    """Make the serving prefix available in all templates.
+
+    The same container answers on several routes (/admin, /enroll, and direct
+    port access). Traefik's stripprefix middleware reports which prefix it
+    removed via X-Forwarded-Prefix, so links must be derived per-request —
+    a fixed URL_PREFIX breaks every route it wasn't set for.
+    """
+    return {'url_prefix': request.headers.get('X-Forwarded-Prefix', Config.URL_PREFIX)}
 
 
 # Register blueprints
