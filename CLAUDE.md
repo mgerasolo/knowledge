@@ -199,7 +199,11 @@ python3 scripts/roadmap-sync.py
 ```
 
 **Run it whenever you open, close, re-label or re-prioritise an issue**, and
-commit the result with that same work. Those are the only events that make the
+commit the regenerated file in the **same commit** as that work — never
+regenerate and walk away. An uncommitted `ROADMAP.md` sits dirty in a checkout
+several sessions share, one `git add -A` away from being swept into someone
+else's unrelated commit. Same rule as a provider updating its consumer guide in
+the commit that changes the API. Those are the only events that make the
 roadmap stale, which is why this is a step in issue work rather than a timer or
 a git hook — a commit hook fires when nobody changed an issue, and misses every
 change made in the GitHub web UI.

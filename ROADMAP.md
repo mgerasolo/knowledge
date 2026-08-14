@@ -9,7 +9,7 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-13 23:58 EDT from 21 issues.
+> Generated 2026-08-14 00:01 EDT from 21 issues.
 
 **21 open · 2 in flight · 3 awaiting your decision · 0 closed**
 
