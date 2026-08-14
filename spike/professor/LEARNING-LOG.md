@@ -33,6 +33,11 @@ resolved or worked around.
 | 2026-08-14 | **One corpus video uses `duration_seconds: 0` as an unknown-metadata sentinel.** Treating every non-positive duration as corrupt prevented the full 298-video corpus from loading. | Normalize zero to unknown while still rejecting negative/non-finite durations. The live test refuses unknown-duration citations, so acceptance is not weakened. |
 | 2026-08-14 | **Live test blocked by credential scope: the embedding container's LiteLLM key is embeddings-only** (`embeddings`, `jarvis-embed`) — every chat call for answer composition returned 403. The brief's assumption "creds are already in its env" held for SurrealDB + embeddings but not chat. | Supervisor minted a scoped 7-day virtual key on the gateway (chat + embedding models only, aliased to the spike) and injected it into the container for the run. Phase 2 needs a proper per-service chat-capable key provisioned for the Professor API. |
 | 2026-08-14 | **First live run failed citation validation: cited video `UzsiGvsFtpk` had no known duration.** 4 of 298 corpus videos (livestream VODs) were ingested with zero timing metadata — `duration_seconds: 0` in the manifest AND all segment `start_time`/`end_time` = 0.0 in SurrealDB. | Corpus durations backfilled with exact values via yt-dlp (commit `30e2e6b`). The deeper gap — segments without timestamps can never deep-link (`t=0s` always) — is a core-pipeline issue (see §3). |
+| 2026-08-14 | **Phase 2: SurrealDB OOM-killed by concurrent vector scans.** First OpenWebUI round-trips dropped connections mid-query; dmesg showed the container cgroup killing `surreal` at ~4.1GB anon-rss (CONSTRAINT_MEMCG). The unindexed 1536-dim cosine scan is memory-hungry, grows with backfill coverage, and two in flight is enough to kill the DB. | Spike-side: module-level scan lock in retrieval + gunicorn dropped to 1 worker (lock effectively global); OpenWebUI background task models disabled (below). Real fix is the vector index (#44). |
+| 2026-08-14 | **Phase 2: OpenWebUI task generation would DDoS the pipe.** With the pipe as the only model, OpenWebUI's title/tags/follow-up/autocomplete generation would each call the pipe itself — every UI chat firing extra full 50s RAG round-trips (extra LLM cost + concurrent SurrealDB scans, i.e., the OOM above). | All task generation disabled via compose env (`ENABLE_TITLE_GENERATION=false` etc.). A later generation could point tasks at a cheap non-RAG model instead. |
+| 2026-08-14 | **Phase 2: every multi-turn ask crashed with HTTP 502.** `Composer.rewrite()` returned LiteLLM usage raw, and the service's `int()` conversion choked on nested `*_tokens_details` dicts. Phase 1's live tests were all single-turn, so the rewrite path had never run against real LiteLLM output. | `rewrite()` now filters usage to the three integer token keys exactly like `compose()` always did; regression test added. Lesson: every code path needs at least one live exercise — offline mocks mirrored the assumed shape, not the real one. |
+| 2026-08-14 | **Phase 2: intermittent TierParseError ("Extra data").** claude-sonnet sometimes appends brace-bearing commentary after the tier JSON even with `response_format: json_object`; the parser's `rfind("}")` slice then captured both. | `_extract_json` now uses `json.JSONDecoder().raw_decode` to take the first balanced object and ignore trailing text; regression test added. |
+| 2026-08-14 | **Phase 2: pipe citation events vanish on bare API calls.** `__event_emitter__` events route to the chat's socket/DB context; `/api/chat/completions` without `chat_id` has none, so citations are silently dropped (UI chats are unaffected). | Verification simulates the UI flow: create a chat, bind the completion to it (`chat_id` + message `id`), poll, then read persisted `sources` (`deploy/verify_citations.py`). Chat-bound completions also return immediately as background tasks — poll, don't block. |
 
 ## 3. Core-System Changes (lessons for the main pipeline)
 
@@ -116,3 +121,32 @@ Raw discoveries as they happen, newest last.
 - **professor_log: 6 records visible in SurrealDB** after the runs (3 from the
   first partial run, 3 from the passing run); log write is confirmed per-request
   before an answer is returned.
+
+### 2026-08-14 — Phase-2 deployment (Banner: containerized API + OpenWebUI)
+- **Live**: professor-api on Banner :5050 (container healthy, /health 200 from
+  Friday), OpenWebUI on :5060 with the pipe registered as model
+  `professor_myron` → "Professor: Myron Golden". Stack at
+  `/opt/stacks/professor`, ports picked from the free 5000-5099 slots.
+- **Embedding-model stale-doc fix confirmed in prod**: query embedding uses
+  alias `embeddings` (1536-dim, no prefix) matching the live index; the
+  BRIEF's nomic/768 line was corrected and config defaults now match reality.
+- **End-to-end through OpenWebUI verified**: chat-bound completion returns all
+  three tier sections + disclaimer + HTML artifact (YouTube embed of the first
+  citation + timestamped link list), with **8 citation sources persisted** on
+  the message (string-only metadata) and status events carrying latency +
+  coverage. Multi-turn history passthrough works (rewrite path live-exercised
+  for the first time — and immediately surfaced a latent crash, see §2).
+- **Latency ≈ 42-55 s/question** at 36.79% coverage (was ~35-40s at 25.79%):
+  retrieval's unindexed scan is the growing term (~30s and climbing with
+  backfill), composition ~17s. The scan will get worse until #44's vector
+  index lands — Phase 3 should treat that index as a prerequisite for demo-able
+  latency.
+- **Coverage 36.79%** of corpus segments embedded at verification time
+  (25.79% → 35.17% → 36.79% across the day; backfill actively running).
+- **SurrealDB is one bad query away from OOM** (see §2) — concurrency now
+  serialized spike-side; worth a core-stack look at the container memory limit
+  vs. scan workload before any multi-user exposure.
+- **Phase 3 needs**: domain + TLS via Traefik (professor.* route), Authentik in
+  front of OpenWebUI (replacing the local-auth spike setup), vector index
+  (#44) for latency, and a decision on task-model wiring (cheap non-RAG model
+  for titles/tags instead of disabling).
