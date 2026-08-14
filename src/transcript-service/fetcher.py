@@ -345,34 +345,83 @@ def _format_timestamp(seconds: float) -> str:
     return f"{minutes}:{secs:02d}"
 
 
-def _transcript_api() -> YouTubeTranscriptApi:
-    """Build the API client, routed through the proxy when one is configured."""
-    if not Config.YOUTUBE_PROXY_URL:
-        return YouTubeTranscriptApi()
+def _proxy_config():
+    """Return the configured proxy config object, or None to go direct.
+
+    Webshare credentials win over a raw URL: the vendor class knows to use the
+    rotating endpoint and to rotate to a fresh IP on a blocked request, which a
+    hand-built URL does not do.
+    """
     try:
-        from youtube_transcript_api.proxies import GenericProxyConfig
+        from youtube_transcript_api.proxies import (
+            GenericProxyConfig,
+            WebshareProxyConfig,
+        )
     except ImportError:  # pragma: no cover — very old lib
-        print("[fetcher] proxy configured but this youtube-transcript-api has "
-              "no proxy support; going direct", flush=True)
-        return YouTubeTranscriptApi()
-    return YouTubeTranscriptApi(
-        proxy_config=GenericProxyConfig(
+        if Config.WEBSHARE_PROXY_USERNAME or Config.YOUTUBE_PROXY_URL:
+            print("[fetcher] proxy configured but this youtube-transcript-api "
+                  "has no proxy support; going direct", flush=True)
+        return None
+
+    if Config.WEBSHARE_PROXY_USERNAME and Config.WEBSHARE_PROXY_PASSWORD:
+        locations = [
+            code.strip().upper()
+            for code in Config.WEBSHARE_PROXY_LOCATIONS.split(",")
+            if code.strip()
+        ]
+        return WebshareProxyConfig(
+            proxy_username=Config.WEBSHARE_PROXY_USERNAME,
+            proxy_password=Config.WEBSHARE_PROXY_PASSWORD,
+            filter_ip_locations=locations or None,
+        )
+
+    if Config.YOUTUBE_PROXY_URL:
+        return GenericProxyConfig(
             http_url=Config.YOUTUBE_PROXY_URL,
             https_url=Config.YOUTUBE_PROXY_URL,
         )
-    )
+
+    return None
+
+
+def proxy_status() -> dict:
+    """Describe the proxy setup without ever revealing the credential."""
+    if Config.WEBSHARE_PROXY_USERNAME and Config.WEBSHARE_PROXY_PASSWORD:
+        mode = "webshare"
+    elif Config.YOUTUBE_PROXY_URL:
+        mode = "generic"
+    else:
+        mode = "direct"
+    return {
+        "mode": mode,
+        "scope": Config.YOUTUBE_PROXY_SCOPE if mode != "direct" else None,
+        "locations": Config.WEBSHARE_PROXY_LOCATIONS if mode == "webshare" else None,
+    }
+
+
+def _transcript_api() -> YouTubeTranscriptApi:
+    """Build the API client, routed through the proxy when one is configured."""
+    config = _proxy_config()
+    return YouTubeTranscriptApi(proxy_config=config) if config else YouTubeTranscriptApi()
 
 
 def ytdlp_base_cmd() -> list[str]:
-    """yt-dlp invocation prefix, carrying the proxy when one is configured.
+    """yt-dlp invocation prefix, carrying the proxy only when scope says so.
 
-    Every yt-dlp call goes through this so a proxy can never be applied to the
-    transcript fetch but silently missed on the listing or description calls —
-    which would leave our own address exposed on two thirds of the traffic.
+    Every yt-dlp call goes through this, so the proxy decision is made in one
+    place rather than being applied to the transcript fetch and silently missed
+    on the listing and description calls.
+
+    Default scope is 'transcript', which means yt-dlp goes DIRECT: only the
+    caption endpoint is rate-limited, and metadata pages are orders of magnitude
+    larger than transcripts on a per-gigabyte bill.
     """
     cmd = ["yt-dlp"]
-    if Config.YOUTUBE_PROXY_URL:
-        cmd += ["--proxy", Config.YOUTUBE_PROXY_URL]
+    if Config.YOUTUBE_PROXY_SCOPE != "all":
+        return cmd
+    config = _proxy_config()
+    if config is not None:
+        cmd += ["--proxy", config.url if hasattr(config, "url") else Config.YOUTUBE_PROXY_URL]
     return cmd
 
 
@@ -403,10 +452,25 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
     except _BLOCKED_ERRORS as e:
         raise TranscriptBlocked(str(e)[:200]) from e
     except Exception as e:
-        # Some versions surface the block as a bare HTTP error rather than a
-        # typed exception — treat any 429 as a block, not as a missing caption.
-        if "429" in str(e) or "Too Many Requests" in str(e):
-            raise TranscriptBlocked(str(e)[:200]) from e
+        # Anything that is about the CONNECTION rather than the VIDEO is
+        # retryable and must not be written to the permanent failed list.
+        # Proxy faults are the dangerous case: a wrong password, an exhausted
+        # bandwidth quota or a dead upstream would otherwise quietly convert
+        # every video in the queue into "this one has no captions".
+        text = str(e)
+        retryable = (
+            "429" in text
+            or "Too Many Requests" in text
+            or "407" in text
+            or "ProxyError" in type(e).__name__
+            or "Tunnel connection failed" in text
+            or "Proxy Authentication Required" in text
+            or isinstance(e, (requests.exceptions.ProxyError,
+                              requests.exceptions.ConnectionError,
+                              requests.exceptions.Timeout))
+        )
+        if retryable:
+            raise TranscriptBlocked(f"{type(e).__name__}: {text[:180]}") from e
         return None
 
 
