@@ -1,0 +1,76 @@
+# BMAD Standards Ruleset
+# Rules for validating BMAD artifacts
+
+rules:
+  # Agent Validation Rules
+  - id: BMAD-001
+    name: "Agent must have metadata section"
+    severity: CRITICAL
+    scope: ["*.agent.yaml"]
+    description: "All BMAD agents require a metadata section with id, name, title, icon"
+    enabled: true
+
+  - id: BMAD-002
+    name: "Agent must have persona section"
+    severity: CRITICAL
+    scope: ["*.agent.yaml"]
+    description: "All BMAD agents require persona with role, identity, communication_style, principles"
+    enabled: true
+
+  - id: BMAD-003
+    name: "Agent with hasSidecar must have critical_actions"
+    severity: CRITICAL
+    scope: ["*.agent.yaml"]
+    description: "Agents with hasSidecar: true must define critical_actions for sidecar loading"
+    enabled: true
+
+  - id: BMAD-004
+    name: "Menu commands must have trigger and action"
+    severity: WARNING
+    scope: ["*.agent.yaml"]
+    description: "Each menu item requires trigger code and action reference"
+    enabled: true
+
+  - id: BMAD-005
+    name: "Principles should be 3-7 items"
+    severity: INFO
+    scope: ["*.agent.yaml"]
+    description: "Best practice: keep principles list between 3-7 items"
+    enabled: true
+
+  # Workflow Validation Rules
+  - id: BMAD-010
+    name: "Workflow must have frontmatter"
+    severity: CRITICAL
+    scope: ["workflow*.md"]
+    description: "Workflows require YAML frontmatter with name, description"
+    enabled: true
+
+  - id: BMAD-011
+    name: "Step files must reference next step"
+    severity: WARNING
+    scope: ["step-*.md"]
+    description: "Step files should define nextStepFile for workflow progression"
+    enabled: true
+
+  # Documentation Rules
+  - id: BMAD-020
+    name: "PRD must have required sections"
+    severity: CRITICAL
+    scope: ["*prd*.md", "*PRD*.md"]
+    description: "PRDs require: Problem, Solution, User Stories, Acceptance Criteria"
+    enabled: true
+
+  - id: BMAD-021
+    name: "Architecture docs must include diagrams"
+    severity: WARNING
+    scope: ["*architecture*.md"]
+    description: "Architecture documents should include system diagrams"
+    enabled: true
+
+# Ruleset metadata
+metadata:
+  name: "BMAD Standards"
+  version: "1.0.0"
+  description: "Core compliance rules for BMAD artifacts"
+  author: "tracker:augie"

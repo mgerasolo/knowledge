@@ -1,7 +1,11 @@
 {
   "autoSave": {
     "enabled": true,
-    "thresholds": [70, 85, 95],
+    "thresholds": [
+      70,
+      85,
+      95
+    ],
     "notifyOnSave": true
   },
   "archiveThresholds": {
@@ -18,5 +22,11 @@
   "search": {
     "caseSensitive": false,
     "maxResults": 50
+  },
+  "permissions": {
+    "allow": [
+      "Read(//mnt/foundry_resources/transcripts/**)",
+      "Bash(curl:*)"
+    ]
   }
 }

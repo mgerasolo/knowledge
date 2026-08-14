@@ -1,0 +1,38 @@
+# Augie Lessons Learned Rules
+# Rules accumulated from Oscar, Sherlock, and user feedback
+# Each rule tracks its provenance for /augie:why
+
+version: "1.0"
+last_updated: null
+
+# Example rule structure (will be populated by /augie:lesson)
+# rules:
+#   - id: css-semantic-tokens
+#     description: "Use semantic CSS tokens, no hardcoded colors"
+#     scope: code  # code | docs | process
+#     severity: warning  # critical | warning | info
+#     enabled: true
+#     provenance:
+#       source: oscar-lesson  # oscar-lesson | sherlock-pattern | user-input
+#       date: 2026-03-04
+#       context: "Discovered when dark mode broke due to hardcoded #fff"
+#       original_issue: null  # GitHub issue number if applicable
+#     checks:
+#       - pattern: "#[0-9a-fA-F]{3,6}"
+#         message: "Hardcoded color found. Use semantic token instead."
+#         files: ["*.css", "*.scss", "*.tsx", "*.jsx"]
+#     stats:
+#       times_checked: 0
+#       violations_found: 0
+#       last_triggered: null
+
+rules: []
+
+# Summary statistics
+stats:
+  total_rules: 0
+  from_oscar: 0
+  from_sherlock: 0
+  from_user: 0
+  active_rules: 0
+  disabled_rules: 0

@@ -1,0 +1,68 @@
+# Security Ruleset
+# Rules for detecting security issues
+
+rules:
+  # Credential Detection
+  - id: SEC-001
+    name: "No hardcoded passwords"
+    severity: CRITICAL
+    pattern: "(password|passwd|pwd)\s*[=:]\s*['\"][^'\"]{4,}['\"]"
+    scope: ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"]
+    description: "Passwords must not be hardcoded in source files"
+    enabled: true
+
+  - id: SEC-002
+    name: "No hardcoded API keys"
+    severity: CRITICAL
+    pattern: "(api[_-]?key|apikey|api[_-]?secret)\s*[=:]\s*['\"][^'\"]{8,}['\"]"
+    scope: ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"]
+    description: "API keys must be stored in environment variables or secrets manager"
+    enabled: true
+
+  - id: SEC-003
+    name: "No hardcoded tokens"
+    severity: CRITICAL
+    pattern: "(token|bearer|auth[_-]?token)\s*[=:]\s*['\"][^'\"]{8,}['\"]"
+    scope: ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"]
+    description: "Authentication tokens must not be hardcoded"
+    enabled: true
+
+  - id: SEC-004
+    name: "No private keys in code"
+    severity: CRITICAL
+    pattern: "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    scope: ["*"]
+    description: "Private keys must never be committed to version control"
+    enabled: true
+
+  # Environment File Safety
+  - id: SEC-010
+    name: ".env files should not be committed"
+    severity: CRITICAL
+    scope: [".env", ".env.local", ".env.production"]
+    description: ".env files with actual secrets should be in .gitignore"
+    enabled: true
+
+  # Dependency Security
+  - id: SEC-020
+    name: "Check for known vulnerable packages"
+    severity: WARNING
+    scope: ["package.json", "requirements.txt", "Pipfile"]
+    description: "Dependencies should be checked against vulnerability databases"
+    enabled: true
+
+  # Configuration Security
+  - id: SEC-030
+    name: "Debug mode should be off in production configs"
+    severity: WARNING
+    pattern: "debug\s*[=:]\s*(true|True|1)"
+    scope: ["*prod*.yaml", "*prod*.yml", "*production*.yaml"]
+    description: "Debug mode should be disabled in production configuration"
+    enabled: true
+
+# Ruleset metadata
+metadata:
+  name: "Security Rules"
+  version: "1.0.0"
+  description: "Security-focused compliance rules"
+  author: "tracker:augie"

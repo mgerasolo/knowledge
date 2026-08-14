@@ -39,3 +39,20 @@ __pycache__/
 *.pyc
 src/admin/static/vendor/
 .venv-test/
+
+# Runtime state written by Claude Code sessions — churns constantly, means
+# nothing to another checkout, and one of them is a binary SQLite file.
+.claude/db/
+.claude/handoff-state.json
+
+# Symlinks into the /mnt shares. They resolve only on hosts that mount them,
+# so committing them breaks the checkout everywhere else.
+/transcripts
+/foundry_devlab
+/foundry_protocols
+/foundry_resources
+/foundry_standards
+/.claude/herding
+
+# Timestamped hand-made backups (docker-compose.yml.bak.20260808 and friends)
+*.bak.*

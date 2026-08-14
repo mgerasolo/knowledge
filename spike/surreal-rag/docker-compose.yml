@@ -3,6 +3,10 @@
 
 services:
   surrealdb:
+    deploy:
+      resources:
+        limits:
+          memory: 4G
     image: surrealdb/surrealdb:latest
     container_name: knowledgestack-surrealdb
     restart: unless-stopped
@@ -23,6 +27,10 @@ services:
 
   # Optional: SurrealDB web UI for debugging
   surrealist:
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     image: surrealdb/surrealist:latest
     container_name: knowledgestack-surrealist
     restart: unless-stopped

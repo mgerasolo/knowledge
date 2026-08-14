@@ -1,0 +1,248 @@
+# Oscar Project Configuration
+# Copy to _bmad/tracker/config/oscar.yaml and customize
+# Or run /oscar:setup for interactive configuration
+
+# Tracking System Configuration
+tracking:
+  # Supported types: github, linear, bmad-artifacts
+  type: github
+  config:
+    # GitHub Issues
+    repo: "${PROJECT_REPO}"
+    project_board: "${PROJECT_BOARD}"
+    # Linear (uncomment if using Linear)
+    # workspace: "${LINEAR_WORKSPACE}"
+    # team: "${LINEAR_TEAM}"
+
+# Phase Configuration
+phases:
+  # Mode: full (10 phases) or quick (5 phases for simple tasks)
+  mode: full
+
+  # Full ATDD phases (10)
+  full:
+    - 0-backlog
+    - 1-refining
+    - 2-designing
+    - 3-test-writing
+    - 3.5-ready-to-dev  # Human stop gate
+    - 4-developing
+    - 5-audit
+    - 6-testing
+    - 7-deployment
+    - 8-human-review
+    - 9-docs-update
+    - 10-done
+
+  # Quick phases (5) for simpler tasks
+  quick:
+    - 0-backlog
+    - 3-test-writing
+    - 4-developing
+    - 6-testing
+    - 10-done
+
+# Gate Enforcement
+gates:
+  # strict: true = block on failure (exit code 2)
+  # strict: false = warn but allow continuation
+  strict: true
+
+  # Test command for TDD gates
+  test_command: "npm test"
+
+  # Custom gates (path to scripts)
+  custom: []
+
+# Observer Mode
+observer:
+  # Enable observer mode by default
+  enabled: true
+
+  # Auto-recover dropped agent context
+  auto_recovery: true
+
+  # Detect scope drift (editing files outside current issue)
+  drift_detection: true
+
+# Marathon Mode (Autonomous Batch Processing)
+marathon:
+  # Enable marathon mode
+  enabled: true
+
+  # Maximum attempts per issue before marking blocked
+  max_attempts_per_issue: 3
+
+  # Pause between issues (seconds)
+  pause_between_issues: 5
+
+  # Stop marathon on first failure
+  stop_on_failure: false
+
+# Agent Team Assignments
+team:
+  phase_assignments:
+    refining: [analyst, pm]
+    designing: [architect]
+    test-writing: [tea, dev]
+    developing: [dev]
+    audit: [tea, dev]
+    testing: [tea]
+    deployment: [dev]
+    docs-update: [tech-writer]
+
+# Label Taxonomy (for GitHub/Linear)
+labels:
+  phase:
+    prefix: "phase:"
+    values:
+      - "0-backlog"
+      - "1-refining"
+      - "2-designing"
+      - "3-test-writing"
+      - "3.5-ready-to-dev"
+      - "4-developing"
+      - "5-audit"
+      - "6-testing"
+      - "7-deployment"
+      - "8-human-review"
+      - "9-docs-update"
+      - "10-done"
+
+  next_action:
+    prefix: "next:"
+    values:
+      - "ai-ready"
+      - "human-input"
+      - "human-verification"
+      - "blocked"
+
+  workflow:
+    prefix: "workflow:"
+    values:
+      - "full-atdd"
+      - "quick"
+      - "bug-fix"
+      - "spike"
+
+# Herding Integration
+herding:
+  # Auto-submit process issues to herding
+  enabled: true
+  auto_submit_process_issues: true
+
+# Logging
+logging:
+  # Enable event logging
+  enabled: true
+  # Log file rotation (daily, weekly, none)
+  rotation: daily
+  # Days to retain logs
+  retention_days: 30
+
+# Feedback Capture
+feedback:
+  # Capture user corrections for self-improvement
+  enabled: true
+  # Events that trigger feedback capture
+  triggers:
+    - user_override
+    - process_skip
+    - repeated_question
+    - frustration_signal
+
+# =============================================================================
+# PROJECT RESOURCES - Oscar should be aware of these before suggesting new tools
+# Fill in during /oscar:setup or manually
+# =============================================================================
+
+resources:
+  # Core documentation - where to find project info
+  deployments_registry: ""  # Path to DEPLOYMENTS.md or equivalent
+  project_claude_md: ""     # Path to project CLAUDE.md
+
+  # Automation & Workflows
+  n8n:
+    url: ""           # n8n instance URL (if available)
+    internal: ""      # Internal URL
+    note: "Check existing workflows before building new automation"
+
+  # Maintenance & Tracking
+  maintenance_system:
+    type: ""          # grist | github-issues | linear | none
+    url: ""           # URL to maintenance tracking
+    notification: ""  # Slack channel or notification method
+    note: "Use existing maintenance tracking, not ad-hoc reminders"
+
+  # Tool Inventory (for Sherlock integration)
+  tool_inventory:
+    config: "_bmad/tracker/config/sherlock-tools.yaml"
+    gaps: "_bmad/tracker/config/sherlock-gaps.yaml"
+
+  # Dashboards (if any)
+  dashboards: []
+  # Example:
+  # - name: "Project Dashboard"
+  #   url: "https://..."
+
+  # Container Management
+  portainer: ""       # Portainer URL for this project's host
+
+# =============================================================================
+# AWARENESS RULES - What Oscar should check before suggesting actions
+# =============================================================================
+
+awareness:
+  # Before suggesting new services/deployments
+  check_deployments_before_suggesting: true
+
+  # Before suggesting automation workflows
+  check_existing_workflows: true
+
+  # Before suggesting monitoring/observability
+  check_existing_tools: true
+
+  # Before suggesting maintenance tasks
+  check_maintenance_system: true
+
+  # When routing to Sherlock for investigation
+  check_project_readiness: true
+
+# =============================================================================
+# AGENT ROUTING - How Oscar hands off to other tracker agents
+# =============================================================================
+
+routing:
+  sherlock:
+    trigger: "Investigation needed, debugging required, root cause unknown"
+    handoff: "/oscar:handoff sherlock"
+    pre_check: "Verify project has observability tools"
+
+  augie:
+    trigger: "Audit needed, compliance check, sprint review"
+    handoff: "/oscar:handoff augie"
+    pre_check: "Ensure acceptance criteria defined"
+
+# =============================================================================
+# PROJECT CONTEXT - Environment-specific configuration
+# =============================================================================
+
+project_context:
+  # Primary deployment host
+  primary_host: ""
+
+  # Hosts this project can deploy to
+  allowed_hosts: []
+
+  # Hosts to NEVER deploy to
+  forbidden_hosts: []
+
+  # Deployment method
+  deployment_method: "portainer"  # portainer | docker-compose | manual | github-actions
+
+  # Key project paths
+  paths: {}
+  # Example:
+  # paths:
+  #   stacks: "/mnt/foundry_infrastructure/apps/"
+  #   config: "/path/to/config/"

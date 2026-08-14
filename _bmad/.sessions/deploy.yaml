@@ -1,0 +1,25 @@
+# BMAD Session State - deploy
+# Auto-created: 2026-04-22T20:35:46-04:00
+# Session UUID: 6191fc1c-2ae5-428d-8409-c93051b40430
+
+name: "deploy"
+session_id: "6191fc1c-2ae5-428d-8409-c93051b40430"
+created: "2026-04-22T20:35:46-04:00"
+status: "active"
+
+# Tracking
+prompt_count: 15
+compaction_count: 0
+last_activity: "2026-04-27T20:33:41-04:00"
+parent_name: null
+tags: []
+
+# Workflow/Agent state - STARTS FRESH (no inheritance from other sessions!)
+current_workflow: null
+current_agent: null
+workflow_state: null
+phase: null
+
+context:
+  project_name: "KnowledgeStack"
+  first_message: "on banner, and also can we script the backlog so that every 30-600 seconds (random amounts in that i"
