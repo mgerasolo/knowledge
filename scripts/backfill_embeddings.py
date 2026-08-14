@@ -49,7 +49,9 @@ EMBEDDING_DOC_PREFIX = os.getenv("EMBEDDING_DOC_PREFIX", "")
 
 INDEX_NAME = "segment_embedding_idx"
 GATEWAY_BATCH = 64
-UPDATES_PER_REQUEST = 50
+# 50/request blew SurrealDB's HTTP body limit (413) at 1536 dims. 20 rounded
+# vectors/request is ~300KB — comfortable margin.
+UPDATES_PER_REQUEST = 20
 PAUSE_BETWEEN_GATEWAY_CALLS = 0.1   # polite to the shared GPU host
 
 
@@ -126,6 +128,15 @@ def index_dimension(indexes: dict):
     return None
 
 
+def index_is_f16(indexes: dict) -> bool:
+    """Whether the embedding index stores vectors at F16. F32 doubles the
+    in-memory index (~2GB at 330k x 1536) inside a 4GB-capped container."""
+    for name, definition in (indexes or {}).items():
+        if "FIELDS embedding" in str(definition):
+            return "TYPE F16" in str(definition)
+    return False
+
+
 _PLAIN_ID = re.compile(r"^[A-Za-z0-9_]+:[A-Za-z0-9_]+$")
 
 
@@ -136,7 +147,7 @@ def update_statements(rows: list) -> list:
     stmts = []
     for r in rows:
         rid = str(r["id"])
-        vec = json.dumps(r["embedding"])
+        vec = json.dumps([round(x, 7) for x in r["embedding"]])
         if _PLAIN_ID.match(rid):
             stmts.append(f"UPDATE {rid} SET embedding = {vec};")
         else:
@@ -208,16 +219,19 @@ def ensure_index(redefine: bool, force: bool) -> bool:
         return False
     indexes = (payload[0].get("result") or {}).get("indexes", {})
     dim = index_dimension(indexes)
+    f16 = index_is_f16(indexes)
 
-    if dim == EMBEDDING_DIM:
-        print(f"index ok: {INDEX_NAME} DIMENSION {dim}")
+    if dim == EMBEDDING_DIM and f16:
+        print(f"index ok: {INDEX_NAME} DIMENSION {dim} TYPE F16")
         return True
 
-    state = f"DIMENSION {dim}" if dim else "missing"
+    state = (f"DIMENSION {dim} TYPE {'F16' if f16 else 'F32'}" if dim
+             else "missing")
     if not redefine:
-        print(f"FATAL: vector index is {state} but EMBEDDING_DIM={EMBEDDING_DIM}."
-              f" Vectors written into a mismatched index silently break"
-              f" retrieval. Rerun with --redefine-index to fix.")
+        print(f"FATAL: vector index is {state} but this run needs"
+              f" DIMENSION {EMBEDDING_DIM} TYPE F16. A dimension mismatch"
+              f" silently breaks retrieval; F32 doubles index memory."
+              f" Rerun with --redefine-index to fix.")
         return False
 
     embedded = count_from_payload(

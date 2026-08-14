@@ -45,10 +45,32 @@ def test_update_statements_batch_and_escape():
     assert stmts[1].startswith('UPDATE type::thing(')
 
 
-def test_update_requests_chunked_at_50():
+def test_update_statements_round_floats():
+    """Full-precision floats tripled statement size and blew SurrealDB's HTTP
+    body limit (413 on the first live smoke run). 7 decimals is far beyond
+    what the F16 index can even represent."""
+    rows = [{'id': 'segment:a', 'embedding': [0.123456789012345, 1.0]}]
+    assert bf.update_statements(rows)[0] == \
+        'UPDATE segment:a SET embedding = [0.1234568, 1.0];'
+
+
+def test_update_requests_chunked_at_20_default():
+    rows = [{'id': f'segment:{i}', 'embedding': [0.1]} for i in range(50)]
+    reqs = bf.chunked_requests(bf.update_statements(rows))
+    assert [len(r.splitlines()) for r in reqs] == [20, 20, 10]
+
+
+def test_update_requests_chunk_size_override():
     rows = [{'id': f'segment:{i}', 'embedding': [0.1]} for i in range(120)]
     reqs = bf.chunked_requests(bf.update_statements(rows), per_request=50)
     assert [len(r.splitlines()) for r in reqs] == [50, 50, 20]
+
+
+def test_index_type_parsed():
+    assert bf.index_is_f16({'segment_embedding_idx': LIVE_INDEX_DEF}) is False
+    f16_def = LIVE_INDEX_DEF.replace('TYPE F32', 'TYPE F16')
+    assert bf.index_is_f16({'segment_embedding_idx': f16_def}) is True
+    assert bf.index_is_f16({}) is False
 
 
 def test_backoff_ladder_then_gives_up(monkeypatch):
