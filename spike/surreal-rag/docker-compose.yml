@@ -6,7 +6,13 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G
+          # 4G was exactly where the kernel OOM-killed the process on
+          # 2026-08-14 (anon-rss 4.17GB): the HNSW vector index over the
+          # full embedded corpus plus rocksdb's default 1GB block cache
+          # peaks past 4G during index rebuild + concurrent writes,
+          # producing a crash-loop (32 restarts in one night). 6G measured
+          # headroom; block cache also halved below.
+          memory: 6G
     image: surrealdb/surrealdb:latest
     container_name: knowledgestack-surrealdb
     restart: unless-stopped
@@ -22,6 +28,9 @@ services:
     command: start --user root --pass ${SURREAL_PASSWORD:-changeme} rocksdb:/data/knowledge.db
     environment:
       - SURREAL_LOG=info
+      # Halve rocksdb's default 1GB block cache — disk-read cache is the
+      # cheapest memory to reclaim for the in-memory HNSW vector index.
+      - SURREAL_ROCKSDB_BLOCK_CACHE_SIZE=536870912
     networks:
       - knowledgestack
 
