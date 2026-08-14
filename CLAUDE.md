@@ -186,6 +186,46 @@ This project uses structured context management for multi-conversation workflows
 
 **At session start:** Check for `status:ai-ready` issues (pre-approved for autonomous work)
 
+### ROADMAP.md is generated — regenerate it when you change issues
+
+`ROADMAP.md` is not hand-maintained. It is a projection of the issue tracker,
+rebuilt from scratch by a script, so it can never disagree with the issues for
+longer than it takes to re-run:
+
+```bash
+python3 scripts/roadmap-sync.py
+```
+
+**Run it whenever you open, close, re-label or re-prioritise an issue**, and
+commit the result with that same work. Those are the only events that make the
+roadmap stale, which is why this is a step in issue work rather than a timer or
+a git hook — a commit hook fires when nobody changed an issue, and misses every
+change made in the GitHub web UI.
+
+Two rules for anyone editing the file:
+
+- **Only the block between `<!-- HAND-WRITTEN:START -->` and
+  `<!-- HAND-WRITTEN:END -->` may be hand-edited.** That block is preserved
+  verbatim on every run and is where the direction and themes live. Everything
+  outside it is overwritten.
+- **Never fix the roadmap by editing the roadmap.** If a line is wrong, the
+  issue behind it is wrong — fix the issue and re-run.
+
+The tree groups issues into themes that are worked out fresh on every run from
+the issue's own words, so no theme is ever stored against an issue number. If
+an issue turns up under **"Not yet themed"**, that is the signal to add a
+matching rule to the `THEMES` list at the top of the script — not to file the
+issue differently.
+
+An issue is shown as needing your decision (`❓`) when its body carries an
+unticked `- [ ] Matt has …` acceptance criterion, which is the marker the
+backlog agents write. Keep using it and the roadmap keeps flagging correctly.
+
+The script fails loudly and leaves the existing file untouched if GitHub can't
+be reached, if it gets back an empty list, or if the hand-written markers are
+missing or damaged. A stale roadmap is recoverable; an empty one written over a
+good one is not.
+
 ## Cross-Project Coordination
 
 **Dependencies:**
