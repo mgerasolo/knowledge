@@ -9,9 +9,9 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-14 00:41 EDT from 25 issues.
+> Generated 2026-08-14 01:01 EDT from 25 issues.
 
-**22 open · 2 in flight · 3 awaiting your decision · 3 closed**
+**21 open · 2 in flight · 3 awaiting your decision · 4 closed**
 
 <!-- HAND-WRITTEN:START -->
 
@@ -40,13 +40,13 @@ Three themes run through the work currently on the board:
 ## Where everything stands
 
 ⚓ **KnowledgeStack** — IN PROGRESS · 3 decisions waiting on you · 2 in flight  
-├─❓ **Capabilities the product assumes but does not have** — 6 open  
+├─❓ **Capabilities the product assumes but does not have** — 5 open  
 │  ├─❓ Generate embeddings for the corpus so meaning-based search becomes possible ([#29](https://github.com/mgerasolo/knowledge/issues/29)) — _high_  
 │  ├─❓ Decide whether topic and entity tagging stays on the roadmap - it was never built ([#31](https://github.com/mgerasolo/knowledge/issues/31)) — _medium_  
 │  ├─⬜ CRITICAL: 0 of 327,402 segments have embeddings — semantic search has nothing to search ([#44](https://github.com/mgerasolo/knowledge/issues/44)) — _critical_  
 │  ├─⬜ Ship the meaning-based search endpoint - today it is a stub returning 501 ([#30](https://github.com/mgerasolo/knowledge/issues/30)) — _high_  
-│  ├─⬜ Single-video enrollment — ingest one video (guest appearances) without enrolling the whole channel ([#46](https://github.com/mgerasolo/knowledge/issues/46)) — _medium_  
-│  └─⬜ Professor spike (Gen 1) — talk-to-a-personality RAG chat with cited video clips ([#16](https://github.com/mgerasolo/knowledge/issues/16)) — _unset_  
+│  ├─⬜ Professor spike (Gen 1) — talk-to-a-personality RAG chat with cited video clips ([#16](https://github.com/mgerasolo/knowledge/issues/16)) — _unset_  
+│  └─👍 Single-video enrollment — ingest one video (guest appearances) without enrolling the whole channel ([#46](https://github.com/mgerasolo/knowledge/issues/46)) — _medium · closed 2026-08-14_  
 ├─🔄 **Ingestion reliability — keeping transcripts arriving** — 6 open  
 │  ├─🔄 Make YouTube's per-channel feed the primary way we find new videos, with the scraper as fallback ([#19](https://github.com/mgerasolo/knowledge/issues/19)) — _medium_  
 │  ├─⬜ Publish dates still land empty on the standing backfill path — 94% of its queue has no source date ([#57](https://github.com/mgerasolo/knowledge/issues/57)) — _high_  
