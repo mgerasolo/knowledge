@@ -33,6 +33,11 @@ class Config:
         # ── Supreme ──────────────────────────────────────────
         {"handle": "MyronGolden", "name": "Myron Golden", "domain": "business", "tier": "supreme", "lookback_months": 36},
         {"handle": "BibleStudyWithMyronGolden", "name": "Bible Study with Myron Golden", "domain": "faith", "tier": "supreme", "lookback_months": 36},
+        # Sermons are published as livestreams, which YouTube files under
+        # /streams and NOT /videos — without the explicit tabs list, standing
+        # discovery would see only the handful of uploaded clips and miss the
+        # ~430 sermons that are the actual reason this channel is monitored.
+        {"handle": "PastorChrisDurkin", "name": "Pastor Chris Durkin", "domain": "faith", "tier": "supreme", "lookback_months": 36, "tabs": ["videos", "streams"]},
         {"handle": "hubermanlab", "name": "Huberman Lab", "domain": "health", "tier": "supreme", "lookback_months": 6},
         {"handle": "ChrisWillx", "name": "Chris Williamson", "domain": "mindset", "tier": "supreme", "lookback_months": 6},
         {"handle": "TheDiaryOfACEO", "name": "The Diary of a CEO", "domain": "business", "tier": "supreme", "lookback_months": 6},

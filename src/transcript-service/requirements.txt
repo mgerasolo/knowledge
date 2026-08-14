@@ -6,3 +6,8 @@ python-dotenv==1.0.0
 gunicorn==21.2.0
 youtube-transcript-api>=1.2.0
 yt-dlp>=2024.1.0
+# Lets yt-dlp impersonate a real browser's TLS fingerprint. Upper bound is a
+# yt-dlp compatibility ceiling, not a preference: yt-dlp refuses to load its
+# curl_cffi handler at 0.16+ ("Only versions 0.5.10 and 0.10.x-0.15.x are
+# supported"), so the newest release silently leaves impersonation unavailable.
+curl_cffi>=0.10,<0.16

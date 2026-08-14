@@ -22,7 +22,24 @@ from youtube_transcript_api._errors import (
     VideoUnavailable,
 )
 
+try:  # present in current versions; guarded so an older lib still imports
+    from youtube_transcript_api._errors import IpBlocked, RequestBlocked
+    _BLOCKED_ERRORS = (IpBlocked, RequestBlocked)
+except ImportError:  # pragma: no cover
+    _BLOCKED_ERRORS = ()
+
 from config import Config
+
+
+class TranscriptBlocked(Exception):
+    """YouTube refused the caption request from this IP (HTTP 429 / "Sorry...").
+
+    This is a temporary network-level block, NOT a statement about the video.
+    It must never be recorded as a permanent failure: on 2026-08-14 the caption
+    endpoint 429'd our whole WAN address while videos that definitely have
+    English auto-captions came back looking transcript-less. Marking those
+    "failed" would have blacklisted them from every future run.
+    """
 
 
 # ---- State Management ----
@@ -204,73 +221,81 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
             datetime.now() - timedelta(days=lookback_days)
         ).strftime("%Y%m%d")
 
-        # Use yt-dlp with date filter for efficiency
-        url = f"https://www.youtube.com/@{handle}/videos"
-        cmd = [
-            "yt-dlp",
-            "--flat-playlist",
-            "--playlist-end",
-            str(listing_cap),
-            "--dateafter",
-            date_after,   # inert in flat mode; kept only for when that changes
-            "--print",
-            "%(id)s|%(title)s|%(upload_date)s",
-            url,
-        ]
+        # Most channels publish to /videos. Some publish to /streams instead —
+        # a church that livestreams every sermon has an almost-empty /videos tab
+        # and hundreds of streams. Per-channel opt-in so the common case still
+        # costs exactly one request.
+        tabs = channel.get("tabs") or ["videos"]
 
-        try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, timeout=120
-            )
-            found = 0
-            new_count = 0
+        found = 0
+        new_count = 0
+        errors = []
 
-            if result.returncode == 0:
-                for line in result.stdout.strip().split("\n"):
-                    if not line or "|" not in line:
-                        continue
+        for tab_index, tab in enumerate(tabs):
+            if tab_index > 0:
+                time.sleep(discovery_delay)
 
-                    parts = line.split("|", 2)
-                    if len(parts) >= 3:
-                        video_id, title, upload_date = (
-                            parts[0],
-                            parts[1],
-                            parts[2],
-                        )
-                        found += 1
+            # Use yt-dlp with date filter for efficiency
+            url = f"https://www.youtube.com/@{handle}/{tab}"
+            cmd = [
+                "yt-dlp",
+                "--flat-playlist",
+                "--playlist-end",
+                str(listing_cap),
+                "--dateafter",
+                date_after,   # inert in flat mode; kept only for when that changes
+                "--print",
+                "%(id)s|%(title)s|%(upload_date)s",
+                url,
+            ]
 
-                        if (
-                            video_id not in processed_ids
-                            and video_id not in known_ids
-                        ):
-                            video = {
-                                "id": video_id,
-                                "title": title,
-                                "upload_date": upload_date,
-                                "channel_handle": handle,
-                                "channel_name": channel["name"],
-                                "domain": channel["domain"],
-                            }
-                            new_videos.append(video)
-                            new_count += 1
+            try:
+                result = subprocess.run(
+                    cmd, capture_output=True, text=True, timeout=120
+                )
 
-            channel_stats.append(
-                {
-                    "handle": handle,
-                    "name": channel["name"],
-                    "recent_videos": found,
-                    "new_videos": new_count,
-                }
-            )
+                if result.returncode == 0:
+                    for line in result.stdout.strip().split("\n"):
+                        if not line or "|" not in line:
+                            continue
 
-        except (subprocess.TimeoutExpired, Exception) as e:
-            channel_stats.append(
-                {
-                    "handle": handle,
-                    "name": channel["name"],
-                    "error": str(e),
-                }
-            )
+                        parts = line.split("|", 2)
+                        if len(parts) >= 3:
+                            video_id, title, upload_date = (
+                                parts[0],
+                                parts[1],
+                                parts[2],
+                            )
+                            found += 1
+
+                            if (
+                                video_id not in processed_ids
+                                and video_id not in known_ids
+                            ):
+                                video = {
+                                    "id": video_id,
+                                    "title": title,
+                                    "upload_date": upload_date,
+                                    "channel_handle": handle,
+                                    "channel_name": channel["name"],
+                                    "domain": channel["domain"],
+                                }
+                                new_videos.append(video)
+                                known_ids.add(video_id)  # tabs can overlap
+                                new_count += 1
+
+            except (subprocess.TimeoutExpired, Exception) as e:
+                errors.append(f"{tab}: {e}")
+
+        stat = {
+            "handle": handle,
+            "name": channel["name"],
+            "recent_videos": found,
+            "new_videos": new_count,
+        }
+        if errors:
+            stat["error"] = "; ".join(errors)
+        channel_stats.append(stat)
 
     # Safety valve. A single sweep should surface tens of new uploads, not
     # thousands; anything larger means a filter broke (as --dateafter silently
@@ -323,7 +348,12 @@ def _format_timestamp(seconds: float) -> str:
 
 
 def fetch_transcript(video_id: str) -> Optional[list[dict]]:
-    """Fetch transcript segments for a single video."""
+    """Fetch transcript segments for a single video.
+
+    Returns None when the video genuinely has no usable transcript.
+    Raises TranscriptBlocked when YouTube is refusing US, so the caller can
+    back off and retry instead of condemning the video.
+    """
     try:
         api = YouTubeTranscriptApi()
         transcript = api.fetch(video_id)
@@ -341,7 +371,13 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
 
     except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable):
         return None
-    except Exception:
+    except _BLOCKED_ERRORS as e:
+        raise TranscriptBlocked(str(e)[:200]) from e
+    except Exception as e:
+        # Some versions surface the block as a bare HTTP error rather than a
+        # typed exception — treat any 429 as a block, not as a missing caption.
+        if "429" in str(e) or "Too Many Requests" in str(e):
+            raise TranscriptBlocked(str(e)[:200]) from e
         return None
 
 
@@ -470,8 +506,17 @@ def fetch_and_save(video: dict) -> dict:
             "message": "Already fetched",
         }
 
-    # Fetch transcript
-    segments = fetch_transcript(video_id)
+    # Fetch transcript. A block is reported as a distinct, retryable outcome —
+    # state is left untouched so the video comes back around on a later pass.
+    try:
+        segments = fetch_transcript(video_id)
+    except TranscriptBlocked as e:
+        return {
+            "success": False,
+            "video_id": video_id,
+            "blocked": True,
+            "error": f"YouTube is rate-limiting caption requests: {e}",
+        }
 
     if not segments:
         state.setdefault("failed", []).append(video_id)
