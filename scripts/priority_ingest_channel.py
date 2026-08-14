@@ -23,6 +23,12 @@ Differences from fetcher.fetch_and_save(), on purpose:
     otherwise dump an entire channel into one undated directory.
   * Skips the yt-dlp call entirely when no transcript exists — no transcript
     means no file, so the metadata would be thrown away.
+
+Restarts are cheap on purpose. A run skips both what is already held and what
+is already known to have no captions, so re-entering an interrupted channel
+costs nothing for the ground it has already covered. Pass --retry-failed to
+re-attempt the caption-less ones, which is worth doing occasionally because a
+channel does sometimes add captions to an old video.
 """
 
 import argparse
@@ -125,12 +131,17 @@ def fetch_metadata(video_id: str) -> dict:
     return out
 
 
-def live_status_of(video_id: str) -> str:
+def live_status_of(video_id: str) -> str | None:
     """Cheap check for whether a video is a stream that hasn't finished.
 
     Only called when a video has no transcript, to tell "this will never have
     captions" apart from "this is broadcasting right now and will have captions
     once it ends" — the second must not be recorded as a permanent failure.
+
+    Returns None when the probe could not answer (timeout, non-zero exit, empty
+    output). That is deliberately NOT the same as "not live": the caller writes
+    a permanent failure on the strength of this answer, so an unanswered probe
+    must not be read as a licence to condemn the video.
     """
     cmd = ytdlp_base_cmd() + YTDLP_SINGLE_VIDEO_ARGS + [
         "--skip-download", "--print", "%(live_status)s",
@@ -139,8 +150,31 @@ def live_status_of(video_id: str) -> str:
     try:
         res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     except subprocess.TimeoutExpired:
-        return ""
-    return res.stdout.strip().splitlines()[-1].strip() if res.returncode == 0 and res.stdout.strip() else ""
+        return None
+    if res.returncode != 0 or not res.stdout.strip():
+        return None
+    return res.stdout.strip().splitlines()[-1].strip()
+
+
+UNFINISHED_STREAM = ("is_live", "is_upcoming", "post_live")
+
+
+def partition_todo(videos: list[dict], state: dict, retry_failed: bool) -> tuple[list[dict], int, int]:
+    """Split discovered videos into what to fetch and what to leave alone.
+
+    Returns (todo, held, caption_less) so the caller can account for every
+    video it discovered. Silent filtering is how a corpus quietly stops growing
+    without anyone noticing, so the counts are reported, not just the work.
+    """
+    held = set(state.get("fetched", []))
+    caption_less = set(state.get("failed", [])) - held
+    skip = held if retry_failed else held | caption_less
+    todo = [v for v in videos if v["id"] not in skip]
+    return (
+        todo,
+        sum(1 for v in videos if v["id"] in held),
+        sum(1 for v in videos if v["id"] in caption_less),
+    )
 
 
 def main() -> int:
@@ -158,6 +192,9 @@ def main() -> int:
                     help="process at most N videos (0 = all) — for smoke tests")
     ap.add_argument("--tabs", default=",".join(TABS),
                     help="comma-separated channel tabs to discover")
+    ap.add_argument("--retry-failed", action="store_true",
+                    help="also re-attempt videos already recorded as having no "
+                         "captions (a channel sometimes adds them later)")
     args = ap.parse_args()
 
     started = time.time()
@@ -170,10 +207,13 @@ def main() -> int:
         return 1
 
     state = load_state()
-    already = set(state.get("fetched", []))
-    todo = [v for v in videos if v["id"] not in already]
-    log(f"{len(videos)} videos on channel · {len(videos) - len(todo)} already held · "
-        f"{len(todo)} to fetch")
+    todo, held, caption_less = partition_todo(videos, state, args.retry_failed)
+    tally = f"{len(videos)} on channel · {held} already held"
+    if args.retry_failed:
+        tally += f" · {caption_less} known caption-less (RE-ATTEMPTING)"
+    else:
+        tally += f" · {caption_less} known caption-less (skipped)"
+    log(f"{tally} · {len(todo)} to fetch")
     if args.limit:
         todo = todo[: args.limit]
         log(f"--limit {args.limit}: processing {len(todo)} of them this run")
@@ -226,9 +266,11 @@ def main() -> int:
                 # YET. Recording that as a permanent failure would blacklist
                 # the sermon that is being preached as we look at it.
                 status = live_status_of(vid)
-                if status in ("is_live", "is_upcoming", "post_live"):
+                if status is None or status in UNFINISHED_STREAM:
                     stats["live_deferred"] += 1
-                    log(f"    still live ({status}) — leaving it for a later run")
+                    why = ("could not read live status"
+                           if status is None else f"still live ({status})")
+                    log(f"    {why} — leaving it for a later run")
                     time.sleep(args.miss_delay)
                     continue
 
