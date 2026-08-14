@@ -405,6 +405,29 @@ def _transcript_api() -> YouTubeTranscriptApi:
     return YouTubeTranscriptApi(proxy_config=config) if config else YouTubeTranscriptApi()
 
 
+# Flags every SINGLE-VIDEO yt-dlp call needs on this host.
+#
+# Without them, yt-dlp falls back to a client that answers "This video is not
+# available", and since the callers treat a failed metadata call as "no
+# metadata", videos silently land with no publish date and no description —
+# dateless files pile up in <channel>/unknown/ and the descriptions (which for
+# many creators carry links and resources never spoken aloud) are lost.
+#
+#   --ignore-no-formats-error : we only ever want metadata; yt-dlp otherwise
+#       aborts the whole extraction when no downloadable format is available,
+#       which is every video here since there is no JS runtime to solve the
+#       format challenge.
+#   player_client=web         : the default client chain needs that JS runtime.
+#       The web client returns full metadata without one.
+#
+# Not applied to --flat-playlist listing calls, which work fine as-is and are
+# hit far more often.
+YTDLP_SINGLE_VIDEO_ARGS = [
+    "--ignore-no-formats-error",
+    "--extractor-args", "youtube:player_client=web",
+]
+
+
 def ytdlp_base_cmd() -> list[str]:
     """yt-dlp invocation prefix, carrying the proxy only when scope says so.
 
@@ -477,7 +500,7 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
 def fetch_description(video_id: str) -> Optional[str]:
     """Fetch video description using yt-dlp."""
     try:
-        cmd = ytdlp_base_cmd() + [
+        cmd = ytdlp_base_cmd() + YTDLP_SINGLE_VIDEO_ARGS + [
             "--skip-download",
             "--print",
             "%(description)s",

@@ -27,6 +27,7 @@ Differences from fetcher.fetch_and_save(), on purpose:
 
 import argparse
 import json
+import random
 import subprocess
 import sys
 import time
@@ -36,6 +37,7 @@ sys.path.insert(0, "/app")
 
 from fetcher import (  # noqa: E402
     TranscriptBlocked,
+    YTDLP_SINGLE_VIDEO_ARGS,
     ytdlp_base_cmd,
     _index_video,
     fetch_transcript,
@@ -90,7 +92,7 @@ def discover(handle: str, tabs=TABS) -> list[dict]:
 
 def fetch_metadata(video_id: str) -> tuple[str, str]:
     """One yt-dlp call -> (upload_date, description). Empty strings on failure."""
-    cmd = ytdlp_base_cmd() + [
+    cmd = ytdlp_base_cmd() + YTDLP_SINGLE_VIDEO_ARGS + [
         "--skip-download",
         "--print", "%(upload_date)s",
         "--print", "%(description)s",
@@ -115,8 +117,8 @@ def main() -> int:
     ap.add_argument("--handle", required=True)
     ap.add_argument("--name", required=True)
     ap.add_argument("--domain", default="general")
-    ap.add_argument("--delay", type=float, default=5.0,
-                    help="seconds between videos that produced a transcript")
+    ap.add_argument("--delay", type=float, default=8.0,
+                    help="average seconds between videos that produced a transcript")
     ap.add_argument("--miss-delay", type=float, default=2.0,
                     help="seconds after a video with no transcript (1 call, not 2)")
     ap.add_argument("--deadline-minutes", type=float, default=0,
@@ -230,7 +232,12 @@ def main() -> int:
             stats["error"] += 1
             log(f"    ERROR: {e}")
 
-        time.sleep(args.delay)
+        # Jittered, not fixed. Each video costs one caption call (through the
+        # proxy, so a fresh IP each time) plus one metadata call straight from
+        # our own address — and it is that second one, arriving like a metronome
+        # for over an hour, that looks like a scraper. The jitter costs nothing
+        # and makes the pattern unremarkable.
+        time.sleep(random.uniform(args.delay * 0.7, args.delay * 1.3))
 
     # Register the channel's videos in the master list last, in one write, so a
     # concurrent discovery sweep has the smallest possible window to clobber it.
