@@ -126,8 +126,7 @@ def discover_channel(handle: str, lookback_months: int) -> list[dict]:
     """Discover videos from a single channel using yt-dlp."""
     url = f"https://www.youtube.com/@{handle}/videos"
 
-    cmd = [
-        "yt-dlp",
+    cmd = ytdlp_base_cmd() + [
         "--flat-playlist",
         "--print",
         "%(id)s|%(title)s|%(upload_date)s",
@@ -237,8 +236,7 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
 
             # Use yt-dlp with date filter for efficiency
             url = f"https://www.youtube.com/@{handle}/{tab}"
-            cmd = [
-                "yt-dlp",
+            cmd = ytdlp_base_cmd() + [
                 "--flat-playlist",
                 "--playlist-end",
                 str(listing_cap),
@@ -347,6 +345,37 @@ def _format_timestamp(seconds: float) -> str:
     return f"{minutes}:{secs:02d}"
 
 
+def _transcript_api() -> YouTubeTranscriptApi:
+    """Build the API client, routed through the proxy when one is configured."""
+    if not Config.YOUTUBE_PROXY_URL:
+        return YouTubeTranscriptApi()
+    try:
+        from youtube_transcript_api.proxies import GenericProxyConfig
+    except ImportError:  # pragma: no cover — very old lib
+        print("[fetcher] proxy configured but this youtube-transcript-api has "
+              "no proxy support; going direct", flush=True)
+        return YouTubeTranscriptApi()
+    return YouTubeTranscriptApi(
+        proxy_config=GenericProxyConfig(
+            http_url=Config.YOUTUBE_PROXY_URL,
+            https_url=Config.YOUTUBE_PROXY_URL,
+        )
+    )
+
+
+def ytdlp_base_cmd() -> list[str]:
+    """yt-dlp invocation prefix, carrying the proxy when one is configured.
+
+    Every yt-dlp call goes through this so a proxy can never be applied to the
+    transcript fetch but silently missed on the listing or description calls —
+    which would leave our own address exposed on two thirds of the traffic.
+    """
+    cmd = ["yt-dlp"]
+    if Config.YOUTUBE_PROXY_URL:
+        cmd += ["--proxy", Config.YOUTUBE_PROXY_URL]
+    return cmd
+
+
 def fetch_transcript(video_id: str) -> Optional[list[dict]]:
     """Fetch transcript segments for a single video.
 
@@ -355,7 +384,7 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
     back off and retry instead of condemning the video.
     """
     try:
-        api = YouTubeTranscriptApi()
+        api = _transcript_api()
         transcript = api.fetch(video_id)
 
         segments = []
@@ -384,8 +413,7 @@ def fetch_transcript(video_id: str) -> Optional[list[dict]]:
 def fetch_description(video_id: str) -> Optional[str]:
     """Fetch video description using yt-dlp."""
     try:
-        cmd = [
-            "yt-dlp",
+        cmd = ytdlp_base_cmd() + [
             "--skip-download",
             "--print",
             "%(description)s",
