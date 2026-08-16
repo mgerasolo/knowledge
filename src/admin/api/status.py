@@ -10,6 +10,7 @@ Consumers: poll GET /enroll/api/v1/status and alert on `status != "ok"`.
 HTTP 200 means reachable (status may still be "degraded"); 503 means "down".
 """
 import os
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,6 +21,23 @@ from config import Config
 from db import get_db_cursor
 
 status_bp = Blueprint('status', __name__)
+
+# Counting the segment table means scanning rows that each carry a 1536-dim
+# embedding vector (since 2026-08-14) — ~40s+ for the full corpus. That count
+# therefore runs on a background timer with its own generous budget, and the
+# endpoint serves the cached figure. Counting per request made every
+# monitoring poll launch a fresh scan; the scans stacked, queries queued, and
+# the endpoint flapped "down" while the datastore was fine.
+SEGMENT_COUNT_REFRESH_SECONDS = int(os.getenv('SEGMENT_COUNT_REFRESH_SECONDS', '600'))
+SEGMENT_COUNT_TIMEOUT_SECONDS = int(os.getenv('SEGMENT_COUNT_TIMEOUT_SECONDS', '120'))
+
+# count/counted_at are BOTH null until the first background count lands —
+# "not counted yet" must never render as 0 (a timed-out count reported as
+# segments: 0 reads exactly like the empty-corpus disaster this module was
+# written to catch).
+_SEGMENT_COUNT_CACHE = {'count': None, 'counted_at': None}
+_REFRESHER_LOCK = threading.Lock()
+_REFRESHER_STARTED = False
 
 TRANSCRIPT_DIR = Path(os.getenv('TRANSCRIPT_DIR', '/mnt/foundry_resources/transcripts'))
 
@@ -61,7 +79,7 @@ def _hours_since(ts) -> float | None:
     return round((_now() - ts).total_seconds() / 3600, 1)
 
 
-def _surreal(query: str):
+def _surreal(query: str, timeout: int = 15):
     """Run a SurrealDB query. Returns (rows, error)."""
     try:
         r = requests.post(
@@ -74,7 +92,7 @@ def _surreal(query: str):
             },
             auth=(Config.SURREAL_USER, Config.SURREAL_PASS),
             data=query.encode('utf-8'),
-            timeout=15,
+            timeout=timeout,
         )
     except Exception as e:
         return None, f"unreachable: {e}"
@@ -121,6 +139,33 @@ def check_postgres() -> dict:
     }
 
 
+def _refresh_segment_count() -> None:
+    """One long-budget segment count into the cache, then reschedule.
+
+    Daemon-timer only — never the request path (see the cache constants above
+    for why). A failed count leaves the previous cached figure (and its
+    timestamp) in place rather than overwriting it with a lie.
+    """
+    rows, err = _surreal("SELECT count() FROM segment GROUP ALL;",
+                         timeout=SEGMENT_COUNT_TIMEOUT_SECONDS)
+    if not err:
+        _SEGMENT_COUNT_CACHE['count'] = rows[0].get('count', 0) if rows else 0
+        _SEGMENT_COUNT_CACHE['counted_at'] = _now().isoformat()
+    timer = threading.Timer(SEGMENT_COUNT_REFRESH_SECONDS, _refresh_segment_count)
+    timer.daemon = True
+    timer.start()
+
+
+def start_segment_count_refresher() -> None:
+    """Idempotent kick-off of the background segment counter."""
+    global _REFRESHER_STARTED
+    with _REFRESHER_LOCK:
+        if _REFRESHER_STARTED:
+            return
+        _REFRESHER_STARTED = True
+    threading.Thread(target=_refresh_segment_count, daemon=True).start()
+
+
 def check_surrealdb() -> dict:
     """SurrealDB is reachable, our namespace resolves, and it holds content.
 
@@ -133,9 +178,6 @@ def check_surrealdb() -> dict:
         return {'ok': False, 'detail': f"namespace '{Config.SURREAL_NS}': {err}"}
     videos = rows[0].get('count', 0) if rows else 0
 
-    rows, err = _surreal("SELECT count() FROM segment GROUP ALL;")
-    segments = rows[0].get('count', 0) if rows and not err else 0
-
     rows, err = _surreal(
         "SELECT ingested_at FROM video ORDER BY ingested_at DESC LIMIT 1;"
     )
@@ -145,7 +187,10 @@ def check_surrealdb() -> dict:
         'ok': videos > 0,
         'detail': None if videos > 0 else "namespace resolves but holds no videos",
         'videos': videos,
-        'segments': segments,
+        # From the background cache; null + null timestamp = "not counted yet
+        # since boot", never 0. See cache constants at the top of the module.
+        'segments': _SEGMENT_COUNT_CACHE['count'],
+        'segments_counted_at': _SEGMENT_COUNT_CACHE['counted_at'],
         'newest_ingested_at': newest,
         'hours_since_newest': _hours_since(newest),
     }
@@ -332,3 +377,9 @@ def status():
     """Deep status for other systems to poll. Alert on status != "ok"."""
     document, code = build_status()
     return jsonify(document), code
+
+
+# Import-time kick-off: daemon threads only, idempotent, and the first count
+# starts immediately so the null-until-counted window is as short as the
+# count itself.
+start_segment_count_refresher()

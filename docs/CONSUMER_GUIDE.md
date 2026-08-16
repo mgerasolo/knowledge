@@ -5,8 +5,8 @@ provider: knowledge
 audience: [nai-dev, app]
 stability: beta
 version: 2.5.1
-updated: 2026-08-14
-verified: 2026-08-14
+updated: 2026-08-16
+verified: 2026-08-16
 owner: Matt Gerasolo <matt@gerasolo.com>
 ---
 
@@ -255,7 +255,7 @@ Everything below is documented as the API returns it (not as it is stored), veri
 | `video_youtube_id` | string | The parent video's YouTube ID | assigned at ingest |
 | `video_title` | string | The parent video's title — enrichment the search endpoint adds per request, not stored on the segment | computed per request |
 
-**`GET /api/v1/status`** — every field is computed at request time; nothing is cached:
+**`GET /api/v1/status`** — computed at request time, with one deliberate exception: the segment count (see the `components.surrealdb` row):
 
 | Field | Type | Meaning | Derivation |
 |---|---|---|---|
@@ -263,7 +263,7 @@ Everything below is documented as the API returns it (not as it is stored), veri
 | `problems[]` | string[] | Plain-English description of each failing check; empty when `ok` | computed |
 | `checked_at` | ISO 8601 | When these checks ran | computed |
 | `components.postgres` | object | `ok`, `pipeline_items`, `marked_indexed`, `newest_completed_at`, `hours_since_newest` — what the pipeline *claims* to have done | measured from Postgres |
-| `components.surrealdb` | object | `ok`, `videos`, `segments`, `newest_ingested_at`, `hours_since_newest`, `detail` — what the search index *actually holds*. This is where live corpus counts come from | measured from SurrealDB |
+| `components.surrealdb` | object | `ok`, `videos`, `segments`, `segments_counted_at`, `newest_ingested_at`, `hours_since_newest`, `detail` — what the search index *actually holds*. This is where live corpus counts come from. **`segments` refreshes on a ~10-minute background cycle** (counting rows that carry embedding vectors is too slow for the request path); `segments_counted_at` says when. Both are `null` right after a service restart until the first count lands — `null` means "not counted yet", never "zero" | measured from SurrealDB (`segments`: background-refreshed) |
 | `components.transcript_files` | object | `ok`, `files`, `newest_file_at`, `hours_since_newest` — the on-disk rebuild source of record | measured from disk |
 | `thresholds` | object | `stale_ingest_hours`, `consistency_tolerance` — what the freshness and consistency checks compare against | service configuration |
 
@@ -381,6 +381,7 @@ All requests go through {{REQUEST_CHANNEL}}. The canonical request kinds:
 | Version | Date | Notes |
 |---|---|---|
 | 2.5.1 | 2026-08-14 | Enrollment hardening from an independent adversarial review, all on `POST /api/v1/videos/enroll`: **(1)** a transient metadata-lookup failure (yt-dlp timeout, network) now returns `503` + `retryable: true` instead of masquerading as `404` "video unreadable" — retry on 503, trust 404; **(2)** `domain` is validated as a short slug (bad values now 400) and escaped at the datastore boundary; **(3)** enrolling an already-held video now verifies the search index actually holds it, answering `indexed: false` + `index_error` when the transcript exists only on disk. No changes to any read endpoint. |
+| 2.5.1 | 2026-08-16 | **Fix: `GET /api/v1/status` no longer counts segments on the request path.** Once segments carried embedding vectors (2.5.0), the per-request full-table count took ~40s; polls stacked scans until the endpoint intermittently reported `down` — and a timed-out count was silently rendered as `segments: 0`, indistinguishable from an empty corpus. The count now refreshes on a ~10-minute background cycle; new field `components.surrealdb.segments_counted_at` carries its timestamp, and both are `null` (never a fake `0`) until the first count after a restart. No other endpoint or field changed. Known degradation, tracked, not yet fixed: keyword `GET /videos/api/search` has slowed to roughly 15-20s per query for the same row-weight reason — it works, but budget for it; semantic search is unaffected (sub-second). |
 | 2.5.0 | 2026-08-14 | **Semantic (meaning-based) search ships: `GET /videos/api/semantic-search`** — the capability §1 has promised since v1.0.0 and every version until now disclaimed. Query with your own phrasing (`?q=`), optionally scope by `?domain=`, tune with `?limit=` (default 20, cap 50) and `?min_score=` (default 0.4). Same segment shape as keyword `/search` plus a per-result similarity `score` and a top-level `model` field naming the embedding model. Status codes: 400 bad request · 503 + `retryable: true` when the embedding gateway or vector store is down (keyword search keeps working) · 200 with an empty list when nothing relevant exists — at the default floor an off-topic query correctly returns nothing. Behind it: the corpus's segment embeddings are now real (OpenAI text-embedding-3-small via the fleet model gateway, chosen over a local model after a measured head-to-head on real corpus content), stored in a vector index in the datastore; the full pre-existing corpus was backfilled the same day, and new ingests embed automatically with failures counted and reported rather than silently swallowed — the silent-swallow path is how the corpus once ended up with zero vectors. The §2/§3/data-model claims that embeddings "are not populated" and semantic search "does not exist" are reversed. (Authored as 2.4.0 in parallel with the single-video-enrollment 2.4.0 below; renumbered at merge.) |
 | 2.4.0 | 2026-08-14 | **NEW: single-video enrollment** (`POST /api/v1/videos/enroll`, #46) — ingest ONE video (a guest appearance) through the normal pipeline without enrolling its channel; accepts any YouTube URL shape or a bare video ID; looks up title/channel/date from the video itself. **NEW: video-level corpus tags** — optional `tags` (lowercase slugs, e.g. `personality:myron-golden`) are stored on the video record, merged never replaced, and returned by both video read endpoints; **NEW: `?tag=` filter on `GET /videos/api/list`** to pull a whole corpus (videos without tags simply drop out of a filtered list). Access scope in §3 amended from "read-only" to "read-only with one write". §2's "no on-demand transcription" limitation row updated — it is now channel-level only. The never-implemented `/tags/*` entity graph is unchanged and still 501; corpus tags are a different, live mechanism. |
 | 2.3.1 | 2026-08-14 | Central-registry intake fixes, wording only: `audience` frontmatter now uses the registry's controlled vocabulary (`nai-dev`, `app` — was two tags the validator doesn't recognize), and the health-check documentation now sits under its own `### Health check` heading as the `api` template requires (content unchanged). Quickstart re-run against the live service on today's `verified:` date. No endpoint, payload, or behavior changes. |
