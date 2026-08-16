@@ -9,9 +9,9 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-14 12:31 EDT from 34 issues.
+> Generated 2026-08-16 13:44 EDT from 35 issues.
 
-**30 open · 2 in flight · 4 awaiting your decision · 4 closed**
+**30 open · 2 in flight · 4 awaiting your decision · 5 closed**
 
 <!-- HAND-WRITTEN:START -->
 
@@ -40,9 +40,10 @@ Three themes run through the work currently on the board:
 ## Where everything stands
 
 ⚓ **KnowledgeStack** — IN PROGRESS · 4 decisions waiting on you · 2 in flight  
-├─❓ **Capabilities the product assumes but does not have** — 8 open  
+├─❓ **Capabilities the product assumes but does not have** — 9 open  
 │  ├─❓ Generate embeddings for the corpus so meaning-based search becomes possible ([#29](https://github.com/mgerasolo/knowledge/issues/29)) — _high_  
 │  ├─❓ Decide whether topic and entity tagging stays on the roadmap - it was never built ([#31](https://github.com/mgerasolo/knowledge/issues/31)) — _medium_  
+│  ├─❓ Dynamic domains for host/interviewer channels — classify per video, not per channel ([#91](https://github.com/mgerasolo/knowledge/issues/91)) — _medium_  
 │  ├─⬜ CRITICAL: 0 of 327,402 segments have embeddings — semantic search has nothing to search ([#44](https://github.com/mgerasolo/knowledge/issues/44)) — _critical_  
 │  ├─⬜ Ship the meaning-based search endpoint - today it is a stub returning 501 ([#30](https://github.com/mgerasolo/knowledge/issues/30)) — _high_  
 │  ├─⬜ SurrealDB OOM-killed 3x on 2026-08-14 at ~4GB container limit during embedding backfill ([#73](https://github.com/mgerasolo/knowledge/issues/73)) — _high_  
@@ -72,12 +73,12 @@ Three themes run through the work currently on the board:
 ├─🔄 **The backfill programme — how deep we go** — 2 open  
 │  ├─🔄 Ingest Jordan B Peterson's 18 livestreams ([#33](https://github.com/mgerasolo/knowledge/issues/33)) — _low_  
 │  └─⬜ Plan stage 2 - the deep livestream archives that stage 1 deliberately capped ([#32](https://github.com/mgerasolo/knowledge/issues/32)) — _medium_  
-└─❓ **Tooling and process — how we keep ourselves honest** — 6 open  
-   ├─❓ Standing discovery ignores dashboard channel settings — engine runs off a hard-coded list in config.py ([#81](https://github.com/mgerasolo/knowledge/issues/81)) — _high_  
+└─⬜ **Tooling and process — how we keep ourselves honest** — 5 open  
    ├─⬜ Block conflict markers from commits and CI ([#67](https://github.com/mgerasolo/knowledge/issues/67)) — _high_  
    ├─⬜ Test schema-writing changes against real SurrealDB schema ([#68](https://github.com/mgerasolo/knowledge/issues/68)) — _high_  
    ├─⬜ Prevent secrets from appearing in diagnostic output ([#69](https://github.com/mgerasolo/knowledge/issues/69)) — _high_  
    ├─⬜ Nothing runs the consumer guide's weekly re-verification we promised ([#35](https://github.com/mgerasolo/knowledge/issues/35)) — _medium_  
-   └─⬜ Formalize the consumer API compatibility contract ([#70](https://github.com/mgerasolo/knowledge/issues/70)) — _medium_  
+   ├─⬜ Formalize the consumer API compatibility contract ([#70](https://github.com/mgerasolo/knowledge/issues/70)) — _medium_  
+   └─👍 Standing discovery ignores dashboard channel settings — engine runs off a hard-coded list in config.py ([#81](https://github.com/mgerasolo/knowledge/issues/81)) — _high · closed 2026-08-16_  
 
 👍 done and verified · ✅ ran, not yet verified · 🔄 in progress · ⬜ not started · ❓ needs a decision from you · ⏳ waiting on an external system · 📌 future enhancement
