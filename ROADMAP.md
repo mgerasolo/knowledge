@@ -9,9 +9,9 @@
 > issue disagree, the issue is right and this file is stale. Fix the
 > issue and re-run — never patch this file by hand.
 >
-> Generated 2026-08-16 13:44 EDT from 35 issues.
+> Generated 2026-08-16 13:55 EDT from 36 issues.
 
-**30 open · 2 in flight · 4 awaiting your decision · 5 closed**
+**31 open · 2 in flight · 4 awaiting your decision · 5 closed**
 
 <!-- HAND-WRITTEN:START -->
 
@@ -40,7 +40,7 @@ Three themes run through the work currently on the board:
 ## Where everything stands
 
 ⚓ **KnowledgeStack** — IN PROGRESS · 4 decisions waiting on you · 2 in flight  
-├─❓ **Capabilities the product assumes but does not have** — 9 open  
+├─❓ **Capabilities the product assumes but does not have** — 10 open  
 │  ├─❓ Generate embeddings for the corpus so meaning-based search becomes possible ([#29](https://github.com/mgerasolo/knowledge/issues/29)) — _high_  
 │  ├─❓ Decide whether topic and entity tagging stays on the roadmap - it was never built ([#31](https://github.com/mgerasolo/knowledge/issues/31)) — _medium_  
 │  ├─❓ Dynamic domains for host/interviewer channels — classify per video, not per channel ([#91](https://github.com/mgerasolo/knowledge/issues/91)) — _medium_  
@@ -50,6 +50,7 @@ Three themes run through the work currently on the board:
 │  ├─⬜ Livestream VODs ingest with all-zero segment timestamps — citations cannot deep-link ([#72](https://github.com/mgerasolo/knowledge/issues/72)) — _medium_  
 │  ├─⬜ Professor spike (Gen 1) — talk-to-a-personality RAG chat with cited video clips ([#16](https://github.com/mgerasolo/knowledge/issues/16)) — _unset_  
 │  ├─⬜ Professor Gen 1 requirements: 8 adversarial-review findings logged from spike (not fixed in spike) ([#79](https://github.com/mgerasolo/knowledge/issues/79)) — _unset_  
+│  ├─⬜ Keyword search slowed to ~15-20s per query — segment scans now haul 6KB embedding vectors ([#97](https://github.com/mgerasolo/knowledge/issues/97)) — _unset_  
 │  └─👍 Single-video enrollment — ingest one video (guest appearances) without enrolling the whole channel ([#46](https://github.com/mgerasolo/knowledge/issues/46)) — _medium · closed 2026-08-14_  
 ├─🔄 **Ingestion reliability — keeping transcripts arriving** — 6 open  
 │  ├─🔄 Make YouTube's per-channel feed the primary way we find new videos, with the scraper as fallback ([#19](https://github.com/mgerasolo/knowledge/issues/19)) — _medium_  
