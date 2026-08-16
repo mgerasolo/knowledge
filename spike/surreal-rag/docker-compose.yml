@@ -10,9 +10,11 @@ services:
           # 2026-08-14 (anon-rss 4.17GB): the HNSW vector index over the
           # full embedded corpus plus rocksdb's default 1GB block cache
           # peaks past 4G during index rebuild + concurrent writes,
+          # (6G + a halved cache proved not enough either — vector queries
+          # crawled until the cache went to 2G and the graph was rebuilt
           # producing a crash-loop (32 restarts in one night). 6G measured
           # headroom; block cache also halved below.
-          memory: 6G
+          memory: 7G
     image: surrealdb/surrealdb:latest
     container_name: knowledgestack-surrealdb
     restart: unless-stopped
@@ -30,7 +32,7 @@ services:
       - SURREAL_LOG=info
       # Halve rocksdb's default 1GB block cache — disk-read cache is the
       # cheapest memory to reclaim for the in-memory HNSW vector index.
-      - SURREAL_ROCKSDB_BLOCK_CACHE_SIZE=536870912
+      - SURREAL_ROCKSDB_BLOCK_CACHE_SIZE=2147483648
     networks:
       - knowledgestack
 
