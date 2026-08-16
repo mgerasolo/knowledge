@@ -387,6 +387,46 @@ def channel_exists():
     return jsonify({'exists': False})
 
 
+@channels_bp.route('/channels/preview', methods=['GET'])
+def channel_preview():
+    """What enrolling this channel would ingest: recent sample per content type.
+
+    Three yt-dlp listings (videos/streams/shorts tabs) run concurrently, five
+    items each, so the Add Channel form can show counts + thumbnails before
+    the user commits.
+    """
+    channel_id = request.args.get('channel_id', '').strip()
+    if not re.fullmatch(r'UC[A-Za-z0-9_-]{22}', channel_id):
+        return jsonify({'error': 'channel_id (UC...) is required'}), 400
+
+    from concurrent.futures import ThreadPoolExecutor
+
+    def sample(tab):
+        try:
+            result = subprocess.run(
+                ['yt-dlp', '-J', '--flat-playlist', '--playlist-end', '5',
+                 f'https://www.youtube.com/channel/{channel_id}/{tab}'],
+                capture_output=True, text=True, timeout=30)
+            data = json.loads(result.stdout or '{}') or {}
+            entries = data.get('entries') or []
+            items = [{
+                'id': e['id'],
+                'title': e.get('title') or '',
+                'thumbnail': f"https://i.ytimg.com/vi/{e['id']}/mqdefault.jpg",
+                'url': (f"https://www.youtube.com/shorts/{e['id']}" if tab == 'shorts'
+                        else f"https://www.youtube.com/watch?v={e['id']}"),
+            } for e in entries if e.get('id')]
+            return {'count': data.get('playlist_count'), 'items': items}
+        except Exception:
+            # A tab the channel doesn't have (no shorts, no lives) or a slow
+            # listing must not sink the whole preview.
+            return {'count': None, 'items': []}
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        videos, lives, shorts = pool.map(sample, ['videos', 'streams', 'shorts'])
+    return jsonify({'videos': videos, 'lives': lives, 'shorts': shorts})
+
+
 @channels_bp.route('/channels/resolve', methods=['GET'])
 def resolve_channel():
     """Resolve a YouTube handle/custom URL to public channel metadata."""
