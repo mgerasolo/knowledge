@@ -84,6 +84,7 @@ let knownDomains = ['ai-tech', 'mindset', 'business', 'general', 'faith', 'polit
 let selectedNewDomain = '';
 let resolvedChannelId = '';
 let resolvedThumbnail = '';
+let resolvedCountText = '';
 
 function escapeHtml(text) {
     if (!text) return '';
@@ -312,6 +313,7 @@ document.getElementById('new-handle').addEventListener('blur', async function() 
         }
         resolvedChannelId = data.youtube_channel_id || '';
         resolvedThumbnail = data.thumbnail_url || '';
+        resolvedCountText = data.video_count_text || '';
         if (resolvedChannelId) loadChannelPreview(resolvedChannelId);
     } catch (_) { /* Resolution is a convenience; manual entry remains available. */ }
 });
@@ -336,7 +338,7 @@ async function loadChannelPreview(channelId) {
         box.replaceChildren();
         const heading = document.createElement('div');
         heading.style.cssText = 'color:rgb(148,163,184);font-size:0.85rem;text-transform:uppercase;margin-bottom:8px';
-        heading.textContent = 'What we\'d be ingesting';
+        heading.textContent = 'What we\'d be ingesting' + (resolvedCountText ? ' — ' + resolvedCountText + ' on the channel' : '');
         box.appendChild(heading);
         let any = false;
         [['videos', 'Videos'], ['lives', 'Lives'], ['shorts', 'Shorts']].forEach(function(pair) {
