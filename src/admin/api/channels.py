@@ -475,7 +475,11 @@ def resolve_channel():
         result['thumbnail_url'] = unescape(thumb_match.group(1))
     # Best-effort total for the ingest preview — embedded page JSON carries a
     # human-readable count ("1,234 videos"); absence is fine.
-    count_match = re.search(r'"videosCountText":.{0,200}?"text":"([^"]+)"', html)
+    count_match = (
+        re.search(r'"videosCountText":.{0,200}?"text":"([^"]+)"', html)
+        # Newer channel pages carry it in the header view-model instead.
+        or re.search(r'"content":"([\d.,]+[KM]?\s+videos?)"', html)
+    )
     if count_match:
         result['video_count_text'] = unescape(count_match.group(1))
     return jsonify(result)
