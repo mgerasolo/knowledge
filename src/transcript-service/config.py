@@ -62,7 +62,9 @@ class Config:
     MAX_DELAY_SECONDS = int(os.getenv('MAX_DELAY_SECONDS', '600'))
     BACKFILL_BATCH_SIZE = int(os.getenv('BACKFILL_BATCH_SIZE', '8'))
 
-    # Monitored YouTube channels
+    # FALLBACK ONLY: the live channel list comes from the Postgres channels
+    # table edited by the admin dashboard. Keep this frozen list for discovery
+    # continuity when Postgres is unavailable.
     # Tiers: supreme (6mo), leader (6mo), mid (3mo), occasional (2mo)
     # Myron channels: 36mo (full archive)
     # "tabs": channels that publish livestreams need ["videos", "streams"] —

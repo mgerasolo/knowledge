@@ -132,6 +132,11 @@ services:
       EMBEDDING_SERVICE_URL: http://knowledge-embedding:5030
       EMBED_ON_INGEST: ${EMBED_ON_INGEST:-true}
       FLASK_DEBUG: ${FLASK_DEBUG:-false}
+      KNOWLEDGE_DB_HOST: knowledge-postgres
+      KNOWLEDGE_DB_PORT: 5432
+      KNOWLEDGE_DB_NAME: knowledge
+      KNOWLEDGE_DB_USER: knowledge
+      KNOWLEDGE_DB_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
       # Empty by default: YouTube calls go out over our own connection, which is
       # residential and normally fine. Set via scripts/set-youtube-proxy.sh when
       # YouTube rate-limits us. Scoped to YouTube traffic only — deliberately not

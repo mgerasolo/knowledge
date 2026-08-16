@@ -19,6 +19,7 @@ import time
 from datetime import datetime
 
 from config import Config
+from channel_source import channel_source_status
 from fetcher import get_pending, fetch_and_save, get_status, discover_new_videos
 
 
@@ -246,4 +247,5 @@ def worker_status() -> dict:
         "seconds_since_heartbeat": age,
         "last_activity": _last_activity,
         "stalled": bool(alive and age is not None and age > 2400),
+        **channel_source_status(),
     }
