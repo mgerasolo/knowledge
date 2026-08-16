@@ -369,6 +369,24 @@ def bulk_create_channels():
     })
 
 
+@channels_bp.route('/channels/exists', methods=['GET'])
+def channel_exists():
+    """Cheap duplicate check so the Add Channel form can warn on handle entry."""
+    handle = request.args.get('handle', '').strip().lstrip('@')
+    if not handle:
+        return jsonify({'error': 'handle is required'}), 400
+    with get_db_cursor() as cursor:
+        cursor.execute("""
+            SELECT id, name FROM channels
+            WHERE LOWER(youtube_handle) = LOWER(%s)
+            LIMIT 1
+        """, (handle,))
+        row = cursor.fetchone()
+    if row:
+        return jsonify({'exists': True, 'id': row['id'], 'name': row['name']})
+    return jsonify({'exists': False})
+
+
 @channels_bp.route('/channels/resolve', methods=['GET'])
 def resolve_channel():
     """Resolve a YouTube handle/custom URL to public channel metadata."""
