@@ -30,6 +30,7 @@ except ImportError:  # pragma: no cover
     _BLOCKED_ERRORS = ()
 
 from config import Config
+from channel_source import channel_source_status, load_channels
 from channel_feed import (
     BLOCK_PHRASES,
     FeedUnavailable,
@@ -345,8 +346,13 @@ def discover_new_videos(lookback_days: int = 7, on_progress=None) -> dict:
             time.sleep(discovery_delay)
         requested_any = True
 
-    total_channels = len(Config.CHANNELS)
-    for index, channel in enumerate(Config.CHANNELS):
+    channels = load_channels()
+    source = channel_source_status()["last_channel_source"]
+    source_label = source.replace("-", " ")
+    print(f"discovery: {len(channels)} channels from {source_label}", flush=True)
+
+    total_channels = len(channels)
+    for index, channel in enumerate(channels):
         handle = channel["handle"]
         mode = channel.get("ingestion_mode", "new_only")
         if mode in ("paused", "guest_monitor"):
