@@ -31,8 +31,9 @@
             <div class="form-group"><label class="form-label" for="new-name">Name</label><input id="new-name" class="form-input" required></div>
             <div class="form-group"><label class="form-label">Domain</label><div id="new-domain-tags" class="flex gap-10" style="flex-wrap:wrap;margin-bottom:8px"></div><input id="new-domain" class="form-input" placeholder="New domain…" aria-label="New domain"></div>
             <div class="form-group"><label class="form-label" for="new-mode">Ingestion Mode</label><select id="new-mode" class="form-select"><option value="new_only" selected>New Only</option><option value="last_3_months">Last 3 Months</option><option value="last_year">Last Year</option><option value="all">All</option><option value="selected">Selected</option></select></div>
-            <div class="form-group"><label class="form-label">Content Types</label><div class="flex gap-10" style="flex-wrap:wrap"><label><input id="new-include-videos" type="checkbox" checked> Videos</label><label><input id="new-include-lives" type="checkbox" checked> Lives</label><label><input id="new-include-shorts" type="checkbox" checked> Shorts</label></div></div>
+            <div class="form-group"><label class="form-label">Content Types</label><div class="flex gap-10" style="flex-wrap:wrap"><label><input id="new-include-videos" type="checkbox" checked> Videos</label><label><input id="new-include-lives" type="checkbox" checked> Lives</label><label><input id="new-include-shorts" type="checkbox"> Shorts</label></div></div>
             <div class="form-group"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input id="new-active" type="checkbox" class="checkbox" checked> Active</label></div>
+            <div id="channel-preview" style="display:none;margin-bottom:12px;background:rgb(15,23,42);border:1px solid rgb(51,65,85);border-radius:8px;padding:12px;max-height:280px;overflow-y:auto"></div>
             <div id="add-channel-error" class="status-error" style="display:none;margin-bottom:12px"></div>
             <div class="flex gap-10"><button id="add-channel-submit" class="btn" type="submit">Add Channel</button><button class="btn btn-secondary" type="button" onclick="closeAddChannel()">Cancel</button></div>
         </form>
@@ -181,6 +182,7 @@ function openAddChannel() {
 function closeAddChannel() {
     document.getElementById('add-channel-modal').style.display = 'none';
     document.getElementById('add-channel-error').style.display = 'none';
+    clearChannelPreview();
 }
 
 function openEnrollVideo() { document.getElementById('enroll-video-modal').style.display = 'block'; document.getElementById('enroll-video-url').focus(); }
@@ -279,6 +281,7 @@ function setHandleWarning(text) {
     warn.textContent = text || '';
     warn.style.display = text ? 'block' : 'none';
     document.getElementById('add-channel-submit').disabled = Boolean(text);
+    if (text) clearChannelPreview();
 }
 
 document.getElementById('new-handle').addEventListener('blur', async function() {
@@ -309,8 +312,69 @@ document.getElementById('new-handle').addEventListener('blur', async function() 
         }
         resolvedChannelId = data.youtube_channel_id || '';
         resolvedThumbnail = data.thumbnail_url || '';
+        if (resolvedChannelId) loadChannelPreview(resolvedChannelId);
     } catch (_) { /* Resolution is a convenience; manual entry remains available. */ }
 });
+
+function clearChannelPreview() {
+    const box = document.getElementById('channel-preview');
+    box.style.display = 'none';
+    box.replaceChildren();
+}
+
+async function loadChannelPreview(channelId) {
+    const box = document.getElementById('channel-preview');
+    box.style.display = 'block';
+    box.replaceChildren();
+    const loading = document.createElement('div');
+    loading.style.color = 'rgb(100, 116, 139)';
+    loading.textContent = 'Sampling what this channel would ingest…';
+    box.appendChild(loading);
+    try {
+        const data = await fetch(urlPrefix + '/api/v1/channels/preview?channel_id=' + encodeURIComponent(channelId)).then(r => r.json());
+        if (channelId !== resolvedChannelId) return; // handle changed mid-flight
+        box.replaceChildren();
+        const heading = document.createElement('div');
+        heading.style.cssText = 'color:rgb(148,163,184);font-size:0.85rem;text-transform:uppercase;margin-bottom:8px';
+        heading.textContent = 'What we\'d be ingesting';
+        box.appendChild(heading);
+        let any = false;
+        [['videos', 'Videos'], ['lives', 'Lives'], ['shorts', 'Shorts']].forEach(function(pair) {
+            const section = data[pair[0]];
+            if (!section || !section.items.length) return;
+            any = true;
+            const title = document.createElement('div');
+            title.style.cssText = 'color:rgb(241,245,249);font-weight:600;margin:8px 0 4px';
+            title.textContent = pair[1] + (section.count ? ' · ' + section.count.toLocaleString() + ' total' : '');
+            box.appendChild(title);
+            section.items.forEach(function(item) {
+                const row = document.createElement('a');
+                row.href = item.url;
+                row.target = '_blank';
+                row.rel = 'noopener';
+                row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:3px 0;color:rgb(226,232,240);text-decoration:none';
+                const img = document.createElement('img');
+                img.src = item.thumbnail;
+                img.loading = 'lazy';
+                img.style.cssText = 'width:64px;height:36px;object-fit:cover;border-radius:4px;background:rgb(51,65,85)';
+                const label = document.createElement('span');
+                label.style.cssText = 'font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+                label.textContent = item.title;
+                row.appendChild(img);
+                row.appendChild(label);
+                box.appendChild(row);
+            });
+        });
+        if (!any) {
+            const empty = document.createElement('div');
+            empty.style.color = 'rgb(100, 116, 139)';
+            empty.textContent = 'No recent content found to preview.';
+            box.appendChild(empty);
+        }
+    } catch (_) {
+        clearChannelPreview();
+    }
+}
 
 loadDomains();
 loadChannels();
