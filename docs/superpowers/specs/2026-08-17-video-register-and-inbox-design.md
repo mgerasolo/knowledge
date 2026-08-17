@@ -204,6 +204,40 @@ agree for a full release, the JSON write is deleted. This buys a rollback path w
 letting the two stores drift unobserved, which is the failure the whole build exists to
 end.
 
+### 6.1 There is a second claimer, and it is not in this repository
+
+**Amended 2026-08-17 after the seam audit.** §1 said `claim_pipeline_item()` has zero
+callers, which is true of this repository and was the wrong conclusion to draw from it.
+Something has been claiming rows:
+
+```
+ claimed_by       | count | last_done                     | last_claim
+------------------+-------+-------------------------------+------------------------------
+ n8n-orchestrator |  1139 | 2026-08-15 16:35:20.205261+00 | 2026-08-15 16:35:14.02545+00
+                  |    12 |                               |
+```
+
+An n8n workflow, held outside this repository, wrote 1,139 of the 1,151 rows and stopped
+on 2026-08-15 — roughly two days before this spec. So the real picture is not "one live
+queue and one dead mirror" but **two independent ingestion paths that have never known
+about each other**: the n8n workflow tracking its work in Postgres, and the transcript
+service tracking its own in JSON. That is a stronger statement of the same defect, and it
+is why the count gap is 4,800 rather than zero.
+
+Consequences for this build, all mandatory:
+
+- **Find that workflow and decide its fate BEFORE the cutover.** Two claimers against one
+  table will fight over the same rows. Tracked as issue #107.
+- **The 1,139 claimed rows are not a stale-claim problem.** All but one sit at a terminal
+  status (1,089 `indexed_surreal`, 49 `failed`); the single `downloading` row has been
+  held since April and the existing stale-claim release handles it. The problem is the
+  existence of a second writer, not the rows it left.
+- **The import (§5) must not assume the register is empty of real outcomes.** Its
+  never-downgrade-an-indexed-row rule already covers this, and that rule is now
+  load-bearing rather than defensive.
+- **A workflow that is not in the repository cannot be reasoned about from the
+  repository.** Whatever survives the cutover gets checked in here or replaced.
+
 ## 7. The reconciliation check
 
 `scripts/reconcile_stores.py`, also exposed at `GET /api/v1/reconciliation` so the
